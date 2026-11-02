@@ -115,7 +115,7 @@ Completed progress steps are clickable, with explicit Back controls. Revisiting 
 
 From review, **Back to the conversation** opens the finished dialogue for rereading. **Continue conversation** resumes the same messages and goals, discards the old review/rating, and generates a fresh review when you finish again. Safety-paused scenes remain paused. Browsing between review and other steps preserves the current rating.
 
-The review offers **Download conversation (.txt)**. This explicit action creates a UTF-8 text file in the browser containing only the current take's dialogue and review (goals, communication notes, open questions and phrases). It makes no export API call, sends nothing extra to a provider, and does not use localStorage or add server persistence. The downloaded file remains on the user's device after session deletion. There is no automatic download or archive of earlier takes.
+The review offers **Download conversation (.txt)**. This explicit action creates a UTF-8 text file in the browser containing only the current take's dialogue and review (goals, communication notes, open questions and phrases). It makes no export API call, sends nothing extra to a provider, and does not use localStorage or add server persistence. The downloaded file remains on the user's device after session deletion. There is no automatic download or archive of earlier takes. If the server reports an expired/deleted session, the app explains timeout/restart possibilities and offers a download of any locally visible dialogue before starting again; source selections and typed context remain in the form. This recovery cannot restore a server session or data lost when a tab closes.
 
 ## Response feedback and sensitive scenes
 

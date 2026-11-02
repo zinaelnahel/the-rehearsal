@@ -22,7 +22,11 @@ export async function api(path,body,method='POST') {
     throw Error(response.status===413?'Maximum file size is 4 MB. Choose a smaller PDF or DOCX.'
       :`The server returned an unexpected response (${response.status}). Wait a moment and retry.`);
   }
-  if (!response.ok) throw Error(typeof data.detail==='string'?data.detail:'Check the fields and try again.');
+  if (!response.ok) {
+    const error=Error(typeof data.detail==='string'?data.detail:'Check the fields and try again.');
+    error.status=response.status;
+    throw error;
+  }
   return data;
 }
 
