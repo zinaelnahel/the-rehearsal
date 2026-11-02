@@ -4,7 +4,9 @@ import unittest
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from backend.main import app,sessions
-from backend.live import RoleReply,GoalCheck,AnswerCheck,EvidenceReview,Translation,strict_schema
+from backend.live import RoleReply,GoalCheck,AnswerCheck,EvidenceReview,Translation,strict_schema,scene_reply_schema,bind_assessments
+from pydantic import ValidationError
+from copy import deepcopy
 
 class LiveTests(unittest.TestCase):
  def setUp(self):
@@ -81,6 +83,67 @@ class LiveTests(unittest.TestCase):
   self.assertFalse(schema['additionalProperties'])
   self.assertEqual(set(schema['required']),set(schema['properties']))
   self.assertFalse(schema['$defs']['GoalCheck']['additionalProperties'])
+
+ def scene_payload(self):
+  return {'reply':'Utilities are included. [1]','citations':['1'],'goal_assessments':{
+   'goal_0':{'achieved':True,'learner_quote':'Are utilities included?','answer_status':'supported','source_id':'1','source_quote':'Utilities are included.'}
+  }}
+
+ def test_scene_schema_cannot_generate_goal_ids_or_duplicate_answer_entries(self):
+  schema=scene_reply_schema(1,('1',))
+  strict=strict_schema(schema)
+  self.assertEqual(strict['$defs']['SceneGoalAssessments']['required'],['goal_0'])
+  self.assertFalse(strict['$defs']['SceneGoalAssessments']['additionalProperties'])
+  self.assertNotIn('goal_id',strict['$defs']['SceneGoalAssessment']['properties'])
+  # The provider's strict subset rejects description siblings on $ref nodes.
+  def check_refs(value):
+   if isinstance(value,dict):
+    if '$ref' in value: self.assertEqual(set(value),{'$ref'})
+    for nested in value.values(): check_refs(nested)
+   elif isinstance(value,list):
+    for nested in value: check_refs(nested)
+  check_refs(strict)
+  for extra in ('Ask whether utilities are included','1','goal_1'):
+   payload=self.scene_payload()
+   payload['goal_assessments'][extra]=deepcopy(payload['goal_assessments']['goal_0'])
+   with self.subTest(extra=extra),self.assertRaises(ValidationError): schema.model_validate(payload)
+  payload=self.scene_payload()
+  payload['answer_checks']=[{'goal_id':'0'},{'goal_id':'0'}]
+  with self.assertRaises(ValidationError): schema.model_validate(payload)
+
+ def test_scene_schema_requires_each_goal_and_limits_source_ids(self):
+  with self.assertRaises(ValidationError): scene_reply_schema(2,('1',)).model_validate(self.scene_payload())
+  for field in ('source_id','citations'):
+   payload=self.scene_payload()
+   if field=='source_id': payload['goal_assessments']['goal_0']['source_id']='999'
+   else: payload['citations']=['999']
+   with self.subTest(field=field),self.assertRaises(ValidationError): scene_reply_schema(1,('1',)).model_validate(payload)
+
+ def test_fixed_assessment_turn_confirms_source_and_tracks_the_actual_user(self):
+  generated=scene_reply_schema(1,('1',)).model_validate(self.scene_payload())
+  review=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+  with patch('backend.main.model',side_effect=[generated,review]) as model:
+   response=self.client.post(self.p+'/turn',json={'text':'Are utilities included?'})
+  self.assertEqual(response.status_code,200,response.text)
+  self.assertIn('goal_assessments',model.call_args_list[0].args[0].model_fields)
+  self.assertEqual(response.json()['goals'][0]['answer_status'],'confirmed')
+  self.assertEqual(response.json()['goals'][0]['evidence'],'Are utilities included?')
+
+ def test_replay_slot_zero_binds_to_original_nonzero_goal_id(self):
+  generated=scene_reply_schema(1,('1',)).model_validate(self.scene_payload())
+  canonical=bind_assessments(generated,[{'id':'2','text':'Ask whether utilities are included'}])
+  self.assertEqual([g.goal_id for g in canonical.goal_checks],['2'])
+  self.assertEqual([a.goal_id for a in canonical.answer_checks],['2'])
+
+ def test_fixed_assessments_still_reject_fabricated_source_quotes_atomically(self):
+  payload=self.scene_payload()
+  payload['goal_assessments']['goal_0']['source_quote']='Pets are always allowed.'
+  generated=scene_reply_schema(1,('1',)).model_validate(payload)
+  with patch('backend.main.model',return_value=generated):
+   response=self.client.post(self.p+'/turn',json={'text':'Are utilities included?'})
+  self.assertEqual(response.status_code,502,response.text)
+  self.assertEqual(len(sessions[self.sid]['turns']),1)
+  self.assertFalse(sessions[self.sid]['mission'][0]['achieved'])
 
  def test_historical_goal_carry_forward_does_not_rewrite_evidence(self):
   first=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])

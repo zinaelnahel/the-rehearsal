@@ -153,7 +153,7 @@ def create(raw, kind, name, source_url=None):
  return {'id':sid,'name':name,'passages':len(chunks),'mode':'live' if LIVE else 'demo','source_url':source_url}
 
 @app.get('/api/config')
-def config(): return {'mode':'live' if LIVE else 'demo','demo_revision':'0.6','listing_provider':'Idealista public links or pasted advert text','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
+def config(): return {'mode':'live' if LIVE else 'demo','demo_revision':'0.6','roleplay_revision':'0.6.1','listing_provider':'Idealista public links or pasted advert text','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
 
 class ListingInput(BaseModel):
  url: str = Field(max_length=2048)
@@ -306,7 +306,7 @@ async def resume(sid: str):
 
 
 def partner_turn(content, sources=None, withheld=False, safety=False):
- return {'id':secrets.token_urlsafe(12),'version':'roleplay-0.6','role':'assistant','content':content,'sources':sources or [],'answer_withheld':withheld,'safety':safety}
+ return {'id':secrets.token_urlsafe(12),'version':'roleplay-0.6.1','role':'assistant','content':content,'sources':sources or [],'answer_withheld':withheld,'safety':safety}
 
 class ResponseRating(BaseModel):
  model_config = {'extra':'forbid'}

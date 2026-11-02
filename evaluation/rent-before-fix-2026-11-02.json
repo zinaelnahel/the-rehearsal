@@ -1,0 +1,283 @@
+{
+  "synthetic": true,
+  "stage": "before_fix",
+  "cases": [
+    {
+      "question": "How much is the rent?",
+      "goals": [
+        {
+          "id": "0",
+          "text": "Ask about the monthly rent",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Ask about availability",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Ask whether pets are allowed",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "proposal": {
+        "reply": "The monthly rent for the apartment is 850 euros. Is there anything else you'd like to know about it?",
+        "citations": [
+          "2"
+        ],
+        "goal_checks": [
+          {
+            "goal_id": "0",
+            "achieved": true,
+            "learner_quote": "How much is the rent?"
+          }
+        ],
+        "answer_checks": [
+          {
+            "goal_id": "0",
+            "status": "supported",
+            "source_id": "2",
+            "source_quote": "The monthly rent is 850 euros."
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "turn": {
+          "id": "8rBmcN6ayScH49Ij",
+          "version": "roleplay-0.6",
+          "role": "assistant",
+          "content": "The monthly rent for the apartment is 850 euros. Is there anything else you'd like to know about it? [2]",
+          "sources": [
+            {
+              "id": "2",
+              "location": "Section 2",
+              "source": "Apartment viewing · fictional sample · English",
+              "text": "Apartment in Valencia. The monthly rent is 850 euros."
+            }
+          ],
+          "answer_withheld": false,
+          "safety": false
+        },
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask about the monthly rent",
+            "achieved": true,
+            "evidence": "How much is the rent?",
+            "answer_status": "confirmed",
+            "answer_evidence": "The monthly rent is 850 euros.",
+            "answer_sources": [
+              "2"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask about availability",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          },
+          {
+            "id": "2",
+            "text": "Ask whether pets are allowed",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          }
+        ],
+        "safety": false
+      }
+    },
+    {
+      "question": "how much it costs",
+      "goals": [
+        {
+          "id": "0",
+          "text": "Ask about the monthly rent",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Ask about availability",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Ask whether pets are allowed",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "proposal": {
+        "reply": "The monthly rent for the apartment is 850 euros. Do you want to know about when it will be available or any other details?",
+        "citations": [
+          "2",
+          "3"
+        ],
+        "goal_checks": [
+          {
+            "goal_id": "Ask about the monthly rent",
+            "achieved": true,
+            "learner_quote": "how much it costs"
+          },
+          {
+            "goal_id": "Ask about availability",
+            "achieved": false,
+            "learner_quote": ""
+          },
+          {
+            "goal_id": "Ask whether pets are allowed",
+            "achieved": false,
+            "learner_quote": ""
+          }
+        ],
+        "answer_checks": [
+          {
+            "goal_id": "Ask about the monthly rent",
+            "status": "supported",
+            "source_id": "2",
+            "source_quote": "The monthly rent is 850 euros."
+          }
+        ]
+      },
+      "status": 502,
+      "response": {
+        "detail": "The AI response referenced an invalid mission goal. Retry this turn."
+      }
+    },
+    {
+      "question": "How much does the apartment cost per month?",
+      "goals": [
+        {
+          "id": "0",
+          "text": "Ask about the monthly rent",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Ask about availability",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Ask whether pets are allowed",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "proposal": {
+        "reply": "The monthly rent for the apartment is 850 euros. Would you like to know about its availability or any other details?",
+        "citations": [
+          "2"
+        ],
+        "goal_checks": [
+          {
+            "goal_id": "0",
+            "achieved": true,
+            "learner_quote": "How much does the apartment cost per month?"
+          }
+        ],
+        "answer_checks": [
+          {
+            "goal_id": "0",
+            "status": "supported",
+            "source_id": "2",
+            "source_quote": "The monthly rent is 850 euros."
+          }
+        ]
+      },
+      "status": 200,
+      "response": {
+        "turn": {
+          "id": "yh20_yitYlG17rMC",
+          "version": "roleplay-0.6",
+          "role": "assistant",
+          "content": "The monthly rent for the apartment is 850 euros. Would you like to know about its availability or any other details? [2]",
+          "sources": [
+            {
+              "id": "2",
+              "location": "Section 2",
+              "source": "Apartment viewing · fictional sample · English",
+              "text": "Apartment in Valencia. The monthly rent is 850 euros."
+            }
+          ],
+          "answer_withheld": false,
+          "safety": false
+        },
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask about the monthly rent",
+            "achieved": true,
+            "evidence": "How much does the apartment cost per month?",
+            "answer_status": "confirmed",
+            "answer_evidence": "The monthly rent is 850 euros.",
+            "answer_sources": [
+              "2"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask about availability",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          },
+          {
+            "id": "2",
+            "text": "Ask whether pets are allowed",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          }
+        ],
+        "safety": false
+      }
+    }
+  ],
+  "provider_calls": 8
+}

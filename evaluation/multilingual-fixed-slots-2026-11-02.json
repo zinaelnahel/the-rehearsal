@@ -1,0 +1,461 @@
+{
+  "provider_calls": true,
+  "cases": [
+    {
+      "language": "English",
+      "checks": [
+        "negated custom goal rejected",
+        "custom goal detected with source support",
+        "contextual follow-up answered",
+        "actual phrase translated",
+        "debrief quotes checked",
+        "targeted retry available",
+        "server deletion verified"
+      ],
+      "turns": [
+        {
+          "learner": "Is internet included in the rent?",
+          "reply": "Yes, the internet is included in the rent. The flat is available from 15 December if you want to move in then. [4] [3]",
+          "sources": [
+            {
+              "id": "4",
+              "location": "Section 4",
+              "source": "Pasted document",
+              "text": "Utilities and internet are included in the rent."
+            },
+            {
+              "id": "3",
+              "location": "Section 3",
+              "source": "Pasted document",
+              "text": "The flat is available from 15 December."
+            }
+          ],
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask whether internet is included in rent",
+              "achieved": true,
+              "evidence": "Is internet included in the rent?",
+              "answer_status": "confirmed",
+              "answer_evidence": "Utilities and internet are included in the rent.",
+              "answer_sources": [
+                "4"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask when I can move in",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ]
+        },
+        {
+          "learner": "And when could I move in?",
+          "reply": "The flat is available from 15 December, so you could move in from that date. [3]",
+          "sources": [
+            {
+              "id": "3",
+              "location": "Section 3",
+              "source": "Pasted document",
+              "text": "The flat is available from 15 December."
+            }
+          ],
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask whether internet is included in rent",
+              "achieved": true,
+              "evidence": "Is internet included in the rent?",
+              "answer_status": "confirmed",
+              "answer_evidence": "Utilities and internet are included in the rent.",
+              "answer_sources": [
+                "4"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask when I can move in",
+              "achieved": true,
+              "evidence": "And when could I move in?",
+              "answer_status": "confirmed",
+              "answer_evidence": "The flat is available from 15 December.",
+              "answer_sources": [
+                "3"
+              ]
+            }
+          ]
+        }
+      ],
+      "translation": "Können wir nächsten Donnerstag am Nachmittag besichtigen? → Can we visit next Thursday afternoon?\nThe phrase is a polite inquiry asking if it is possible to schedule a visit or viewing on the afternoon of the upcoming Thursday.",
+      "debrief": {
+        "feedback": [
+          {
+            "quote": "Is internet included in the rent?",
+            "suggestion": "Good clear question to confirm what is included in the rent.",
+            "explanation": "You asked directly if internet is included, which is clear and to the point for this information."
+          },
+          {
+            "quote": "And when could I move in?",
+            "suggestion": "Nice follow-up question to confirm the move-in date.",
+            "explanation": "You used a polite and simple question to ask about availability, which fits your B1 level well."
+          }
+        ],
+        "unanswered": [],
+        "phrases": [
+          "Is internet included in the rent?",
+          "When could I move in?",
+          "How much is the monthly rent?"
+        ],
+        "note": "You communicated clearly and politely to get the information you wanted about the apartment. Keep practicing asking direct questions like these to improve your confidence.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask whether internet is included in rent",
+            "achieved": true,
+            "evidence": "Is internet included in the rent?",
+            "answer_status": "confirmed",
+            "answer_evidence": "Utilities and internet are included in the rent.",
+            "answer_sources": [
+              "4"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask when I can move in",
+            "achieved": true,
+            "evidence": "And when could I move in?",
+            "answer_status": "confirmed",
+            "answer_evidence": "The flat is available from 15 December.",
+            "answer_sources": [
+              "3"
+            ]
+          }
+        ],
+        "feedback_id": "-vYx85vVcW0yAI3Y"
+      },
+      "seconds": 20.2
+    },
+    {
+      "language": "German",
+      "checks": [
+        "negated custom goal rejected",
+        "custom goal detected with source support",
+        "contextual follow-up answered",
+        "actual phrase translated",
+        "debrief quotes checked",
+        "targeted retry available",
+        "server deletion verified"
+      ],
+      "turns": [
+        {
+          "learner": "Ist Internet in der Miete enthalten?",
+          "reply": "Ja, das Internet ist in der Miete enthalten. Die Wohnung ist ab dem 15. Dezember verfügbar. Möchten Sie noch weitere Informationen? [4] [3]",
+          "sources": [
+            {
+              "id": "4",
+              "location": "Section 4",
+              "source": "Pasted document",
+              "text": "Utilities and internet are included in the rent."
+            },
+            {
+              "id": "3",
+              "location": "Section 3",
+              "source": "Pasted document",
+              "text": "The flat is available from 15 December."
+            }
+          ],
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask whether internet is included in rent",
+              "achieved": true,
+              "evidence": "Ist Internet in der Miete enthalten?",
+              "answer_status": "confirmed",
+              "answer_evidence": "Utilities and internet are included in the rent.",
+              "answer_sources": [
+                "4"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask when I can move in",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ]
+        },
+        {
+          "learner": "Und ab wann könnte ich einziehen?",
+          "reply": "Die Wohnung ist ab dem 15. Dezember verfügbar. Sie können ab diesem Datum einziehen. [3]",
+          "sources": [
+            {
+              "id": "3",
+              "location": "Section 3",
+              "source": "Pasted document",
+              "text": "The flat is available from 15 December."
+            }
+          ],
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask whether internet is included in rent",
+              "achieved": true,
+              "evidence": "Ist Internet in der Miete enthalten?",
+              "answer_status": "confirmed",
+              "answer_evidence": "Utilities and internet are included in the rent.",
+              "answer_sources": [
+                "4"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask when I can move in",
+              "achieved": true,
+              "evidence": "Und ab wann könnte ich einziehen?",
+              "answer_status": "confirmed",
+              "answer_evidence": "The flat is available from 15 December.",
+              "answer_sources": [
+                "3"
+              ]
+            }
+          ]
+        }
+      ],
+      "translation": "Could we arrange a viewing next Thursday afternoon? → Könnten wir eine Besichtigung nächsten Donnerstagnachmittag vereinbaren?\nThe phrase is a polite request to schedule a viewing on the afternoon of next Thursday. The German translation maintains the polite tone and the specific timing, using 'Könnten wir' for 'Could we' and 'eine Besichtigung' for 'a viewing.'",
+      "debrief": {
+        "feedback": [
+          {
+            "quote": "Ist Internet in der Miete enthalten?",
+            "suggestion": "Good clear question. You could also say: \"Ist das Internet in der Miete inbegriffen?\"",
+            "explanation": "Your question is direct and understandable, which is great for B1 level. Using \"inbegriffen\" is a common alternative to \"enthalten\" and sounds natural in this context."
+          },
+          {
+            "quote": "Und ab wann könnte ich einziehen?",
+            "suggestion": "Very polite and clear. You might also say: \"Ab wann ist die Wohnung verfügbar?\"",
+            "explanation": "Your phrasing is polite and appropriate. Asking about availability is a common way to inquire about move-in dates."
+          }
+        ],
+        "unanswered": [],
+        "phrases": [
+          "Wie hoch ist die monatliche Miete?",
+          "Ab wann ist die Wohnung verfügbar?",
+          "Sind Haustiere erlaubt?"
+        ],
+        "note": "You successfully asked about internet inclusion and move-in date in clear, polite German. Keep practicing similar questions to build confidence.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask whether internet is included in rent",
+            "achieved": true,
+            "evidence": "Ist Internet in der Miete enthalten?",
+            "answer_status": "confirmed",
+            "answer_evidence": "Utilities and internet are included in the rent.",
+            "answer_sources": [
+              "4"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask when I can move in",
+            "achieved": true,
+            "evidence": "Und ab wann könnte ich einziehen?",
+            "answer_status": "confirmed",
+            "answer_evidence": "The flat is available from 15 December.",
+            "answer_sources": [
+              "3"
+            ]
+          }
+        ],
+        "feedback_id": "gOzMEDgo-QLEh2FZ"
+      },
+      "seconds": 21.7
+    },
+    {
+      "language": "Spanish",
+      "checks": [
+        "negated custom goal rejected",
+        "custom goal detected with source support",
+        "contextual follow-up answered",
+        "actual phrase translated",
+        "debrief quotes checked",
+        "targeted retry available",
+        "server deletion verified"
+      ],
+      "turns": [
+        {
+          "learner": "¿Está incluido internet en el alquiler?",
+          "reply": "Sí, el internet está incluido en el alquiler. Además, el piso estará disponible para mudarse a partir del 15 de diciembre. [4] [3]",
+          "sources": [
+            {
+              "id": "4",
+              "location": "Section 4",
+              "source": "Pasted document",
+              "text": "Utilities and internet are included in the rent."
+            },
+            {
+              "id": "3",
+              "location": "Section 3",
+              "source": "Pasted document",
+              "text": "The flat is available from 15 December."
+            }
+          ],
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask whether internet is included in rent",
+              "achieved": true,
+              "evidence": "¿Está incluido internet en el alquiler?",
+              "answer_status": "confirmed",
+              "answer_evidence": "Utilities and internet are included in the rent.",
+              "answer_sources": [
+                "4"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask when I can move in",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ]
+        },
+        {
+          "learner": "¿Y cuándo podría entrar?",
+          "reply": "El piso estará disponible para entrar a partir del 15 de diciembre. ¿Quieres que te muestre alguna otra cosa del piso? [3]",
+          "sources": [
+            {
+              "id": "3",
+              "location": "Section 3",
+              "source": "Pasted document",
+              "text": "The flat is available from 15 December."
+            }
+          ],
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask whether internet is included in rent",
+              "achieved": true,
+              "evidence": "¿Está incluido internet en el alquiler?",
+              "answer_status": "confirmed",
+              "answer_evidence": "Utilities and internet are included in the rent.",
+              "answer_sources": [
+                "4"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask when I can move in",
+              "achieved": true,
+              "evidence": "¿Y cuándo podría entrar?",
+              "answer_status": "confirmed",
+              "answer_evidence": "The flat is available from 15 December.",
+              "answer_sources": [
+                "3"
+              ]
+            }
+          ]
+        }
+      ],
+      "translation": "Could we arrange a viewing next Thursday afternoon? → ¿Podríamos concertar una visita el próximo jueves por la tarde?\nThe phrase is a polite request to schedule a viewing on a specific day and time. The Spanish translation maintains the polite tone and meaning, using 'podríamos' (could we) and 'concertar una visita' (arrange a viewing), with 'el próximo jueves por la tarde' accurately reflecting 'next Thursday afternoon.'",
+      "debrief": {
+        "feedback": [
+          {
+            "quote": "¿Está incluido internet en el alquiler?",
+            "suggestion": "Great clear question! You could also say: \"¿El internet está incluido en el alquiler?\" for variety.",
+            "explanation": "Your question is direct and clear, which is perfect for this context. Slight variations can help you sound more natural and flexible."
+          },
+          {
+            "quote": "¿Y cuándo podría entrar?",
+            "suggestion": "Good polite phrasing. You might also say: \"¿Cuándo puedo mudarme?\" or \"¿Cuándo estaría disponible para mudarme?\"",
+            "explanation": "Your phrasing is polite and appropriate. Offering alternative ways to ask about move-in dates can expand your conversational skills."
+          }
+        ],
+        "unanswered": [],
+        "phrases": [
+          "¿Está incluido internet en el alquiler?",
+          "¿Cuándo podría entrar?",
+          "¿Cuánto cuesta el alquiler al mes?"
+        ],
+        "note": "You did well asking about internet and move-in date clearly and politely. Keep practicing variations to sound more natural and confident in real conversations.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask whether internet is included in rent",
+            "achieved": true,
+            "evidence": "¿Está incluido internet en el alquiler?",
+            "answer_status": "confirmed",
+            "answer_evidence": "Utilities and internet are included in the rent.",
+            "answer_sources": [
+              "4"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask when I can move in",
+            "achieved": true,
+            "evidence": "¿Y cuándo podría entrar?",
+            "answer_status": "confirmed",
+            "answer_evidence": "The flat is available from 15 December.",
+            "answer_sources": [
+              "3"
+            ]
+          }
+        ],
+        "feedback_id": "b3oN0jn193rswY1B"
+      },
+      "seconds": 19.0
+    }
+  ],
+  "passed": true,
+  "last_proposal": {
+    "reply": {
+      "reply": "El piso estará disponible para entrar a partir del 15 de diciembre. ¿Quieres que te muestre alguna otra cosa del piso?",
+      "citations": [
+        "3"
+      ],
+      "goal_checks": [
+        {
+          "goal_id": "0",
+          "achieved": true,
+          "learner_quote": "¿Está incluido internet en el alquiler?"
+        },
+        {
+          "goal_id": "1",
+          "achieved": true,
+          "learner_quote": "¿Y cuándo podría entrar?"
+        }
+      ],
+      "answer_checks": [
+        {
+          "goal_id": "0",
+          "status": "supported",
+          "source_id": "4",
+          "source_quote": "Utilities and internet are included in the rent."
+        },
+        {
+          "goal_id": "1",
+          "status": "supported",
+          "source_id": "3",
+          "source_quote": "The flat is available from 15 December."
+        }
+      ]
+    },
+    "retrieved_ids": [
+      "3",
+      "1",
+      "2",
+      "4"
+    ]
+  },
+  "model_call_count": 27
+}

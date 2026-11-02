@@ -26,7 +26,7 @@ class ContextFeedbackTests(unittest.TestCase):
   for rating,reason in [('up',None),('down','tone'),('down',None)]:
    self.assertEqual(self.client.put(url,json={'rating':rating,'reason':reason}).status_code,200)
    record=sessions[sid]['ratings'][response['id']]
-   self.assertEqual(record,{'rating':rating,'reason':reason,'scenario':'apartment','response_id':response['id'],'version':'roleplay-0.6'})
+   self.assertEqual(record,{'rating':rating,'reason':reason,'scenario':'apartment','response_id':response['id'],'version':'roleplay-0.6.1'})
   self.assertEqual(self.client.put(url,json={'rating':'down','text':'private message'}).status_code,422)
   self.assertEqual(self.client.put(url,json={'rating':'up','reason':'tone'}).status_code,400)
   self.assertEqual(self.client.put(url,json={'rating':None}).status_code,200)

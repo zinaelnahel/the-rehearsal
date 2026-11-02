@@ -9,7 +9,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 os.chdir(ROOT)
 from backend.main import app,model_calls,model as original_model
-from backend.live import RoleReply
+from backend.live import RoleReply, bind_assessments
 
 cases={
  'English':{'negation':'I am not going to ask whether internet is included.','question':'Is internet included in the rent?','followup':'And when could I move in?','phrase':'Können wir nächsten Donnerstag am Nachmittag besichtigen?','translation_word':'thursday'},
@@ -19,8 +19,9 @@ cases={
 report={'provider_calls':True,'cases':[],'passed':False}
 def traced_model(schema,system,data,session=None):
  result=original_model(schema,system,data,session=session)
- if schema is RoleReply:
-  report['last_proposal']={'reply':result.model_dump(),'retrieved_ids':[d['id'] for d in data['retrieved_passages']]}
+ if schema is RoleReply or 'goal_assessments' in schema.model_fields:
+  canonical=bind_assessments(result,session['mission'])
+  report['last_proposal']={'reply':canonical.model_dump(),'retrieved_ids':[d['id'] for d in data['retrieved_passages']]}
  return result
 def require(response):
  if response.status_code!=200:

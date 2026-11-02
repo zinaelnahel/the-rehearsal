@@ -1,0 +1,1751 @@
+{
+  "synthetic": true,
+  "model": "gpt-4.1-mini",
+  "passed": true,
+  "cases": [
+    {
+      "language": "English",
+      "repetition": 1,
+      "question": "How much is the rent?",
+      "turns": [
+        {
+          "user": "How much is the rent?",
+          "turn": {
+            "id": "krIU315bWUVKzJ8T",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "The monthly rent for the apartment is 850 euros. [2]",
+            "sources": [
+              {
+                "id": "2",
+                "location": "Section 2",
+                "source": "Apartment viewing · fictional sample · English",
+                "text": "Apartment in Valencia. The monthly rent is 850 euros."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask about the monthly rent",
+              "achieved": true,
+              "evidence": "How much is the rent?",
+              "answer_status": "confirmed",
+              "answer_evidence": "The monthly rent is 850 euros.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask about availability",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            },
+            {
+              "id": "2",
+              "text": "Ask whether pets are allowed",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        },
+        {
+          "user": "When is the apartment available?",
+          "turn": {
+            "id": "sufqhA2fW0u9CpTk",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "The apartment is available from 1 December. It has two bedrooms and a balcony. Would you like to know anything else about it? [3]",
+            "sources": [
+              {
+                "id": "3",
+                "location": "Section 3",
+                "source": "Apartment viewing · fictional sample · English",
+                "text": "It has two bedrooms and a balcony. It is available from 1 December."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask about the monthly rent",
+              "achieved": true,
+              "evidence": "How much is the rent?",
+              "answer_status": "confirmed",
+              "answer_evidence": "The monthly rent is 850 euros.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask about availability",
+              "achieved": true,
+              "evidence": "When is the apartment available?",
+              "answer_status": "confirmed",
+              "answer_evidence": "It has two bedrooms and a balcony. It is available from 1 December.",
+              "answer_sources": [
+                "3"
+              ]
+            },
+            {
+              "id": "2",
+              "text": "Ask whether pets are allowed",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        }
+      ],
+      "mission": [
+        {
+          "id": "0",
+          "text": "Ask about the monthly rent",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Ask about availability",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Ask whether pets are allowed",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "assessments": [
+        {
+          "reply": "The monthly rent for the apartment is 850 euros.",
+          "citations": [
+            "2"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "How much is the rent?"
+            },
+            {
+              "goal_id": "1",
+              "achieved": false,
+              "learner_quote": ""
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "The monthly rent is 850 euros."
+            }
+          ]
+        },
+        {
+          "reply": "The apartment is available from 1 December. It has two bedrooms and a balcony. Would you like to know anything else about it?",
+          "citations": [
+            "3"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "How much is the rent?"
+            },
+            {
+              "goal_id": "1",
+              "achieved": true,
+              "learner_quote": "When is the apartment available?"
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "The monthly rent is 850 euros."
+            },
+            {
+              "goal_id": "1",
+              "status": "supported",
+              "source_id": "3",
+              "source_quote": "It has two bedrooms and a balcony. It is available from 1 December."
+            }
+          ]
+        },
+        {
+          "reply": "The monthly rent for this apartment is 850 euros. Would you like to know about the deposit or any other details?",
+          "citations": [
+            "2"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "How much is the rent?"
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "The monthly rent is 850 euros."
+            }
+          ]
+        }
+      ],
+      "review": {
+        "feedback": [
+          {
+            "quote": "How much is the rent?",
+            "suggestion": "Try saying \"How much is the monthly rent?\" to be more specific.",
+            "explanation": "Adding \"monthly\" clarifies that you want to know the rent amount per month, which is the usual way to discuss rent."
+          },
+          {
+            "quote": "When is the apartment available?",
+            "suggestion": "Your question was clear and polite; good job!",
+            "explanation": "You asked directly about availability, which is important before making a decision."
+          }
+        ],
+        "unanswered": [
+          "Are pets allowed?",
+          "Ask whether pets are allowed"
+        ],
+        "phrases": [
+          "How much is the monthly rent?",
+          "When is the apartment available?",
+          "Are pets allowed?"
+        ],
+        "note": "You did well asking about rent and availability clearly. Next time, remember to ask about pets to cover all your concerns before deciding.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask about the monthly rent",
+            "achieved": true,
+            "evidence": "How much is the rent?",
+            "answer_status": "confirmed",
+            "answer_evidence": "The monthly rent is 850 euros.",
+            "answer_sources": [
+              "2"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask about availability",
+            "achieved": true,
+            "evidence": "When is the apartment available?",
+            "answer_status": "confirmed",
+            "answer_evidence": "It has two bedrooms and a balcony. It is available from 1 December.",
+            "answer_sources": [
+              "3"
+            ]
+          },
+          {
+            "id": "2",
+            "text": "Ask whether pets are allowed",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          }
+        ],
+        "feedback_id": "caIOZiH3at5FiVqe"
+      },
+      "replay": {
+        "turn": {
+          "id": "ysFmVp_mLTV7YQFD",
+          "version": "roleplay-0.6",
+          "role": "assistant",
+          "content": "The monthly rent for this apartment is 850 euros. Would you like to know about the deposit or any other details? [2]",
+          "sources": [
+            {
+              "id": "2",
+              "location": "Section 2",
+              "source": "Apartment viewing · fictional sample · English",
+              "text": "Apartment in Valencia. The monthly rent is 850 euros."
+            }
+          ],
+          "answer_withheld": false,
+          "safety": false
+        },
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask about the monthly rent",
+            "achieved": true,
+            "evidence": "How much is the rent?",
+            "answer_status": "confirmed",
+            "answer_evidence": "The monthly rent is 850 euros.",
+            "answer_sources": [
+              "2"
+            ]
+          }
+        ],
+        "safety": false
+      },
+      "passed": true,
+      "seconds": 18.5
+    },
+    {
+      "language": "English",
+      "repetition": 1,
+      "question": "how much it costs",
+      "turns": [
+        {
+          "user": "how much it costs",
+          "turn": {
+            "id": "93oH0wKg2xN07sD4",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "The monthly rent for the apartment is 850 euros. Would you like to know about the availability or any other details? [2]",
+            "sources": [
+              {
+                "id": "2",
+                "location": "Section 2",
+                "source": "Apartment viewing · fictional sample · English",
+                "text": "Apartment in Valencia. The monthly rent is 850 euros."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask about the monthly rent",
+              "achieved": true,
+              "evidence": "how much it costs",
+              "answer_status": "confirmed",
+              "answer_evidence": "The monthly rent is 850 euros.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask about availability",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            },
+            {
+              "id": "2",
+              "text": "Ask whether pets are allowed",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        }
+      ],
+      "mission": [
+        {
+          "id": "0",
+          "text": "Ask about the monthly rent",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Ask about availability",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Ask whether pets are allowed",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "assessments": [
+        {
+          "reply": "The monthly rent for the apartment is 850 euros. Would you like to know about the availability or any other details?",
+          "citations": [
+            "2"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "how much it costs"
+            },
+            {
+              "goal_id": "1",
+              "achieved": false,
+              "learner_quote": ""
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "The monthly rent is 850 euros."
+            }
+          ]
+        }
+      ],
+      "review": {
+        "feedback": [
+          {
+            "quote": "how much it costs",
+            "suggestion": "Use a full question form like \"How much is the monthly rent?\"",
+            "explanation": "Your phrase was understood, but phrasing it as a clear question helps communication and sounds more natural in everyday English."
+          },
+          {
+            "quote": "how much it costs",
+            "suggestion": "After getting the rent, ask about pets next, for example, \"Are pets allowed?\"",
+            "explanation": "You have not yet asked about pets, which is important for your decision. Asking this next will complete your information gathering."
+          }
+        ],
+        "unanswered": [
+          "When is the apartment available?",
+          "Are pets allowed?",
+          "Ask about availability",
+          "Ask whether pets are allowed"
+        ],
+        "phrases": [
+          "How much is the monthly rent?",
+          "When is the apartment available?",
+          "Are pets allowed?"
+        ],
+        "note": "You successfully asked about the rent and got a clear answer. Next, try asking about the apartment's availability and whether pets are allowed to gather all the details you need before making a decision.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask about the monthly rent",
+            "achieved": true,
+            "evidence": "how much it costs",
+            "answer_status": "confirmed",
+            "answer_evidence": "The monthly rent is 850 euros.",
+            "answer_sources": [
+              "2"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask about availability",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          },
+          {
+            "id": "2",
+            "text": "Ask whether pets are allowed",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          }
+        ],
+        "feedback_id": "oENFCD5kP4K-rXPO"
+      },
+      "passed": true,
+      "seconds": 9.1
+    },
+    {
+      "language": "English",
+      "repetition": 1,
+      "question": "How much does the apartment cost per month?",
+      "turns": [
+        {
+          "user": "How much does the apartment cost per month?",
+          "turn": {
+            "id": "-iZMdkZaL2IkvoiM",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "The monthly rent for the apartment is 850 euros. [2]",
+            "sources": [
+              {
+                "id": "2",
+                "location": "Section 2",
+                "source": "Apartment viewing · fictional sample · English",
+                "text": "Apartment in Valencia. The monthly rent is 850 euros."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask about the monthly rent",
+              "achieved": true,
+              "evidence": "How much does the apartment cost per month?",
+              "answer_status": "confirmed",
+              "answer_evidence": "The monthly rent is 850 euros.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask about availability",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            },
+            {
+              "id": "2",
+              "text": "Ask whether pets are allowed",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        }
+      ],
+      "mission": [
+        {
+          "id": "0",
+          "text": "Ask about the monthly rent",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Ask about availability",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Ask whether pets are allowed",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "assessments": [
+        {
+          "reply": "The monthly rent for the apartment is 850 euros.",
+          "citations": [
+            "2"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "How much does the apartment cost per month?"
+            },
+            {
+              "goal_id": "1",
+              "achieved": false,
+              "learner_quote": ""
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "The monthly rent is 850 euros."
+            }
+          ]
+        }
+      ],
+      "review": {
+        "feedback": [
+          {
+            "quote": "How much does the apartment cost per month?",
+            "suggestion": "Great job asking clearly about the rent. Next, try asking about the availability by saying, 'When is the apartment available?'.",
+            "explanation": "You asked about the monthly rent clearly and politely, which helped get a direct answer. Asking about availability next will help you gather all important details before deciding."
+          }
+        ],
+        "unanswered": [
+          "When is the apartment available?",
+          "Are pets allowed?",
+          "Ask about availability",
+          "Ask whether pets are allowed"
+        ],
+        "phrases": [
+          "When is the apartment available?",
+          "Are pets allowed?",
+          "Can you tell me about the deposit?"
+        ],
+        "note": "You asked about the rent clearly and got a good answer. Next, try asking about availability and pet policy to feel confident before deciding.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask about the monthly rent",
+            "achieved": true,
+            "evidence": "How much does the apartment cost per month?",
+            "answer_status": "confirmed",
+            "answer_evidence": "The monthly rent is 850 euros.",
+            "answer_sources": [
+              "2"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask about availability",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          },
+          {
+            "id": "2",
+            "text": "Ask whether pets are allowed",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          }
+        ],
+        "feedback_id": "yUu7ET_uGwwlcTBh"
+      },
+      "passed": true,
+      "seconds": 8.7
+    },
+    {
+      "language": "English",
+      "repetition": 2,
+      "question": "How much is the rent?",
+      "turns": [
+        {
+          "user": "How much is the rent?",
+          "turn": {
+            "id": "gSWmw-x4C9H9DqPV",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "The monthly rent for the apartment is 850 euros. [2]",
+            "sources": [
+              {
+                "id": "2",
+                "location": "Section 2",
+                "source": "Apartment viewing · fictional sample · English",
+                "text": "Apartment in Valencia. The monthly rent is 850 euros."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask about the monthly rent",
+              "achieved": true,
+              "evidence": "How much is the rent?",
+              "answer_status": "confirmed",
+              "answer_evidence": "The monthly rent is 850 euros.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask about availability",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            },
+            {
+              "id": "2",
+              "text": "Ask whether pets are allowed",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        }
+      ],
+      "mission": [
+        {
+          "id": "0",
+          "text": "Ask about the monthly rent",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Ask about availability",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Ask whether pets are allowed",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "assessments": [
+        {
+          "reply": "The monthly rent for the apartment is 850 euros.",
+          "citations": [
+            "2"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "How much is the rent?"
+            },
+            {
+              "goal_id": "1",
+              "achieved": false,
+              "learner_quote": ""
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "The monthly rent is 850 euros."
+            }
+          ]
+        }
+      ],
+      "review": {
+        "feedback": [
+          {
+            "quote": "How much is the rent?",
+            "suggestion": "Next, ask about the apartment's availability to get a clear timeline.",
+            "explanation": "You asked clearly about the rent, which was answered well. To continue gathering important details before deciding, asking about availability is a natural next step."
+          }
+        ],
+        "unanswered": [
+          "When is the apartment available?",
+          "Are pets allowed?",
+          "Ask about availability",
+          "Ask whether pets are allowed"
+        ],
+        "phrases": [
+          "When is the apartment available?",
+          "Are pets allowed?",
+          "Is the deposit one month's rent?"
+        ],
+        "note": "You started well by asking about rent. To feel confident before deciding, continue by asking about availability and pet policies using simple, direct questions.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask about the monthly rent",
+            "achieved": true,
+            "evidence": "How much is the rent?",
+            "answer_status": "confirmed",
+            "answer_evidence": "The monthly rent is 850 euros.",
+            "answer_sources": [
+              "2"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask about availability",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          },
+          {
+            "id": "2",
+            "text": "Ask whether pets are allowed",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          }
+        ],
+        "feedback_id": "xXFjWxG-dnXeV7od"
+      },
+      "passed": true,
+      "seconds": 9.1
+    },
+    {
+      "language": "English",
+      "repetition": 2,
+      "question": "how much it costs",
+      "turns": [
+        {
+          "user": "how much it costs",
+          "turn": {
+            "id": "IRYsKJ3MDLjaucJx",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "The monthly rent is 850 euros. Do you want to know anything else about the apartment? [2]",
+            "sources": [
+              {
+                "id": "2",
+                "location": "Section 2",
+                "source": "Apartment viewing · fictional sample · English",
+                "text": "Apartment in Valencia. The monthly rent is 850 euros."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask about the monthly rent",
+              "achieved": true,
+              "evidence": "how much it costs",
+              "answer_status": "confirmed",
+              "answer_evidence": "The monthly rent is 850 euros.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask about availability",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            },
+            {
+              "id": "2",
+              "text": "Ask whether pets are allowed",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        }
+      ],
+      "mission": [
+        {
+          "id": "0",
+          "text": "Ask about the monthly rent",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Ask about availability",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Ask whether pets are allowed",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "assessments": [
+        {
+          "reply": "The monthly rent is 850 euros. Do you want to know anything else about the apartment?",
+          "citations": [
+            "2"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "how much it costs"
+            },
+            {
+              "goal_id": "1",
+              "achieved": false,
+              "learner_quote": ""
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "The monthly rent is 850 euros."
+            }
+          ]
+        }
+      ],
+      "review": {
+        "feedback": [
+          {
+            "quote": "how much it costs",
+            "suggestion": "Try asking, 'When is the apartment available?','Are pets allowed?','Is the deposit one month's rent?'",
+            "explanation": "You asked about the rent clearly, but you haven't yet asked about availability or pets, which are important details before deciding."
+          }
+        ],
+        "unanswered": [
+          "When is the apartment available?",
+          "Are pets allowed?",
+          "Ask about availability",
+          "Ask whether pets are allowed"
+        ],
+        "phrases": [
+          "When is the apartment available?",
+          "Are pets allowed?",
+          "Is the deposit one month's rent?"
+        ],
+        "note": "You did well asking about the rent. Next, try to ask clearly about availability and pet policy to get all the details you need before deciding.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask about the monthly rent",
+            "achieved": true,
+            "evidence": "how much it costs",
+            "answer_status": "confirmed",
+            "answer_evidence": "The monthly rent is 850 euros.",
+            "answer_sources": [
+              "2"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask about availability",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          },
+          {
+            "id": "2",
+            "text": "Ask whether pets are allowed",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          }
+        ],
+        "feedback_id": "5iS7sibwfFs7gtNE"
+      },
+      "passed": true,
+      "seconds": 8.2
+    },
+    {
+      "language": "English",
+      "repetition": 2,
+      "question": "How much does the apartment cost per month?",
+      "turns": [
+        {
+          "user": "How much does the apartment cost per month?",
+          "turn": {
+            "id": "DKEVSjJIss86ABtP",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "The monthly rent for the apartment is 850 euros. [2]",
+            "sources": [
+              {
+                "id": "2",
+                "location": "Section 2",
+                "source": "Apartment viewing · fictional sample · English",
+                "text": "Apartment in Valencia. The monthly rent is 850 euros."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Ask about the monthly rent",
+              "achieved": true,
+              "evidence": "How much does the apartment cost per month?",
+              "answer_status": "confirmed",
+              "answer_evidence": "The monthly rent is 850 euros.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Ask about availability",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            },
+            {
+              "id": "2",
+              "text": "Ask whether pets are allowed",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        }
+      ],
+      "mission": [
+        {
+          "id": "0",
+          "text": "Ask about the monthly rent",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Ask about availability",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Ask whether pets are allowed",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "assessments": [
+        {
+          "reply": "The monthly rent for the apartment is 850 euros.",
+          "citations": [
+            "2"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "How much does the apartment cost per month?"
+            },
+            {
+              "goal_id": "1",
+              "achieved": false,
+              "learner_quote": ""
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "The monthly rent is 850 euros."
+            }
+          ]
+        }
+      ],
+      "review": {
+        "feedback": [
+          {
+            "quote": "How much does the apartment cost per month?",
+            "suggestion": "Great job asking clearly about the rent. Next, try asking about the availability by saying, 'When is the apartment available?'.",
+            "explanation": "You asked about the monthly rent clearly and politely, which helped get a direct answer. Asking about availability next will help you gather all important details before deciding."
+          }
+        ],
+        "unanswered": [
+          "When is the apartment available?",
+          "Are pets allowed?",
+          "Ask about availability",
+          "Ask whether pets are allowed"
+        ],
+        "phrases": [
+          "When is the apartment available?",
+          "Are pets allowed?",
+          "Is the deposit refundable?"
+        ],
+        "note": "You asked about the rent clearly and got a good answer. Next, remember to ask about availability and pet policy to feel confident before deciding.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Ask about the monthly rent",
+            "achieved": true,
+            "evidence": "How much does the apartment cost per month?",
+            "answer_status": "confirmed",
+            "answer_evidence": "The monthly rent is 850 euros.",
+            "answer_sources": [
+              "2"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Ask about availability",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          },
+          {
+            "id": "2",
+            "text": "Ask whether pets are allowed",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          }
+        ],
+        "feedback_id": "6GLqEZAVWjnSUzBK"
+      },
+      "passed": true,
+      "seconds": 7.7
+    },
+    {
+      "language": "German",
+      "repetition": 1,
+      "question": "Wie hoch ist die Miete?",
+      "turns": [
+        {
+          "user": "Wie hoch ist die Miete?",
+          "turn": {
+            "id": "Umnllbqg6GoZ-Uil",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "Die monatliche Miete beträgt 850 Euro. Möchten Sie noch etwas über die Wohnung wissen? [2]",
+            "sources": [
+              {
+                "id": "2",
+                "location": "Section 2",
+                "source": "Apartment viewing · fictional sample · German",
+                "text": "Wohnung in Valencia. Die monatliche Miete beträgt 850 Euro."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Fragen Sie nach der monatlichen Miete.",
+              "achieved": true,
+              "evidence": "Wie hoch ist die Miete?",
+              "answer_status": "confirmed",
+              "answer_evidence": "Die monatliche Miete beträgt 850 Euro.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Fragen Sie nach der Verfügbarkeit der Wohnung.",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            },
+            {
+              "id": "2",
+              "text": "Fragen Sie, ob Haustiere erlaubt sind.",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        },
+        {
+          "user": "Ab wann ist die Wohnung verfügbar?",
+          "turn": {
+            "id": "SrnNhezQVa4c9CdV",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "Die Wohnung ist ab dem 1. Dezember verfügbar. Haben Sie noch weitere Fragen zur Wohnung? [3]",
+            "sources": [
+              {
+                "id": "3",
+                "location": "Section 3",
+                "source": "Apartment viewing · fictional sample · German",
+                "text": "Die Wohnung hat zwei Schlafzimmer und einen Balkon. Sie ist ab dem 1. Dezember verfügbar."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Fragen Sie nach der monatlichen Miete.",
+              "achieved": true,
+              "evidence": "Wie hoch ist die Miete?",
+              "answer_status": "confirmed",
+              "answer_evidence": "Die monatliche Miete beträgt 850 Euro.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Fragen Sie nach der Verfügbarkeit der Wohnung.",
+              "achieved": true,
+              "evidence": "Ab wann ist die Wohnung verfügbar?",
+              "answer_status": "confirmed",
+              "answer_evidence": "Die Wohnung hat zwei Schlafzimmer und einen Balkon. Sie ist ab dem 1. Dezember verfügbar.",
+              "answer_sources": [
+                "3"
+              ]
+            },
+            {
+              "id": "2",
+              "text": "Fragen Sie, ob Haustiere erlaubt sind.",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        }
+      ],
+      "mission": [
+        {
+          "id": "0",
+          "text": "Fragen Sie nach der monatlichen Miete.",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Fragen Sie nach der Verfügbarkeit der Wohnung.",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Fragen Sie, ob Haustiere erlaubt sind.",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "assessments": [
+        {
+          "reply": "Die monatliche Miete beträgt 850 Euro. Möchten Sie noch etwas über die Wohnung wissen?",
+          "citations": [
+            "2"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "Wie hoch ist die Miete?"
+            },
+            {
+              "goal_id": "1",
+              "achieved": false,
+              "learner_quote": ""
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "Die monatliche Miete beträgt 850 Euro."
+            }
+          ]
+        },
+        {
+          "reply": "Die Wohnung ist ab dem 1. Dezember verfügbar. Haben Sie noch weitere Fragen zur Wohnung?",
+          "citations": [
+            "3"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "Wie hoch ist die Miete?"
+            },
+            {
+              "goal_id": "1",
+              "achieved": true,
+              "learner_quote": "Ab wann ist die Wohnung verfügbar?"
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "Die monatliche Miete beträgt 850 Euro."
+            },
+            {
+              "goal_id": "1",
+              "status": "supported",
+              "source_id": "3",
+              "source_quote": "Die Wohnung hat zwei Schlafzimmer und einen Balkon. Sie ist ab dem 1. Dezember verfügbar."
+            }
+          ]
+        }
+      ],
+      "review": {
+        "feedback": [
+          {
+            "quote": "Wie hoch ist die Miete?",
+            "suggestion": "Try to use the full phrase 'Wie hoch ist die monatliche Miete?' to be more precise.",
+            "explanation": "Using the full phrase clarifies that you are asking about the monthly rent specifically, which is common in apartment inquiries."
+          },
+          {
+            "quote": "Ab wann ist die Wohnung verfügbar?",
+            "suggestion": "Good clear question. You might add 'Bitte' at the beginning for politeness, e.g. 'Bitte, ab wann ist die Wohnung verfügbar?'.",
+            "explanation": "Adding 'Bitte' softens the tone and makes the question sound more polite in everyday German."
+          }
+        ],
+        "unanswered": [
+          "Sind Haustiere erlaubt?",
+          "Fragen Sie, ob Haustiere erlaubt sind."
+        ],
+        "phrases": [
+          "Wie hoch ist die monatliche Miete?",
+          "Ab wann ist die Wohnung verfügbar?",
+          "Sind Haustiere erlaubt?"
+        ],
+        "note": "You are doing well asking clear and relevant questions about the apartment. To feel more confident, try to use complete phrases and include all important details like pet policies. Adding polite words like 'Bitte' can also improve the tone of your questions.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Fragen Sie nach der monatlichen Miete.",
+            "achieved": true,
+            "evidence": "Wie hoch ist die Miete?",
+            "answer_status": "confirmed",
+            "answer_evidence": "Die monatliche Miete beträgt 850 Euro.",
+            "answer_sources": [
+              "2"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Fragen Sie nach der Verfügbarkeit der Wohnung.",
+            "achieved": true,
+            "evidence": "Ab wann ist die Wohnung verfügbar?",
+            "answer_status": "confirmed",
+            "answer_evidence": "Die Wohnung hat zwei Schlafzimmer und einen Balkon. Sie ist ab dem 1. Dezember verfügbar.",
+            "answer_sources": [
+              "3"
+            ]
+          },
+          {
+            "id": "2",
+            "text": "Fragen Sie, ob Haustiere erlaubt sind.",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          }
+        ],
+        "feedback_id": "h7WoItP-FA6mL2EB"
+      },
+      "passed": true,
+      "seconds": 14.5
+    },
+    {
+      "language": "Spanish",
+      "repetition": 1,
+      "question": "¿Cuánto cuesta el alquiler?",
+      "turns": [
+        {
+          "user": "¿Cuánto cuesta el alquiler?",
+          "turn": {
+            "id": "6g_TM_PdV07_OyFP",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "El alquiler es de 850 euros al mes. ¿Quieres que te cuente más detalles sobre el piso? [2]",
+            "sources": [
+              {
+                "id": "2",
+                "location": "Section 2",
+                "source": "Apartment viewing · fictional sample · Spanish",
+                "text": "Apartamento en Valencia. El alquiler es de 850 euros al mes."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Preguntar sobre el precio mensual del alquiler.",
+              "achieved": true,
+              "evidence": "¿Cuánto cuesta el alquiler?",
+              "answer_status": "confirmed",
+              "answer_evidence": "El alquiler es de 850 euros al mes.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Preguntar sobre la disponibilidad del apartamento.",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            },
+            {
+              "id": "2",
+              "text": "Preguntar si se permiten mascotas en el apartamento.",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        },
+        {
+          "user": "¿Cuándo está disponible el piso?",
+          "turn": {
+            "id": "ovtja6tMljrS29fZ",
+            "version": "roleplay-0.6",
+            "role": "assistant",
+            "content": "El piso está disponible desde el 1 de diciembre. ¿Quieres que te explique más sobre las habitaciones o el balcón? [3]",
+            "sources": [
+              {
+                "id": "3",
+                "location": "Section 3",
+                "source": "Apartment viewing · fictional sample · Spanish",
+                "text": "Tiene dos habitaciones y un balcón. Está disponible desde el 1 de diciembre."
+              }
+            ],
+            "answer_withheld": false,
+            "safety": false
+          },
+          "goals": [
+            {
+              "id": "0",
+              "text": "Preguntar sobre el precio mensual del alquiler.",
+              "achieved": true,
+              "evidence": "¿Cuánto cuesta el alquiler?",
+              "answer_status": "confirmed",
+              "answer_evidence": "El alquiler es de 850 euros al mes.",
+              "answer_sources": [
+                "2"
+              ]
+            },
+            {
+              "id": "1",
+              "text": "Preguntar sobre la disponibilidad del apartamento.",
+              "achieved": true,
+              "evidence": "¿Cuándo está disponible el piso?",
+              "answer_status": "confirmed",
+              "answer_evidence": "Está disponible desde el 1 de diciembre.",
+              "answer_sources": [
+                "3"
+              ]
+            },
+            {
+              "id": "2",
+              "text": "Preguntar si se permiten mascotas en el apartamento.",
+              "achieved": false,
+              "evidence": "",
+              "answer_status": "not_asked",
+              "answer_evidence": "",
+              "answer_sources": []
+            }
+          ],
+          "safety": false
+        }
+      ],
+      "mission": [
+        {
+          "id": "0",
+          "text": "Preguntar sobre el precio mensual del alquiler.",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "1",
+          "text": "Preguntar sobre la disponibilidad del apartamento.",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        },
+        {
+          "id": "2",
+          "text": "Preguntar si se permiten mascotas en el apartamento.",
+          "achieved": false,
+          "evidence": "",
+          "answer_status": "not_asked",
+          "answer_evidence": "",
+          "answer_sources": []
+        }
+      ],
+      "assessments": [
+        {
+          "reply": "El alquiler es de 850 euros al mes. ¿Quieres que te cuente más detalles sobre el piso?",
+          "citations": [
+            "2"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "¿Cuánto cuesta el alquiler?"
+            },
+            {
+              "goal_id": "1",
+              "achieved": false,
+              "learner_quote": ""
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "El alquiler es de 850 euros al mes."
+            }
+          ]
+        },
+        {
+          "reply": "El piso está disponible desde el 1 de diciembre. ¿Quieres que te explique más sobre las habitaciones o el balcón? [3]",
+          "citations": [
+            "3"
+          ],
+          "goal_checks": [
+            {
+              "goal_id": "0",
+              "achieved": true,
+              "learner_quote": "¿Cuánto cuesta el alquiler?"
+            },
+            {
+              "goal_id": "1",
+              "achieved": true,
+              "learner_quote": "¿Cuándo está disponible el piso?"
+            },
+            {
+              "goal_id": "2",
+              "achieved": false,
+              "learner_quote": ""
+            }
+          ],
+          "answer_checks": [
+            {
+              "goal_id": "0",
+              "status": "supported",
+              "source_id": "2",
+              "source_quote": "El alquiler es de 850 euros al mes."
+            },
+            {
+              "goal_id": "1",
+              "status": "supported",
+              "source_id": "3",
+              "source_quote": "Está disponible desde el 1 de diciembre."
+            }
+          ]
+        }
+      ],
+      "review": {
+        "feedback": [
+          {
+            "quote": "¿Cuánto cuesta el alquiler?",
+            "suggestion": "Great clear question to start with the price.",
+            "explanation": "You asked directly about the monthly rent, which is essential information before considering the apartment."
+          },
+          {
+            "quote": "¿Cuándo está disponible el piso?",
+            "suggestion": "Good follow-up question about availability.",
+            "explanation": "Knowing when the apartment is available helps you plan your move and decide if it fits your timeline."
+          }
+        ],
+        "unanswered": [
+          "¿Se admiten mascotas?",
+          "Preguntar si se permiten mascotas en el apartamento."
+        ],
+        "phrases": [
+          "¿Cuánto cuesta el alquiler al mes?",
+          "¿Cuándo está disponible el piso?",
+          "¿Se admiten mascotas?"
+        ],
+        "note": "You did well asking about price and availability clearly. Next time, include the pet question to cover all your concerns before deciding.",
+        "goals": [
+          {
+            "id": "0",
+            "text": "Preguntar sobre el precio mensual del alquiler.",
+            "achieved": true,
+            "evidence": "¿Cuánto cuesta el alquiler?",
+            "answer_status": "confirmed",
+            "answer_evidence": "El alquiler es de 850 euros al mes.",
+            "answer_sources": [
+              "2"
+            ]
+          },
+          {
+            "id": "1",
+            "text": "Preguntar sobre la disponibilidad del apartamento.",
+            "achieved": true,
+            "evidence": "¿Cuándo está disponible el piso?",
+            "answer_status": "confirmed",
+            "answer_evidence": "Está disponible desde el 1 de diciembre.",
+            "answer_sources": [
+              "3"
+            ]
+          },
+          {
+            "id": "2",
+            "text": "Preguntar si se permiten mascotas en el apartamento.",
+            "achieved": false,
+            "evidence": "",
+            "answer_status": "not_asked",
+            "answer_evidence": "",
+            "answer_sources": []
+          }
+        ],
+        "feedback_id": "7GUAcqA2gJRlndJp"
+      },
+      "passed": true,
+      "seconds": 13.4
+    }
+  ],
+  "provider_calls": 40
+}
