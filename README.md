@@ -1,5 +1,7 @@
 # The Rehearsal
 
+**Published demo:** https://the-rehearsal-ivory.vercel.app — scripted, no API key needed. The free backend may take time to wake after inactivity.
+
 A session-only app for rehearsing real-life situations in **English, German or Spanish**. Bring a document or describe your situation, choose an apartment viewing, job interview, course enquiry or difficult conversation, edit a mission checklist, rehearse in text, get communication feedback, and retry a missed goal. It supports preparation in your own language as well as foreign-language practice.
 
 The original visual design takes inspiration from the controlled sets and documentary production notes of Nathan Fielder’s *The Rehearsal*. This is an independent real-life rehearsal project, with no affiliation or official assets.
