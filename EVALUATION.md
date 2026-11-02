@@ -28,7 +28,7 @@ For isolation, create sessions A and B with unique canary strings. Query B for A
 
 ## Sample review worksheet
 
-For every test turn record: fixture/query ID, expected fact or unknown, retrieved IDs, generated answer, cited IDs, claim-by-claim entailment, mission label/evidence, feedback score and reviewer notes. Classify failures as loader, chunking, retrieval, grounding, workflow, detection or pedagogy. Fix failures and re-run the entire fixed set before accepting the release gates. This document is a plan; no live-model quality metrics have been measured yet.
+For every test turn record: fixture/query ID, expected fact or unknown, retrieved IDs, generated answer, cited IDs, claim-by-claim entailment, mission label/evidence, feedback score and reviewer notes. Classify failures as loader, chunking, retrieval, grounding, workflow, detection or pedagogy. Fix failures and re-run the entire fixed set before accepting the release gates. This document is a plan; broad live-model quality metrics have not been measured; the limited real-provider smoke results below are separate from those release gates.
 
 ## Multilingual and real-life rehearsal checks
 
@@ -62,3 +62,11 @@ The reported upload was Chrome with a synthetic DOCX around 36 KB, on an existin
 
 
 The deployed revision 0.4 passed the production Chrome regression: sample, 36,393-byte DOCX, and PDF rehearsals on the same page without reloading between sessions; interrupted-upload retry; utilities returning no rent amount; availability feedback not suggesting rent; prominent follow-up replay; and verified deletion with 404 responses. Fifteen backend tests and the production build passed. The original user-specific upload failure remains unconfirmed; raw response-read and deletion-verification network errors were additionally wrapped. These remain demo checks, not live-model evaluation.
+
+## Revision 0.5: real provider, listing links and branching plans
+
+The final passing real-provider run used the configured `gpt-4.1-mini` and made 27 calls across English, German and Spanish. It verified that a negated custom goal stays unachieved, an actual custom internet question is detected with a source-supported answer, a contextual move-in question receives the documented date, the supplied Thursday-viewing phrase is genuinely translated, debrief quotes exist in the learner transcript, and replay/deletion work. Synthetic transcripts and assertions are retained in `evaluation/live-smoke-2026-11-02.json`. Earlier failing runs exposed missing follow-up retrieval aliases and historical goal carry-forward; both were corrected. No wider precision/recall claim is made from this small fixture set. The separate evidence review uses the same model and can share its biases.
+
+Mocked contract tests reject fabricated learner/source quotes, withhold unsupported replies, reject unsubstantiated reviewer IDs, preserve already validated evidence, check strict schema shape, enforce request ceilings and block old demo clients from starting live missions without the updated notice. Listing tests cover direct/localized URLs, no fetch for pasted text, quote grounding, robot restrictions, private-network resolution, unsafe redirects and challenge pages. A real direct Idealista read was blocked and produced the explicit pasted-text/PDF fallback; successful unrestricted access is not claimed.
+
+Browser QA exercises the listing URL plus synthetic pasted advert text, actual live custom-goal chat and translation, mission and sidebar dialogue-map branches, mobile overflow, supporting text at least 12 px, debrief/replay and deletion. Plans must remain labelled as possible paths and never modify source facts or claim to predict another person. Also test keyboard activation and 390 px mobile width. This is communication practice, not an anxiety treatment or a clinical evaluation.

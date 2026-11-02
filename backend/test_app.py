@@ -19,7 +19,7 @@ class RehearsalTests(unittest.TestCase):
   mode.start()
   self.addCleanup(mode.stop)
   sessions.clear()
-  self.client = TestClient(app)
+  self.client = self.enterContext(TestClient(app))
 
  def source(self, sample='apartment'):
   result=self.client.post('/api/sessions',json={'sample':sample})
@@ -233,7 +233,7 @@ class RehearsalTests(unittest.TestCase):
   sid=self.source()
   self.start(sid)
   before=len(sessions[sid]['turns'])
-  with patch('backend.main.LIVE',True),patch('backend.main.model',return_value=ReplyOutput(reply='Fabricated',citations=['99999'],achieved_ids=[])):
+  with patch('backend.main.LIVE',True),patch('backend.main.model',return_value=ReplyOutput(reply='Fabricated',citations=['99999'],goal_checks=[],answer_checks=[])):
    response=self.client.post(f'/api/sessions/{sid}/turn',json={'text':'¿Cuánto cuesta?'})
    self.assertEqual(response.status_code,502)
    self.assertEqual(len(sessions[sid]['turns']),before)
@@ -284,15 +284,17 @@ class RehearsalTests(unittest.TestCase):
       self.assertTrue(self.client.delete(path).json()['deleted'])
 
  def test_live_language_and_feedback_prompts(self):
-  from backend.main import ReplyOutput, Debrief, Feedback
+  from backend.main import ReplyOutput, EvidenceReview, Debrief, Feedback
   sid=self.source()
   path=f'/api/sessions/{sid}'
   mission=self.client.post(path+'/mission',json={'scenario':'apartment','language':'German','level':'B2','feedback_language':'Spanish'}).json()
   self.client.post(path+'/start',json={'goals':[g['text'] for g in mission['goals']]})
-  with patch('backend.main.LIVE',True),patch('backend.main.model',return_value=ReplyOutput(reply='Gerne. Was möchten Sie noch wissen?',citations=[],achieved_ids=[])) as mock:
+  proposal=ReplyOutput(reply='Gerne. Was möchten Sie noch wissen?',citations=[],goal_checks=[],answer_checks=[])
+  review=EvidenceReview(reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
+  with patch('backend.main.LIVE',True),patch('backend.main.model',side_effect=[proposal,review]) as mock:
    self.assertEqual(self.client.post(path+'/turn',json={'text':'Wie hoch ist die Miete?'}).status_code,200)
-   self.assertIn('Speak only German',mock.call_args.args[1])
-   self.assertIn('B2',mock.call_args.args[1])
+   self.assertIn('Speak German',mock.call_args_list[0].args[1])
+   self.assertIn('B2',mock.call_args_list[0].args[1])
   result=Debrief(goals=[],feedback=[Feedback(quote='invented',suggestion='x',explanation='x')],unanswered=[],phrases=['Könnten Sie das erklären?'],note='Sugerencias')
   with patch('backend.main.LIVE',True),patch('backend.main.model',return_value=result) as mock:
    response=self.client.post(path+'/finish')
