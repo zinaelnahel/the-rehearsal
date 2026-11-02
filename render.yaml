@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: the-rehearsal-api
+    runtime: docker
+    plan: free
+    numInstances: 1
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: REHEARSAL_MODE
+        value: live
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: API_PROXY_TOKEN
+        sync: false
