@@ -129,7 +129,9 @@ TRANSLATIONS = {'English':'I would like to know…','German':'Ich würde gerne w
 
 def pack(session, feedback=False):
  setup=session['setup']
- return CONTENT[setup['scenario']][setup['feedback_language'] if feedback else setup['language']]
+ from backend.context import BREAKUP
+ language=setup['feedback_language'] if feedback else setup['language']
+ return BREAKUP[language] if session.get('breakup') else CONTENT[setup['scenario']][language]
 
 def goal_index(session, text):
  """Goals are in the feedback language; matching patterns are in the spoken language."""

@@ -73,3 +73,13 @@ Browser QA exercises the listing URL plus synthetic pasted advert text, actual l
 
 
 Hosted revision 0.5 verification passed on `https://the-rehearsal-lab.vercel.app`: Chrome completed the real-model listing/pasted-text rehearsal, custom goal, actual German translation, both branching-map placements, 390 px layout, replay and deletion. API checks confirmed live mode, the old-demo-client guard (409 before model processing), and the real Idealista read fallback (424). Twenty-nine backend tests and the production build passed. To rerun the explicit real-provider smoke checks with fictional data and a configured server key, run `python scripts/evaluate_live.py`; this makes paid provider requests and writes only the fictional report to ignored `.runtime/live-evaluation.json`.
+
+## Revision 0.6 focused checks
+
+The deterministic suite now includes `backend.test_context_feedback`: 36 tests across all four backend test modules. It covers final-breakup goals/hints/review, safety interruptions in source and turns without provider calls, opaque response identifiers, session isolation, rating change/clear, rejected transcript fields, whole-dialogue review ratings and stale identifiers after replay. Informal rental-document questions without question marks receive an explicit unconfirmed answer and remain in review follow-ups rather than triggering generic acknowledgements or rent-goal progress.
+
+The final interface keeps the existing credited Nathan Fielder image unchanged. The plan map starts collapsed under **Explore possible responses**, is absent from the rehearsal sidebar, and uses boundary-aware paths for difficult conversations. Ratings appear once in the review for the whole dialogue; they are not part of partner messages or automatic training labels. Check keyboard toggling, optional reasons, change/clear, narrow screens, deletion, and the absence of review ratings/replay for safety pauses.
+
+Safety detection is a conservative keyword safeguard and can over-trigger or miss indirect language; it is not clinical risk assessment. The live output schema explicitly requires learner evidence to be copied from the latest user turn, never the partner reply. Invalid evidence remains rejected rather than weakening validation to accommodate the model.
+
+The final revision 0.6 real-provider smoke run passed in English, German and Spanish (27 provider calls). See [the synthetic report](evaluation/live-smoke-v06-2026-11-02.json). An earlier run correctly rejected model-generated evidence copied from a partner reply; the schema descriptions were clarified before the passing rerun. These smoke checks do not establish broad model accuracy or clinical safety.

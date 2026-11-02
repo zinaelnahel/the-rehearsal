@@ -28,6 +28,25 @@ EXTRA_STARTERS = {
  'Spanish': {3:'¿Están incluidos los gastos en el alquiler?',4:'¿Cuánto es la fianza?'}
 }
 
+# Requirements need policy interpretation, which the extractive demo cannot do.
+RENTAL_REQUIREMENTS = r'contract|contrato|vertrag|proof of income|payslip|income requirement|employment|einkommensnachweis|gehaltsnachweis|nomina|justificante de ingresos|guarantor|avalista|burge'
+for language, question in {
+ 'English':'What documents or proof of income are required to rent this flat?',
+ 'German':'Welche Unterlagen oder Einkommensnachweise brauche ich, um diese Wohnung zu mieten?',
+ 'Spanish':'¿Qué documentos o justificantes de ingresos necesito para alquilar este piso?'
+}.items():
+ EXTRA_STARTERS[language][5]=question
+
+def asks_question(text):
+ """Recognise common informal questions even without written punctuation."""
+ query=plain(text).strip()
+ return '?' in query or bool(re.match(
+  r'^(?:(?:hi|hello|please|ok|okay)[,!. ]+)?(?:'
+  r'who|what|when|where|why|how|do|does|did|is|are|can|could|would|will|must|should|'
+  r'i (?:want|would like|need) to know|tell me|'
+  r'wer|was|wann|wo|warum|wie|brauche|muss|kann|konnen|ist|sind|'
+  r'que|quien|cuando|donde|por que|como|cuanto|necesito|hace falta|puedo|se puede)\b',query))
+
 def detect_intents(scenario, text, patterns):
  """Route the question's subject before broad price/rent words.
 
@@ -37,6 +56,7 @@ def detect_intents(scenario, text, patterns):
  query=plain(text)
  if len(text.split())<3: return []
  if scenario=='apartment':
+  if re.search(RENTAL_REQUIREMENTS,query): return [5]
   extras=[idx for idx in (3,4) if re.search(TOPICS['apartment'][idx],query)]
   if extras: return extras
   if re.search(r'internet|wi.?fi|furniture|amueblad|mobliert|parking|aparcamiento|parkplatz|contrato|contract|vertrag|address|direccion|adresse',query): return []
@@ -52,6 +72,14 @@ def answer(scenario, language, indexes, docs):
  parts=[]
  used={}
  for idx in indexes:
+  if scenario=='apartment' and idx==5:
+   results[idx]={'status':'unknown','quote':'','ids':[]}
+   parts.append({
+    'English':'I cannot reliably confirm the employment or income requirements in this scripted demo. Please check the exact requirements with the landlord or agent; I cannot confirm that a work contract is required.',
+    'German':'In dieser skriptbasierten Demo kann ich die Anforderungen an Beschäftigungs- oder Einkommensnachweise nicht zuverlässig bestätigen. Bitte klären Sie die genauen Anforderungen mit der Vermietung; ich kann nicht bestätigen, dass ein Arbeitsvertrag nötig ist.',
+    'Spanish':'No puedo confirmar con fiabilidad los requisitos de empleo o ingresos en esta demostración con guion. Consulta los requisitos exactos con el propietario o la agencia; no puedo confirmar que sea obligatorio un contrato de trabajo.'
+   }[language])
+   continue
   if scenario not in TOPICS or TOPICS[scenario][idx] is None:
    results[idx]={'status':'not_applicable','quote':'','ids':[]}
    continue

@@ -66,4 +66,4 @@ async function proxy(request, context) {
     },{status:timedOut?504:502,headers:{'cache-control':'no-store'}});
   }
 }
-export {proxy as GET, proxy as POST, proxy as DELETE};
+export {proxy as GET, proxy as POST, proxy as PUT, proxy as DELETE};
