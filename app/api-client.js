@@ -13,7 +13,10 @@ export async function api(path,body,method='POST') {
       ? 'The practice server took too long to respond. Wait a moment and retry.'
       : 'The request could not reach the server. Check your connection and retry. If you are uploading, select the file again.');
   }
-  const raw=await response.text();
+  let raw;
+  try { raw=await response.text(); } catch {
+    throw Error('The connection was interrupted while receiving the response. Wait a moment and retry; for an upload, select the file again.');
+  }
   let data;
   try { data=JSON.parse(raw); } catch {
     throw Error(response.status===413?'Maximum file size is 4 MB. Choose a smaller PDF or DOCX.'
@@ -41,6 +44,9 @@ export async function uploadDocument(file) {
 export async function deleteSession(id) {
   const result=await api('/sessions/'+id,undefined,'DELETE');
   if (!result.deleted) throw Error('The server did not confirm deletion. Please retry.');
-  const response=await fetch('/api/sessions/'+id+'/status',{cache:'no-store',signal:AbortSignal.timeout(65000)});
+  let response;
+  try { response=await fetch('/api/sessions/'+id+'/status',{cache:'no-store',signal:AbortSignal.timeout(65000)}); } catch {
+    throw Error('Deletion was requested, but the connection failed before verification. Retry to confirm deletion.');
+  }
   if (response.status!==404) throw Error('Deletion could not be verified. Please retry before leaving.');
 }

@@ -1,5 +1,10 @@
 """Curated multilingual demo content. All sample situations are fictional."""
 LANGUAGES = {'English': 'en', 'German': 'de', 'Spanish': 'es'}
+NO_CORRECTION = {
+ 'English':'The scripted demo identified no specific correction for this turn. This is not a live language assessment.',
+ 'German':'Die skriptbasierte Demo hat für diesen Beitrag keine konkrete Korrektur erkannt. Dies ist keine Live-Sprachbewertung.',
+ 'Spanish':'La demostración con guion no ha detectado una corrección concreta para este turno. No es una evaluación lingüística en vivo.'
+}
 LEVELS = ('Everyday', 'B1', 'B2')
 
 CONTENT = {

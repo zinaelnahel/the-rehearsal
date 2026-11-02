@@ -14,8 +14,8 @@ from pathlib import Path
 from typing import Literal
 from xml.etree import ElementTree as ET
 
-from backend.content import LANGUAGES, LEVELS, CONTENT, COMMON, TRANSLATIONS, pack, goal_index
-from backend.demo_answers import answer as demo_answer, COPY as ANSWER_COPY
+from backend.content import LANGUAGES, LEVELS, CONTENT, COMMON, TRANSLATIONS, NO_CORRECTION, pack, goal_index
+from backend.demo_answers import answer as demo_answer, COPY as ANSWER_COPY, detect_intents, EXTRA_STARTERS
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, UploadFile, File, Request
 from fastapi.responses import JSONResponse
@@ -49,7 +49,7 @@ class LocalEmbeddings(Embeddings):
  """Deterministic hashed word embeddings; local lexical retrieval, not semantic AI."""
  def embed_query(self, text):
   vector = [0.0] * 512
-  aliases = {'cuanto':'precio','cuesta':'precio','coste':'precio','rent':'alquiler','salary':'salario','sueldo':'salario','pets':'mascotas','perro':'mascotas','gato':'mascotas','horas':'horario','cuando':'disponible','availability':'disponible','miete':'alquiler','preis':'precio','cost':'precio','price':'precio','kosten':'precio','kostet':'precio','verfugbar':'disponible','gehalt':'salario','haustiere':'mascotas','arbeitszeiten':'horario','hours':'horario','schedule':'horario','stornierung':'cancelacion','cancellation':'cancelacion'}
+  aliases = {'cuanto':'precio','cuesta':'precio','coste':'precio','rent':'alquiler','salary':'salario','sueldo':'salario','pets':'mascotas','perro':'mascotas','gato':'mascotas','horas':'horario','cuando':'disponible','availability':'disponible','miete':'alquiler','preis':'precio','cost':'precio','price':'precio','kosten':'precio','kostet':'precio','verfugbar':'disponible','gehalt':'salario','haustiere':'mascotas','arbeitszeiten':'horario','hours':'horario','schedule':'horario','stornierung':'cancelacion','cancellation':'cancelacion','utilities':'gastos','bills':'gastos','nebenkosten':'gastos','included':'incluidos','enthalten':'incluidos'}
   for word in re.findall(r'\w+', normalize(text)):
    word = aliases.get(word, word)
    vector[int(hashlib.sha256(word.encode()).hexdigest()[:8],16) % 512] += 1
@@ -141,7 +141,7 @@ def create(raw, kind, name):
  return {'id':sid,'name':name,'passages':len(chunks),'mode':'live' if LIVE else 'demo'}
 
 @app.get('/api/config')
-def config(): return {'mode':'live' if LIVE else 'demo','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
+def config(): return {'mode':'live' if LIVE else 'demo','demo_revision':'0.4','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
 
 class SourceInput(BaseModel):
  sample: str | None = None
@@ -266,15 +266,17 @@ async def turn(sid: str, body: Turn):
    docs=[d for d in docs if d.metadata['id'] in result.citations]
    achieved=result.achieved_ids
   else:
-   indexes=[]
+   indexes=detect_intents(s['setup']['scenario'],body.text,pack(s)['patterns'])
    for goal in s['mission']:
     idx=goal_index(s,goal['text'])
-    if idx is not None and re.search(pack(s)['patterns'][idx],normalize(body.text)) and len(body.text.split())>=3:
+    if idx is not None and idx in indexes:
      achieved.append(goal['id'])
-     indexes.append(idx)
    reply,outcomes,docs=demo_answer(s['setup']['scenario'],s['setup']['language'],indexes,docs)
    if not reply:
     reply=ANSWER_COPY[s['setup']['language']]['unknown'] if '?' in body.text else COMMON[s['setup']['language']]['continue']
+   for idx,outcome in outcomes.items():
+    if idx>=3:
+     s.setdefault('extra_questions',{})[idx]=outcome['status']
   for g in s['mission']:
    if g['id'] in achieved:
     idx=goal_index(s,g['text'])
@@ -299,7 +301,7 @@ def hint(sid: str, body: HintInput):
  elif body.kind=='vocabulary': text=COMMON[s['setup']['feedback_language']]['terms']+pack(s)['vocabulary']
  elif body.kind=='translation': text=COMMON[s['setup']['feedback_language']]['translation'].format(phrase=TRANSLATIONS[s['setup']['language']])
  else:
-  pending=next((g for g in s['mission'] if not g['achieved']),s['mission'][0])
+  pending=next((g for g in s['mission'] if not g['achieved'] or g['answer_status'] in ('unknown','unverified')),s['mission'][0])
   idx=goal_index(s,pending['text'])
   text=pack(s)['starters'][idx] if idx is not None else COMMON[s['setup']['language']]['prompt']
  s['hints'].append({'kind':body.kind,'text':text})
@@ -327,16 +329,23 @@ async def finish(sid: str):
      if '?' in t and '¿' not in t: feedback.append(Feedback(quote=t,suggestion='¿'+t,explanation=common['punctuation']).model_dump())
      elif 'yo soy interesado' in normalize(t): feedback.append(Feedback(quote=t,suggestion='Estoy interesado/a…',explanation=common['interested']).model_dump())
    if not feedback and learner:
-    pending=next((g for g in s['mission'] if not g['achieved']),s['mission'][0])
-    idx=goal_index(s,pending['text'])
-    suggestion=pack(s)['starters'][idx] if idx is not None else COMMON[s['setup']['language']]['prompt']
-    feedback=[Feedback(quote=learner[-1],suggestion=suggestion,explanation=common['suggestion']).model_dump()]
+    # Feedback belongs to the quoted turn, never the first unmet mission item.
+    for text in learner[-3:]:
+     indexes=detect_intents(s['setup']['scenario'],text,pack(s)['patterns'])
+     idx=indexes[0] if indexes else None
+     suggestion=pack(s)['starters'][idx] if idx is not None and idx<3 else EXTRA_STARTERS[s['setup']['language']].get(idx,'') if s['setup']['scenario']=='apartment' else ''
+     if suggestion and normalize(suggestion)!=normalize(text):
+      feedback.append(Feedback(quote=text,suggestion=suggestion,explanation=common['suggestion']).model_dump())
+     else:
+      feedback.append(Feedback(quote=text,suggestion='',explanation=NO_CORRECTION[s['setup']['feedback_language']]).model_dump())
    questions=pack(s,feedback=True)['starters']
    unanswered=[]
    for g in s['mission']:
     if not g['achieved'] or g['answer_status'] in ('unknown','unverified'):
      idx=goal_index(s,g['text'])
      unanswered.append(questions[idx] if idx is not None else common['clarify'].format(goal=g['text']))
+   if s['setup']['scenario']=='apartment':
+    unanswered.extend(EXTRA_STARTERS[s['setup']['feedback_language']][idx] for idx,status in s.get('extra_questions',{}).items() if status=='unknown')
    data=Debrief(goals=[Goal(**g) for g in s['mission']],feedback=feedback,unanswered=unanswered,phrases=pack(s)['starters'],note=common['note'].format(count=len(s['hints']))).model_dump()
   s.update(phase='debrief',debrief=data)
   return data
@@ -346,8 +355,8 @@ class RetryInput(BaseModel): goal_id: str
 @app.post('/api/sessions/{sid}/retry')
 def retry(sid: str, body: RetryInput):
  s=get(sid,('debrief',))
- target=next((g for g in s['mission'] if g['id']==body.goal_id and (not g['achieved'] or g['answer_status'] in ('unknown','unverified'))),None)
- if not target: raise HTTPException(400,'Choose a missed goal.')
+ target=next((g for g in s['mission'] if g['id']==body.goal_id),None)
+ if not target: raise HTTPException(400,'Choose a goal from this rehearsal.')
  reset=Goal(id=target['id'],text=target['text']).model_dump()
  s.update(phase='chat',mission=[reset],turns=[{'role':'assistant','content':COMMON[s['setup']['language']]['retry'],'sources':[]}])
  s.pop('debrief',None)

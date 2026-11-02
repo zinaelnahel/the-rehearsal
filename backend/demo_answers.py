@@ -7,7 +7,7 @@ def plain(text):
 
 # Intent patterns use the document's language, independently of conversation language.
 TOPICS = {
- 'apartment': [r'alquiler|renta|\brent\b|\bmiete\b', r'disponib|available|availability|verfug|einzug', r'mascota|\bpets?\b|haustier'],
+ 'apartment': [r'alquiler|renta|\brent\b|\bmiete\b', r'disponib|available|availability|verfug|einzug', r'mascota|\bpets?\b|haustier', r'gastos|suministros|utilities|bills|nebenkosten|betriebskosten|electricidad|strom|water|agua|heating|calefaccion|heiz',r'fianza|deposit|kaution'],
  'interview': [None, r'horario|working hours|schedule|arbeitszeit', r'salario|sueldo|salary|wage|gehalt|lohn'],
  'course': [r'clases|horario|classes|schedule|unterricht|kurszeit', r'cuesta|costs?|price|precio|kostet|kurspreis|kursgebuhr|curso|course|kurs', r'cancel|storn|refund|ruckerstatt']
 }
@@ -21,6 +21,26 @@ COPY = {
  'German': {'quote':'Im Dokument steht: „{text}“ [{id}]', 'unknown':'Das kann ich anhand der gefundenen Textstellen nicht bestätigen. Bitte fragen Sie im echten Gespräch danach.', 'followup':'Sie können üben, die andere Person um Klärung dieser Angabe zu bitten.'},
  'Spanish': {'quote':'Según el documento: «{text}» [{id}]', 'unknown':'No puedo confirmar ese dato con los fragmentos recuperados. Pregúntalo en la conversación real.', 'followup':'Puedes practicar cómo pedir a la otra persona que aclare este detalle.'}
 }
+
+EXTRA_STARTERS = {
+ 'English': {3:'Are utilities included in the rent?',4:'How much is the deposit?'},
+ 'German': {3:'Sind die Nebenkosten in der Miete enthalten?',4:'Wie hoch ist die Kaution?'},
+ 'Spanish': {3:'¿Están incluidos los gastos en el alquiler?',4:'¿Cuánto es la fianza?'}
+}
+
+def detect_intents(scenario, text, patterns):
+ """Route the question's subject before broad price/rent words.
+
+ A reference to rent in a utilities question is not a request for the rent amount.
+ Unknown subjects must not change the rent mission or leak its previous answer.
+ """
+ query=plain(text)
+ if len(text.split())<3: return []
+ if scenario=='apartment':
+  extras=[idx for idx in (3,4) if re.search(TOPICS['apartment'][idx],query)]
+  if extras: return extras
+  if re.search(r'internet|wi.?fi|furniture|amueblad|mobliert|parking|aparcamiento|parkplatz|contrato|contract|vertrag|address|direccion|adresse',query): return []
+ return [idx for idx,pattern in enumerate(patterns) if re.search(pattern,query)]
 
 def answer(scenario, language, indexes, docs):
  """Return reply + per-intent status + only passages actually used as support.
@@ -49,6 +69,8 @@ def answer(scenario, language, indexes, docs):
      if (scenario,idx)==('course',0) or (scenario,idx)==('interview',1):
       if not re.search(r'\d|monday|tuesday|wednesday|thursday|friday|lunes|martes|miercoles|jueves|viernes|montag|dienstag|mittwoch|donnerstag|freitag',normalized): continue
      if (scenario,idx)==('apartment',2) and not re.search(r'admit|permit|allowed|prohibit|erlaubt|verboten',normalized): continue
+     if (scenario,idx)==('apartment',3) and not re.search(r'incluid|included|enthalten|inklusive|excluid|excluded|separat',normalized): continue
+     if (scenario,idx)==('apartment',4) and not re.search(MONEY+'|month|mes|monat',normalized): continue
      if (scenario,idx)==('course',2): continue # policy interpretation is outside this demo
     candidates.append((sentence.strip(),doc,status))
   # Ambiguous/conflicting chunks never become a confirmed answer.
