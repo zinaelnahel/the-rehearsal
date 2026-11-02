@@ -1,0 +1,154 @@
+{
+  "synthetic": true,
+  "passed": true,
+  "MissionOutput": {
+    "goals": [
+      "Say no clearly to the request for this weekend",
+      "State a boundary about requests for your time",
+      "Restate your boundary if the family member pushes back"
+    ]
+  },
+  "RoleReply": {
+    "reply": "Thanks for letting me know. I’ll make sure to check with you before planning anything that involves your time in the future.",
+    "citations": [
+      "3",
+      "4"
+    ],
+    "goal_checks": [
+      {
+        "goal_id": "0",
+        "achieved": true,
+        "learner_quote": "I can't help this weekend."
+      },
+      {
+        "goal_id": "1",
+        "achieved": true,
+        "learner_quote": "Please ask me before making plans that involve my time."
+      },
+      {
+        "goal_id": "2",
+        "achieved": false,
+        "learner_quote": ""
+      }
+    ],
+    "answer_checks": []
+  },
+  "EvidenceReview": {
+    "reply_supported": true,
+    "accepted_goal_ids": [
+      "0",
+      "1"
+    ],
+    "verified_answer_goal_ids": []
+  },
+  "DebriefNotes": {
+    "feedback": [
+      {
+        "quote": "I can't help this weekend.",
+        "suggestion": "Your refusal is clear and direct, which is excellent for setting boundaries.",
+        "explanation": "Saying \"I can't help this weekend\" clearly communicates your unavailability without ambiguity."
+      },
+      {
+        "quote": "Please ask me before making plans that involve my time.",
+        "suggestion": "This is a good boundary statement that requests respect for your time.",
+        "explanation": "By asking them to check with you first, you set a clear expectation for future interactions."
+      }
+    ],
+    "unanswered": [
+      "How would you respond if the family member pushes back or tries to persuade you to change your mind?"
+    ],
+    "phrases": [
+      "I can't help this weekend.",
+      "Please ask me before making plans that involve my time.",
+      "My answer is still no."
+    ],
+    "note": "You have effectively said no and set a boundary. Next, practice how to restate your boundary firmly if the family member pushes back, using phrases like \"My answer is still no.\""
+  },
+  "goals": [
+    {
+      "id": "0",
+      "text": "Say no clearly to the request for this weekend",
+      "achieved": false,
+      "evidence": "",
+      "answer_status": "not_asked",
+      "answer_evidence": "",
+      "answer_sources": []
+    },
+    {
+      "id": "1",
+      "text": "State a boundary about requests for your time",
+      "achieved": false,
+      "evidence": "",
+      "answer_status": "not_asked",
+      "answer_evidence": "",
+      "answer_sources": []
+    },
+    {
+      "id": "2",
+      "text": "Restate your boundary if the family member pushes back",
+      "achieved": false,
+      "evidence": "",
+      "answer_status": "not_asked",
+      "answer_evidence": "",
+      "answer_sources": []
+    }
+  ],
+  "partner": "Thanks for letting me know. I’ll make sure to check with you before planning anything that involves your time in the future. [3] [4]",
+  "review": {
+    "feedback": [
+      {
+        "quote": "I can't help this weekend.",
+        "suggestion": "Your refusal is clear and direct, which is excellent for setting boundaries.",
+        "explanation": "Saying \"I can't help this weekend\" clearly communicates your unavailability without ambiguity."
+      },
+      {
+        "quote": "Please ask me before making plans that involve my time.",
+        "suggestion": "This is a good boundary statement that requests respect for your time.",
+        "explanation": "By asking them to check with you first, you set a clear expectation for future interactions."
+      }
+    ],
+    "unanswered": [
+      "How would you respond if the family member pushes back or tries to persuade you to change your mind?",
+      "Say no clearly to the request for this weekend",
+      "State a boundary about requests for your time",
+      "Restate your boundary if the family member pushes back"
+    ],
+    "phrases": [
+      "I can't help this weekend.",
+      "Please ask me before making plans that involve my time.",
+      "My answer is still no."
+    ],
+    "note": "You have effectively said no and set a boundary. Next, practice how to restate your boundary firmly if the family member pushes back, using phrases like \"My answer is still no.\"",
+    "goals": [
+      {
+        "id": "0",
+        "text": "Say no clearly to the request for this weekend",
+        "achieved": true,
+        "evidence": "I can't help this weekend.",
+        "answer_status": "unverified",
+        "answer_evidence": "",
+        "answer_sources": []
+      },
+      {
+        "id": "1",
+        "text": "State a boundary about requests for your time",
+        "achieved": true,
+        "evidence": "Please ask me before making plans that involve my time.",
+        "answer_status": "unverified",
+        "answer_evidence": "",
+        "answer_sources": []
+      },
+      {
+        "id": "2",
+        "text": "Restate your boundary if the family member pushes back",
+        "achieved": false,
+        "evidence": "",
+        "answer_status": "not_asked",
+        "answer_evidence": "",
+        "answer_sources": []
+      }
+    ],
+    "feedback_id": "f9QKoW800LvGhzdB"
+  },
+  "provider_calls": 4
+}

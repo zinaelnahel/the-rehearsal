@@ -244,7 +244,9 @@ class RehearsalTests(unittest.TestCase):
 
  def test_multilingual_full_flow_matrix(self):
   from backend.content import CONTENT, COMMON, LANGUAGES, NO_CORRECTION
+  from backend.family_boundary import FAMILY_BOUNDARY
   for scenario in CONTENT:
+   expected=FAMILY_BOUNDARY if scenario=='difficult' else CONTENT[scenario]
    for language in LANGUAGES:
     for feedback_language in LANGUAGES:
      with self.subTest(scenario=scenario,language=language,feedback_language=feedback_language):
@@ -254,10 +256,10 @@ class RehearsalTests(unittest.TestCase):
       path=f'/api/sessions/{sid}'
       mission=self.client.post(path+'/mission',json={'scenario':scenario,'language':language,'level':'Everyday','feedback_language':feedback_language})
       self.assertEqual(mission.status_code,200,mission.text)
-      self.assertEqual([g['text'] for g in mission.json()['goals']],CONTENT[scenario][feedback_language]['goals'])
+      self.assertEqual([g['text'] for g in mission.json()['goals']],expected[feedback_language]['goals'])
       started=self.client.post(path+'/start',json={'goals':[g['text'] for g in mission.json()['goals']]}).json()
-      self.assertEqual(started['turns'][0]['content'],CONTENT[scenario][language]['opening'])
-      first=CONTENT[scenario][language]['starters'][0]
+      self.assertEqual(started['turns'][0]['content'],expected[language]['opening'])
+      first=expected[language]['starters'][0]
       turn=self.client.post(path+'/turn',json={'text':first})
       self.assertEqual(turn.status_code,200,turn.text)
       self.assertTrue(turn.json()['goals'][0]['achieved'])
@@ -267,11 +269,11 @@ class RehearsalTests(unittest.TestCase):
       for kind in ['starter','vocabulary','translation']:
        hint=self.client.post(path+'/hint',json={'kind':kind,'text':'I would like to know'})
        self.assertEqual(hint.status_code,200,hint.text)
-       if kind=='starter': self.assertEqual(hint.json()['text'],CONTENT[scenario][language]['starters'][1])
+       if kind=='starter': self.assertEqual(hint.json()['text'],expected[language]['starters'][1])
       result=self.client.post(path+'/finish')
       self.assertEqual(result.status_code,200,result.text)
       result=result.json()
-      self.assertEqual(result['phrases'],CONTENT[scenario][language]['starters'])
+      self.assertEqual(result['phrases'],expected[language]['starters'])
       self.assertEqual(result['feedback'][0]['quote'],first)
       self.assertEqual(result['feedback'][0]['explanation'],NO_CORRECTION[feedback_language])
       missed=result['goals'][2]
@@ -280,7 +282,7 @@ class RehearsalTests(unittest.TestCase):
       self.assertEqual(retry.json()['turns'][0]['content'],COMMON[language]['retry'])
       # Retry must map to the original goal, not index zero of the shortened mission.
       hint=self.client.post(path+'/hint',json={'kind':'starter'}).json()
-      self.assertEqual(hint['text'],CONTENT[scenario][language]['starters'][2])
+      self.assertEqual(hint['text'],expected[language]['starters'][2])
       self.assertTrue(self.client.delete(path).json()['deleted'])
 
  def test_live_language_and_feedback_prompts(self):

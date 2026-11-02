@@ -122,6 +122,63 @@ class ContextFeedbackTests(unittest.TestCase):
   self.assertTrue(any('final' in p for p in review['phrases']))
   self.assertFalse(any('plans change' in p for p in review['phrases']))
 
+ def test_family_sample_keeps_partner_in_role_and_supports_a_clear_no(self):
+  sid=self.client.post('/api/sessions',json={'sample':'difficult','language':'English'}).json()['id']
+  path=f'/api/sessions/{sid}'
+  mission=self.client.post(path+'/mission',json={'scenario':'difficult','language':'English','feedback_language':'English'}).json()
+  self.assertFalse(mission['safety'])
+  self.assertIn('Say no clearly',mission['goals'][0]['text'])
+  opening=self.client.post(path+'/start',json={'goals':[g['text'] for g in mission['goals']]}).json()['turns'][0]['content']
+  self.assertEqual(opening,'Could you help me with errands this weekend?')
+  for statement in ["I can't help this weekend.",'Please ask me before making plans that involve my time.',"I understand you're disappointed. My answer is still no."]:
+   result=self.client.post(path+'/turn',json={'text':statement}).json()
+   self.assertNotIn('What would you like to discuss next',result['turn']['content'])
+   self.assertEqual(result['turn']['sources'],[])
+  self.assertTrue(all(g['achieved'] for g in result['goals']))
+  self.assertTrue(all(g['answer_status']=='not_applicable' for g in result['goals']))
+  review=self.client.post(path+'/finish').json()
+  self.assertIn("I can't help this weekend.",review['phrases'])
+  self.assertFalse(any('plans change' in phrase for phrase in review['phrases']))
+
+ def test_family_sample_does_not_override_custom_context_or_final_breakup(self):
+  _,mission,_=self.scene(goal='Raise a concern about work',scenario='difficult')
+  self.assertNotIn('weekend',str(mission))
+  sid=self.client.post('/api/sessions',json={'sample':'difficult','language':'English'}).json()['id']
+  mission=self.client.post(f'/api/sessions/{sid}/mission',json={'scenario':'difficult','goal':'I want a final breakup','language':'English','feedback_language':'English'}).json()
+  self.assertIn('ending the relationship',mission['goals'][0]['text'])
+
+ def test_live_family_partner_is_the_requester_not_the_person_saying_no(self):
+  from backend.live import RoleReply, EvidenceReview
+  sid=self.client.post('/api/sessions',json={'sample':'difficult','language':'English'}).json()['id']
+  path=f'/api/sessions/{sid}'
+  mission=self.client.post(path+'/mission',json={'scenario':'difficult','language':'English','feedback_language':'English'}).json()
+  self.client.post(path+'/start',json={'goals':[g['text'] for g in mission['goals']]})
+  reply=RoleReply(reply='I was hoping you could help. Is your answer definite?',citations=[],goal_checks=[],answer_checks=[])
+  review=EvidenceReview(reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
+  with patch('backend.main.LIVE',True),patch('backend.main.model',side_effect=[reply,review]) as model:
+   result=self.client.post(path+'/turn',json={'text':"I can't help this weekend."})
+   self.assertEqual(result.status_code,200,result.text)
+   self.assertIn('You are making the request, NOT the person declining it',model.call_args_list[0].args[1])
+   self.assertIn('person declining the family request',model.call_args_list[0].args[2]['learner_role'])
+
+ def test_family_short_no_and_inability_to_say_no_are_distinct(self):
+  from backend.family_boundary import family_intents
+  for language,no,not_a_refusal in [('English','No',"I can't say no"),('German','Nein','Ich kann nicht Nein sagen'),('Spanish','No','No puedo decir que no')]:
+   self.assertIn(0,family_intents(no,language))
+   self.assertNotIn(0,family_intents(not_a_refusal,language))
+
+ def test_live_two_letter_no_keeps_exact_evidence_validation(self):
+  from backend.live import RoleReply, EvidenceReview
+  sid,_,_=self.scene(goal='Say no clearly',scenario='difficult')
+  path=f'/api/sessions/{sid}'
+  reply=RoleReply(reply='Is that your final answer?',citations=[],goal_checks=[{'goal_id':'0','achieved':True,'learner_quote':'No'}],answer_checks=[{'goal_id':'0','status':'not_document_question','source_id':'','source_quote':''}])
+  review=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=[])
+  with patch('backend.main.LIVE',True),patch('backend.main.model',side_effect=[reply,review]):
+   result=self.client.post(path+'/turn',json={'text':'No'})
+   self.assertEqual(result.status_code,200,result.text)
+   self.assertTrue(result.json()['goals'][0]['achieved'])
+   self.assertEqual(result.json()['goals'][0]['evidence'],'No')
+
  def test_safety_interrupts_without_provider_calls(self):
   for phrase in ['I am afraid of him','He threatened me','Ich habe Angst','Tengo miedo']:
    self.assertTrue(safety_concern(phrase))
