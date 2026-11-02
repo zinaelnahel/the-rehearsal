@@ -2,13 +2,15 @@
 
 ## Published deployment
 
-- Frontend: https://the-rehearsal-ivory.vercel.app
+- Frontend: https://the-rehearsal-lab.vercel.app
 - Backend: https://the-rehearsal-api.onrender.com
 - Source: https://github.com/zinaelnahel/the-rehearsal (`main`, public with user approval)
 - Render service ID: `srv-dbkahtvlk1mc73bbdfk0`
 - Vercel project: existing linked `zina3/the-rehearsal`; reuse `.vercel/project.json`.
 
-Both deployments completed successfully on 2 November 2026. The initial hosted app runs in **scripted demo mode**. Live AI is deliberately not enabled until a replacement for the previously exposed OpenAI key is configured. Render currently has `REHEARSAL_MODE=demo` and the shared proxy secret; Vercel has only `BACKEND_URL` and `API_PROXY_TOKEN`. Unnecessary OpenAI and Render keys were removed from Vercel settings and the frontend redeployed.
+Revision 0.5 is deployed in **live AI mode**. The user confirmed key rotation; the configured replacement key passed real-provider tests and is stored on the Python host only. Render has `REHEARSAL_MODE=live`, `OPENAI_MODEL=gpt-4.1-mini`, `MODEL_CALLS_PER_HOUR=200`, the provider key and shared proxy secret. Vercel has only `BACKEND_URL` and `API_PROXY_TOKEN`; neither the source nor browser bundles contained configured credentials in the release scan.
+
+The release’s code commit is `d6b6fbd`. Local contract tests: 29 passed. The final real-provider smoke run used 27 calls across three languages. The production Chrome run verified the live listing/pasted-text flow, custom-goal question, supplied-phrase translation, mission/sidebar branching maps, mobile readability, replay and deletion. The hosted public Idealista read returned 424 with an explicit fallback, not a successful import. Old demo clients are rejected at live mission creation until they refresh and display the updated processing notice. The global model-call ceiling and per-session ceiling are ephemeral request caps, not provider billing limits.
 
 The Render API key remains in ignored local `.env` for deployment management. GitHub CLI sign-in is configured locally. Never print credentials. There is no persistent session database: free-host sleeping, restarting or redeploying clears active rehearsals. Automatic Render redeployment is currently disabled; a source push alone does not rebuild the backend.
 

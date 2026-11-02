@@ -116,3 +116,6 @@ The setup image matches the Nathan Fielder laptop-harness reference supplied by 
 ## Live validation record
 
 The real-provider smoke evaluation on 2 November 2026 used only fictional adverts in English, German and Spanish: 27 calls in the final passing run. It checked negated custom goals, actual goal questions, context-dependent follow-ups, real supplied-phrase translations, exact debrief quotes, replay and deletion. See [the synthetic report](evaluation/live-smoke-2026-11-02.json) and [EVALUATION.md](EVALUATION.md). These are small smoke checks, not broad accuracy, retrieval-recall or clinical-effectiveness measurements. LangSmith and a teacher-reviewed benchmark remain future evaluation work.
+
+
+To explicitly repeat the real-provider fictional smoke run from the repository root: `python scripts/evaluate_live.py`. This uses the server key, makes provider calls and writes a local report to ignored `.runtime/live-evaluation.json`; it is not run by the deterministic unit/integration test command.
