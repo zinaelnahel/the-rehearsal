@@ -67,6 +67,49 @@ class ContextFeedbackTests(unittest.TestCase):
   review=self.client.post(f'/api/sessions/{sid}/finish').json()
   self.assertIn('What documents or proof of income are required to rent this flat?',review['unanswered'])
 
+ def test_resume_preserves_turns_and_refreshes_review(self):
+  sid,_,_=self.scene(text='The monthly rent is 850 euros.')
+  path=f'/api/sessions/{sid}'
+  self.assertEqual(self.client.post(path+'/resume').status_code,409)
+  self.client.post(path+'/turn',json={'text':'How much is the rent?'})
+  original=self.client.post(path+'/finish').json()
+  turns=list(sessions[sid]['turns'])
+  self.client.put(path+f'/responses/{original["feedback_id"]}/feedback',json={'rating':'up'})
+  resumed=self.client.post(path+'/resume')
+  self.assertEqual(resumed.status_code,200)
+  self.assertEqual(resumed.json()['turns'],turns)
+  self.assertEqual(sessions[sid]['ratings'],{})
+  self.assertNotIn('debrief',sessions[sid])
+  self.assertEqual(self.client.post(path+'/turn',json={'text':'When is it available?'}).status_code,200)
+  updated=self.client.post(path+'/finish').json()
+  self.assertNotEqual(original['feedback_id'],updated['feedback_id'])
+  self.assertEqual(len(sessions[sid]['turns']),len(turns)+2)
+
+ def test_plan_restart_requires_explicit_reset_and_preserves_state_on_cancel(self):
+  sid,_,_=self.scene()
+  path=f'/api/sessions/{sid}'
+  self.client.post(path+'/turn',json={'text':'Do I need a work contract?'})
+  original=self.client.post(path+'/finish').json()
+  before=list(sessions[sid]['turns'])
+  for body in ({'goals':['Ask about rent']},{'goals':['x'],'reset':True}):
+   self.assertIn(self.client.post(path+'/start',json=body).status_code,(400,409))
+   self.assertEqual(sessions[sid]['turns'],before)
+   self.assertEqual(sessions[sid]['debrief'],original)
+  restarted=self.client.post(path+'/start',json={'goals':['Ask about the deposit'],'reset':True})
+  self.assertEqual(restarted.status_code,200)
+  self.assertEqual(len(restarted.json()['turns']),1)
+  self.assertEqual(restarted.json()['goals'][0]['text'],'Ask about the deposit')
+  self.assertNotIn('debrief',sessions[sid])
+  self.assertNotIn('extra_questions',sessions[sid])
+  self.assertEqual(sessions[sid]['ratings'],{})
+
+ def test_safety_pause_cannot_resume_ordinary_roleplay(self):
+  sid,_,_=self.scene(text='I am afraid of threats.',scenario='difficult')
+  path=f'/api/sessions/{sid}'
+  self.client.post(path+'/finish')
+  self.assertEqual(self.client.post(path+'/resume').status_code,409)
+  self.assertEqual(sessions[sid]['phase'],'debrief')
+
  def test_final_breakup_goals_hints_and_review(self):
   sid,mission,start=self.scene('I want a final breakup',scenario='difficult')
   self.assertIn('ending the relationship',mission['goals'][0]['text'])

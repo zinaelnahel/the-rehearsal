@@ -4,14 +4,16 @@ import {api} from './api-client';
 
 const reasons=[['realism','Didn’t feel realistic'],['unanswered','Didn’t answer my question'],['fact','Got a fact wrong'],['tone','Tone felt off'],['other','Other']];
 
-export default function ResponseFeedback({sessionId,response}) {
- const [rating,setRating]=useState(null),[reason,setReason]=useState(''),[pending,setPending]=useState(false),[notice,setNotice]=useState('');
+export default function ResponseFeedback({sessionId,response,saved,onChange}) {
+ const [rating,setRating]=useState(saved?.rating??null),[reason,setReason]=useState(saved?.reason??''),[pending,setPending]=useState(false),[notice,setNotice]=useState(saved?.notice??'');
  async function save(next,nextReason='') {
   if(pending)return;
   setPending(true);
   try {
    await api(`/sessions/${sessionId}/responses/${response.id}/feedback`,{rating:next,reason:nextReason||null},'PUT');
-   setRating(next);setReason(nextReason);setNotice(next?'Thanks. Feedback noted for this session.':'Feedback cleared.');
+   const acknowledgement=next?'Thanks. Feedback noted for this session.':'Feedback cleared.';
+   setRating(next);setReason(nextReason);setNotice(acknowledgement);
+   onChange?.({rating:next,reason:nextReason,notice:acknowledgement});
   } catch(e) {setNotice(e.message);} finally {setPending(false);}
  }
  return <div className="response-feedback" aria-label="Rehearsal feedback">

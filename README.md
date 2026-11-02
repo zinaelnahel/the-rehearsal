@@ -88,7 +88,7 @@ Other fictional sample documents live in `samples/`. Pasted text, text PDFs and 
 
 ## Privacy and trust boundaries
 
-Documents are processed **on the server**, not just on the device. Upload multipart parsing may temporarily spool larger files to the OS temporary directory; the upload is closed and its temporary backing file removed immediately after parsing. Extracted text, vectors and conversation state remain in process memory. Nothing intentionally saves them to disk, logs or browser storage. API responses use `Cache-Control: no-store`; LangChain tracing is disabled. Do not enable request-body logging or proxy caching.
+Documents are processed **on the server**, not just on the device. Upload multipart parsing may temporarily spool larger files to the OS temporary directory; the upload is closed and its temporary backing file removed immediately after parsing. Extracted text, vectors and conversation state remain in process memory. The app does not automatically save them to disk, logs or browser storage. The optional review download creates a file on your device only when you request it. API responses use `Cache-Control: no-store`; LangChain tracing is disabled. Do not enable request-body logging or proxy caching.
 
 **End & delete session** deletes server references, verifies a subsequent `/api/sessions/{id}/status` request returns 404, and clears visible client data only after that verification. Closing the tab attempts best-effort deletion with a keepalive request. Browser crashes/offline closes cannot guarantee that request; abandoned sessions expire after one hour of inactivity and a cleanup task runs every 30 seconds. Expiry also occurs before every action. Restarting the single backend process clears all sessions. Process memory deletion is reference deletion, not cryptographic zeroization. Local browser/OS memory and external provider retention are outside this app’s control.
 
@@ -108,6 +108,14 @@ Tests exercise all 36 scenario/conversation-language/feedback-language combinati
 ## Known limitations
 
 English, German and Spanish only; interface labels remain English. Text chat only. The demo is intentionally scripted and its keyword rules can misclassify achievement. No OCR, legacy DOC files, speech, authentication, history, distributed sessions, semantic embeddings or analytics. Replay focuses only on the selected goal and replaces the previous scene’s turns/debrief. Model feedback and goal detection need human review. File reads, interrupted uploads or response-body reads, deletion verification failures, non-JSON gateway errors and cold-start timeouts produce actionable messages; transient network failures can still occur, and mutations are not automatically retried. Live evidence checks combine exact quotations and a model review; human evaluation is still needed. Do not expose this unauthenticated prototype directly to the public internet: add transport security, deployment origin configuration, appropriate parser isolation, abuse controls and model cost limits first. Current limits include 100 active sessions, 30 learner turns per scene, 30 hints per session and one-hour idle expiry.
+
+## Navigation and optional download
+
+Completed progress steps are clickable, with explicit Back controls. Revisiting the source or editing a draft plan does not change the active conversation or its scenario/language. Returning to the conversation preserves an unsent reply. Applying a new source or restarting an edited plan asks before replacing the current take; a failed new mission leaves the existing session available. Replay also warns before replacement.
+
+From review, **Back to the conversation** opens the finished dialogue for rereading. **Continue conversation** resumes the same messages and goals, discards the old review/rating, and generates a fresh review when you finish again. Safety-paused scenes remain paused. Browsing between review and other steps preserves the current rating.
+
+The review offers **Download conversation (.txt)**. This explicit action creates a UTF-8 text file in the browser containing only the current take's dialogue and review (goals, communication notes, open questions and phrases). It makes no export API call, sends nothing extra to a provider, and does not use localStorage or add server persistence. The downloaded file remains on the user's device after session deletion. There is no automatic download or archive of earlier takes.
 
 ## Response feedback and sensitive scenes
 

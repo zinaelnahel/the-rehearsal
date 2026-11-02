@@ -268,18 +268,37 @@ def mission(sid: str, body: Setup):
  return {'safety':s['safety'],'goals':s['mission'],'note': 'Scripted demo checklist. Edit it to match your goal.' if not LIVE else 'Review and edit before starting.'}
 
 class MissionEdit(BaseModel):
+ reset: bool = False
  goals: list[str] = Field(min_length=1,max_length=5)
 
 @app.post('/api/sessions/{sid}/start')
-def start(sid: str, body: MissionEdit):
- s = get(sid,('mission',))
- if any(not 3<=len(g.strip())<=180 for g in body.goals): raise HTTPException(400,'Each goal must be 3–180 characters.')
- s['mission']=[Goal(id=str(i),text=t.strip()).model_dump() for i,t in enumerate(body.goals)]
- s['phase']='chat'
- s['safety']=s['safety'] or safety_concern(' '.join(body.goals))
- opening = SAFETY[s['setup']['language']] if s['safety'] else pack(s)['opening']
- s['turns']=[partner_turn(opening, safety=s['safety'])]
- return {'turns':s['turns'],'goals':s['mission'],'safety':s['safety']}
+async def start(sid: str, body: MissionEdit):
+ s = get(sid,('mission','chat','debrief'))
+ async with s['lock']:
+  if s['phase']!='mission' and not body.reset:
+   raise HTTPException(409,'Restarting this plan replaces the conversation. Confirm the restart first.')
+  if any(not 3<=len(g.strip())<=180 for g in body.goals): raise HTTPException(400,'Each goal must be 3?180 characters.')
+  s['mission']=[Goal(id=str(i),text=t.strip()).model_dump() for i,t in enumerate(body.goals)]
+  s['phase']='chat'
+  s['safety']=s['safety'] or safety_concern(' '.join(body.goals))
+  opening = SAFETY[s['setup']['language']] if s['safety'] else pack(s)['opening']
+  s['turns']=[partner_turn(opening, safety=s['safety'])]
+  s['ratings']={}
+  s.pop('debrief',None)
+  s.pop('extra_questions',None)
+  return {'turns':s['turns'],'goals':s['mission'],'safety':s['safety']}
+
+@app.post('/api/sessions/{sid}/resume')
+async def resume(sid: str):
+ s=get(sid,('debrief',))
+ async with s['lock']:
+  if s['phase']!='debrief': raise HTTPException(409,'This conversation is already open.')
+  if s['safety']: raise HTTPException(409,'This scene is paused for safety. You can reread the support note or end the session.')
+  s['phase']='chat'
+  s.pop('debrief',None)
+  s['ratings']={}
+  return {'turns':s['turns'],'goals':s['mission'],'safety':s['safety']}
+
 
 def partner_turn(content, sources=None, withheld=False, safety=False):
  return {'id':secrets.token_urlsafe(12),'version':'roleplay-0.6','role':'assistant','content':content,'sources':sources or [],'answer_withheld':withheld,'safety':safety}

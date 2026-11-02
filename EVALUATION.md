@@ -83,3 +83,9 @@ The final interface keeps the existing credited Nathan Fielder image unchanged. 
 Safety detection is a conservative keyword safeguard and can over-trigger or miss indirect language; it is not clinical risk assessment. The live output schema explicitly requires learner evidence to be copied from the latest user turn, never the partner reply. Invalid evidence remains rejected rather than weakening validation to accommodate the model.
 
 The final revision 0.6 real-provider smoke run passed in English, German and Spanish (27 provider calls). See [the synthetic report](evaluation/live-smoke-v06-2026-11-02.json). An earlier run correctly rejected model-generated evidence copied from a partner reply; the schema descriptions were clarified before the passing rerun. These smoke checks do not establish broad model accuracy or clinical safety.
+
+## Navigation and download verification
+
+The full deterministic command now passes 39 tests. New cases cover resuming a finished conversation without losing turns, invalidating the old review and rating, requiring explicit reset before replacing a scene, keeping state intact after invalid restarts, and preventing ordinary role-play from resuming a safety pause.
+
+The local Chrome check verified clickable reached steps, source-draft edits that do not change the active scenario/language, plan edits isolated from current goals, preservation of unsent messages and review ratings during navigation, a successful UTF-8 conversation/review download, resume and a fresh review, cancelled/confirmed restarts, a failed mission rebuild preserving the prior scene, mobile overflow and session deletion. The exported file includes actual dialogue and review but excludes unsent text and unapplied goal edits. Downloads are user-initiated and created entirely in the browser; no export endpoint or additional server persistence exists.
