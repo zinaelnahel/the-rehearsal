@@ -30,15 +30,19 @@ async function proxy(request, context) {
     const reader = request.body?.getReader();
     const chunks = [];
     let size = 0;
-    while (reader) {
-      const {done,value} = await reader.read();
-      if (done) break;
-      size += value.byteLength;
-      if (size > MAX_BODY) {
-        await reader.cancel();
-        return Response.json({detail:'Maximum upload size is 4 MB.'},{status:413});
+    try {
+      while (reader) {
+        const {done,value} = await reader.read();
+        if (done) break;
+        size += value.byteLength;
+        if (size > MAX_BODY) {
+          await reader.cancel();
+          return Response.json({detail:'Maximum upload size is 4 MB.'},{status:413});
+        }
+        chunks.push(value);
       }
-      chunks.push(value);
+    } catch {
+      return Response.json({detail:'The upload was interrupted. Select the file again and retry.'},{status:400});
     }
     if (size) {
       body = Buffer.concat(chunks);
@@ -54,8 +58,12 @@ async function proxy(request, context) {
       'content-type':result.headers.get('content-type') || 'application/json',
       'cache-control':'no-store'
     }});
-  } catch {
-    return Response.json({detail:'Backend unavailable. Check that the rehearsal API is running, then retry.'},{status:502});
+  } catch (error) {
+    const timedOut=['TimeoutError','AbortError'].includes(error.name);
+    return Response.json({detail:timedOut
+      ? 'The practice server took too long to respond. It may be waking up. Wait a moment, then retry.'
+      : 'The practice server could not be reached. Check your connection and retry. Your document may need to be selected again.'
+    },{status:timedOut?504:502,headers:{'cache-control':'no-store'}});
   }
 }
 export {proxy as GET, proxy as POST, proxy as DELETE};
