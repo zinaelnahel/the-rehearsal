@@ -45,3 +45,11 @@ Use a DOCX with a rent of €1,375 and a PDF with €1,620, different from the �
 For pets, explicitly state in the fixture that the policy is unspecified. After the learner asks, assert `achieved=true` for the asked action and `answer_status=unknown` for the document answer. The debrief must retain the unanswered question and offer a follow-up retry. Retry resets the action and answer status. Conflicting rents, instruction-like passages and absent facts must never be confirmed. Live-model goal completion and citation presence are not independent proof of an answer: mark `unverified` unless separately checked.
 
 After browser deletion, wait for the server-confirmation notice. Check status, turn and finish endpoints return 404 for the deleted session. Backend integration tests also assert the session registry no longer contains it, every mutation rejects it, and another session remains accessible. These checks establish isolation and inaccessibility, not heap zeroization or provider data deletion.
+
+## Recorded regression result — 2 November 2026
+
+Code commit `fecaa0e` was deployed to the existing Vercel and Render services. Thirteen backend integration tests passed, including the 36 multilingual combinations, custom facts, unknown/conflicting/instructional text, upload spooling and deletion guards. The Next.js production build passed.
+
+A headless installed Microsoft Edge browser exercised the actual production file picker and full flow with the apartment sample (€850), synthetic DOCX (€1,375) and synthetic PDF (€1,620). Each produced the correct quoted document value and citation, separate asked/confirmed states, an unknown pets outcome, debrief, follow-up retry and a server-deletion notice. After deletion, status, turn and finish returned 404. A deliberately aborted DOCX upload displayed an actionable error and succeeded on manual retry.
+
+The tester's original “Failed to fetch” could not be reproduced with the available fixture, including on the previous production build. File-read, network, non-JSON response and timeout handling were hardened; the original failure's root cause remains unconfirmed. These are scripted/extractive-demo regression results, not live-model quality measurements or a guarantee against all browser/network failures.
