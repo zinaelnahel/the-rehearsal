@@ -6,3 +6,5 @@
 @media(max-width:680px){.production-card{width:100%}.production-number{font-size:30px;margin:16px 0}}
 
 .dialogue-feedback{margin-top:24px}.dialogue-feedback h2{font:24px Georgia,serif}.dialogue-feedback .subtle{font-size:12px;max-width:640px}
+
+.film-icon{display:block;flex-shrink:0}.step>span{display:inline-flex;align-items:center;justify-content:center}.step .film-icon{width:17px;height:17px}@media(max-width:680px){.step .film-icon{width:14px;height:14px}}
