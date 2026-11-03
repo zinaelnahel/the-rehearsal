@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: production-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Request production deployments
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require successful CI for this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/ci.yml/runs?head_sha=$GITHUB_SHA&event=push&status=success" \
+            --jq '.workflow_runs | length > 0' | grep -qx true
+          latest=$(git ls-remote origin refs/heads/main | cut -f1)
+          test "$latest" = "$GITHUB_SHA" || { echo 'Main has advanced. Run Release on the latest commit after CI passes.'; exit 1; }
+      - name: Check deploy hook configuration
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          test -n "$RENDER_DEPLOY_HOOK" || { echo 'Missing RENDER_DEPLOY_HOOK'; exit 1; }
+          test -n "$VERCEL_DEPLOY_HOOK" || { echo 'Missing VERCEL_DEPLOY_HOOK'; exit 1; }
+      - name: Request Render deployment of tested commit
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          curl --fail --silent --show-error --max-time 60 --request POST \
+            --get --data-urlencode "ref=$GITHUB_SHA" "$RENDER_DEPLOY_HOOK" --output /dev/null
+      - name: Request Vercel deployment
+        env:
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          curl --fail --silent --show-error --max-time 60 --request POST "$VERCEL_DEPLOY_HOOK" --output /dev/null
+      - name: Record deployment requests
+        run: |
+          echo 'Deployment requests accepted. Check Render and Vercel for build completion and production health.' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Render targets the tested commit. Vercel deploy hooks target the current head of their configured branch.' >> "$GITHUB_STEP_SUMMARY"

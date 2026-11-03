@@ -1,5 +1,10 @@
 # The Rehearsal
 
+**For capstone reviewers:** see [the evidence guide](CAPSTONE.md) for architecture,
+prompt locations, reproducible checks, evaluation results, CI/CD status, guardrails
+and cost/latency/scaling trade-offs. [Evaluation plan and runner](EVALUATION.md) and
+[deployment setup](DEPLOYMENT.md) distinguish completed work from pending validation.
+
 **Published app:** https://the-rehearsal-lab.vercel.app — the header identifies Live AI or Demo mode; visitors do not supply provider keys. The free backend may take time to wake after inactivity.
 
 A session-only app for rehearsing real-life situations in **English, German or Spanish**. Bring a document, an Idealista advert link with optional pasted text, or describe your situation, choose an apartment viewing, job interview, course enquiry or difficult conversation, edit a mission checklist, rehearse in text, get communication feedback, and retry a missed goal. It supports preparation in your own language as well as foreign-language practice.

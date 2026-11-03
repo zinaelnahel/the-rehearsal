@@ -1,0 +1,436 @@
+{
+  "mode": "demo",
+  "model": "gpt-4.1-mini",
+  "judge_enabled": false,
+  "dataset": "rag-dataset.json",
+  "cases": [
+    {
+      "id": "english-0",
+      "language": "English",
+      "question": "How much is the monthly rent?",
+      "reference_answer": "Monthly rent is 1375 euros.",
+      "answer": "According to the document: “Monthly rent is 1375 euros.” [2]",
+      "retrieved_documents": [
+        {
+          "id": "2",
+          "location": "Section 2",
+          "source": "Pasted document",
+          "text": "Monthly rent is 1375 euros."
+        },
+        {
+          "id": "4",
+          "location": "Section 4",
+          "source": "Pasted document",
+          "text": "The pet policy is not specified."
+        },
+        {
+          "id": "3",
+          "location": "Section 3",
+          "source": "Pasted document",
+          "text": "The apartment is available from 15 December."
+        },
+        {
+          "id": "6",
+          "location": "Section 6",
+          "source": "Pasted document",
+          "text": "The nearest park is on Oak Street."
+        }
+      ],
+      "checks": {
+        "retrieval_hit": true,
+        "expected_status": true,
+        "goal_detected": true,
+        "citation_integrity": true,
+        "confirmed_quote_support": true,
+        "required_answer": true
+      },
+      "judge": {},
+      "passed": true
+    },
+    {
+      "id": "english-1",
+      "language": "English",
+      "question": "When is the apartment available?",
+      "reference_answer": "Available from 15 December.",
+      "answer": "According to the document: “The apartment is available from 15 December.” [3]",
+      "retrieved_documents": [
+        {
+          "id": "3",
+          "location": "Section 3",
+          "source": "Pasted document",
+          "text": "The apartment is available from 15 December."
+        },
+        {
+          "id": "7",
+          "location": "Section 7",
+          "source": "Pasted document",
+          "text": "The apartment has two bedrooms."
+        },
+        {
+          "id": "4",
+          "location": "Section 4",
+          "source": "Pasted document",
+          "text": "The pet policy is not specified."
+        },
+        {
+          "id": "6",
+          "location": "Section 6",
+          "source": "Pasted document",
+          "text": "The nearest park is on Oak Street."
+        }
+      ],
+      "checks": {
+        "retrieval_hit": true,
+        "expected_status": true,
+        "goal_detected": true,
+        "citation_integrity": true,
+        "confirmed_quote_support": true,
+        "required_answer": true
+      },
+      "judge": {},
+      "passed": true
+    },
+    {
+      "id": "english-2",
+      "language": "English",
+      "question": "Are pets allowed?",
+      "reference_answer": "The document does not specify whether pets are allowed; ask in the real conversation.",
+      "answer": "According to the document: “The pet policy is not specified.” [4]\n\nYou can practise asking the other person to clarify this detail.",
+      "retrieved_documents": [
+        {
+          "id": "4",
+          "location": "Section 4",
+          "source": "Pasted document",
+          "text": "The pet policy is not specified."
+        },
+        {
+          "id": "1",
+          "location": "Section 1",
+          "source": "Pasted document",
+          "text": "Fictional apartment listing."
+        },
+        {
+          "id": "2",
+          "location": "Section 2",
+          "source": "Pasted document",
+          "text": "Monthly rent is 1375 euros."
+        },
+        {
+          "id": "3",
+          "location": "Section 3",
+          "source": "Pasted document",
+          "text": "The apartment is available from 15 December."
+        }
+      ],
+      "checks": {
+        "retrieval_hit": true,
+        "expected_status": true,
+        "goal_detected": true,
+        "citation_integrity": true,
+        "confirmed_quote_support": true
+      },
+      "judge": {},
+      "passed": true
+    },
+    {
+      "id": "german-0",
+      "language": "German",
+      "question": "Wie hoch ist die monatliche Miete?",
+      "reference_answer": "Monthly rent is 1375 euros.",
+      "answer": "Im Dokument steht: „Monthly rent is 1375 euros.“ [2]",
+      "retrieved_documents": [
+        {
+          "id": "2",
+          "location": "Section 2",
+          "source": "Pasted document",
+          "text": "Monthly rent is 1375 euros."
+        },
+        {
+          "id": "1",
+          "location": "Section 1",
+          "source": "Pasted document",
+          "text": "Fictional apartment listing."
+        },
+        {
+          "id": "3",
+          "location": "Section 3",
+          "source": "Pasted document",
+          "text": "The apartment is available from 15 December."
+        },
+        {
+          "id": "4",
+          "location": "Section 4",
+          "source": "Pasted document",
+          "text": "The pet policy is not specified."
+        }
+      ],
+      "checks": {
+        "retrieval_hit": true,
+        "expected_status": true,
+        "goal_detected": true,
+        "citation_integrity": true,
+        "confirmed_quote_support": true,
+        "required_answer": true
+      },
+      "judge": {},
+      "passed": true
+    },
+    {
+      "id": "german-1",
+      "language": "German",
+      "question": "Ab wann ist die Wohnung verfügbar?",
+      "reference_answer": "Available from 15 December.",
+      "answer": "Im Dokument steht: „The apartment is available from 15 December.“ [3]",
+      "retrieved_documents": [
+        {
+          "id": "3",
+          "location": "Section 3",
+          "source": "Pasted document",
+          "text": "The apartment is available from 15 December."
+        },
+        {
+          "id": "2",
+          "location": "Section 2",
+          "source": "Pasted document",
+          "text": "Monthly rent is 1375 euros."
+        },
+        {
+          "id": "1",
+          "location": "Section 1",
+          "source": "Pasted document",
+          "text": "Fictional apartment listing."
+        },
+        {
+          "id": "4",
+          "location": "Section 4",
+          "source": "Pasted document",
+          "text": "The pet policy is not specified."
+        }
+      ],
+      "checks": {
+        "retrieval_hit": true,
+        "expected_status": true,
+        "goal_detected": true,
+        "citation_integrity": true,
+        "confirmed_quote_support": true,
+        "required_answer": true
+      },
+      "judge": {},
+      "passed": true
+    },
+    {
+      "id": "german-2",
+      "language": "German",
+      "question": "Sind Haustiere erlaubt?",
+      "reference_answer": "The document does not specify whether pets are allowed; ask in the real conversation.",
+      "answer": "Im Dokument steht: „The pet policy is not specified.“ [4]\n\nSie können üben, die andere Person um Klärung dieser Angabe zu bitten.",
+      "retrieved_documents": [
+        {
+          "id": "4",
+          "location": "Section 4",
+          "source": "Pasted document",
+          "text": "The pet policy is not specified."
+        },
+        {
+          "id": "1",
+          "location": "Section 1",
+          "source": "Pasted document",
+          "text": "Fictional apartment listing."
+        },
+        {
+          "id": "2",
+          "location": "Section 2",
+          "source": "Pasted document",
+          "text": "Monthly rent is 1375 euros."
+        },
+        {
+          "id": "3",
+          "location": "Section 3",
+          "source": "Pasted document",
+          "text": "The apartment is available from 15 December."
+        }
+      ],
+      "checks": {
+        "retrieval_hit": true,
+        "expected_status": true,
+        "goal_detected": true,
+        "citation_integrity": true,
+        "confirmed_quote_support": true
+      },
+      "judge": {},
+      "passed": true
+    },
+    {
+      "id": "spanish-0",
+      "language": "Spanish",
+      "question": "¿Cuánto cuesta el alquiler al mes?",
+      "reference_answer": "Monthly rent is 1375 euros.",
+      "answer": "Según el documento: «Monthly rent is 1375 euros.» [2]",
+      "retrieved_documents": [
+        {
+          "id": "2",
+          "location": "Section 2",
+          "source": "Pasted document",
+          "text": "Monthly rent is 1375 euros."
+        },
+        {
+          "id": "1",
+          "location": "Section 1",
+          "source": "Pasted document",
+          "text": "Fictional apartment listing."
+        },
+        {
+          "id": "3",
+          "location": "Section 3",
+          "source": "Pasted document",
+          "text": "The apartment is available from 15 December."
+        },
+        {
+          "id": "4",
+          "location": "Section 4",
+          "source": "Pasted document",
+          "text": "The pet policy is not specified."
+        }
+      ],
+      "checks": {
+        "retrieval_hit": true,
+        "expected_status": true,
+        "goal_detected": true,
+        "citation_integrity": true,
+        "confirmed_quote_support": true,
+        "required_answer": true
+      },
+      "judge": {},
+      "passed": true
+    },
+    {
+      "id": "spanish-1",
+      "language": "Spanish",
+      "question": "¿Cuándo está disponible el piso?",
+      "reference_answer": "Available from 15 December.",
+      "answer": "Según el documento: «The apartment is available from 15 December.» [3]",
+      "retrieved_documents": [
+        {
+          "id": "3",
+          "location": "Section 3",
+          "source": "Pasted document",
+          "text": "The apartment is available from 15 December."
+        },
+        {
+          "id": "1",
+          "location": "Section 1",
+          "source": "Pasted document",
+          "text": "Fictional apartment listing."
+        },
+        {
+          "id": "2",
+          "location": "Section 2",
+          "source": "Pasted document",
+          "text": "Monthly rent is 1375 euros."
+        },
+        {
+          "id": "4",
+          "location": "Section 4",
+          "source": "Pasted document",
+          "text": "The pet policy is not specified."
+        }
+      ],
+      "checks": {
+        "retrieval_hit": true,
+        "expected_status": true,
+        "goal_detected": true,
+        "citation_integrity": true,
+        "confirmed_quote_support": true,
+        "required_answer": true
+      },
+      "judge": {},
+      "passed": true
+    },
+    {
+      "id": "spanish-2",
+      "language": "Spanish",
+      "question": "¿Se admiten mascotas?",
+      "reference_answer": "The document does not specify whether pets are allowed; ask in the real conversation.",
+      "answer": "Según el documento: «The pet policy is not specified.» [4]\n\nPuedes practicar cómo pedir a la otra persona que aclare este detalle.",
+      "retrieved_documents": [
+        {
+          "id": "4",
+          "location": "Section 4",
+          "source": "Pasted document",
+          "text": "The pet policy is not specified."
+        },
+        {
+          "id": "1",
+          "location": "Section 1",
+          "source": "Pasted document",
+          "text": "Fictional apartment listing."
+        },
+        {
+          "id": "2",
+          "location": "Section 2",
+          "source": "Pasted document",
+          "text": "Monthly rent is 1375 euros."
+        },
+        {
+          "id": "3",
+          "location": "Section 3",
+          "source": "Pasted document",
+          "text": "The apartment is available from 15 December."
+        }
+      ],
+      "checks": {
+        "retrieval_hit": true,
+        "expected_status": true,
+        "goal_detected": true,
+        "citation_integrity": true,
+        "confirmed_quote_support": true
+      },
+      "judge": {},
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "run_at_utc": "2026-11-03T16:54:55.863728+00:00",
+  "dataset_sha256": "0780d44aee633d5399ac250b96b454ae9109f02d9b1500b012cd9e022b8530b7",
+  "source_sha256": {
+    "backend/main.py": "83cf39e90312bf973eec865a6ada46bde43598d7e27bfcb5bd5b0ba580f38520",
+    "backend/live.py": "00b127147bad7dbd5eeb9cba9a872efb4c28155fe4428302ffb74a5cf7486a5f",
+    "backend/context.py": "db4163953bf92dce80edfeb3dd7f9f61d356ae23b0e8cdf2ae418fb0bd562a9e",
+    "backend/demo_answers.py": "e4c63ccbb0c7260fb86ee921ffc5bf5f6aa80fe09af739d566e18c859afafb37",
+    "scripts/evaluate_rag.py": "987c8f32d4ef87e5c880a9bc1a6e6227939741a659300593a38fc7bdefed08df"
+  },
+  "retrieval": {
+    "kind": "local_hashed_words",
+    "dimensions": 512,
+    "k": 4,
+    "chunk_size": 700,
+    "chunk_overlap": 100
+  },
+  "metrics": {
+    "citation_integrity": {
+      "passed": 9,
+      "total": 9
+    },
+    "confirmed_quote_support": {
+      "passed": 9,
+      "total": 9
+    },
+    "expected_status": {
+      "passed": 9,
+      "total": 9
+    },
+    "goal_detected": {
+      "passed": 9,
+      "total": 9
+    },
+    "required_answer": {
+      "passed": 6,
+      "total": 9
+    },
+    "retrieval_hit": {
+      "passed": 9,
+      "total": 9
+    }
+  },
+  "provider_calls": 0
+}

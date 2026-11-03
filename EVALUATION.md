@@ -113,3 +113,44 @@ The full deterministic suite passes **49 tests**. New regressions cover forbidde
 The stronger live check passed **eight fresh generated-mission takes**, covering three English rent phrasings repeated twice, German and Spanish, source-backed rent replies, source-confirmed goal tracking, availability follow-ups, review notes quoting the actual learner messages, replay and verified deletion: **40 provider calls**, no failed turns in the final run. [Synthetic fixed-slot report](evaluation/rent-fixed-slots-2026-11-02.json). The existing custom-goal/negation/translation/multilingual regression also passed: **27 calls**. [Multilingual report](evaluation/multilingual-fixed-slots-2026-11-02.json).
 
 Repeat with `python scripts/evaluate_rent_flow.py`; this uses the configured provider with fictional material and writes only a local synthetic report. The original user session and transcript were not retrieved or retained. These small passing runs do not establish the broad reliability gates earlier in this document; production browser verification should also exercise default generated goals without editing them.
+# Repeatable RAG benchmark
+
+The local benchmark follows the evaluation dimensions in
+[LangChain's RAG evaluation tutorial](https://docs.langchain.com/langsmith/evaluate-rag-tutorial).
+It uses `evaluation/rag-dataset.json`: nine fictional apartment questions covering
+rent, availability and an unspecified pet policy in English, German and Spanish.
+Each case starts a fresh session, exercises the real retrieval and turn endpoints,
+and verifies session deletion. Existing application source files are not modified.
+
+```powershell
+python scripts/evaluate_rag.py
+python scripts/evaluate_rag.py --live
+python scripts/evaluate_rag.py --live --judge
+```
+
+The default run forces demo mode even if `.env` enables live mode; it makes no
+provider calls. Deterministic checks cover relevant evidence retrieval, expected
+answer status, goal detection, citation integrity, exact quote support and required
+answer values. These are narrow regression checks, not semantic correctness scores.
+
+`--live` uses the configured provider for mission creation and the application's
+two-call role-play/evidence review. `--judge` independently grades correctness
+against the reference answer, answer relevance, groundedness against retrieved
+passages and retrieval relevance. It adds four calls per case and can also grade
+demo answers without `--live`. All calls use the configured model, timeouts and
+application call limits. A nine-case live run normally takes 27 calls; adding the
+judge brings that to 63. Provider calls may incur costs. Judge scores are estimates;
+the same configured model is used, so correlated mistakes remain possible.
+
+Reports default to `.runtime/rag-evaluation.json`; `--output` changes the path and
+`--dataset` selects another dataset with the same fields. Reports include fictional
+questions, answers, retrieved passages, individual checks and aggregate scores.
+Errors count as failures; the process exits nonzero if any case fails. No LangSmith
+dataset, experiment or trace is uploaded. Application tracing remains disabled.
+Use only synthetic data in this runner, particularly when model grading is enabled.
+
+The initial offline run passed all nine cases with zero provider calls. Live and
+judge modes have not been validated against a provider as part of this addition.
+This small apartment dataset does not establish quality across other scenarios,
+long documents, adversarial instructions or multi-turn conversations. Extend the
+dataset and review the expected evidence before comparing retrieval changes.

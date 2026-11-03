@@ -1,5 +1,49 @@
 # Vercel deployment
 
+## GitHub Actions CI and release preparation
+
+`.github/workflows/ci.yml` runs on pull requests, pushes to `main`, and manual
+requests. Independent jobs run the Python tests and offline RAG benchmark,
+build the Next.js frontend with Node 22, and build the backend Docker image.
+The synthetic RAG report is retained as an artifact for 14 days. CI receives no
+provider credentials and does not run paid live evaluations.
+
+`.github/workflows/release.yml` is a separate manual release workflow, restricted
+to `main`. It requires a successful push CI run for the selected commit and checks
+that `main` has not advanced before requesting deployments. Releases are serialized.
+It uses the existing services; it does not create hosting resources.
+
+To activate after committing and pushing the workflow and evaluation files:
+
+1. In GitHub repository settings, create an environment named `production`.
+   Restrict deployment branches to `main` and optionally configure reviewers.
+2. Add environment secrets `RENDER_DEPLOY_HOOK` and `VERCEL_DEPLOY_HOOK`.
+   Copy the Render URL from the existing service's Settings / Deploy Hook.
+   Create the Vercel hook for `main` in Project Settings / Git / Deploy Hooks.
+   Treat both URLs as credentials; never commit them. Provider and proxy keys
+   remain in their existing hosting settings, not GitHub Actions.
+3. Keep Render automatic deployment disabled. Check Vercel's Git integration:
+   automatic production deployments, if enabled, run independently of this gate.
+   Disable that production path in the hosting configuration if all production
+   releases must go through this workflow; preview deployments can remain separate.
+4. Configure branch protection for `main` to require `Backend tests and RAG
+   evaluation`, `Frontend build`, and `Backend Docker build` before merging.
+5. After CI passes on `main`, open Actions / Release / Run workflow, selecting
+   `main`. Inspect both hosting dashboards for completed builds, then follow
+   the production verification checklist below.
+
+Render receives the tested commit SHA. Vercel hooks deploy the latest commit on
+their configured branch: avoid merging while a release request is being made.
+This hook-based release is not an atomic, SHA-pinned deployment of both services.
+Successful workflow completion means both deployment requests were accepted,
+not that either build has finished or production is healthy. A partial failure
+can leave one service updated; inspect the dashboards before rerunning. Backend
+deployment clears in-memory rehearsals. No automatic rollback is implemented.
+
+Workflow setup references: [GitHub Actions syntax](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax),
+[Render deploy hooks](https://render.com/docs/deploy-hooks), and
+[Vercel deploy hooks](https://vercel.com/docs/deploy-hooks).
+
 ## Published deployment
 
 - Frontend: https://the-rehearsal-lab.vercel.app

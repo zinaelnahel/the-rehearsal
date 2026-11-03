@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from backend.main import app,sessions
-from backend.live import RoleReply,GoalCheck,AnswerCheck,EvidenceReview,Translation,strict_schema,scene_reply_schema,bind_assessments
+from backend.live import RoleReply,GoalCheck,AnswerCheck,EvidenceReview,Translation,strict_schema,scene_reply_schema,bind_assessments,scene_review_schema,bind_review
 from pydantic import ValidationError
 from copy import deepcopy
 
@@ -144,6 +144,29 @@ class LiveTests(unittest.TestCase):
   self.assertEqual(response.status_code,502,response.text)
   self.assertEqual(len(sessions[self.sid]['turns']),1)
   self.assertFalse(sessions[self.sid]['mission'][0]['achieved'])
+
+ def test_review_requires_real_turn_selection_when_learner_has_spoken(self):
+  schema=scene_review_schema(1)
+  payload={'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'The question clearly asks about the cost.'}],'unanswered':[],'phrases':[],'note':'Communication notes.'}
+  bound=bind_review(schema.model_validate(payload),['How much is the rent?'])
+  self.assertEqual(bound.feedback[0].quote,'How much is the rent?')
+  self.assertEqual(bound.feedback[0].suggestion,'')
+  for notes in ([],[{'learner_turn_id':'turn_99','suggestion':'','explanation':'Wrong turn'}],[{'quote':'Invented quotation','suggestion':'','explanation':'No generated quotes allowed'}]):
+   with self.subTest(notes=notes),self.assertRaises(ValidationError): schema.model_validate({**payload,'feedback':notes})
+
+ def test_review_cannot_invent_feedback_when_learner_has_not_spoken(self):
+  schema=scene_review_schema(0)
+  empty={'feedback':[],'unanswered':[],'phrases':[],'note':'No learner turns yet.'}
+  self.assertEqual(bind_review(schema.model_validate(empty),[]).feedback,[])
+  with self.assertRaises(ValidationError): schema.model_validate({**empty,'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'Invented user turn'}]})
+
+ def test_selected_turn_feedback_is_bound_in_real_finish_endpoint(self):
+  # This is a synthetic committed turn, not a provider-generated quotation.
+  sessions[self.sid]['turns'].append({'role':'user','content':'No','sources':[]})
+  generated=scene_review_schema(1).model_validate({'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'A direct refusal.'}],'unanswered':[],'phrases':[],'note':'Review.'})
+  with patch('backend.main.model',return_value=generated): response=self.client.post(self.p+'/finish')
+  self.assertEqual(response.status_code,200,response.text)
+  self.assertEqual(response.json()['feedback'][0]['quote'],'No')
 
  def test_historical_goal_carry_forward_does_not_rewrite_evidence(self):
   first=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])

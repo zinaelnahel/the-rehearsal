@@ -90,6 +90,26 @@ class DebriefNotes(BaseModel):
  phrases: list[str]
  note: str
 
+@lru_cache(maxsize=32)
+def scene_review_schema(learner_count):
+ """Select real learner turns; do not ask the model to manufacture quotations."""
+ turn_ids=tuple(f'turn_{i}' for i in range(learner_count))
+ turn_type=Literal.__getitem__(turn_ids) if turn_ids else str
+ selected_note=create_model('SelectedTurnNote',__config__={'extra':'forbid'},
+  learner_turn_id=(turn_type,...),
+  suggestion=(str,Field(description='A relevant alternative phrase in the conversation language, or empty if no change is needed. Never invent a correction.')),
+  explanation=(str,Field(description='Specific feedback about the selected real learner turn, in the feedback language; explain what worked or what could be clearer.')))
+ return create_model('SelectedDebriefNotes',__config__={'extra':'forbid'},
+  feedback=(list[selected_note],Field(min_length=1 if learner_count else 0,max_length=min(3,learner_count))),
+  unanswered=(list[str],...),phrases=(list[str],...),note=(str,...))
+
+def bind_review(result, learner_turns):
+ data=result.model_dump()
+ if data['feedback'] and 'learner_turn_id' in data['feedback'][0]:
+  mapping={f'turn_{i}':text for i,text in enumerate(learner_turns)}
+  data['feedback']=[{'quote':mapping[note['learner_turn_id']],'suggestion':note['suggestion'],'explanation':note['explanation']} for note in data['feedback']]
+ return DebriefNotes.model_validate(data)
+
 def strict_schema(schema):
  """Require every field and forbid extra properties for provider strict mode."""
  result=schema.model_json_schema()

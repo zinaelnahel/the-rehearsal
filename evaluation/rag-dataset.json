@@ -1,0 +1,101 @@
+[
+  {
+    "id": "english-0",
+    "language": "English",
+    "document": "Fictional apartment listing.\nMonthly rent is 1375 euros.\nThe apartment is available from 15 December.\nThe pet policy is not specified.\nThe building has a lift.\nThe nearest park is on Oak Street.\nThe apartment has two bedrooms.",
+    "question": "How much is the monthly rent?",
+    "goal_index": 0,
+    "evidence": "Monthly rent is 1375 euros.",
+    "reference_answer": "Monthly rent is 1375 euros.",
+    "expected_status": "confirmed",
+    "required_answer": "1375"
+  },
+  {
+    "id": "english-1",
+    "language": "English",
+    "document": "Fictional apartment listing.\nMonthly rent is 1375 euros.\nThe apartment is available from 15 December.\nThe pet policy is not specified.\nThe building has a lift.\nThe nearest park is on Oak Street.\nThe apartment has two bedrooms.",
+    "question": "When is the apartment available?",
+    "goal_index": 1,
+    "evidence": "The apartment is available from 15 December.",
+    "reference_answer": "Available from 15 December.",
+    "expected_status": "confirmed",
+    "required_answer": "15"
+  },
+  {
+    "id": "english-2",
+    "language": "English",
+    "document": "Fictional apartment listing.\nMonthly rent is 1375 euros.\nThe apartment is available from 15 December.\nThe pet policy is not specified.\nThe building has a lift.\nThe nearest park is on Oak Street.\nThe apartment has two bedrooms.",
+    "question": "Are pets allowed?",
+    "goal_index": 2,
+    "evidence": "The pet policy is not specified.",
+    "reference_answer": "The document does not specify whether pets are allowed; ask in the real conversation.",
+    "expected_status": "unknown",
+    "required_answer": ""
+  },
+  {
+    "id": "german-0",
+    "language": "German",
+    "document": "Fictional apartment listing.\nMonthly rent is 1375 euros.\nThe apartment is available from 15 December.\nThe pet policy is not specified.\nThe building has a lift.\nThe nearest park is on Oak Street.\nThe apartment has two bedrooms.",
+    "question": "Wie hoch ist die monatliche Miete?",
+    "goal_index": 0,
+    "evidence": "Monthly rent is 1375 euros.",
+    "reference_answer": "Monthly rent is 1375 euros.",
+    "expected_status": "confirmed",
+    "required_answer": "1375"
+  },
+  {
+    "id": "german-1",
+    "language": "German",
+    "document": "Fictional apartment listing.\nMonthly rent is 1375 euros.\nThe apartment is available from 15 December.\nThe pet policy is not specified.\nThe building has a lift.\nThe nearest park is on Oak Street.\nThe apartment has two bedrooms.",
+    "question": "Ab wann ist die Wohnung verfügbar?",
+    "goal_index": 1,
+    "evidence": "The apartment is available from 15 December.",
+    "reference_answer": "Available from 15 December.",
+    "expected_status": "confirmed",
+    "required_answer": "15"
+  },
+  {
+    "id": "german-2",
+    "language": "German",
+    "document": "Fictional apartment listing.\nMonthly rent is 1375 euros.\nThe apartment is available from 15 December.\nThe pet policy is not specified.\nThe building has a lift.\nThe nearest park is on Oak Street.\nThe apartment has two bedrooms.",
+    "question": "Sind Haustiere erlaubt?",
+    "goal_index": 2,
+    "evidence": "The pet policy is not specified.",
+    "reference_answer": "The document does not specify whether pets are allowed; ask in the real conversation.",
+    "expected_status": "unknown",
+    "required_answer": ""
+  },
+  {
+    "id": "spanish-0",
+    "language": "Spanish",
+    "document": "Fictional apartment listing.\nMonthly rent is 1375 euros.\nThe apartment is available from 15 December.\nThe pet policy is not specified.\nThe building has a lift.\nThe nearest park is on Oak Street.\nThe apartment has two bedrooms.",
+    "question": "¿Cuánto cuesta el alquiler al mes?",
+    "goal_index": 0,
+    "evidence": "Monthly rent is 1375 euros.",
+    "reference_answer": "Monthly rent is 1375 euros.",
+    "expected_status": "confirmed",
+    "required_answer": "1375"
+  },
+  {
+    "id": "spanish-1",
+    "language": "Spanish",
+    "document": "Fictional apartment listing.\nMonthly rent is 1375 euros.\nThe apartment is available from 15 December.\nThe pet policy is not specified.\nThe building has a lift.\nThe nearest park is on Oak Street.\nThe apartment has two bedrooms.",
+    "question": "¿Cuándo está disponible el piso?",
+    "goal_index": 1,
+    "evidence": "The apartment is available from 15 December.",
+    "reference_answer": "Available from 15 December.",
+    "expected_status": "confirmed",
+    "required_answer": "15"
+  },
+  {
+    "id": "spanish-2",
+    "language": "Spanish",
+    "document": "Fictional apartment listing.\nMonthly rent is 1375 euros.\nThe apartment is available from 15 December.\nThe pet policy is not specified.\nThe building has a lift.\nThe nearest park is on Oak Street.\nThe apartment has two bedrooms.",
+    "question": "¿Se admiten mascotas?",
+    "goal_index": 2,
+    "evidence": "The pet policy is not specified.",
+    "reference_answer": "The document does not specify whether pets are allowed; ask in the real conversation.",
+    "expected_status": "unknown",
+    "required_answer": ""
+  }
+]
