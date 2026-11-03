@@ -38,6 +38,48 @@ class LiveTests(unittest.TestCase):
   self.assertEqual(goal['answer_status'],'confirmed')
   self.assertEqual(goal['answer_sources'],['1'])
 
+ def test_missing_policy_stays_unknown_even_when_both_models_verify_it(self):
+  from langchain_core.documents import Document
+  variants=['The pet policy is not specified.', 'Die Haustierregelung ist nicht angegeben.',
+            'La politica de mascotas no se especifica.']
+  for source in variants:
+   with self.subTest(source=source):
+    sessions[self.sid]['phase']='chat'
+    sessions[self.sid]['mission'][0]['text']='Ask whether pets are allowed'
+    proposal=self.proposal(reply='The document does not specify whether pets are allowed. [1]',
+     goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote='Are pets allowed?')],
+     answer_checks=[AnswerCheck(goal_id='0',status='supported',source_id='1',source_quote=source)])
+    review=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+    doc=Document(page_content=source,metadata={'id':'1','location':'Section 1','source':'Synthetic policy'})
+    with patch('backend.main.search',return_value=[doc]),patch('backend.main.model',side_effect=[proposal,review]):
+     response=self.client.post(self.p+'/turn',json={'text':'Are pets allowed?'})
+    self.assertEqual(response.status_code,200,response.text)
+    goal=response.json()['goals'][0]
+    self.assertTrue(goal['achieved'])
+    self.assertEqual(goal['answer_status'],'unknown')
+    notes=scene_review_schema(len([t for t in sessions[self.sid]['turns'] if t['role']=='user'])).model_validate(
+     {'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'Clear question.'}],
+      'unanswered':[],'phrases':['Are pets allowed?'],'note':'Review.'})
+    with patch('backend.main.search',return_value=[doc]),patch('backend.main.model',return_value=notes):
+     debrief=self.client.post(self.p+'/finish').json()
+    self.assertEqual(debrief['goals'][0]['answer_status'],'unknown')
+    self.assertIn('Ask whether pets are allowed',debrief['unanswered'])
+
+ def test_known_prohibition_is_not_a_missing_policy(self):
+  from backend.live import missing_source_answer
+  from langchain_core.documents import Document
+  for source in ['Pets are not allowed.', 'Haustiere sind nicht erlaubt.', 'No se admiten mascotas.']:
+   answer=AnswerCheck(goal_id='0',status='supported',source_id='1',source_quote=source)
+   self.assertFalse(missing_source_answer(answer,[Document(page_content=source,metadata={'id':'1'})]))
+
+ def test_missing_policy_backstop_uses_quoted_sentence_not_unrelated_missing_facts(self):
+  from backend.live import missing_source_answer
+  from langchain_core.documents import Document
+  doc=Document(page_content='Rent is 850 euros. The pet policy is not specified.',metadata={'id':'1'})
+  def answer(quote): return AnswerCheck(goal_id='0',status='supported',source_id='1',source_quote=quote)
+  self.assertTrue(missing_source_answer(answer('pet policy'),[doc]))
+  self.assertFalse(missing_source_answer(answer('Rent is 850 euros.'),[doc]))
+
  def test_reject_fabricated_learner_and_source_quotes_without_saving(self):
   bad=[self.proposal(goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote='This was never said')]),self.proposal(answer_checks=[AnswerCheck(goal_id='0',status='supported',source_id='1',source_quote='Pets are always allowed.')])]
   for output in bad:

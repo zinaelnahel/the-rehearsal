@@ -1,5 +1,21 @@
 # Evaluation plan
 
+## Missing-policy status regression
+
+A production smoke review found that live role-play could correctly cite an
+unspecified pet policy while incorrectly marking the answer confirmed. The live
+proposal and evidence-review instructions now distinguish missing information
+from a known answer. A conservative server-side lexical check prevents explicit
+missing-detail source quotations from becoming confirmed even if both model calls
+misclassify them. It checks the quoted sentence rather than unrelated missing
+facts in a passage. It is not a general semantic classifier.
+
+Deterministic regressions cover English, German and Spanish absence wording,
+learner action completion independent of answer resolution, review follow-up
+preservation, shortened source quotations and known prohibitions. All 55 backend
+tests and nine offline RAG cases pass locally. This fix has not yet been validated
+against a real provider or deployed; the historical reports below predate it.
+
 Use only the fictional samples and synthetic variants. Keep fixtures under version control; do not retain real learner data for evaluation. Run demo and live evaluations separately. Record model/version, prompt hash, chunk settings, retrieval mode and seed where supported. Re-run on every change to prompts, parsers, embeddings or goal detection. Evaluation reports must not contain API keys.
 
 ## Fixture set
