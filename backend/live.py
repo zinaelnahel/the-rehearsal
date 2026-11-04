@@ -6,6 +6,7 @@ import re
 from functools import lru_cache
 from backend.context import CONTEXT_RULES
 from backend.demo_answers import plain
+from backend.prompt_context import dialogue_history
 from typing import Literal
 from pydantic import BaseModel, Field, create_model
 from fastapi import HTTPException
@@ -200,7 +201,7 @@ def rehearse(session,text,docs,call,passage):
  context={
   'scenario':setup['scenario'],'partner_role':partner,'learner_role':learner,'preferences':setup,
   'retrieved_passages':[passage(d) for d in docs],
-  'conversation_history':session['turns'][-16:],
+  'conversation_history':dialogue_history(session['turns'],16),
   'latest_learner_turn':text,'mission':[{**goal,'assessment_slot':f'goal_{i}'} for i,goal in enumerate(session['mission'])]
  }
  schema=scene_reply_schema(len(session['mission']),tuple(d.metadata['id'] for d in docs))

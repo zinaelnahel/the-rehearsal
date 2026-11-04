@@ -175,3 +175,9 @@ python scripts/evaluate_rent_flow.py
 ```
 
 This deliberately makes provider calls (40 in the recorded passing run), creates eight fresh default apartment takes, checks ordinary/informal rent phrasings, source-confirmed progress, follow-ups, actual-turn review quotes, replay and deletion, and writes a synthetic report to ignored `.runtime/rent-flow-evaluation.json`. English rent variants repeat twice; German and Spanish are included. See [the report](evaluation/rent-fixed-slots-2026-11-02.json). The existing multilingual smoke regression also passed with the new contract (27 calls). These finite smoke checks are not broad reliability metrics.
+
+## Prompt context savings
+
+Model-facing history preserves the original role and dialogue text but excludes stored source payloads and response metadata. This avoids repeatedly sending historical passages alongside current retrieval. It applies to agent preparation, generation, independent evidence review, hints and debriefs. Current retrieved passages remain complete; citation checks, review calls and model selection are unchanged. Saved turns still retain source evidence for the UI and downloads.
+
+Run `python scripts/evaluate_prompt_context.py` for an offline size comparison. Ten synthetic exchanges using the fictional EN/DE/ES samples reduced serialized **history bytes** by 71–74%. This excludes system prompts, schemas and current retrieval; it is neither an overall token reduction nor a measured billing saving. The optimization adds no provider calls. Real provider token usage and quality comparisons remain to be measured.
