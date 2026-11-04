@@ -1,11 +1,11 @@
 # Vercel deployment
 
-## Multimodal changes awaiting deployment
+## Current multimodal deployment
 
 See [the implementation and activation guide](docs/MULTIMODAL.md). The source now
 includes speech, a tool-calling agent, LangSmith synthetic evaluation and Chroma.
-The published deployment descriptions below are historical, not verification of
-these additions. `render.yaml` preserves a free-host memory fallback; optional
+Revision 0.7 is deployed on the existing Vercel and Render services. See
+[SUBMISSION.md](SUBMISSION.md) for evidence and remaining validation limits. `render.yaml` preserves a free-host memory fallback; optional
 `render-persistent.yaml` prepares paid compute and a persistent volume without
 applying them. Durable hosted retrieval requires that volume and a verified
 `CHROMA_PATH`. Do not apply both Blueprints to the same service independently.
@@ -20,7 +20,8 @@ evaluation, `OPENAI_API_KEY`. The new manual LangSmith workflow uploads only the
 bundled fictional fixtures. Release now defaults to checking for a successful
 LangSmith evaluation workflow on the same commit as well as CI; this can be a
 demo experiment. Explicitly disabling that release input bypasses that gate.
-Actual deployment and hosted experiment verification remain pending.
+Two hosted synthetic LangSmith experiments are recorded in SUBMISSION.md;
+the updated GitHub evaluation workflow has not yet executed.
 
 ## GitHub Actions CI and release preparation
 
@@ -74,9 +75,9 @@ Workflow setup references: [GitHub Actions syntax](https://docs.github.com/en/ac
 - Render service ID: `srv-dbkahtvlk1mc73bbdfk0`
 - Vercel project: existing linked `zina3/the-rehearsal`; reuse `.vercel/project.json`.
 
-Revision 0.6 is deployed in **live AI mode** using the existing projects and production settings. It includes whole-dialogue review ratings, a collapsed optional plan map, context safeguards and small original production icons. The navigation/download follow-up adds reached-step navigation, explicit restart protection, continuing a reviewed scene and browser-only text downloads. The existing Nathan Fielder image, source credit and disclaimer remain in place. The difficult-conversation sample is now **Saying no to family**, with aligned English/German/Spanish notes and scripted boundary practice; custom contexts and final-breakup handling remain separate. Render retains the provider key and shared proxy secret; Vercel retains only `BACKEND_URL` and `API_PROXY_TOKEN`.
+Revision 0.7 is deployed in **live AI mode**, with speech and the agent enabled and memory retrieval, using the existing projects and production settings. It includes whole-dialogue review ratings, a collapsed optional plan map, context safeguards and small original production icons. The navigation/download follow-up adds reached-step navigation, explicit restart protection, continuing a reviewed scene and browser-only text downloads. The existing Nathan Fielder image, source credit and disclaimer remain in place. The difficult-conversation sample is now **Saying no to family**, with aligned English/German/Spanish notes and scripted boundary practice; custom contexts and final-breakup handling remain separate. Render retains the provider key and shared proxy secret; Vercel retains only `BACKEND_URL` and `API_PROXY_TOKEN`.
 
-The revision 0.6 application changes were pushed in `7fb5c65`; the production-icon follow-up is recorded in Git history. Verification: 49 deterministic backend tests, a production frontend build and a 27-call fictional live smoke run across English, German and Spanish. The hosted Chrome check passed the live conversation, original image, keyboard-operated collapsed map, no sidebar map or per-turn ratings, whole-dialogue rating with optional reason/change/clear, mobile overflow, replay and verified deletion. Automatic Render deployment remains off; backend releases are triggered explicitly. Provider request ceilings remain ephemeral application limits, not billing limits.
+Historical revision 0.6 verification: the application changes were pushed in `7fb5c65`; the production-icon follow-up is recorded in Git history. Verification: 49 deterministic backend tests, a production frontend build and a 27-call fictional live smoke run across English, German and Spanish. The hosted Chrome check passed the live conversation, original image, keyboard-operated collapsed map, no sidebar map or per-turn ratings, whole-dialogue rating with optional reason/change/clear, mobile overflow, replay and verified deletion. Automatic Render deployment remains off; backend releases are triggered explicitly. Provider request ceilings remain ephemeral application limits, not billing limits.
 
 The Render API key remains in ignored local `.env` for deployment management. GitHub CLI sign-in is configured locally. Never print credentials. There is no persistent session database: free-host sleeping, restarting or redeploying clears active rehearsals. Automatic Render redeployment is currently disabled; a source push alone does not rebuild the backend.
 
