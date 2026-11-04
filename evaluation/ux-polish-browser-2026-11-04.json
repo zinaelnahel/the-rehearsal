@@ -1,0 +1,10 @@
+{
+  "synthetic": true,
+  "backend": "real local demo API; connection responses and completed-goal debrief are explicit UI fixtures",
+  "checks": [
+    "Immediate connecting status, slow wake state, local sample, failure/retry and preserved setup; one request per attempt",
+    "Unconfirmed pet policy is recommended before unasked goals; asked/confirmed counts remain separate; replay cancellation/acceptance work",
+    "All-goals-practised alternative, keyboard disclosure controls, mobile/desktop overflow, deletion and no browser errors"
+  ],
+  "passed": true
+}

@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "synthetic": true,
+  "blocked_provider_response": "stubbed HTTP 424; no live YouTube read",
+  "backend": "real local demo session/retrieval endpoints",
+  "checks": [
+    "fallback opens after block",
+    "edits invalidate confirmation",
+    "pasted provenance and link preserved without fake timestamps",
+    "grounded rehearsal from pasted text",
+    "mobile overflow and session deletion"
+  ]
+}

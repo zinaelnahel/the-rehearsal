@@ -13,7 +13,7 @@ from pydantic import Field
 import requests
 from backend import speech
 
-FALLBACK = 'Try another public link, paste the transcript under Your situation, or upload a short audio/video file.'
+FALLBACK = 'Try another public link, paste the transcript in this panel, or upload a short audio/video file.'
 YOUTUBE = {'youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be', 'www.youtu.be'}
 MAX_TRANSCRIPT_CHARS = 100000
 
@@ -145,6 +145,10 @@ def read_public(url, limit, deadline, method='GET', body=None, headers=None, all
                 url = urljoin(url, response.getheader('Location', ''))
                 continue
             if response.status != 200:
+                if allowed_hosts and parts.hostname in YOUTUBE:
+                    message=(f'YouTube rejected this server’s caption request (HTTP {response.status}). The video may still play in your browser. '
+                             if response.status in (403,429) else f'YouTube returned HTTP {response.status} while reading captions. ')
+                    raise HTTPException(424,message+'Paste the transcript in this panel, or upload a short audio/video file. No transcript was imported.')
                 raise HTTPException(424, 'The provider blocked this read or the video is unavailable. ' + FALLBACK)
             if response.getheader('Content-Encoding', 'identity').lower() not in ('', 'identity'):
                 raise HTTPException(424, 'The provider returned an unsupported compressed response. ' + FALLBACK)

@@ -13,6 +13,36 @@ from backend import main as api, video
 
 
 class VideoTests(unittest.TestCase):
+    def test_pasted_transcript_requires_confirmation_and_preserves_honest_provenance(self):
+        body={'transcript_text':'Monthly rent is 1375 euros. Pets are not allowed.',
+              'video_url':'https://www.youtube.com/watch?v=abcdefghijk'}
+        self.assertEqual(self.client.post('/api/sessions',json=body).status_code,409)
+        with patch('backend.video.read_public') as reader,patch('backend.main.model') as model:
+            response=self.client.post('/api/sessions',json={**body,'transcript_confirmed':True})
+            self.assertEqual(response.status_code,200,response.text)
+            reader.assert_not_called();model.assert_not_called()
+        data=response.json();sid=data['id']
+        try:
+            self.assertEqual(data['import_method'],'pasted_transcript')
+            evidence=api.evidence(api.search(api.sessions[sid],'rent')[0])
+            self.assertIn('not fetched',evidence['source'])
+            self.assertNotIn('timestamp',evidence['location'])
+            self.assertEqual(evidence['url'],body['video_url'])
+        finally:self.client.delete('/api/sessions/'+sid)
+        for changes in ({'transcript_text':' '},{'text':'Mixed source'},{'video_url':'http://127.0.0.1/private'}):
+            self.assertEqual(self.client.post('/api/sessions',json={**body,'transcript_confirmed':True,**changes}).status_code,400)
+
+    def test_youtube_http_block_reports_server_rejection_without_response_body(self):
+        response=Mock(status=429)
+        connection=Mock();connection.getresponse.return_value=response
+        with patch('backend.video.public_address',return_value='8.8.8.8'),patch('backend.video.PinnedHTTPS',return_value=connection):
+            with self.assertRaises(HTTPException) as caught:
+                video.read_public('https://www.youtube.com/api/timedtext',100,time.monotonic()+10,allowed_hosts=video.YOUTUBE)
+        self.assertEqual(caught.exception.status_code,424)
+        self.assertIn('HTTP 429',caught.exception.detail)
+        self.assertIn('may still play in your browser',caught.exception.detail)
+        connection.close.assert_called_once()
+
     def setUp(self):
         self.enterContext(patch.dict(os.environ, {'VECTOR_STORE': 'memory', 'API_PROXY_TOKEN': '',
             'SPEECH_ENABLED': 'true', 'OPENAI_API_KEY': 'fictional-key'}))

@@ -201,10 +201,18 @@ class SourceInput(BaseModel):
  text: str = Field(default='',max_length=100000)
  transcript: list[SourceSegment] | None = Field(default=None,min_length=1,max_length=1000)
  transcript_confirmed: bool = False
+ transcript_text: str | None = Field(default=None,max_length=100000)
  video_url: str = Field(default='',max_length=2048)
 
 @app.post('/api/sessions')
 def source(body: SourceInput):
+ if body.transcript_text is not None:
+  if body.sample or body.text.strip() or body.transcript is not None: raise HTTPException(400,'Choose one source type.')
+  if not body.transcript_confirmed: raise HTTPException(409,'Review and confirm the pasted transcript first.')
+  if not body.transcript_text.strip(): raise HTTPException(400,'Paste a transcript first.')
+  url=reference_url(body.video_url) if body.video_url else None
+  result=create(body.transcript_text.encode(),'text','User-pasted transcript (not fetched from video)',source_url=url)
+  return {**result,'import_method':'pasted_transcript'}
  if body.transcript is not None:
   if body.sample or body.text.strip(): raise HTTPException(400,'Choose one source type.')
   if not body.transcript_confirmed: raise HTTPException(409,'Review and confirm the transcript first.')
