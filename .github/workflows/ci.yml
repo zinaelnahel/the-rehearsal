@@ -44,6 +44,7 @@ jobs:
           path: |
             .runtime/rag-evaluation.json
             .runtime/quality-evaluation*.json
+          include-hidden-files: true
           if-no-files-found: warn
           retention-days: 14
 
