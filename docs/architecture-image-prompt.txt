@@ -51,4 +51,3 @@ Privacy callouts: keys server-side; delete temporary media after decoding;
 explicit deletion/idle expiry removes retrieval collections logically; hosting
 snapshots/provider retention need separate policies. No claimed speech accuracy
 score or completed hosted experiment: both remain evidence to collect.
-
