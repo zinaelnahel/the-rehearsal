@@ -186,3 +186,45 @@ judge modes have not been validated against a provider as part of this addition.
 This small apartment dataset does not establish quality across other scenarios,
 long documents, adversarial instructions or multi-turn conversations. Extend the
 dataset and review the expected evidence before comparing retrieval changes.
+# Expanded quality benchmark
+
+`scripts/evaluate_quality.py` runs 36 author-labeled synthetic cases in English,
+German and Spanish. It covers direct facts, paraphrases, missing policies,
+negated goals, keyword-only mentions, conflicting facts, source/user prompt
+injection, cross-language retrieval, explicit prohibitions, job salary and course
+duration. These labels have not been independently human-reviewed.
+
+```powershell
+python scripts/evaluate_quality.py
+python scripts/evaluate_quality.py --live --output .runtime/quality-live.json
+# Explicit judge model; one extra provider call per completed case:
+python scripts/evaluate_quality.py --live --judge-model YOUR_JUDGE_MODEL --output .runtime/quality-judged.json
+# Add --agent to include real tool preparation; --limit and --repeats bound runs.
+```
+
+Offline mode makes no provider calls. Live/judge runs require provider credentials
+and consume the existing shared call allowance. Reports distinguish completion
+from reference accuracy: a completed benchmark can expose poor model behavior.
+CI checks execution, not a claim that demo responses meet the live reference labels.
+
+Reports include goal precision/recall/F1, reference status accuracy, false
+confirmations of unknown facts, answerable-question withholding, retrieval
+recall@4/MRR, citation integrity and separate judge/human coverage. Required-value
+presence is only a lexical proxy. Status/quote checks do not measure every
+unsupported prose claim. Judge verdicts are a separate call, not independent
+ground truth; judges can share model bias. Descriptive Wilson intervals do not
+account for correlated fixtures, language variants or repeated runs.
+
+Each run exports a matching `.review.json` worksheet. Inspect each answer against
+the full source in the report, enter a reviewer identifier, `grounding`
+(`supported`, `unsupported`, `no_factual_claim`, `uncertain`), `answer_correct`,
+`goal_correct` and an evidence-based explanation. Blank/uncertain verdicts do not
+count as passes. Review matching checks bind labels to dataset and answer hashes.
+
+```powershell
+python scripts/evaluate_quality.py --score-report .runtime/quality-live.json --reviews .runtime/quality-live.review.json --output .runtime/quality-human-scored.json
+```
+
+Prefer two independent human reviews and adjudication for a final assessment.
+The initial validation is offline only; this expanded live benchmark and judge
+have not yet been run. Existing older live evaluations remain separate evidence.
