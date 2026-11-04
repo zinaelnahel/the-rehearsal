@@ -95,3 +95,35 @@ All 91 backend tests passed after adding the local-runner validation tests; thos
 tests verify code behavior, not the model's judgment quality. No application
 behavior was changed or deployed by this evaluation work. Baseline generation
 used source commit `7b2417e6e70d26b2158c009f74f1e87cfeb91bf0`.
+
+## Rent-conflict fix: separate post-fix run
+
+The [new server guard](../docs/RENT_CONFLICTS.md) was tested on the same 36
+unchanged fixtures. The original live/API/local-judge reports above are preserved.
+See the [post-fix live report](quality-live-postfix-2026-11-04.json) for complete
+answers, source hashes and reference checks.
+
+| Reference-based measure | Before | After |
+| --- | --- | --- |
+| Completed | 36/36 | 36/36 |
+| Answer-status accuracy | 30/36 (83.3%) | 33/36 (91.7%) |
+| Conflicting-price false confirmations | 3/3 | 0/3 |
+| Unknown/ambiguous false confirmations (all six cases) | 3/6 | 0/6 |
+| Answerable cases confirmed | 24/24 | 24/24 |
+| Answerable cases withheld | 0/24 | 0/24 |
+| Goal precision / recall | 90.9% / 100% | 90.9% / 100% |
+
+All three conflict responses were replaced with localized clarification text,
+kept their conflicting source cards and recorded the factual answer as unknown.
+The remaining status failures are the same three keyword-only goal detections.
+This final run made 108 provider calls, with agent preparation and the extra
+evaluation judge disabled. It still exercised the application's mandatory
+generation and evidence-review calls. A preceding 12-case targeted smoke check
+also passed, using 36 calls; the full report is the published post-fix comparison.
+All 96 deterministic backend tests passed.
+
+This is a single-run synthetic regression result, not a general hallucination
+rate or human calibration. The guard's lexical/retrieval limits and possible
+conservative withholding of legitimate alternatives are documented separately.
+The post-fix report describes local real-provider verification, not a hosted
+deployment check. Human review and agent-enabled regression remain pending.

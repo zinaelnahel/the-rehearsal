@@ -65,6 +65,26 @@ class LiveTests(unittest.TestCase):
     self.assertEqual(debrief['goals'][0]['answer_status'],'unknown')
     self.assertIn('Ask whether pets are allowed',debrief['unanswered'])
 
+ def test_conflicting_rent_cannot_be_confirmed_by_two_approving_models(self):
+  from langchain_core.documents import Document
+  source=[Document(page_content=f'Monthly rent is {value} euros.',metadata={
+   'id':str(i+1),'location':f'Section {i+1}','source':'Fictional conflicting listing'})
+   for i,value in enumerate((1375,1490))]
+  sessions[self.sid]['mission'][0]['text']='Ask about monthly rent'
+  proposal=self.proposal(reply='The monthly rent is 1375 euros. [1]',
+   goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote='What is the monthly rent?')],
+   answer_checks=[AnswerCheck(goal_id='0',status='supported',source_id='1',source_quote=source[0].page_content)])
+  review=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+  with patch('backend.main.search',return_value=source),patch('backend.main.model',side_effect=[proposal,review]):
+   response=self.client.post(self.p+'/turn',json={'text':'What is the monthly rent?'})
+  self.assertEqual(response.status_code,200,response.text)
+  result=response.json()
+  self.assertTrue(result['goals'][0]['achieved'])
+  self.assertEqual(result['goals'][0]['answer_status'],'unknown')
+  self.assertTrue(result['turn']['answer_withheld'])
+  self.assertNotIn('1375',result['turn']['content'])
+  self.assertEqual(len(result['turn']['sources']),2)
+
  def test_known_prohibition_is_not_a_missing_policy(self):
   from backend.live import missing_source_answer
   from langchain_core.documents import Document

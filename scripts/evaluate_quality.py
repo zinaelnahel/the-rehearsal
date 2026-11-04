@@ -188,7 +188,7 @@ def main():
                   'repeats':args.repeats,'cases':[],
                   'limitations':'Small synthetic fixtures; correlations between cases/languages/repeats invalidate independence assumptions of the descriptive Wilson intervals. No human review unless explicitly attached. Value/status checks are not semantic hallucination measurements.'}
         report['source_sha256'] = {name:digest((ROOT/name).read_text(encoding='utf-8')) for name in (
-            'scripts/evaluate_quality.py','backend/main.py','backend/live.py','backend/agent.py','backend/retrieval.py','backend/demo_answers.py')}
+            'scripts/evaluate_quality.py','backend/main.py','backend/live.py','backend/agent.py','backend/retrieval.py','backend/demo_answers.py','backend/source_conflicts.py')}
         before = len(api.model_calls)
         with patch.object(api,'LIVE',args.live), patch.dict(os.environ,{'API_PROXY_TOKEN':'','VECTOR_STORE':'memory',
                 'REHEARSAL_AGENT_ENABLED':'true' if args.agent else 'false'}), TestClient(api.app) as client:

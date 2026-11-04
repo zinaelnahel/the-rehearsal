@@ -186,7 +186,7 @@ judge modes have not been validated against a provider as part of this addition.
 This small apartment dataset does not establish quality across other scenarios,
 long documents, adversarial instructions or multi-turn conversations. Extend the
 dataset and review the expected evidence before comparing retrieval changes.
-# Expanded quality benchmark
+## Expanded quality benchmark
 
 `scripts/evaluate_quality.py` runs 36 author-labeled synthetic cases in English,
 German and Spanish. It covers direct facts, paraphrases, missing policies,
@@ -246,3 +246,13 @@ work and `--timeout` bounds each request. It preserves the input report and
 original API verdicts, writes checkpoints, and reports paired judge agreement
 and disagreement IDs. Additional OpenAI calls: zero. Different model biases,
 local-model capacity and absent human calibration still limit the conclusions.
+
+## Rent-conflict regression
+
+The original reports are preserved. A separate full live rerun after adding the
+[bounded server guard](docs/RENT_CONFLICTS.md) is recorded in
+[the post-fix report](evaluation/quality-live-postfix-2026-11-04.json) and the
+[before/after table](evaluation/QUALITY_RESULTS.md#rent-conflict-fix-separate-post-fix-run).
+It fixes all three known conflicting-price confirmations while preserving 24/24
+answerable confirmations in these fixtures. The keyword-only goal errors remain.
+No new human review or evaluation-judge pass rate is claimed for the fix.
