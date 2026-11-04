@@ -1,0 +1,362 @@
+[
+  {
+    "run_id": "english-direct_fact:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "9d58e2162d8adfcee416c39462bb5fbb20acc52cfa1d1ad526da27532dc04ece",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-paraphrase:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "0945e9b99d92e350b9c065b786e57b452ed6c07f760acf89342e7f55b1cddabc",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-missing_policy:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "de8726b1b79e0448a2e846de16aaaa60fea62889fec09b3dd414182ebe715cf4",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-negated_goal:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "9d58e2162d8adfcee416c39462bb5fbb20acc52cfa1d1ad526da27532dc04ece",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-keyword_only:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "9d58e2162d8adfcee416c39462bb5fbb20acc52cfa1d1ad526da27532dc04ece",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-conflicting_facts:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "0945e9b99d92e350b9c065b786e57b452ed6c07f760acf89342e7f55b1cddabc",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-document_injection:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "0945e9b99d92e350b9c065b786e57b452ed6c07f760acf89342e7f55b1cddabc",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-user_injection:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "9d58e2162d8adfcee416c39462bb5fbb20acc52cfa1d1ad526da27532dc04ece",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-cross_language:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "145477b6ffe8dc89bb817cfee87b45fb26fe807867a47390b5a140521af925c5",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-explicit_prohibition:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "8e060c022153eb618840b5afdf4731e4315fe0dd99f072461f595d8dfe73e5ca",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-interview_fact:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "491c283b24d314e9836fdcd4bd2ca0897073014741216187848bfee529e2360c",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "english-course_fact:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "0945e9b99d92e350b9c065b786e57b452ed6c07f760acf89342e7f55b1cddabc",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-direct_fact:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "b4a92171e641dc7a3ae1d4ca46d71cd1eef6ded59e9f1a7733fddcd6a2ddaa15",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-paraphrase:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "68204b0e8ecca34b3cdbf9045ec6e5e743ea78e218db71d34a2af4796ee4f108",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-missing_policy:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "8ba934bc0fee65e9111754c73d64636d29c65b7144809b387896a6ac2bb53ba0",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-negated_goal:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "b4a92171e641dc7a3ae1d4ca46d71cd1eef6ded59e9f1a7733fddcd6a2ddaa15",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-keyword_only:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "b4a92171e641dc7a3ae1d4ca46d71cd1eef6ded59e9f1a7733fddcd6a2ddaa15",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-conflicting_facts:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "68204b0e8ecca34b3cdbf9045ec6e5e743ea78e218db71d34a2af4796ee4f108",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-document_injection:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "68204b0e8ecca34b3cdbf9045ec6e5e743ea78e218db71d34a2af4796ee4f108",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-user_injection:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "b4a92171e641dc7a3ae1d4ca46d71cd1eef6ded59e9f1a7733fddcd6a2ddaa15",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-cross_language:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "9ca4de7b20e3767e1157590a6eb5382eada5d4f39f07a33011ec85d59c61bd50",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-explicit_prohibition:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "64556e6269ac2a5026957a208589f4626d61d9ee07b3548fc4179ad6136e2a6a",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-interview_fact:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "78fc018af412fd1437e92fb5df535928e05f8abbdf80e3202a7aae7a809deeb4",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "german-course_fact:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "68204b0e8ecca34b3cdbf9045ec6e5e743ea78e218db71d34a2af4796ee4f108",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-direct_fact:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "41244ae800edf536813016edd85f43539049cae54cf77f060ef21fe6a67943bc",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-paraphrase:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "0c9b7c4d74c5064b5a247540c23e2e3e7b864b9a4e3648ec3129665958d13346",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-missing_policy:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "37d64029b4562fbf177ab6f38c70c0d0eda8e9deef1f788b878a2ff8005600a4",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-negated_goal:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "41244ae800edf536813016edd85f43539049cae54cf77f060ef21fe6a67943bc",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-keyword_only:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "41244ae800edf536813016edd85f43539049cae54cf77f060ef21fe6a67943bc",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-conflicting_facts:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "0c9b7c4d74c5064b5a247540c23e2e3e7b864b9a4e3648ec3129665958d13346",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-document_injection:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "0c9b7c4d74c5064b5a247540c23e2e3e7b864b9a4e3648ec3129665958d13346",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-user_injection:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "41244ae800edf536813016edd85f43539049cae54cf77f060ef21fe6a67943bc",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-cross_language:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "500ae866ad65178743211c9c8112e2e3b750db94b7d73d7cf9b67eecc190f82f",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-explicit_prohibition:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "f17c8b081e0959af9291dbe7cd367d0f2e44a7e58e6d0e0e31a32551912a27a6",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-interview_fact:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "ebe33794a1f93a597deef0dcb3e0d6b556930e2d6d3333892bb463c5feb79c12",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  },
+  {
+    "run_id": "spanish-course_fact:1",
+    "dataset_sha256": "d3961ed487e4eea5ddce92604dce192ceadde82c616784657b4de8209c8c2487",
+    "answer_sha256": "0c9b7c4d74c5064b5a247540c23e2e3e7b864b9a4e3648ec3129665958d13346",
+    "reviewer": "",
+    "grounding": null,
+    "answer_correct": null,
+    "goal_correct": null,
+    "explanation": ""
+  }
+]

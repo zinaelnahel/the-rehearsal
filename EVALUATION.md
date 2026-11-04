@@ -226,5 +226,23 @@ python scripts/evaluate_quality.py --score-report .runtime/quality-live.json --r
 ```
 
 Prefer two independent human reviews and adjudication for a final assessment.
-The initial validation is offline only; this expanded live benchmark and judge
-have not yet been run. Existing older live evaluations remain separate evidence.
+The expanded live run and API judge completed on 4 November 2026; see
+[measured results, raw reports and failures](evaluation/QUALITY_RESULTS.md).
+The reference labels and judge are not human ground truth. Existing older live
+evaluations remain separate evidence.
+
+## Optional local Ollama judge
+
+Run the installed local model against saved answers, without regenerating them:
+
+```powershell
+python scripts/judge_quality_ollama.py --report evaluation/quality-live-judged-2026-11-04.json --model qwen3:4b --output .runtime/quality-ollama.json
+```
+
+Ollama must already be running with the named model installed. The runner uses
+loopback HTTP only, validates schema-constrained verdicts and records errors as
+missing judge coverage rather than successful grades. `--limit` bounds the local
+work and `--timeout` bounds each request. It preserves the input report and
+original API verdicts, writes checkpoints, and reports paired judge agreement
+and disagreement IDs. Additional OpenAI calls: zero. Different model biases,
+local-model capacity and absent human calibration still limit the conclusions.

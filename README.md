@@ -1,5 +1,10 @@
 # The Rehearsal
 
+**Measured quality baseline:** [36-case live/demo results and failures](evaluation/QUALITY_RESULTS.md).
+Live goal precision was 90.9%, recall 100%, and answer-status accuracy 83.3% on
+these small synthetic fixtures. Conflicting-source confirmations and keyword-only
+goal detection still failed. LLM-judge results are separate; no human review is claimed.
+
 **Submission verification:** [current evidence and release status](SUBMISSION.md)
 includes real multilingual speech, agent, browser and hosted LangSmith results.
 
