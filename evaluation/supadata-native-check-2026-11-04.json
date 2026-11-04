@@ -1,0 +1,22 @@
+{
+  "provider": "supadata",
+  "mode": "native",
+  "contains_transcript_text": false,
+  "cases": [
+    {
+      "video_id": "EvEsWpiT8WQ",
+      "passed": true,
+      "segments": 29,
+      "characters": 55781,
+      "timestamps_valid": true
+    },
+    {
+      "video_id": "01-59MEwE9Q",
+      "passed": true,
+      "segments": 4,
+      "characters": 7700,
+      "timestamps_valid": true
+    }
+  ],
+  "passed": true
+}

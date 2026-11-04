@@ -12,6 +12,7 @@ from fastapi import HTTPException
 from pydantic import Field
 import requests
 from backend import speech
+from backend import caption_provider
 
 FALLBACK = 'Try another public link, paste the transcript in this panel, or upload a short audio/video file.'
 YOUTUBE = {'youtube.com', 'www.youtube.com', 'm.youtube.com', 'youtu.be', 'www.youtu.be'}
@@ -206,20 +207,32 @@ def import_video(value, language, reserve, clip_start=None, clip_seconds=120):
         raise HTTPException(400, 'Choose English, German or Spanish.')
     url = public_url(value)
     identifier = youtube_id(url)
-    deadline = time.monotonic() + (25 if identifier else 12)
+    deadline = time.monotonic() + (45 if identifier and caption_provider.enabled() else 25 if identifier else 12)
     try:
         if identifier:
             from youtube_transcript_api import YouTubeTranscriptApi
-            with CaptionSession(deadline) as session:
-                fetched = YouTubeTranscriptApi(http_client=session).fetch(identifier,
-                    languages=[speech.CODES[language]])
+            provider=False
+            try:
+                with CaptionSession(min(deadline,time.monotonic()+20) if caption_provider.enabled() else deadline) as session:
+                    fetched = YouTubeTranscriptApi(http_client=session).fetch(identifier,
+                        languages=[speech.CODES[language]])
+            except HTTPException as exc:
+                if not caption_provider.enabled() or exc.status_code not in (424,504):raise
+                fetched=caption_provider.fetch_native(identifier,speech.CODES[language],deadline)
+                provider=True
+            except Exception:
+                if not caption_provider.enabled():raise
+                fetched=caption_provider.fetch_native(identifier,speech.CODES[language],deadline)
+                provider=True
             segments = caption_segments(fetched)
             if not segments:
                 raise HTTPException(422, 'No readable captions were found. ' + FALLBACK)
             return {'segments': segments, 'language': language, 'source_url': reference_url(url),
-                'source_method': 'youtube_captions', 'is_generated': fetched.is_generated,
+                'source_method': 'youtube_captions_supadata' if provider else 'youtube_captions',
+                'is_generated': None if provider else fetched.is_generated,
                 'requires_confirmation': True,
-                'notice': 'Full available transcript imported. YouTube captions may contain errors; review before use.'}
+                'notice': ('Existing YouTube captions retrieved through Supadata (native mode); caption authorship is not verified. ' if provider else 'Full available transcript imported. ')
+                          + 'Captions may contain errors; review before use.'}
         speech.require_speech(True)
         raw, headers, final_url = read_public(url, speech.MAX_BYTES, deadline)
         content_type = next((v for k, v in headers.items() if k.lower() == 'content-type'), '').split(';')[0].lower()

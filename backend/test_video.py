@@ -49,6 +49,7 @@ class VideoTests(unittest.TestCase):
 
     def setUp(self):
         self.enterContext(patch.dict(os.environ, {'VECTOR_STORE': 'memory', 'API_PROXY_TOKEN': '',
+            'SUPADATA_API_KEY': '',
             'SPEECH_ENABLED': 'true', 'OPENAI_API_KEY': 'fictional-key'}))
         self.enterContext(patch.object(api, 'LIVE', False))
         self.client = self.enterContext(TestClient(api.app))
