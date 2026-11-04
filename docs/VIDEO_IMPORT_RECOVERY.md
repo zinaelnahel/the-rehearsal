@@ -18,6 +18,10 @@ the confirmed text and reference link to the backend. Editing text or switching
 sources invalidates confirmation. The backend rejects mixed sources, missing
 confirmation, empty text and unsafe reference URL forms.
 
+A video URL is optional for pasted text. Confirmation is enabled once nonempty
+transcript text is present; an empty box explains why it is disabled. The URL
+is required only for automatic fetching, and is validated if provided.
+
 Pasted text is labeled **User-pasted transcript (not fetched from video)**.
 Citations use source sections, not fabricated timestamps. The video URL is a
 user-supplied reference, not evidence that its contents were independently fetched

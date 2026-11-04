@@ -29,6 +29,10 @@ class VideoTests(unittest.TestCase):
             self.assertNotIn('timestamp',evidence['location'])
             self.assertEqual(evidence['url'],body['video_url'])
         finally:self.client.delete('/api/sessions/'+sid)
+        without_link=self.client.post('/api/sessions',json={**body,'video_url':'','transcript_confirmed':True})
+        self.assertEqual(without_link.status_code,200,without_link.text)
+        self.assertIsNone(without_link.json()['source_url'])
+        self.client.delete('/api/sessions/'+without_link.json()['id'])
         for changes in ({'transcript_text':' '},{'text':'Mixed source'},{'video_url':'http://127.0.0.1/private'}):
             self.assertEqual(self.client.post('/api/sessions',json={**body,'transcript_confirmed':True,**changes}).status_code,400)
 
