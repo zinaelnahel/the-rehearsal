@@ -9,7 +9,9 @@ We did not establish the exact underlying hosted HTTP status for that request.
 Automatic imports are still attempted. YouTube HTTP 403/429 responses now explain
 that the server request was rejected and the video may still play in a browser.
 This is an error/recovery improvement, not a bypass or guarantee of hosted access.
-No proxy service, user-cookie transfer or external transcript provider is added.
+The original recovery change added no external provider or cookie transfer.
+An optional [Supadata native-caption fallback](SUPADATA.md) was subsequently
+implemented and verified on the hosted app for both user-provided links.
 
 The same video-link panel offers **Have the transcript? Paste it here** and opens
 it after import failure. The user can copy an available transcript from YouTube,

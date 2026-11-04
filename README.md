@@ -187,3 +187,7 @@ This deliberately makes provider calls (40 in the recorded passing run), creates
 Model-facing history preserves the original role and dialogue text but excludes stored source payloads and response metadata. This avoids repeatedly sending historical passages alongside current retrieval. It applies to agent preparation, generation, independent evidence review, hints and debriefs. Current retrieved passages remain complete; citation checks, review calls and model selection are unchanged. Saved turns still retain source evidence for the UI and downloads.
 
 Run `python scripts/evaluate_prompt_context.py` for an offline size comparison. Ten synthetic exchanges using the fictional EN/DE/ES samples reduced serialized **history bytes** by 71–74%. This excludes system prompts, schemas and current retrieval; it is neither an overall token reduction nor a measured billing saving. The optimization adds no provider calls. Real provider token usage and quality comparisons remain to be measured.
+
+## Hosted YouTube caption fallback
+
+When direct YouTube reads fail, the configured backend can fetch existing captions through Supadata in native-only mode. Both user-provided video links passed [hosted verification](evaluation/supadata-hosted-check-2026-11-04.json). Captions still require review; availability and service quotas apply. See [setup, privacy and verification details](docs/SUPADATA.md).

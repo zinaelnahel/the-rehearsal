@@ -43,6 +43,11 @@ review blocks / 55,781 characters; `01-59MEwE9Q` yielded four blocks / 7,700
 characters. Group counts differ from the direct importer because provider chunk
 sizes differ. No transcript text or credentials are stored in the
 [metadata-only report](../evaluation/supadata-native-check-2026-11-04.json).
-These were two native-caption requests, not AI-generated transcripts. A hosted
-verification remains pending until the backend secret is configured and this
-change is deployed. The presence of a local key does not configure Render.
+These were two native-caption requests, not AI-generated transcripts. The backend secret was subsequently configured on Render and source commit
+`43ea04075097196cb4325a2b833b65f093f5f20b` deployed. Both links then passed
+through the public app with `source_method=youtube_captions_supadata`, matching
+the local group/character counts and requiring transcript confirmation. See
+the [metadata-only hosted report](../evaluation/supadata-hosted-check-2026-11-04.json).
+These are successful checks of two links, not a guarantee for every video or
+future provider availability. Native-caption service credits were used; no
+Supadata AI generation or OpenAI calls were made in these caption checks.
