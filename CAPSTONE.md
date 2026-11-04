@@ -7,10 +7,15 @@ committed and pushed before reviewers can see them in the linked repository.
 
 Repository: https://github.com/zinaelnahel/the-rehearsal
 
+Current evidence: [submission verification](SUBMISSION.md). Public release evidence
+is published with [version 0.7.0](https://github.com/zinaelnahel/the-rehearsal/releases/tag/v0.7.0).
+
+![Updated architecture infographic](docs/architecture-infographic.png)
+
 | Criterion | Implemented evidence | Limits of the claim |
 | --- | --- | --- |
-| Evaluation | [Dataset](evaluation/rag-dataset.json), [runner](scripts/evaluate_rag.py), [offline report](evaluation/rag-demo-baseline.json), [evaluation plan](EVALUATION.md) | Nine demo cases are a regression baseline, not a live-model quality score. Optional model judges have not been run for this dataset. |
-| Automated tests | `backend/test_*.py`; 52 tests passed locally on 3 November 2026 | Stubbed live-model tests verify safeguards, not general real-model performance. |
+| Evaluation | [Dataset](evaluation/rag-dataset.json), [runner](scripts/evaluate_rag.py), [offline report](evaluation/rag-demo-baseline.json), [evaluation plan](EVALUATION.md) | Nine demo cases are a regression baseline, not a live-model quality score. The current real-provider nine-case run and all four judges passed; see SUBMISSION.md. |
+| Automated tests | `backend/test_*.py`; see current verification in docs/MULTIMODAL.md | Stubbed live-model tests verify safeguards, not general real-model performance. |
 | Historical live evidence | [Rent-flow report](evaluation/rent-fixed-slots-2026-11-02.json), [multilingual report](evaluation/multilingual-fixed-slots-2026-11-02.json) | Small historical smoke runs; not results for every subsequent code revision or proof of broad reliability. |
 | Reproducibility | [README](README.md), [.env.example](.env.example), `package-lock.json`, `backend/requirements.txt` | Frontend dependencies have a lockfile; Python dependencies have version ranges, so backend installs are not fully pinned. |
 | Containerization | [Dockerfile](Dockerfile), [.dockerignore](.dockerignore), [Render configuration](render.yaml) | Container build is configured in CI; it was not verified locally because Docker is unavailable. |
@@ -23,17 +28,31 @@ Repository: https://github.com/zinaelnahel/the-rehearsal
 ```mermaid
 flowchart LR
     U[Browser / Next.js] --> P[Server-side API proxy]
-    P --> A[FastAPI session workflow]
-    D[Document or pasted context] --> L[In-memory loader and chunking]
-    L --> V[Per-session vector store]
-    A --> V
-    V --> R[Top four passages]
-    R --> G[Role-play model proposal]
-    G --> Q[Schema and exact-quote validation]
-    Q --> E[Separate model evidence review]
-    E --> F[Validated response or explicit unknown]
+    D[PDF / DOCX / pasted text] --> C[Chunking and source metadata]
+    M[Microphone, upload or direct video URL] --> W[Bounded decoding / Whisper STT]
+    Y[YouTube URL / available captions] --> T
+    W --> T[Review and confirm transcript]
+    T --> C
+    T --> P
+    C --> V[Session-scoped Chroma collections]
+    P --> A[FastAPI / LangChain tool-calling agent]
+    A --> R[Retrieve / quote check / goal inspection / guidance]
+    R --> V
+    A --> G[Structured role-play proposal]
+    G --> Q[Mandatory exact-quote and semantic evidence checks]
+    Q --> F[Validated reply or explicit unknown]
     F --> U
+    F --> S[Optional AI TTS playback]
+    S --> U
+    E[Synthetic evaluation runner] --> A
+    A -. evaluation traces only .-> L[LangSmith experiments]
+    Q -. evaluation traces only .-> L
 ```
+
+This is the local implementation; speech must be enabled, and the existing free
+hosting configuration uses the memory retrieval fallback. Tool preparation may be
+explicitly disabled; it is enabled by default for live turns.
+
 
 Live mode uses the configured pretrained model, default `gpt-4.1-mini`, through
 LangChain. No model training or fine-tuning is performed. Strict JSON schemas and
@@ -43,16 +62,51 @@ model quality, cost and latency have not been benchmarked.
 
 Retrieval uses local 512-dimensional hashed word vectors, a small multilingual
 alias map, chunks of 700 characters with 100-character overlap, and top-four
-retrieval. This avoids external embedding calls but has limited semantic and
+retrieval. Agent retrieval can expand live context to eight unique passages.
+This avoids external embedding calls but has limited semantic and
 cross-language understanding. It is a deliberate baseline for future comparison
 with multilingual semantic embeddings.
 
 The executable prompt sources are `backend/live.py` (`rehearse`, role-play and
-evidence review), `backend/main.py` (`mission`, `hint`, `finish`), and
+evidence review), `backend/agent.py` (tool selection), `backend/main.py` (`mission`, `hint`, `finish`), and
 `backend/context.py` (`CONTEXT_RULES`). Reviewers can inspect the actual instructions
 instead of relying on a separate prompt description. Prompts restrict document
 facts to supplied evidence, preserve the partner role and separate coaching from
-role-play. Demo mode uses scripted/extractive logic and makes no model calls.
+role-play. Demo chat uses scripted/extractive logic and makes no model calls;
+optional speech still makes external audio calls after consent.
+
+## Multimodal implementation status
+
+The four additions are implemented and have real-provider and hosted LangSmith
+evidence in [SUBMISSION.md](SUBMISSION.md). Free hosting uses memory retrieval;
+persistent Chroma is demonstrated locally. Release-specific deployment results
+are recorded on the version 0.7.0 release page. See
+[activation and verification](docs/MULTIMODAL.md) for configuration, API contracts,
+privacy changes, test coverage and remaining evidence.
+
+Video links additionally support public direct MP4/WebM/MOV URLs via Whisper and
+full available YouTube captions, up to 100,000 characters. Direct links can select a 1–120-second clip from a longer file within the 4 MB download cap. Both require transcript
+review and retain source URL/timestamps. Other hosting pages are unsupported;
+blocked or missing captions use paste/upload fallbacks.
+
+| Addition | Implementation | Remaining evidence |
+| --- | --- | --- |
+| Speech input/output | [Speech endpoints](backend/speech.py), [browser controls](app/Speech.js): microphone or bounded audio/video upload, Whisper STT, editable/confirmed transcripts, timestamped source citations, optional TTS of stored partner replies | Real EN/DE/ES synthetic speech round trips and browser flow passed; broad human-speech accuracy remains unmeasured |
+| LangSmith | [Experiment runner](scripts/evaluate_langsmith.py), [trace boundary](backend/observability.py), manual evaluation workflow and commit-specific release gate | Two hosted experiments passed and traces were audited; application hosting remains Vercel/Render |
+| Several agent tools | [Bounded LangChain agent](backend/agent.py) chooses retrieval, exact-quote checking, goal inspection and practice guidance; mandatory role-play/evidence review follows | Real model selections and hosted tool traces passed; small fictional fixtures only |
+| Persistent vector database | [Chroma adapter](backend/retrieval.py): session collections, persisted expiry, explicit deletion and startup cleanup; cross-process persistence tests | Verify the actual deployment volume; existing free-host configuration explicitly uses memory |
+
+Chroma retains the local hashed embedding baseline. Persistence is implemented;
+multilingual semantic embeddings are a separate improvement, not a current claim.
+Speech is opt-in (`SPEECH_ENABLED=true`) and requires provider consent in the UI.
+Normal user sessions remain untraced; the explicitly invoked synthetic runner
+alone enables LangSmith traces. Persistent source text/vectors change the prior
+memory-only privacy claim; conversations still remain in memory.
+
+The optional [persistent deployment Blueprint](render-persistent.yaml) needs paid
+compute and a mounted disk. It has not been applied. The existing free deployment
+Blueprint retains `VECTOR_STORE=memory`, so hosted durability cannot be claimed
+until the persistent configuration is activated and verified.
 
 ## Reproduce the evidence
 
@@ -77,7 +131,7 @@ response quality or safety across arbitrary inputs.
 `python scripts/evaluate_rag.py --live --judge` additionally exercises live
 generation and four separate model-graded dimensions: correctness, relevance,
 groundedness and retrieval relevance. It uses provider calls and writes local
-results; it does not upload traces to LangSmith. Human review is still needed,
+results; it does not upload traces to LangSmith. Use `scripts/evaluate_langsmith.py` for the explicit synthetic LangSmith experiment. Human review is still needed,
 especially because the judge uses the same configured model as the generator.
 The broader dataset and human annotation gates in EVALUATION.md are planned work,
 not achieved scores. Safety evidence currently consists of automated regressions
@@ -88,7 +142,7 @@ or measured attack success rate is claimed.
 ## Guardrails and trust boundaries
 
 - Documents and user-supplied context are untrusted data. The model has no shell
-  or unrestricted tool execution. Listing imports use a separate restricted URL
+  or unrestricted tool execution. Agent tools are read-only and session-bound. Listing imports use a separate restricted URL
   importer rather than model-directed browsing.
 - Confirmed answers require valid retrieved IDs, exact supporting text and a
   separate semantic evidence review. Unsupported generated replies are withheld
@@ -96,9 +150,9 @@ or measured attack success rate is claimed.
 - Sensitive-scene rules can pause role-play. Pattern matching has false positives
   and false negatives; this is not clinical safety screening.
 - API keys remain server-side. Sessions expire after an hour of inactivity;
-  deletion removes server references and verifies session inaccessibility.
+  deletion removes server references and its persisted retrieval collection, then verifies session inaccessibility. Logical deletion is not secure disk erasure.
 - Bounded uploads, parser limits, session/turn/hint limits, provider call ceilings,
-  timeouts and disabled tracing reduce exposure and resource use.
+  timeouts and disabled user-session tracing reduce exposure and resource use.
 
 Remaining risks include prompt injection, correlated generator/judge mistakes,
 parser vulnerabilities, public-user abuse and provider retention. The proxy token
@@ -106,12 +160,15 @@ protects backend access through the frontend server; it is not user authenticati
 
 ## Cost, latency and scale
 
-An ordinary live rehearsal uses one mission-generation call, two sequential calls
+Without agent preparation, a live rehearsal uses one mission-generation call, two sequential calls
 per learner turn, one review call on finish, and one call per live hint. For `T`
 turns and `H` hints, the normal budget is **2T + H + 2 model calls**, excluding
 replays and additional reviews. A five-turn scene without hints normally uses 12
-calls. The nine-case live RAG benchmark normally uses 27 calls; four judge calls
-per case increase that to 63. Failed calls also consume application reservations.
+calls with preparation disabled. Agent preparation adds up to two calls per turn:
+the upper call budget is **4T + H + 2**, plus one call per transcription or playback.
+Audio processing has separate per-request limits. The nine-case live RAG benchmark
+uses 27 calls without preparation, or up to 45 with it; four judge calls per case
+increase those bounds to 63 or 81. Failed calls also consume reservations.
 
 Dollar cost has not been measured. Calculate it from actual input/output token
 usage and the provider's applicable rates:
@@ -131,8 +188,8 @@ cold starts add delay. The default hourly call ceiling is 200, with a 100-call
 session ceiling and 1,400 maximum output tokens per call. These counters reset on
 restart and do not replace account-level spend controls.
 
-State, retrieval and counters live in one process. Use one backend instance and
-one Uvicorn worker; restarts erase active sessions. Horizontal scaling requires
+Conversation state and counters live in one process. Chroma source text/vectors persist on disk until deletion/expiry; memory mode remains an explicit fallback. Use one backend instance and
+one Uvicorn worker; restarts erase active conversations. Persisted retrieval alone does not resume a session. Horizontal scaling requires
 shared session storage, a shared retrieval store, distributed locking and global
 rate/cost accounting. Production expansion also requires visitor authentication
 or access controls, load tests, parser isolation, monitored error rates and a

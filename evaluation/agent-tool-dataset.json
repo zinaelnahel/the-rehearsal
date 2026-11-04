@@ -1,0 +1,5 @@
+[
+  {"id":"retrieve","question":"What is the monthly rent in the document?","expected_tool":"retrieve_evidence"},
+  {"id":"progress","question":"Which mission goals have I already completed, and which are still unfinished?","expected_tool":"inspect_goal_progress"},
+  {"id":"guidance","question":"I am stuck. Please help me phrase a question for my next unfinished goal.","expected_tool":"get_practice_hint"}
+]

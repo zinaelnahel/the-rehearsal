@@ -1,0 +1,21 @@
+{
+  "run_at_utc": "2026-11-04T10:19:34.490Z",
+  "fixture": "TTS-generated fictional rent question through Chrome fake microphone; no human audio",
+  "passed": true,
+  "provider_calls": "Real local API and real provider calls; no route stubs",
+  "checks": {
+    "confirm_before_send": true,
+    "live_grounded_reply": true,
+    "real_tts_playback": true,
+    "session_deletion": true,
+    "no_browser_errors": true
+  },
+  "transcript": "How much is the monthly rent?",
+  "agent_tools": [
+    {
+      "tool": "retrieve_evidence"
+    }
+  ],
+  "answer": "The monthly rent for the apartment is 850 euros. [2]",
+  "source_count": 1
+}

@@ -7,6 +7,13 @@ services:
     dockerfilePath: ./Dockerfile
     healthCheckPath: /health
     envVars:
+      # Free-host fallback. For durable retrieval use render-persistent.yaml.
+      - key: VECTOR_STORE
+        value: memory
+      - key: SPEECH_ENABLED
+        value: "true"
+      - key: REHEARSAL_AGENT_ENABLED
+        value: "true"
       - key: REHEARSAL_MODE
         value: live
       - key: OPENAI_MODEL

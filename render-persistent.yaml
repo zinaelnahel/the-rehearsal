@@ -1,0 +1,35 @@
+# Optional PAID deployment configuration. Not applied by local implementation.
+# Use this instead of render.yaml, after reviewing compute and disk charges.
+services:
+  - type: web
+    name: the-rehearsal-api
+    runtime: docker
+    plan: 0.5c-512mb
+    numInstances: 1
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    disk:
+      name: rehearsal-vectors
+      mountPath: /home/rehearsal/data
+      sizeGB: 1
+    envVars:
+      - key: REHEARSAL_MODE
+        value: live
+      - key: OPENAI_MODEL
+        value: gpt-4.1-mini
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: API_PROXY_TOKEN
+        sync: false
+      - key: VECTOR_STORE
+        value: chroma
+      - key: CHROMA_PATH
+        value: /home/rehearsal/data/chroma
+      - key: SPEECH_ENABLED
+        value: "true"
+      - key: REHEARSAL_AGENT_ENABLED
+        value: "true"
+      - key: LANGSMITH_TRACING
+        value: "false"
+      - key: LANGCHAIN_TRACING_V2
+        value: "false"

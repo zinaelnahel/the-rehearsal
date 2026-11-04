@@ -12,7 +12,7 @@ from backend.main import app, sessions, TTL
 
 class RehearsalTests(unittest.TestCase):
  def setUp(self):
-  environment=patch.dict(os.environ,{'API_PROXY_TOKEN':''})
+  environment=patch.dict(os.environ,{'API_PROXY_TOKEN':'','REHEARSAL_AGENT_ENABLED':'false','VECTOR_STORE':'memory'})
   environment.start()
   self.addCleanup(environment.stop)
   mode=patch('backend.main.LIVE',False)

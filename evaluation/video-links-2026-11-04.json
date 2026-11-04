@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-04",
+  "scope": "Local direct-video and YouTube-caption implementation",
+  "backend_tests_passed": 77,
+  "video_tests_passed": 8,
+  "frontend_build_passed": true,
+  "browser": {
+    "passed": true,
+    "caption_responses": "stubbed",
+    "session_creation": "real local API",
+    "checks": [
+      "consent",
+      "unsupported-link fallback",
+      "transcript editing",
+      "explicit confirmation",
+      "mobile tab visibility"
+    ],
+    "page_errors": 0
+  },
+  "real_media_check": {
+    "url": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    "download_bytes": 1128375,
+    "decoded_duration_seconds": 5.05,
+    "provider_calls": 0
+  },
+  "limits": {
+    "direct_max_bytes": 4194304,
+    "direct_max_seconds": 120,
+    "youtube_excerpt": "caption segments within first 120 seconds"
+  },
+  "not_verified": [
+    "Live YouTube captions",
+    "Real Whisper call for linked video",
+    "Hosted deployment"
+  ],
+  "source_sha256": {
+    "backend/video.py": "78a7a2632c4d8bdd193bc82febfea7d3d3736f94756543bf87819d9814f1c74b",
+    "backend/test_video.py": "b809f1febd4bfbf0f139baa6d64f463a516735e4a523caaaffcbccf3c2bbeee3",
+    "backend/main.py": "55ca2d5e93e93ebeb56822b53a7451a06a976603f4b33b2d73bfefb26ebc5a7e",
+    "app/VideoSource.js": "f761a5fdaeae8b6c5269a86c78bfbecbbb75e825a7f36c52cfa82846b9659cf8",
+    "app/page.js": "7eac47c74d107bc54b20db5044f7188176263b2d4e6fe1edc026de2c068f99f4"
+  }
+}

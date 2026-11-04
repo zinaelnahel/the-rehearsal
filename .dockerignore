@@ -7,4 +7,5 @@
 .next
 .vercel
 node_modules
+output
 **/__pycache__

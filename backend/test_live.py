@@ -11,7 +11,7 @@ from copy import deepcopy
 class LiveTests(unittest.TestCase):
  def setUp(self):
   sessions.clear()
-  env=patch.dict(os.environ,{'API_PROXY_TOKEN':''})
+  env=patch.dict(os.environ,{'API_PROXY_TOKEN':'','REHEARSAL_AGENT_ENABLED':'false','VECTOR_STORE':'memory'})
   env.start();self.addCleanup(env.stop)
   self.client=self.enterContext(TestClient(app))
   with patch('backend.main.LIVE',False):

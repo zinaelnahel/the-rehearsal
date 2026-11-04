@@ -1,4 +1,4 @@
-"""Session-only, bounded rehearsal workflow. No disk-backed user data or tracing."""
+"""Bounded rehearsal with persistent retrieval, optional speech and synthetic traces."""
 import asyncio
 import hashlib
 import io
@@ -22,20 +22,24 @@ from backend.content import LANGUAGES, LEVELS, CONTENT, COMMON, TRANSLATIONS, NO
 from backend.demo_answers import answer as demo_answer, COPY as ANSWER_COPY, detect_intents, EXTRA_STARTERS, asks_question
 from backend.live import RoleReply as ReplyOutput, EvidenceReview, Translation, Hint, DebriefNotes, strict_schema, rehearse, scene_review_schema, bind_review
 from backend.listings import listing_url, fetch_listing
+from backend.retrieval import build_store, purge_expired, delete_persisted
+from backend.observability import trace_scope
+from backend.agent import prepare as prepare_agent
+from backend import speech
+from backend.video import import_video, reference_url, SourceSegment
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, UploadFile, File, Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Request
+from fastapi.responses import JSONResponse, Response
 from langchain_core.documents import Document
 from langchain_core.document_loaders import BaseLoader
 from langchain_core.embeddings import Embeddings
-from langchain_core.vectorstores import InMemoryVectorStore
+from langsmith import traceable
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from pydantic import BaseModel, Field
 from pypdf import PdfReader
 
 load_dotenv()
-os.environ['LANGCHAIN_TRACING_V2'] = 'false'
-os.environ['LANGSMITH_TRACING'] = 'false'
+# Request tracing is controlled by trace_scope, not provider/environment defaults.
 ROOT = Path(__file__).resolve().parent.parent
 LIMIT = 4 * 1024 * 1024
 TTL = 3600
@@ -91,13 +95,16 @@ async def cleanup():
  while True:
   await asyncio.sleep(30)
   for sid,s in list(sessions.items()):
-   if time.monotonic()-s['touched'] > TTL: sessions.pop(sid,None)
+   if time.monotonic()-s['touched'] > TTL: dispose_session(sid)
+  await asyncio.to_thread(purge_expired)
 
 @asynccontextmanager
 async def lifespan(app):
+ await asyncio.to_thread(purge_expired)
  task = asyncio.create_task(cleanup())
  yield
  task.cancel()
+ # Retrieval survives restarts until expiry; conversation state does not.
  sessions.clear()
 
 app = FastAPI(title='The Rehearsal', lifespan=lifespan)
@@ -107,7 +114,7 @@ async def privacy_headers(request: Request, call_next):
  token=os.getenv('API_PROXY_TOKEN','')
  if token and request.url.path.startswith('/api/') and not secrets.compare_digest(request.headers.get('x-rehearsal-token',''),token):
   return JSONResponse({'detail':'Backend access requires the application proxy.'},status_code=401,headers={'Cache-Control':'no-store'})
- if request.url.path == '/api/upload':
+ if request.url.path in ('/api/upload','/api/speech/transcribe'):
   length=request.headers.get('content-length')
   if length is None:
    return JSONResponse({'detail':'An upload Content-Length is required.'},status_code=411,headers={'Cache-Control':'no-store'})
@@ -118,42 +125,56 @@ async def privacy_headers(request: Request, call_next):
    return JSONResponse({'detail':'Invalid Content-Length.'},status_code=400,headers={'Cache-Control':'no-store'})
  if not token and request.method not in ('GET','HEAD') and request.headers.get('origin') not in (None,'http://localhost:3000','http://127.0.0.1:3000'):
   return JSONResponse({'detail':'Origin not allowed'},status_code=403)
- response = await call_next(request)
+ with trace_scope():
+  response = await call_next(request)
  response.headers['Cache-Control'] = 'no-store'
  return response
 
 @app.get('/health')
 def health(): return {'status':'ok'}
 
+def dispose_session(sid):
+ s=sessions.get(sid)
+ if s and hasattr(s['store'],'delete'):
+  s['store'].delete()
+ elif not s: delete_persisted(sid)
+ sessions.pop(sid,None)
+
 def get(sid, phase=None):
  s = sessions.get(sid)
  if not s or time.monotonic()-s['touched'] > TTL:
-  sessions.pop(sid,None)
+  dispose_session(sid)
   raise HTTPException(404,'Session expired or deleted. Start a new rehearsal.')
  if phase and s['phase'] not in phase: raise HTTPException(409,'This action is not available in the current step.')
  s['touched'] = time.monotonic()
+ if hasattr(s['store'],'touch'): s['store'].touch()
  return s
 
-def create(raw, kind, name, source_url=None):
+def create(raw, kind, name, source_url=None, transcript=None):
  if len(sessions) >= 100: raise HTTPException(503,'Demo is full. Try again later.')
  try:
-  docs = MemoryLoader(raw,kind,name).load()
+  docs = ([Document(page_content=s.text,metadata={'source':name,
+           'location':f'{s.start:.2f}s–{s.end:.2f}s (reviewed transcript)',
+           'start':s.start,'end':s.end}) for s in transcript]
+          if transcript else MemoryLoader(raw,kind,name).load())
   if sum(len(d.page_content) for d in docs)>100000: raise ValueError('Document text exceeds 100,000 characters.')
   chunks = RecursiveCharacterTextSplitter(chunk_size=700,chunk_overlap=100).split_documents(docs)
   if not chunks: raise ValueError('No text found. Scanned PDFs need OCR and are not supported.')
   for i,d in enumerate(chunks):
    d.metadata['id'] = str(i+1)
    if source_url: d.metadata['url']=source_url
-  store = InMemoryVectorStore(LocalEmbeddings())
-  store.add_documents(chunks)
+  sid = secrets.token_urlsafe(32)
  except Exception as exc:
   raise HTTPException(400,str(exc) if isinstance(exc,ValueError) else 'Could not read this document. Use a valid text PDF or DOCX.')
- sid = secrets.token_urlsafe(32)
+ try:
+  store = build_store(sid,LocalEmbeddings(),chunks,TTL)
+ except Exception:
+  raise HTTPException(503,'Retrieval storage is unavailable. Check VECTOR_STORE, CHROMA_PATH and server write permissions.') from None
  sessions[sid] = dict(store=store, phase='setup', touched=time.monotonic(), name=name, turns=[], hints=[], mission=[], ratings={}, safety=any(safety_concern(d.page_content) for d in docs), lock=asyncio.Lock())
  return {'id':sid,'name':name,'passages':len(chunks),'mode':'live' if LIVE else 'demo','source_url':source_url}
 
 @app.get('/api/config')
-def config(): return {'mode':'live' if LIVE else 'demo','demo_revision':'0.6','roleplay_revision':'0.6.1','listing_provider':'Idealista public links or pasted advert text','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
+def config(): return {'mode':'live' if LIVE else 'demo','speech_enabled':speech.enabled(), 'vector_store':os.getenv('VECTOR_STORE','chroma'), 'agent_enabled':agent_enabled(), 'demo_revision':'0.6','roleplay_revision':'0.7','listing_provider':'Idealista public links or pasted advert text','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
 
 class ListingInput(BaseModel):
  url: str = Field(max_length=2048)
@@ -177,9 +198,19 @@ class SourceInput(BaseModel):
  sample: str | None = None
  language: str = 'Spanish'
  text: str = Field(default='',max_length=100000)
+ transcript: list[SourceSegment] | None = Field(default=None,min_length=1,max_length=1000)
+ transcript_confirmed: bool = False
+ video_url: str = Field(default='',max_length=2048)
 
 @app.post('/api/sessions')
 def source(body: SourceInput):
+ if body.transcript is not None:
+  if body.sample or body.text.strip(): raise HTTPException(400,'Choose one source type.')
+  if not body.transcript_confirmed: raise HTTPException(409,'Review and confirm the transcript first.')
+  url=reference_url(body.video_url) if body.video_url else None
+  return create(b'','transcript','Reviewed video transcript' if url else 'Reviewed media transcript',
+                transcript=body.transcript,source_url=url)
+ if body.video_url: raise HTTPException(400,'Import, review and confirm the video transcript first.')
  if body.sample:
   if body.sample not in SCENARIOS: raise HTTPException(400,'Unknown sample')
   if body.language not in LANGUAGES: raise HTTPException(400,'Choose English, German or Spanish.')
@@ -235,7 +266,7 @@ class Debrief(BaseModel):
  phrases: list[str]
  note: str
 
-def model(schema, system, data, session=None):
+def reserve_call(session=None):
  if not os.getenv('OPENAI_API_KEY'): raise HTTPException(503,'Live mode requires OPENAI_API_KEY on the server.')
  with model_call_lock:
   now=time.monotonic()
@@ -246,6 +277,10 @@ def model(schema, system, data, session=None):
    raise HTTPException(429,'This session has reached its AI request limit. End the session when you are ready.')
   model_calls.append(now)
   if session is not None: session['model_calls']=session.get('model_calls',0)+1
+
+@traceable(name='structured_model',run_type='chain')
+def model(schema, system, data, session=None):
+ reserve_call(session)
  from langchain_openai import ChatOpenAI
  try:
   raw=ChatOpenAI(model=os.getenv('OPENAI_MODEL','gpt-4.1-mini'),temperature=0,timeout=20,max_retries=0,max_tokens=1400,model_kwargs={'store':False}).with_structured_output(strict_schema(schema),method='json_schema',strict=True).invoke([('system',system),('human',json.dumps(data,ensure_ascii=False))])
@@ -256,6 +291,70 @@ def model(schema, system, data, session=None):
   if status in (401,403): raise HTTPException(503,'The AI provider rejected the server credential. Check the server configuration.') from None
   if status==429: raise HTTPException(503,'The AI provider is currently rate-limited or its quota is exhausted. Try again later.') from None
   raise HTTPException(502,'The AI response could not be completed or validated. Retry this action; it has not been saved.') from None
+
+def agent_enabled():
+ return LIVE and os.getenv('REHEARSAL_AGENT_ENABLED','true').lower()=='true'
+
+@traceable(name='agent_tool_selection')
+def agent_model(messages, tools, session):
+ reserve_call(session)
+ from langchain_openai import ChatOpenAI
+ try:
+  return ChatOpenAI(model=os.getenv('OPENAI_MODEL','gpt-4.1-mini'),temperature=0,
+   timeout=6,max_retries=0,max_tokens=600,model_kwargs={'store':False}).bind_tools(tools).invoke(messages)
+ except Exception:
+  raise HTTPException(502,'Agent preparation could not be completed. Retry this turn; it has not been saved.') from None
+
+@app.post('/api/speech/transcribe')
+async def transcribe_media(file: UploadFile = File(...), language: str = Form('English'),
+                           consent: bool = Form(False)):
+ try:
+  speech.require_speech(consent)
+  raw=await file.read(LIMIT+1)
+  return await asyncio.to_thread(speech.transcribe,raw,file.filename or '',language,reserve_call)
+ finally:
+  await file.close()
+
+class Playback(BaseModel):
+ model_config={'extra':'forbid'}
+ response_id: str = Field(min_length=1,max_length=100)
+ consent: bool = False
+
+class VideoImport(BaseModel):
+ model_config={'extra':'forbid'}
+ url: str = Field(min_length=1,max_length=2048)
+ language: str = 'English'
+ consent: bool = False
+ clip_start: float | None = Field(default=None,ge=0,le=86400,allow_inf_nan=False)
+ clip_seconds: float = Field(default=120,ge=1,le=120,allow_inf_nan=False)
+
+video_import_lock=threading.Lock()
+video_imports=deque()
+video_slots=threading.BoundedSemaphore(2)
+
+@app.post('/api/video/transcript')
+def video_transcript(body: VideoImport):
+ if not body.consent: raise HTTPException(409,'Review the video-link processing notice before importing.')
+ with video_import_lock:
+  now=time.monotonic()
+  while video_imports and video_imports[0]<now-3600: video_imports.popleft()
+  if len(video_imports)>=60: raise HTTPException(429,'The hourly video import allowance has been reached. Try later.')
+  video_imports.append(now)
+ if not video_slots.acquire(blocking=False): raise HTTPException(429,'Video import is busy. Please retry shortly.')
+ try: return import_video(body.url,body.language,reserve_call,body.clip_start,body.clip_seconds)
+ finally: video_slots.release()
+
+@app.post('/api/sessions/{sid}/speech')
+async def speak_reply(sid: str, body: Playback):
+ speech.require_speech(body.consent)
+ s=get(sid,('chat','debrief'))
+ async with s['lock']:
+  if s['safety']: raise HTTPException(409,'Playback is unavailable for a paused scene.')
+  reply=next((t for t in s['turns'] if t.get('id')==body.response_id and t['role']=='assistant'),None)
+  if not reply: raise HTTPException(404,'Reply is no longer available.')
+  audio=await asyncio.to_thread(speech.synthesize,reply['content'],lambda:reserve_call(s))
+  if sessions.get(sid) is not s: raise HTTPException(404,'Session expired or deleted. Start a new rehearsal.')
+  return Response(audio,media_type='audio/mpeg',headers={'Cache-Control':'no-store'})
 
 @app.post('/api/sessions/{sid}/mission')
 def mission(sid: str, body: Setup):
@@ -335,6 +434,7 @@ def search(s, query):
 def evidence(d):
  result=dict(id=d.metadata['id'],location=d.metadata['location'],source=d.metadata['source'],text=d.page_content)
  if d.metadata.get('url'): result['url']=d.metadata['url']
+ if 'start' in d.metadata: result.update(start=d.metadata['start'],end=d.metadata['end'])
  return result
 
 @app.post('/api/sessions/{sid}/turn')
@@ -354,6 +454,9 @@ async def turn(sid: str, body: Turn):
   if s['safety']:
    reply,docs=SAFETY[s['setup']['language']],[]
   elif LIVE:
+   if agent_enabled():
+    tool_calls,docs=await asyncio.to_thread(prepare_agent,s,body.text,docs,agent_model,search,evidence)
+   else: tool_calls=[]
    reply,docs,live_updates,withheld=await asyncio.to_thread(rehearse,s,body.text,docs,model,evidence)
    achieved=list(live_updates)
   else:
@@ -380,7 +483,8 @@ async def turn(sid: str, body: Turn):
     g.update(achieved=True,evidence=outcome.get('evidence',body.text),answer_status=outcome['status'],answer_evidence=outcome['quote'],answer_sources=outcome['ids'])
   if sessions.get(sid) is not s: raise HTTPException(404,'Session was deleted while the request was running.')
   s['turns'] += [{'role':'user','content':body.text,'sources':[]},partner_turn(reply, [evidence(d) for d in docs], withheld, s['safety'])]
-  return {'turn':s['turns'][-1],'goals':s['mission'],'safety':s['safety']}
+  return {'turn':s['turns'][-1],'goals':s['mission'],'safety':s['safety'],
+          'agent_tools':tool_calls if LIVE and not s['safety'] else []}
 
 class HintInput(BaseModel):
  kind: str
@@ -475,7 +579,7 @@ def retry(sid: str, body: RetryInput):
 
 @app.delete('/api/sessions/{sid}')
 def delete(sid: str):
- sessions.pop(sid,None)
+ dispose_session(sid)
  return {'deleted':True}
 
 @app.get('/api/sessions/{sid}/status')

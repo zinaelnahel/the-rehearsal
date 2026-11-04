@@ -1,6 +1,6 @@
 """Structured role-play proposals and independent, fail-closed evidence checks.
 
-These are sequential workflow functions, not separate autonomous agents.
+Mandatory validation follows bounded tool-calling preparation in backend.agent.
 """
 import re
 from functools import lru_cache
@@ -9,6 +9,7 @@ from backend.demo_answers import plain
 from typing import Literal
 from pydantic import BaseModel, Field, create_model
 from fastapi import HTTPException
+from langsmith import traceable
 
 class GoalCheck(BaseModel):
  goal_id: str
@@ -144,6 +145,7 @@ def missing_source_answer(answer, docs):
  return any(compact(answer.source_quote) in compact(sentence) and explicitly_missing(sentence)
             for sentence in re.split(r'[.!?\n]+',source) if answer.source_quote.strip())
 
+@traceable(name='validate_exact_evidence')
 def validate_proposal(result,goals,text,docs):
  ids={g['id'] for g in goals}
  sources={d.metadata['id']:d for d in docs}
@@ -181,6 +183,7 @@ def validate_proposal(result,goals,text,docs):
  result.answer_checks=list(answers.values())
  return checks,answers
 
+@traceable(name='validated_roleplay')
 def rehearse(session,text,docs,call,passage):
  setup=session['setup']
  family_rules=''

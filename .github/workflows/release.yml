@@ -2,6 +2,11 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      require_langsmith:
+        description: Require a successful LangSmith experiment workflow for this commit
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -28,6 +33,13 @@ jobs:
             --jq '.workflow_runs | length > 0' | grep -qx true
           latest=$(git ls-remote origin refs/heads/main | cut -f1)
           test "$latest" = "$GITHUB_SHA" || { echo 'Main has advanced. Run Release on the latest commit after CI passes.'; exit 1; }
+      - name: Require LangSmith evaluation for this commit
+        if: inputs.require_langsmith
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/langsmith-evaluation.yml/runs?head_sha=$GITHUB_SHA&event=workflow_dispatch&status=success" \
+            --jq '.workflow_runs | length > 0' | grep -qx true
       - name: Check deploy hook configuration
         env:
           RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}

@@ -1,0 +1,70 @@
+{
+  "date": "2026-11-04",
+  "scope": "Local implementation verification; no deployment or hosted-service validation",
+  "backend": {
+    "command": "python -m unittest discover -s backend -t . -p 'test_*.py' -q",
+    "passed": 69,
+    "failed": 0
+  },
+  "rag": {
+    "command": "python scripts/evaluate_rag.py",
+    "vector_store": "chroma",
+    "passed": 9,
+    "total": 9,
+    "provider_calls": 0
+  },
+  "frontend": {
+    "command": "npm run build",
+    "passed": true
+  },
+  "browser": {
+    "browser": "Chrome headless",
+    "passed": true,
+    "provider_responses": "stubbed",
+    "checks": [
+      "Audio/video source upload and consent",
+      "Transcript correction and explicit confirmation",
+      "Microphone recording via fake browser audio device",
+      "Transcription remains an unsent draft",
+      "Explicit Send",
+      "AI voice playback controls",
+      "Session deletion removes audio controls"
+    ],
+    "page_errors": 0
+  },
+  "media": {
+    "decoder": "real bundled FFmpeg",
+    "formats_tested": [
+      "WAV",
+      "MP4 with audio"
+    ],
+    "provider_calls": 0
+  },
+  "blueprints": {
+    "schema": "https://render.com/schema/render.yaml.json",
+    "passed": [
+      "render.yaml",
+      "render-persistent.yaml"
+    ],
+    "applied": false
+  },
+  "not_verified": [
+    "Real Whisper/TTS provider calls and transcription accuracy",
+    "Real model tool selection",
+    "Hosted LangSmith experiment: evaluation credential not configured",
+    "Docker build and deployment disk mount behavior",
+    "Production deployment"
+  ],
+  "source_sha256": {
+    "backend/main.py": "e8adb3d65487b9cdf7c7b967300dedb5ba28d2e2c59115fc3ab1a4bd7b36dc62",
+    "backend/live.py": "c07328072175ffe309dfcd14be90d725dcd31c922ee5819a0026f481cbe8f5ce",
+    "backend/agent.py": "585640ecf48a33a3d7af1e37cfcac4e83970e657e42a4b3d8cbd0ceac69c8a1c",
+    "backend/retrieval.py": "13bbadfe4c7bd2dc027084d75f6ca17acd31941cde33445063503bb1fb7ad8a5",
+    "backend/speech.py": "57fd84442e63b3f6b1651ac9751c60b47103b72421132a0dfb1db5f6e64d6396",
+    "backend/observability.py": "346b85ca3901c19b799c089cfffe8c964d8dead9512006d2e853de955cda5226",
+    "backend/test_multimodal.py": "d2f17475dbcb7aa3caa4c1aabd32357d0880aed871ec05a9dbaf538baa1842c4",
+    "app/page.js": "ee96be7a4d6755cd9a1de9e5863588f88d8efae3be415ec9a8715f24638724e9",
+    "app/Speech.js": "2aa7a5ad637615fa76887a6b2d99f7f030057fd7a93083fa6069c3c9a4ce29dc",
+    "scripts/evaluate_langsmith.py": "e047f5a5f0ad14a8a586d1760f9f37ff7c264494de1147605fb1e8087368e1bb"
+  }
+}

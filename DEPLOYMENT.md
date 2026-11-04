@@ -1,5 +1,27 @@
 # Vercel deployment
 
+## Multimodal changes awaiting deployment
+
+See [the implementation and activation guide](docs/MULTIMODAL.md). The source now
+includes speech, a tool-calling agent, LangSmith synthetic evaluation and Chroma.
+The published deployment descriptions below are historical, not verification of
+these additions. `render.yaml` preserves a free-host memory fallback; optional
+`render-persistent.yaml` prepares paid compute and a persistent volume without
+applying them. Durable hosted retrieval requires that volume and a verified
+`CHROMA_PATH`. Do not apply both Blueprints to the same service independently.
+
+Docker includes FFmpeg. Enable `SPEECH_ENABLED=true` to expose microphone,
+audio/video transcription and AI playback. Audio requires per-use consent and
+server provider credentials. Live agent preparation is enabled by default; it
+adds up to two provider calls per learner turn.
+
+Create a GitHub `evaluation` environment with `LANGSMITH_API_KEY` and, for paid
+evaluation, `OPENAI_API_KEY`. The new manual LangSmith workflow uploads only the
+bundled fictional fixtures. Release now defaults to checking for a successful
+LangSmith evaluation workflow on the same commit as well as CI; this can be a
+demo experiment. Explicitly disabling that release input bypasses that gate.
+Actual deployment and hosted experiment verification remain pending.
+
 ## GitHub Actions CI and release preparation
 
 `.github/workflows/ci.yml` runs on pull requests, pushes to `main`, and manual

@@ -1,0 +1,54 @@
+Create a readable architecture diagram for "The Rehearsal", a document-grounded,
+multimodal conversation practice app in English, German and Spanish.
+
+Title: "The Rehearsal — multimodal implementation"
+Subtitle: "Implemented in source; hosted integration validation pending"
+Use a restrained rehearsal-room palette, clear labels and directional arrows.
+
+Show Next.js browser -> server-side API proxy -> single-instance FastAPI backend.
+Also show Video link: direct public HTTPS MP4/WebM/MOV -> bounded public-IP-pinned
+download -> existing FFmpeg/Whisper path. YouTube URL -> available captions in the
+selected language, full transcript up to 100,000 characters -> paginated transcript review/confirmation. Direct videos allow an optional start time and a clip of up to 120 seconds, within the 4 MB download cap. Preserve
+canonical video URL and timestamp citations. Label unsupported pages and blocked
+captions with paste/upload fallback. Captions do not themselves perform STT.
+Source ingestion: PDF/DOCX/pasted text -> chunking with page/paragraph metadata.
+Alternative source: microphone or bounded audio/video upload -> FFmpeg audio
+ decoding -> Whisper STT -> editable timestamped transcript -> explicit learner
+confirmation -> same chunking path. Label media limits: 4 MB / 120 seconds.
+
+Spoken learner turn: microphone/upload -> Whisper -> editable message draft ->
+learner presses Send -> bounded LangChain tool-calling preparation. Typed input
+also enters preparation. Distinguish source transcript from a conversation turn.
+
+Show four read-only tools selected through ChatOpenAI.bind_tools:
+retrieve_evidence, check_evidence, inspect_goal_progress, get_practice_hint.
+Label: at most two model calls and four tool calls; session-bound inputs;
+no tool can commit state. The quote tool checks literal presence, not entailment.
+
+Retrieval connects to per-session Chroma PersistentClient collections with source
+IDs, location/timestamp metadata and persisted expiry. Label embeddings accurately:
+"local hashed 512-dimensional baseline; semantic embeddings are future work".
+Annotate: local default Chroma; free hosted Blueprint uses memory fallback;
+durable hosted Chroma requires optional paid disk Blueprint and verification.
+Persistent source collections do not restore in-memory conversations after restart.
+
+After preparation, always show structured role-play generation -> mandatory schema
+and exact-quote validation -> independent semantic evidence review -> server state
+commit -> validated reply or explicit unknown. Then return text/source cards to
+the browser. Optional TTS uses only stored assistant replies, after the validation
+gate; label output "AI-generated voice". Speech must be enabled and uses consent.
+
+Use dashed observability arrows from retrieval, tool calls, model generation and
+validation to LangSmith. A separate versioned fictional dataset -> explicit
+synthetic evaluation runner -> LangSmith experiment path enables these traces.
+Label optional model judges: correctness, relevance, groundedness, retrieval
+relevance. Record source hashes, tool selections, elapsed time and token usage
+where provided. Normal user sessions and raw media are not traced. Show a manual
+LangSmith evaluation workflow feeding a commit-specific release gate, with actual
+application hosting on Vercel/Render. Do not depict LangSmith application hosting.
+
+Privacy callouts: keys server-side; delete temporary media after decoding;
+explicit deletion/idle expiry removes retrieval collections logically; hosting
+snapshots/provider retention need separate policies. No claimed speech accuracy
+score or completed hosted experiment: both remain evidence to collect.
+

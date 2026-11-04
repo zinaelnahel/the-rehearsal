@@ -1,0 +1,99 @@
+{
+  "experiment_name": "the-rehearsal-evaluation-ca72559d",
+  "dataset": "rehearsal-fictional-tools-89965a9f0507",
+  "metadata": {
+    "dataset_sha256": "89965a9f05076df89067812039ef7b6ffa31b2ebbf4e2c7c260dd33f88ff69aa",
+    "suite": "tools",
+    "mode": "live",
+    "model": "gpt-4.1-mini",
+    "embedding": "local-hash-512-v1",
+    "vector_store": "chroma",
+    "top_k": 4,
+    "chunk_size": 700,
+    "chunk_overlap": 100,
+    "judge_enabled": false,
+    "agent_enabled": true,
+    "source_sha256": {
+      "backend/main.py": "cd996d81f423795dc321185e8b6bb34964ae9d18e2734fc33a25bb5b2fadc339",
+      "backend/live.py": "c07328072175ffe309dfcd14be90d725dcd31c922ee5819a0026f481cbe8f5ce",
+      "backend/agent.py": "585640ecf48a33a3d7af1e37cfcac4e83970e657e42a4b3d8cbd0ceac69c8a1c",
+      "backend/retrieval.py": "13bbadfe4c7bd2dc027084d75f6ca17acd31941cde33445063503bb1fb7ad8a5",
+      "backend/context.py": "db4163953bf92dce80edfeb3dd7f9f61d356ae23b0e8cdf2ae418fb0bd562a9e"
+    }
+  },
+  "passed": true,
+  "cases": [
+    {
+      "run_id": "7d0d506f-2dfd-44fb-b9dd-4d7e7ae6b980",
+      "outputs": {
+        "id": "guidance",
+        "question": "I am stuck. Please help me phrase a question for my next unfinished goal.",
+        "tools": [
+          "get_practice_hint"
+        ],
+        "checks": {
+          "expected_tool_selected": true,
+          "read_only_state": true,
+          "bounded_calls": true,
+          "session_sources": true
+        },
+        "elapsed_seconds": 9.593,
+        "passed": true
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "run_id": "d37b5d80-394e-4d97-9ef0-de34b0c71a9b",
+      "outputs": {
+        "id": "progress",
+        "question": "Which mission goals have I already completed, and which are still unfinished?",
+        "tools": [
+          "inspect_goal_progress"
+        ],
+        "checks": {
+          "expected_tool_selected": true,
+          "read_only_state": true,
+          "bounded_calls": true,
+          "session_sources": true
+        },
+        "elapsed_seconds": 3.047,
+        "passed": true
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "run_id": "23c1a8c0-a86f-4fc1-a146-48be5c72e450",
+      "outputs": {
+        "id": "retrieve",
+        "question": "What is the monthly rent in the document?",
+        "tools": [
+          "retrieve_evidence"
+        ],
+        "checks": {
+          "expected_tool_selected": true,
+          "read_only_state": true,
+          "bounded_calls": true,
+          "session_sources": true
+        },
+        "elapsed_seconds": 2.703,
+        "passed": true
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        }
+      ]
+    }
+  ]
+}

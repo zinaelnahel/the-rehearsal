@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "experiments": [
+    {
+      "experiment_name": "the-rehearsal-evaluation-1761035c",
+      "report": "evaluation/submission-langsmith-rag-2026-11-04.json",
+      "run_count": 378,
+      "run_types": {
+        "parser": 63,
+        "llm": 81,
+        "chain": 180,
+        "retriever": 45,
+        "tool": 9
+      },
+      "run_names": {
+        "JsonOutputParser": 63,
+        "ChatOpenAI": 81,
+        "RunnableSequence": 63,
+        "structured_model": 63,
+        "validate_exact_evidence": 9,
+        "validated_roleplay": 9,
+        "agent_tool_selection": 18,
+        "retrieve_evidence": 54,
+        "rehearsal_tool_agent": 9,
+        "Target": 9
+      },
+      "all_run_errors_absent": true,
+      "project_url": "https://smith.langchain.com/o/68448f7b-c77e-45a7-bae0-7e331e58d545/projects/p/4bf850ca-718c-4603-a5c3-f4d81f879968/r/34876efe-00ae-40d8-b56c-15141418a133?poll=true",
+      "passed": true
+    },
+    {
+      "experiment_name": "the-rehearsal-evaluation-ca72559d",
+      "report": "evaluation/submission-langsmith-tools-2026-11-04.json",
+      "run_count": 28,
+      "run_types": {
+        "llm": 6,
+        "chain": 12,
+        "retriever": 7,
+        "tool": 3
+      },
+      "run_names": {
+        "ChatOpenAI": 6,
+        "agent_tool_selection": 6,
+        "retrieve_evidence": 8,
+        "rehearsal_tool_agent": 3,
+        "Target": 3,
+        "inspect_goal_progress": 1,
+        "get_practice_hint": 1
+      },
+      "all_run_errors_absent": true,
+      "project_url": "https://smith.langchain.com/o/68448f7b-c77e-45a7-bae0-7e331e58d545/projects/p/87721216-b5db-49c0-8aa0-8ad7db89c063/r/ed8236ba-d74d-426a-9a98-a0a6136e5dcc?poll=true",
+      "passed": true
+    }
+  ]
+}

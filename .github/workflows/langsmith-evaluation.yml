@@ -1,0 +1,50 @@
+name: LangSmith evaluation
+on:
+  workflow_dispatch:
+    inputs:
+      live:
+        description: Run paid provider generation and model judges on fictional fixtures
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: evaluation
+    env:
+      REHEARSAL_MODE: demo
+      API_PROXY_TOKEN: ''
+      VECTOR_STORE: chroma
+      CHROMA_PATH: .runtime/chroma-evaluation
+      LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      LANGSMITH_PROJECT: the-rehearsal-evaluation
+      LANGSMITH_ENDPOINT: ${{ vars.LANGSMITH_ENDPOINT || 'https://api.smith.langchain.com' }}
+      LANGSMITH_TRACING: 'false'
+      LANGCHAIN_TRACING_V2: 'false'
+      REHEARSAL_AGENT_ENABLED: 'true'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - run: python -m pip install -r backend/requirements.txt
+      - name: Run traced synthetic experiment
+        env:
+          RUN_LIVE: ${{ inputs.live }}
+        run: |
+          if [ "$RUN_LIVE" = 'true' ]; then
+            python scripts/evaluate_langsmith.py --live --judge
+          else
+            python scripts/evaluate_langsmith.py
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: langsmith-evaluation
+          path: .runtime/langsmith-evaluation.json
+          retention-days: 14

@@ -8,7 +8,7 @@ from backend.context import safety_concern
 
 class ContextFeedbackTests(unittest.TestCase):
  def setUp(self):
-  self.enterContext(patch.dict(os.environ, {'API_PROXY_TOKEN':''}))
+  self.enterContext(patch.dict(os.environ, {'API_PROXY_TOKEN':'','REHEARSAL_AGENT_ENABLED':'false','VECTOR_STORE':'memory'}))
   self.enterContext(patch('backend.main.LIVE', False))
   self.client=self.enterContext(TestClient(app))
   sessions.clear()

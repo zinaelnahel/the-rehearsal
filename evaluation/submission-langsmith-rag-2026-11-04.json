@@ -1,0 +1,843 @@
+{
+  "experiment_name": "the-rehearsal-evaluation-1761035c",
+  "dataset": "rehearsal-fictional-rag-0780d44aee63",
+  "metadata": {
+    "dataset_sha256": "0780d44aee633d5399ac250b96b454ae9109f02d9b1500b012cd9e022b8530b7",
+    "suite": "rag",
+    "mode": "live",
+    "model": "gpt-4.1-mini",
+    "embedding": "local-hash-512-v1",
+    "vector_store": "chroma",
+    "top_k": 4,
+    "chunk_size": 700,
+    "chunk_overlap": 100,
+    "judge_enabled": true,
+    "agent_enabled": true,
+    "source_sha256": {
+      "backend/main.py": "cd996d81f423795dc321185e8b6bb34964ae9d18e2734fc33a25bb5b2fadc339",
+      "backend/live.py": "c07328072175ffe309dfcd14be90d725dcd31c922ee5819a0026f481cbe8f5ce",
+      "backend/agent.py": "585640ecf48a33a3d7af1e37cfcac4e83970e657e42a4b3d8cbd0ceac69c8a1c",
+      "backend/retrieval.py": "13bbadfe4c7bd2dc027084d75f6ca17acd31941cde33445063503bb1fb7ad8a5",
+      "backend/context.py": "db4163953bf92dce80edfeb3dd7f9f61d356ae23b0e8cdf2ae418fb0bd562a9e"
+    }
+  },
+  "passed": true,
+  "cases": [
+    {
+      "run_id": "152fdcea-8908-44bd-a22d-7ad93ecbe438",
+      "outputs": {
+        "id": "spanish-2",
+        "language": "Spanish",
+        "question": "¿Se admiten mascotas?",
+        "agent_tools": [
+          {
+            "tool": "retrieve_evidence"
+          }
+        ],
+        "reference_answer": "The document does not specify whether pets are allowed; ask in the real conversation.",
+        "answer": "No se especifica la política sobre mascotas para este apartamento, así que no puedo confirmarlo ahora mismo. ¿Quieres que te muestre el resto del piso? [4]",
+        "retrieved_documents": [
+          {
+            "id": "4",
+            "location": "Section 4",
+            "source": "Pasted document",
+            "text": "The pet policy is not specified."
+          },
+          {
+            "id": "1",
+            "location": "Section 1",
+            "source": "Pasted document",
+            "text": "Fictional apartment listing."
+          },
+          {
+            "id": "3",
+            "location": "Section 3",
+            "source": "Pasted document",
+            "text": "The apartment is available from 15 December."
+          },
+          {
+            "id": "7",
+            "location": "Section 7",
+            "source": "Pasted document",
+            "text": "The apartment has two bedrooms."
+          }
+        ],
+        "checks": {
+          "retrieval_hit": true,
+          "expected_status": true,
+          "goal_detected": true,
+          "citation_integrity": true,
+          "confirmed_quote_support": true
+        },
+        "judge": {
+          "correctness": {
+            "explanation": "The answer correctly states that the policy on pets is not specified, aligning with the reference which indicates the document does not specify whether pets are allowed. The assistant appropriately does not confirm or deny pet allowance and offers to show the rest of the apartment, which is a reasonable continuation. There are no conflicting facts added. Therefore, the answer meets the requirements.",
+            "passed": true
+          },
+          "relevance": {
+            "explanation": "The answer directly addresses the question by stating that the pet policy is not specified and thus cannot be confirmed at the moment. It appropriately includes an explicit unknown rather than assuming an answer. Therefore, it correctly handles the user's query.",
+            "passed": true
+          },
+          "groundedness": {
+            "explanation": "The answer states that the pet policy is not specified for the apartment, which is directly supported by the retrieved passage from document 4: \"The pet policy is not specified.\" Therefore, the factual claim in the answer is accurate and supported by the provided documents.",
+            "passed": true
+          },
+          "retrieval_relevance": {
+            "explanation": "The document with id '4' explicitly states that the pet policy is not specified, which is relevant to the question about whether pets are allowed. This provides evidence that there is no clear policy on admitting pets.",
+            "passed": true
+          }
+        },
+        "passed": true,
+        "elapsed_seconds": 21.391
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        },
+        {
+          "key": "correctness",
+          "score": 1
+        },
+        {
+          "key": "relevance",
+          "score": 1
+        },
+        {
+          "key": "groundedness",
+          "score": 1
+        },
+        {
+          "key": "retrieval_relevance",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "run_id": "e071e8fb-8a8a-4143-8638-688d7e57c159",
+      "outputs": {
+        "id": "spanish-1",
+        "language": "Spanish",
+        "question": "¿Cuándo está disponible el piso?",
+        "agent_tools": [
+          {
+            "tool": "retrieve_evidence"
+          }
+        ],
+        "reference_answer": "Available from 15 December.",
+        "answer": "El piso está disponible a partir del 15 de diciembre. [3]",
+        "retrieved_documents": [
+          {
+            "id": "3",
+            "location": "Section 3",
+            "source": "Pasted document",
+            "text": "The apartment is available from 15 December."
+          },
+          {
+            "id": "2",
+            "location": "Section 2",
+            "source": "Pasted document",
+            "text": "Monthly rent is 1375 euros."
+          },
+          {
+            "id": "6",
+            "location": "Section 6",
+            "source": "Pasted document",
+            "text": "The nearest park is on Oak Street."
+          },
+          {
+            "id": "7",
+            "location": "Section 7",
+            "source": "Pasted document",
+            "text": "The apartment has two bedrooms."
+          }
+        ],
+        "checks": {
+          "retrieval_hit": true,
+          "expected_status": true,
+          "goal_detected": true,
+          "citation_integrity": true,
+          "confirmed_quote_support": true,
+          "required_answer": true
+        },
+        "judge": {
+          "correctness": {
+            "explanation": "The answer correctly states that the apartment is available from 15 December, matching the reference. The inclusion of '[3]' is extraneous but does not conflict with the required fact. Therefore, the answer contains the required fact and no conflicting information.",
+            "passed": true
+          },
+          "relevance": {
+            "explanation": "The answer directly addresses the question by specifying the availability date of the apartment as December 15. It does not include any irrelevant information and clearly responds to the user's inquiry.",
+            "passed": true
+          },
+          "groundedness": {
+            "explanation": "The answer states that the apartment is available from 15 December, which is directly supported by the text in document 3: \"The apartment is available from 15 December.\" Therefore, the factual claim in the answer is supported by the retrieved passage.",
+            "passed": true
+          },
+          "retrieval_relevance": {
+            "explanation": "The document with id '3' explicitly states that the apartment is available from 15 December, which directly answers the question about when the apartment is available. None of the other documents provide relevant information about availability or mention any policy regarding availability.",
+            "passed": true
+          }
+        },
+        "passed": true,
+        "elapsed_seconds": 15.282
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        },
+        {
+          "key": "correctness",
+          "score": 1
+        },
+        {
+          "key": "relevance",
+          "score": 1
+        },
+        {
+          "key": "groundedness",
+          "score": 1
+        },
+        {
+          "key": "retrieval_relevance",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "run_id": "b33f4f7c-77a3-4dc5-a378-2233257fee45",
+      "outputs": {
+        "id": "spanish-0",
+        "language": "Spanish",
+        "question": "¿Cuánto cuesta el alquiler al mes?",
+        "agent_tools": [
+          {
+            "tool": "retrieve_evidence"
+          }
+        ],
+        "reference_answer": "Monthly rent is 1375 euros.",
+        "answer": "El alquiler mensual es de 1375 euros. [2]",
+        "retrieved_documents": [
+          {
+            "id": "2",
+            "location": "Section 2",
+            "source": "Pasted document",
+            "text": "Monthly rent is 1375 euros."
+          },
+          {
+            "id": "5",
+            "location": "Section 5",
+            "source": "Pasted document",
+            "text": "The building has a lift."
+          },
+          {
+            "id": "6",
+            "location": "Section 6",
+            "source": "Pasted document",
+            "text": "The nearest park is on Oak Street."
+          },
+          {
+            "id": "7",
+            "location": "Section 7",
+            "source": "Pasted document",
+            "text": "The apartment has two bedrooms."
+          }
+        ],
+        "checks": {
+          "retrieval_hit": true,
+          "expected_status": true,
+          "goal_detected": true,
+          "citation_integrity": true,
+          "confirmed_quote_support": true,
+          "required_answer": true
+        },
+        "judge": {
+          "correctness": {
+            "explanation": "The answer correctly states that the monthly rent is 1375 euros, which matches the reference exactly. There are no conflicting facts or missing required information. The citation '[2]' does not affect the factual correctness.",
+            "passed": true
+          },
+          "relevance": {
+            "explanation": "The answer directly addresses the question by stating the monthly rent cost as 1375 euros. It also includes a reference marker '[2]', which may indicate a source, but this does not affect the directness of the answer. Therefore, the answer is appropriate and complete.",
+            "passed": true
+          },
+          "groundedness": {
+            "explanation": "The answer states that the monthly rent is 1375 euros, which is directly supported by the passage in document 2 that says 'Monthly rent is 1375 euros.' Therefore, the factual claim in the answer is fully supported by the retrieved passage.",
+            "passed": true
+          },
+          "retrieval_relevance": {
+            "explanation": "The question asks about the monthly rent cost. Document with id '2' explicitly states that the monthly rent is 1375 euros, which directly answers the question. The other documents provide unrelated information about the building and surroundings, so they are not relevant to the question. There is no mention of any policy or absence thereof in the documents.",
+            "passed": true
+          }
+        },
+        "passed": true,
+        "elapsed_seconds": 14.515
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        },
+        {
+          "key": "correctness",
+          "score": 1
+        },
+        {
+          "key": "relevance",
+          "score": 1
+        },
+        {
+          "key": "groundedness",
+          "score": 1
+        },
+        {
+          "key": "retrieval_relevance",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "run_id": "d0902777-e4f9-48a0-a7a0-c67ab1f7d14a",
+      "outputs": {
+        "id": "german-2",
+        "language": "German",
+        "question": "Sind Haustiere erlaubt?",
+        "agent_tools": [
+          {
+            "tool": "retrieve_evidence"
+          }
+        ],
+        "reference_answer": "The document does not specify whether pets are allowed; ask in the real conversation.",
+        "answer": "Das ist leider nicht näher geregelt, ob Haustiere erlaubt sind oder nicht. [4]",
+        "retrieved_documents": [
+          {
+            "id": "4",
+            "location": "Section 4",
+            "source": "Pasted document",
+            "text": "The pet policy is not specified."
+          },
+          {
+            "id": "3",
+            "location": "Section 3",
+            "source": "Pasted document",
+            "text": "The apartment is available from 15 December."
+          },
+          {
+            "id": "5",
+            "location": "Section 5",
+            "source": "Pasted document",
+            "text": "The building has a lift."
+          },
+          {
+            "id": "7",
+            "location": "Section 7",
+            "source": "Pasted document",
+            "text": "The apartment has two bedrooms."
+          }
+        ],
+        "checks": {
+          "retrieval_hit": true,
+          "expected_status": true,
+          "goal_detected": true,
+          "citation_integrity": true,
+          "confirmed_quote_support": true
+        },
+        "judge": {
+          "correctness": {
+            "explanation": "The answer correctly states that the document does not specify whether pets are allowed, which aligns with the reference indicating the information is not provided and should be asked in the real conversation. There are no conflicting facts added, and the answer appropriately reflects the unknown status.",
+            "passed": true
+          },
+          "relevance": {
+            "explanation": "The answer directly addresses the question by stating that it is not specified whether pets are allowed or not, which is an explicit acknowledgment of the unknown. Therefore, it appropriately answers the question.",
+            "passed": true
+          },
+          "groundedness": {
+            "explanation": "The answer states that it is not specified whether pets are allowed or not, which is supported by the retrieved passage from document 4 stating 'The pet policy is not specified.' Therefore, the factual claim in the answer is supported by the retrieved passage.",
+            "passed": true
+          },
+          "retrieval_relevance": {
+            "explanation": "The retrieved passage from Section 4 explicitly states that the pet policy is not specified, which is relevant to answering the question about whether pets are allowed. This passage provides evidence about the absence of a policy regarding pets.",
+            "passed": true
+          }
+        },
+        "passed": true,
+        "elapsed_seconds": 15.375
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        },
+        {
+          "key": "correctness",
+          "score": 1
+        },
+        {
+          "key": "relevance",
+          "score": 1
+        },
+        {
+          "key": "groundedness",
+          "score": 1
+        },
+        {
+          "key": "retrieval_relevance",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "run_id": "f8c4f76a-4fef-4dfd-b788-ed321215c3d9",
+      "outputs": {
+        "id": "german-1",
+        "language": "German",
+        "question": "Ab wann ist die Wohnung verfügbar?",
+        "agent_tools": [
+          {
+            "tool": "retrieve_evidence"
+          }
+        ],
+        "reference_answer": "Available from 15 December.",
+        "answer": "Die Wohnung ist ab dem 15. Dezember verfügbar. [3]",
+        "retrieved_documents": [
+          {
+            "id": "3",
+            "location": "Section 3",
+            "source": "Pasted document",
+            "text": "The apartment is available from 15 December."
+          },
+          {
+            "id": "2",
+            "location": "Section 2",
+            "source": "Pasted document",
+            "text": "Monthly rent is 1375 euros."
+          },
+          {
+            "id": "6",
+            "location": "Section 6",
+            "source": "Pasted document",
+            "text": "The nearest park is on Oak Street."
+          },
+          {
+            "id": "7",
+            "location": "Section 7",
+            "source": "Pasted document",
+            "text": "The apartment has two bedrooms."
+          }
+        ],
+        "checks": {
+          "retrieval_hit": true,
+          "expected_status": true,
+          "goal_detected": true,
+          "citation_integrity": true,
+          "confirmed_quote_support": true,
+          "required_answer": true
+        },
+        "judge": {
+          "correctness": {
+            "explanation": "The answer correctly states that the apartment is available from 15 December, matching the reference. The inclusion of the source marker '[3]' does not conflict with the required facts. Therefore, the answer is accurate and complete.",
+            "passed": true
+          },
+          "relevance": {
+            "explanation": "The answer directly addresses the question by specifying the availability date of the apartment as December 15th. It also includes a reference marker '[3]', which may indicate a source or footnote, but this does not detract from the clarity of the answer. Therefore, the response is appropriate and complete.",
+            "passed": true
+          },
+          "groundedness": {
+            "explanation": "The answer states that the apartment is available from 15 December, which is directly supported by the text in document 3: \"The apartment is available from 15 December.\" Therefore, the factual claim in the answer is supported by the retrieved passage.",
+            "passed": true
+          },
+          "retrieval_relevance": {
+            "explanation": "The question asks when the apartment is available. Document with id '3' explicitly states that the apartment is available from 15 December, which directly answers the question. Other documents do not provide relevant information about availability. There is no mention of any policy restricting or affecting availability in the documents.",
+            "passed": true
+          }
+        },
+        "passed": true,
+        "elapsed_seconds": 14.688
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        },
+        {
+          "key": "correctness",
+          "score": 1
+        },
+        {
+          "key": "relevance",
+          "score": 1
+        },
+        {
+          "key": "groundedness",
+          "score": 1
+        },
+        {
+          "key": "retrieval_relevance",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "run_id": "ce367467-ceb9-4f79-96b5-e532701697e1",
+      "outputs": {
+        "id": "german-0",
+        "language": "German",
+        "question": "Wie hoch ist die monatliche Miete?",
+        "agent_tools": [
+          {
+            "tool": "retrieve_evidence"
+          }
+        ],
+        "reference_answer": "Monthly rent is 1375 euros.",
+        "answer": "Die monatliche Miete beträgt 1375 Euro. [2]",
+        "retrieved_documents": [
+          {
+            "id": "2",
+            "location": "Section 2",
+            "source": "Pasted document",
+            "text": "Monthly rent is 1375 euros."
+          },
+          {
+            "id": "1",
+            "location": "Section 1",
+            "source": "Pasted document",
+            "text": "Fictional apartment listing."
+          },
+          {
+            "id": "4",
+            "location": "Section 4",
+            "source": "Pasted document",
+            "text": "The pet policy is not specified."
+          },
+          {
+            "id": "5",
+            "location": "Section 5",
+            "source": "Pasted document",
+            "text": "The building has a lift."
+          }
+        ],
+        "checks": {
+          "retrieval_hit": true,
+          "expected_status": true,
+          "goal_detected": true,
+          "citation_integrity": true,
+          "confirmed_quote_support": true,
+          "required_answer": true
+        },
+        "judge": {
+          "correctness": {
+            "explanation": "The answer correctly states that the monthly rent is 1375 euros, which matches the reference exactly. There are no conflicting facts or missing required information. The citation '[2]' does not affect the correctness of the factual content.",
+            "passed": true
+          },
+          "relevance": {
+            "explanation": "The answer directly addresses the question by stating the monthly rent amount as 1375 Euro. It also includes a reference marker '[2]', which suggests a source, although the source itself is not provided. The answer is clear and explicit, providing the requested information without ambiguity.",
+            "passed": true
+          },
+          "groundedness": {
+            "explanation": "The answer states that the monthly rent is 1375 Euro, which is directly supported by the retrieved passage from document 2 stating 'Monthly rent is 1375 euros.' Therefore, the factual claim in the answer is supported by the provided document.",
+            "passed": true
+          },
+          "retrieval_relevance": {
+            "explanation": "The document with id '2' explicitly states the monthly rent as 1375 euros, which directly answers the question about the monthly rent. There is no mention of any policy restricting or affecting the rent in the documents, so the answer is supported by the retrieved passage.",
+            "passed": true
+          }
+        },
+        "passed": true,
+        "elapsed_seconds": 15.172
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        },
+        {
+          "key": "correctness",
+          "score": 1
+        },
+        {
+          "key": "relevance",
+          "score": 1
+        },
+        {
+          "key": "groundedness",
+          "score": 1
+        },
+        {
+          "key": "retrieval_relevance",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "run_id": "5e6d6082-9be5-4e7e-9dfc-08610ede8030",
+      "outputs": {
+        "id": "english-2",
+        "language": "English",
+        "question": "Are pets allowed?",
+        "agent_tools": [
+          {
+            "tool": "retrieve_evidence"
+          }
+        ],
+        "reference_answer": "The document does not specify whether pets are allowed; ask in the real conversation.",
+        "answer": "The pet policy is not specified for this apartment, so I don't have that information at the moment. Is there anything else you'd like to know? [4]",
+        "retrieved_documents": [
+          {
+            "id": "4",
+            "location": "Section 4",
+            "source": "Pasted document",
+            "text": "The pet policy is not specified."
+          },
+          {
+            "id": "1",
+            "location": "Section 1",
+            "source": "Pasted document",
+            "text": "Fictional apartment listing."
+          },
+          {
+            "id": "3",
+            "location": "Section 3",
+            "source": "Pasted document",
+            "text": "The apartment is available from 15 December."
+          },
+          {
+            "id": "7",
+            "location": "Section 7",
+            "source": "Pasted document",
+            "text": "The apartment has two bedrooms."
+          }
+        ],
+        "checks": {
+          "retrieval_hit": true,
+          "expected_status": true,
+          "goal_detected": true,
+          "citation_integrity": true,
+          "confirmed_quote_support": true
+        },
+        "judge": {
+          "correctness": {
+            "explanation": "The answer correctly states that the pet policy is not specified and that the information is not available at the moment, which aligns with the reference stating the document does not specify whether pets are allowed. No conflicting information is added, and the answer appropriately invites further questions. Therefore, the answer meets the requirements.",
+            "passed": true
+          },
+          "relevance": {
+            "explanation": "The answer directly addresses the question by stating that the pet policy is not specified and that the information is not available at the moment. It also appropriately invites further questions, which is good conversational practice. The answer explicitly acknowledges the unknown information, which is appropriate here.",
+            "passed": true
+          },
+          "groundedness": {
+            "explanation": "The answer states that the pet policy is not specified for the apartment, which is directly supported by the retrieved passage from document 4 stating \"The pet policy is not specified.\" Therefore, the factual claim in the answer is fully supported by the provided documents.",
+            "passed": true
+          },
+          "retrieval_relevance": {
+            "explanation": "The document with id '4' explicitly states that 'The pet policy is not specified,' which directly addresses the question about whether pets are allowed by indicating that there is no specified policy. This is relevant evidence for answering the question, including the explicit absence of a policy.",
+            "passed": true
+          }
+        },
+        "passed": true,
+        "elapsed_seconds": 16.718
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        },
+        {
+          "key": "correctness",
+          "score": 1
+        },
+        {
+          "key": "relevance",
+          "score": 1
+        },
+        {
+          "key": "groundedness",
+          "score": 1
+        },
+        {
+          "key": "retrieval_relevance",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "run_id": "9a32d758-f9c4-4941-8230-3da124a6a6fd",
+      "outputs": {
+        "id": "english-1",
+        "language": "English",
+        "question": "When is the apartment available?",
+        "agent_tools": [
+          {
+            "tool": "retrieve_evidence"
+          }
+        ],
+        "reference_answer": "Available from 15 December.",
+        "answer": "The apartment is available from 15 December. Would you like to know about the rent or any other details? [3]",
+        "retrieved_documents": [
+          {
+            "id": "3",
+            "location": "Section 3",
+            "source": "Pasted document",
+            "text": "The apartment is available from 15 December."
+          },
+          {
+            "id": "7",
+            "location": "Section 7",
+            "source": "Pasted document",
+            "text": "The apartment has two bedrooms."
+          },
+          {
+            "id": "4",
+            "location": "Section 4",
+            "source": "Pasted document",
+            "text": "The pet policy is not specified."
+          },
+          {
+            "id": "6",
+            "location": "Section 6",
+            "source": "Pasted document",
+            "text": "The nearest park is on Oak Street."
+          }
+        ],
+        "checks": {
+          "retrieval_hit": true,
+          "expected_status": true,
+          "goal_detected": true,
+          "citation_integrity": true,
+          "confirmed_quote_support": true,
+          "required_answer": true
+        },
+        "judge": {
+          "correctness": {
+            "explanation": "The answer correctly states that the apartment is available from 15 December, which matches the reference. The additional offer to provide more information does not conflict with the reference and is acceptable. Therefore, the required fact is present and no conflicting information is added.",
+            "passed": true
+          },
+          "relevance": {
+            "explanation": "The answer directly addresses the question by specifying the availability date of the apartment as 15 December. It also offers to provide additional information, which is appropriate. The inclusion of '[3]' appears to be extraneous or a formatting artifact and does not affect the correctness of the answer. Overall, the response is clear and relevant to the question.",
+            "passed": true
+          },
+          "groundedness": {
+            "explanation": "The answer states that the apartment is available from 15 December, which is directly supported by the text in document 3: \"The apartment is available from 15 December.\" The additional question about rent or other details is not contradicted by any document and is a reasonable follow-up. Therefore, all factual claims in the answer are supported by the retrieved passages.",
+            "passed": true
+          },
+          "retrieval_relevance": {
+            "explanation": "The document with id '3' explicitly states that the apartment is available from 15 December, which directly answers the question about the apartment's availability. Other documents do not provide relevant information about availability or policies related to it.",
+            "passed": true
+          }
+        },
+        "passed": true,
+        "elapsed_seconds": 16.61
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        },
+        {
+          "key": "correctness",
+          "score": 1
+        },
+        {
+          "key": "relevance",
+          "score": 1
+        },
+        {
+          "key": "groundedness",
+          "score": 1
+        },
+        {
+          "key": "retrieval_relevance",
+          "score": 1
+        }
+      ]
+    },
+    {
+      "run_id": "099d5b72-19d5-4654-b652-da7a995238de",
+      "outputs": {
+        "id": "english-0",
+        "language": "English",
+        "question": "How much is the monthly rent?",
+        "agent_tools": [
+          {
+            "tool": "retrieve_evidence"
+          }
+        ],
+        "reference_answer": "Monthly rent is 1375 euros.",
+        "answer": "The monthly rent for the apartment is 1375 euros. [2]",
+        "retrieved_documents": [
+          {
+            "id": "2",
+            "location": "Section 2",
+            "source": "Pasted document",
+            "text": "Monthly rent is 1375 euros."
+          },
+          {
+            "id": "4",
+            "location": "Section 4",
+            "source": "Pasted document",
+            "text": "The pet policy is not specified."
+          },
+          {
+            "id": "3",
+            "location": "Section 3",
+            "source": "Pasted document",
+            "text": "The apartment is available from 15 December."
+          },
+          {
+            "id": "6",
+            "location": "Section 6",
+            "source": "Pasted document",
+            "text": "The nearest park is on Oak Street."
+          }
+        ],
+        "checks": {
+          "retrieval_hit": true,
+          "expected_status": true,
+          "goal_detected": true,
+          "citation_integrity": true,
+          "confirmed_quote_support": true,
+          "required_answer": true
+        },
+        "judge": {
+          "correctness": {
+            "explanation": "The answer correctly states the monthly rent as 1375 euros, which matches the reference. The additional phrase 'for the apartment' and the citation '[2]' do not conflict with the reference and are acceptable. Therefore, the answer contains the required fact and no conflicting information.",
+            "passed": true
+          },
+          "relevance": {
+            "explanation": "The answer directly addresses the question by providing the monthly rent amount as 1375 euros. It explicitly answers the question without ambiguity or omission. The reference '[2]' suggests a source, which is appropriate for supporting the answer. Therefore, the answer is complete and relevant.",
+            "passed": true
+          },
+          "groundedness": {
+            "explanation": "The answer states that the monthly rent for the apartment is 1375 euros and cites document [2] as the source. Document [2] explicitly states 'Monthly rent is 1375 euros.' Therefore, the factual claim in the answer is fully supported by the retrieved passage.",
+            "passed": true
+          },
+          "retrieval_relevance": {
+            "explanation": "The document with id '2' explicitly states that the monthly rent is 1375 euros, which directly answers the question about the monthly rent. The other documents do not provide relevant information about the rent or policies related to it.",
+            "passed": true
+          }
+        },
+        "passed": true,
+        "elapsed_seconds": 14.828
+      },
+      "scores": [
+        {
+          "key": "deterministic_checks",
+          "score": 1
+        },
+        {
+          "key": "correctness",
+          "score": 1
+        },
+        {
+          "key": "relevance",
+          "score": 1
+        },
+        {
+          "key": "groundedness",
+          "score": 1
+        },
+        {
+          "key": "retrieval_relevance",
+          "score": 1
+        }
+      ]
+    }
+  ]
+}

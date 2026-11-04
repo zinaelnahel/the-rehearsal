@@ -1,5 +1,21 @@
 # Evaluation plan
 
+## Multimodal implementation checks
+
+[The implementation guide](docs/MULTIMODAL.md) documents the new offline contracts,
+speech activation, cross-process Chroma test and explicit LangSmith experiment
+runner. Run `python scripts/evaluate_langsmith.py` to upload fictional fixtures
+and trace demo evaluation; add `--live --judge` for paid generation, agent tools
+and the four model judges. This source integration is not itself a hosted result.
+Historical provider reports below predate the new agent and speech paths.
+
+Before claiming multimodal quality, record labelled EN/DE/ES audio/video fixtures,
+word error rate and timestamp accuracy, microphone permission/silence/failure
+flows, transcript corrections and playback of validated replies. Measure speech
+latency and cost separately. Do not score pronunciation from STT text. Publish a
+LangSmith experiment link and a reviewed live-agent run with source/configuration
+hashes. Normal learner sessions and raw media are not uploaded to LangSmith.
+
 ## Missing-policy status regression
 
 A production smoke review found that live role-play could correctly cite an

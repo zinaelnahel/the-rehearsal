@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-04",
+  "revision": "full-captions-and-unified-media-tab",
+  "backend_tests_passed": 80,
+  "production_build_passed": true,
+  "browser": {
+    "passed": true,
+    "import_responses": "stubbed",
+    "source_ingestion": "real local API",
+    "checks": [
+      "one Audio / video tab",
+      "record/upload and video-link selector",
+      "clip start and duration",
+      "stale-source clearing on switching",
+      "full transcript pagination and editing",
+      "source evidence at 2640 seconds"
+    ],
+    "page_errors": 0
+  },
+  "limits": {
+    "youtube_text_characters": 100000,
+    "caption_blocks": 1000,
+    "direct_download_bytes": 4194304,
+    "clip_duration_seconds": [
+      1,
+      120
+    ],
+    "clip_start_seconds": [
+      0,
+      86400
+    ]
+  },
+  "decoder": "real FFmpeg selected interval test passed",
+  "not_verified": [
+    "Live YouTube caption availability",
+    "Paid transcription for selected remote video clip",
+    "Hosted deployment"
+  ],
+  "source_sha256": {
+    "backend/video.py": "f72e7cfac2aa58d1887140b1eb4875a44c51d69d940c8e19c99349fe3523d828",
+    "backend/speech.py": "1f5bdee3ffd06f30aadfe9466170301de8eb50190844ddba76e4eb5d95803295",
+    "backend/main.py": "cd996d81f423795dc321185e8b6bb34964ae9d18e2734fc33a25bb5b2fadc339",
+    "app/MediaSources.js": "b84068f00704a0d55940361a2d0c9207d9ae64e4e46a3e53343fae0d5c516b3a",
+    "app/VideoSource.js": "7b2d9ad900840f5a4b02c3a2d6e0ffa7458e292cd66755d7be786351aaa7cbf2",
+    "app/page.js": "99dcb65abbaffdbf6a58016f5e6f94b6077d5f5778830fa3111cade0be6db8c9"
+  }
+}

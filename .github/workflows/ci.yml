@@ -24,6 +24,8 @@ jobs:
       API_PROXY_TOKEN: ''
       LANGSMITH_TRACING: 'false'
       LANGCHAIN_TRACING_V2: 'false'
+      VECTOR_STORE: memory
+      REHEARSAL_AGENT_ENABLED: 'false'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

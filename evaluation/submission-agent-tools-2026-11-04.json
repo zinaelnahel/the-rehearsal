@@ -1,0 +1,60 @@
+{
+  "run_at_utc": "2026-11-04T10:16:35.678227+00:00",
+  "model": "gpt-4.1-mini",
+  "cases": [
+    {
+      "id": "retrieve",
+      "question": "What is the monthly rent in the document?",
+      "tools": [
+        "retrieve_evidence"
+      ],
+      "checks": {
+        "expected_tool_selected": true,
+        "read_only_state": true,
+        "bounded_calls": true,
+        "session_sources": true
+      },
+      "elapsed_seconds": 4.985,
+      "passed": true
+    },
+    {
+      "id": "progress",
+      "question": "Which mission goals have I already completed, and which are still unfinished?",
+      "tools": [
+        "inspect_goal_progress"
+      ],
+      "checks": {
+        "expected_tool_selected": true,
+        "read_only_state": true,
+        "bounded_calls": true,
+        "session_sources": true
+      },
+      "elapsed_seconds": 3.093,
+      "passed": true
+    },
+    {
+      "id": "guidance",
+      "question": "I am stuck. Please help me phrase a question for my next unfinished goal.",
+      "tools": [
+        "get_practice_hint"
+      ],
+      "checks": {
+        "expected_tool_selected": true,
+        "read_only_state": true,
+        "bounded_calls": true,
+        "session_sources": true
+      },
+      "elapsed_seconds": 2.578,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "dataset_sha256": "89965a9f05076df89067812039ef7b6ffa31b2ebbf4e2c7c260dd33f88ff69aa",
+  "source_sha256": {
+    "backend/main.py": "cd996d81f423795dc321185e8b6bb34964ae9d18e2734fc33a25bb5b2fadc339",
+    "backend/agent.py": "585640ecf48a33a3d7af1e37cfcac4e83970e657e42a4b3d8cbd0ceac69c8a1c",
+    "backend/retrieval.py": "13bbadfe4c7bd2dc027084d75f6ca17acd31941cde33445063503bb1fb7ad8a5",
+    "scripts/evaluate_agent_tools.py": "b9bedf699e545510104685ec1ec7509e431fcdefa4b8156e26ef82e70d9cd79d"
+  },
+  "provider_calls": 6
+}

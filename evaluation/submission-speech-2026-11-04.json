@@ -1,0 +1,56 @@
+{
+  "run_at_utc": "2026-11-04T10:14:27.023568+00:00",
+  "tts_model": "tts-1",
+  "stt_model": "whisper-1",
+  "fixture_type": "TTS-generated scripted fictional openings",
+  "limitation": "Three synthetic round trips; not human-recorded speech, microphone usability or broad accuracy.",
+  "word_error_gate": 0.25,
+  "cases": [
+    {
+      "language": "English",
+      "input_kind": "audio",
+      "passed": true,
+      "reference": "Hello, welcome to the viewing. What would you like to know about the apartment?",
+      "tts_seconds": 3.593,
+      "stt_seconds": 2.078,
+      "transcript": "Hello. Welcome to The Viewing. What would you like to know about the apartment?",
+      "duration_seconds": 4.944,
+      "normalized_word_error_rate": 0.0,
+      "timestamped_source_ingestion": true,
+      "deletion_verified": true
+    },
+    {
+      "language": "German",
+      "input_kind": "video",
+      "passed": true,
+      "reference": "Guten Tag, willkommen zur Besichtigung. Was möchten Sie über die Wohnung wissen?",
+      "tts_seconds": 1.828,
+      "stt_seconds": 1.843,
+      "transcript": "Guten Tag. Willkommen zur Besichtigung. Was möchten Sie über die Wohnung wissen?",
+      "duration_seconds": 4.92,
+      "normalized_word_error_rate": 0.0,
+      "timestamped_source_ingestion": true,
+      "deletion_verified": true
+    },
+    {
+      "language": "Spanish",
+      "input_kind": "audio",
+      "passed": true,
+      "reference": "Hola, bienvenido a la visita. ¿Qué te gustaría saber del piso?",
+      "tts_seconds": 1.594,
+      "stt_seconds": 1.86,
+      "transcript": "Hola, bienvenido a la visita. ¿Qué te gustaría saber del piso?",
+      "duration_seconds": 3.864,
+      "normalized_word_error_rate": 0.0,
+      "timestamped_source_ingestion": true,
+      "deletion_verified": true
+    }
+  ],
+  "passed": true,
+  "source_sha256": {
+    "backend/main.py": "cd996d81f423795dc321185e8b6bb34964ae9d18e2734fc33a25bb5b2fadc339",
+    "backend/speech.py": "1f5bdee3ffd06f30aadfe9466170301de8eb50190844ddba76e4eb5d95803295",
+    "scripts/evaluate_speech.py": "e10e706e0738f0470068c33e65c9963d267b5ae199889fd17d292b7a3cf85544"
+  },
+  "provider_calls": 6
+}
