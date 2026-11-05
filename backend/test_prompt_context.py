@@ -33,7 +33,7 @@ class PromptContextTests(unittest.TestCase):
         def call(schema, system, data, session=None):
             payloads.append(deepcopy(data))
             if schema is EvidenceReview:
-                return EvidenceReview(reply_supported=True, accepted_goal_ids=[], verified_answer_goal_ids=[])
+                return EvidenceReview(partner_role_consistent=True,reply_supported=True, accepted_goal_ids=[], verified_answer_goal_ids=[])
             return RoleReply(reply='Pets are not allowed. [1]', citations=['1'],
                              goal_checks=[], answer_checks=[])
 

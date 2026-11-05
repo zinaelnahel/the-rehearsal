@@ -27,8 +27,19 @@ class LiveTests(unittest.TestCase):
   values.update(kwargs)
   return RoleReply(**values)
 
+ def test_role_consistency_is_required_and_can_withhold_a_source_supported_reply(self):
+  with self.assertRaises(ValidationError):
+   EvidenceReview(reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
+  review=EvidenceReview(partner_role_consistent=False,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+  with patch('backend.main.model',side_effect=[self.proposal(),review]):
+   result=self.client.post(self.p+'/turn',json={'text':'Are utilities included?'})
+  self.assertEqual(result.status_code,200,result.text)
+  self.assertTrue(result.json()['turn']['answer_withheld'])
+  self.assertEqual(result.json()['turn']['sources'],[])
+  self.assertNotEqual(result.json()['goals'][0]['answer_status'],'confirmed')
+
  def test_custom_goal_requires_exact_quote_and_verified_answer(self):
-  review=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
   with patch('backend.main.model',side_effect=[self.proposal(),review]):
    r=self.client.post(self.p+'/turn',json={'text':'Are utilities included?'})
   self.assertEqual(r.status_code,200,r.text)
@@ -49,7 +60,7 @@ class LiveTests(unittest.TestCase):
     proposal=self.proposal(reply='The document does not specify whether pets are allowed. [1]',
      goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote='Are pets allowed?')],
      answer_checks=[AnswerCheck(goal_id='0',status='supported',source_id='1',source_quote=source)])
-    review=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+    review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
     doc=Document(page_content=source,metadata={'id':'1','location':'Section 1','source':'Synthetic policy'})
     with patch('backend.main.search',return_value=[doc]),patch('backend.main.model',side_effect=[proposal,review]):
      response=self.client.post(self.p+'/turn',json={'text':'Are pets allowed?'})
@@ -74,7 +85,7 @@ class LiveTests(unittest.TestCase):
   proposal=self.proposal(reply='The monthly rent is 1375 euros. [1]',
    goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote='What is the monthly rent?')],
    answer_checks=[AnswerCheck(goal_id='0',status='supported',source_id='1',source_quote=source[0].page_content)])
-  review=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
   with patch('backend.main.search',return_value=source),patch('backend.main.model',side_effect=[proposal,review]):
    response=self.client.post(self.p+'/turn',json={'text':'What is the monthly rent?'})
   self.assertEqual(response.status_code,200,response.text)
@@ -110,7 +121,7 @@ class LiveTests(unittest.TestCase):
    self.assertFalse(sessions[self.sid]['mission'][0]['achieved'])
 
  def test_withhold_unsupported_reply_without_confirming_answer(self):
-  review=EvidenceReview(reply_supported=False,accepted_goal_ids=['0'],verified_answer_goal_ids=[])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=False,accepted_goal_ids=['0'],verified_answer_goal_ids=[])
   with patch('backend.main.model',side_effect=[self.proposal(reply='Utilities are included and you can have a free garage.'),review]):
    data=self.client.post(self.p+'/turn',json={'text':'Are utilities included?'}).json()
   self.assertNotIn('garage',data['turn']['content'])
@@ -120,7 +131,7 @@ class LiveTests(unittest.TestCase):
   self.assertEqual(data['turn']['sources'],[])
 
  def test_semantic_review_can_reject_keyword_only_goal_match(self):
-  review=EvidenceReview(reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
   proposal=self.proposal(goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote='I will not ask about utilities')])
   with patch('backend.main.model',side_effect=[proposal,review]):
    data=self.client.post(self.p+'/turn',json={'text':'I will not ask about utilities'}).json()
@@ -183,7 +194,7 @@ class LiveTests(unittest.TestCase):
 
  def test_fixed_assessment_turn_confirms_source_and_tracks_the_actual_user(self):
   generated=scene_reply_schema(1,('1',)).model_validate(self.scene_payload())
-  review=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
   with patch('backend.main.model',side_effect=[generated,review]) as model:
    response=self.client.post(self.p+'/turn',json={'text':'Are utilities included?'})
   self.assertEqual(response.status_code,200,response.text)
@@ -231,12 +242,12 @@ class LiveTests(unittest.TestCase):
   self.assertEqual(response.json()['feedback'][0]['quote'],'No')
 
  def test_historical_goal_carry_forward_does_not_rewrite_evidence(self):
-  first=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+  first=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
   with patch('backend.main.model',side_effect=[self.proposal(),first]):
    self.client.post(self.p+'/turn',json={'text':'Are utilities included?'})
   historical=self.proposal(reply='What else would you like to ask?',citations=[])
   # Overbroad review IDs cannot create fresh observations after normalization.
-  review=EvidenceReview(reply_supported=True,accepted_goal_ids=['0','invented'],verified_answer_goal_ids=['0'])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0','invented'],verified_answer_goal_ids=['0'])
   with patch('backend.main.model',side_effect=[historical,review]):
    response=self.client.post(self.p+'/turn',json={'text':'Thank you for explaining.'})
   self.assertEqual(response.status_code,200,response.text)

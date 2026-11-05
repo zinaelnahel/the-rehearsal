@@ -1,0 +1,122 @@
+{
+  "synthetic": true,
+  "human_reviewed": false,
+  "agent_enabled": true,
+  "cases": [
+    {
+      "language": "English",
+      "level": "Everyday",
+      "turns": [
+        {
+          "learner": "I am sorry but i have some work to do ",
+          "partner": "I understand you have work, but I really need your help with these errands this weekend. Can you please reconsider? [4] [2]",
+          "withheld": false,
+          "proposed_reply": "I understand you have work, but I really need your help with these errands this weekend. Can you please reconsider?",
+          "review": {
+            "reply_supported": true,
+            "partner_role_consistent": true,
+            "accepted_goal_ids": [],
+            "verified_answer_goal_ids": []
+          }
+        },
+        {
+          "learner": "No, I cannot help this weekend.",
+          "partner": "What does that mean for helping me this weekend?",
+          "withheld": true,
+          "proposed_reply": "I appreciate you letting me know. I won't ask again about this weekend then. Just please check with me before making plans that involve my time in the future.",
+          "review": {
+            "reply_supported": true,
+            "partner_role_consistent": true,
+            "accepted_goal_ids": [
+              "0"
+            ],
+            "verified_answer_goal_ids": []
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "language": "German",
+      "level": "B1",
+      "turns": [
+        {
+          "learner": "Es tut mir leid, aber ich muss arbeiten.",
+          "partner": "Ich verstehe, dass du arbeiten musst. Danke, dass du es mir gesagt hast. Ich werde sehen, wie ich die Besorgungen sonst erledigen kann. [5] [4] [2]",
+          "withheld": false,
+          "proposed_reply": "Ich verstehe, dass du arbeiten musst. Danke, dass du es mir gesagt hast. Ich werde sehen, wie ich die Besorgungen sonst erledigen kann.",
+          "review": {
+            "reply_supported": true,
+            "partner_role_consistent": true,
+            "accepted_goal_ids": [],
+            "verified_answer_goal_ids": []
+          }
+        },
+        {
+          "learner": "Nein, ich kann dieses Wochenende nicht helfen.",
+          "partner": "Ich verstehe, danke für deine klare Antwort. Ich werde dann andere Lösungen für die Besorgungen suchen. [2] [4] [5]",
+          "withheld": false,
+          "proposed_reply": "Ich verstehe, danke für deine klare Antwort. Ich werde dann andere Lösungen für die Besorgungen suchen.",
+          "review": {
+            "reply_supported": true,
+            "partner_role_consistent": true,
+            "accepted_goal_ids": [
+              "0",
+              "1"
+            ],
+            "verified_answer_goal_ids": []
+          }
+        }
+      ],
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "level": "B2",
+      "turns": [
+        {
+          "learner": "Lo siento, pero tengo trabajo.",
+          "partner": "Entiendo que tienes trabajo, pero realmente necesito que me ayudes con estos recados este fin de semana. ¿Podrías reconsiderarlo? [2] [4]",
+          "withheld": false,
+          "proposed_reply": "Entiendo que tienes trabajo, pero realmente necesito que me ayudes con estos recados este fin de semana. ¿Podrías reconsiderarlo?",
+          "review": {
+            "reply_supported": true,
+            "partner_role_consistent": true,
+            "accepted_goal_ids": [],
+            "verified_answer_goal_ids": []
+          }
+        },
+        {
+          "learner": "No, no puedo ayudar este fin de semana.",
+          "partner": "Entiendo que no puedas ayudar este fin de semana, pero realmente necesito que me eches una mano con estos recados. ¿Hay alguna forma en que puedas organizar tu tiempo para ayudarme? [2] [4]",
+          "withheld": false,
+          "proposed_reply": "Entiendo que no puedas ayudar este fin de semana, pero realmente necesito que me eches una mano con estos recados. ¿Hay alguna forma en que puedas organizar tu tiempo para ayudarme?",
+          "review": {
+            "reply_supported": true,
+            "partner_role_consistent": true,
+            "accepted_goal_ids": [
+              "0"
+            ],
+            "verified_answer_goal_ids": []
+          }
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "run_at_utc": "2026-11-05T14:42:44.664765+00:00",
+  "model": "gpt-4.1-mini",
+  "source_sha256": {
+    "backend/live.py": "2cb038c4b4ea0010b8ec7fd353b43b6531fc4d7321befd3b5e2110c549f5a7f0",
+    "backend/family_boundary.py": "243bda081de84aadcc374adcfecf7203a3c6234201d27739a3d0494f6e6ba937",
+    "scripts/evaluate_family_roles.py": "8adacc9de0c493f4c44bd49058ea3e36b8a4c86a499525240762af1356637400"
+  },
+  "rental_regression_passed": true,
+  "provider_calls": 30,
+  "offline_tests_passed": 118,
+  "limitations": [
+    "Finite synthetic regression, not independent human review",
+    "Family requester guard is intentionally narrow; arbitrary role or grounding errors remain possible"
+  ]
+}

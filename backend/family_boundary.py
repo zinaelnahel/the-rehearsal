@@ -2,6 +2,20 @@
 import re
 from backend.context import plain
 
+
+def requester_speaks_as_learner(text, language):
+ """Narrow fail-closed check for the known requester/decliner role contract.
+
+ This is not general role classification. Second-person acknowledgement of the
+ learner's refusal remains valid; first-person refusal by the requester does not.
+ """
+ patterns={
+  'English':r"\b(?:i|we)\s+(?:cannot|can['’]t|won['’]t|am unable to)\s+(?:help|come|make it)\b|\bmy answer (?:is|remains) (?:still )?no\b|\b(?:please )?(?:do not|don['’]t) ask me again\b|\b(?:ask|check with) me\b[^.!?]{0,70}\b(?:my time|in advance|before)\b|\b(?:tell|warn|notify|let) me\b[^.!?]{0,50}\b(?:in advance|ahead of time)\b",
+  'German':r'\bich kann\b[^.!?]{0,70}\bnicht helfen\b|\bich habe keine zeit\b|\bmeine antwort (?:ist|bleibt) nein\b|\bfrag mich nicht (?:noch einmal|wieder)\b|\bfrag mich\b[^.!?]{0,70}\b(?:meine zeit|bevor|vorher)\b|\b(?:sag|gib|informier)\w* mir\b[^.!?]{0,50}\b(?:vorher|im voraus|rechtzeitig)\b',
+  'Spanish':r'\bno (?:te )?puedo ayudar(?:te)?\b|\bno estoy disponible\b|\bmi respuesta (?:es|sigue siendo) no\b|\bno me (?:lo )?(?:pidas|preguntes) (?:otra vez|de nuevo)\b|\b(?:preguntame|me preguntes)\b[^.!?]{0,70}\b(?:mi tiempo|antes)\b|\b(?:avisame|me avises)\b[^.!?]{0,50}\b(?:anticipacion|antelacion|antes)\b'
+ }
+ return bool(re.search(patterns[language],plain(text)))
+
 def family_intents(text, language):
  query=plain(text).strip().strip('.!')
  if query in ('no','no thanks','no thank you','nein','nein danke','no gracias'):

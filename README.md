@@ -230,3 +230,24 @@ The report exposes scripted-demo limitations; it is not a human quality score.
 See [release status and commands](docs/RELEASE_GATES.md). The production release
 workflow now requires current, hash-bound human-reviewed live benchmark evidence.
 No human verdicts, physical-device results or public deployments were fabricated.
+
+
+## Partner role ownership regression
+
+A reported family-boundary exchange had the family member reply with the
+learner's refusal. Roles were present in the generation prompt, but the broad
+review verdict could still approve words assigned to the wrong speaker.
+Evidence review now requires an explicit `partner_role_consistent` verdict;
+source confirmation also depends on it. The known family-request scenario adds
+an independent EN/DE/ES check for first-person refusals and ownership reversals
+of the learner's boundary. A rejected reply is replaced by an in-role clarification
+without invented source evidence, while independently validated learner actions
+remain separate. Generic factual withholding retains its existing behavior.
+
+Regression checks include the reported wording, multilingual variants, correct
+second-person reflections, and a normal rent question. The final real-provider
+run used 30 calls with fictional EN/DE/ES family scenes and a rent regression;
+all passed. A bad proposal was caught even when the model reviewer approved it.
+See [the synthetic report](evaluation/family-roles-live-2026-11-05.json). This is
+finite model testing, not human-reviewed reliability. Repeat explicitly with
+`python scripts/evaluate_family_roles.py` (paid provider calls).

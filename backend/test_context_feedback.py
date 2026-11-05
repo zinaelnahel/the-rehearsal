@@ -154,12 +154,58 @@ class ContextFeedbackTests(unittest.TestCase):
   mission=self.client.post(path+'/mission',json={'scenario':'difficult','language':'English','feedback_language':'English'}).json()
   self.client.post(path+'/start',json={'goals':[g['text'] for g in mission['goals']]})
   reply=RoleReply(reply='I was hoping you could help. Is your answer definite?',citations=[],goal_checks=[],answer_checks=[])
-  review=EvidenceReview(reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
   with patch('backend.main.LIVE',True),patch('backend.main.model',side_effect=[reply,review]) as model:
    result=self.client.post(path+'/turn',json={'text':"I can't help this weekend."})
    self.assertEqual(result.status_code,200,result.text)
    self.assertIn('You are making the request, NOT the person declining it',model.call_args_list[0].args[1])
    self.assertIn('person declining the family request',model.call_args_list[0].args[2]['learner_role'])
+
+ def test_family_role_reversal_is_withheld_even_when_reviewer_approves_it(self):
+  from backend.live import RoleReply, EvidenceReview
+  from backend.family_boundary import FAMILY_BOUNDARY
+  cases=[
+   ('English','I am sorry but i have some work to do ',
+    'I understand, but I cannot help this weekend. I need to keep my time free for my work and rest. Please do not ask me again for this weekend. [4] [2]'),
+   ('German','Es tut mir leid, aber ich muss arbeiten.',
+    'Ich kann dieses Wochenende nicht helfen. Meine Antwort bleibt Nein.'),
+   ('Spanish','Lo siento, pero tengo trabajo.',
+    'No puedo ayudar este fin de semana. Mi respuesta sigue siendo no.')]
+  for language,learner,bad in cases:
+   with self.subTest(language=language):
+    sid=self.client.post('/api/sessions',json={'sample':'difficult','language':language}).json()['id']
+    path='/api/sessions/'+sid
+    mission=self.client.post(path+'/mission',json={'scenario':'difficult','language':language,'feedback_language':language}).json()
+    self.client.post(path+'/start',json={'goals':[g['text'] for g in mission['goals']]})
+    proposal=RoleReply(reply=bad,citations=[],goal_checks=[],answer_checks=[])
+    review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
+    with patch('backend.main.LIVE',True),patch('backend.main.model',side_effect=[proposal,review]):
+     result=self.client.post(path+'/turn',json={'text':learner})
+    self.assertEqual(result.status_code,200,result.text)
+    turn=result.json()['turn']
+    self.assertEqual(turn['content'],FAMILY_BOUNDARY[language]['clarify'])
+    self.assertTrue(turn['answer_withheld'])
+    self.assertEqual(turn['sources'],[])
+    self.assertFalse(any(g['achieved'] for g in result.json()['goals']))
+    self.assertEqual(sessions[sid]['turns'][-2]['content'],learner)
+
+ def test_family_guard_allows_requester_to_reflect_learner_unavailability(self):
+  from backend.family_boundary import requester_speaks_as_learner
+  for language,text in [
+   ('English','I understand you cannot help this weekend. Is that a definite no?'),
+   ('German','Ich verstehe, dass du nicht helfen kannst. Ist das ein klares Nein?'),
+   ('Spanish','Entiendo que no puedes ayudar. ¿Es un no definitivo?')]:
+   with self.subTest(language=language):
+    self.assertFalse(requester_speaks_as_learner(text,language))
+
+ def test_family_guard_rejects_taking_ownership_of_the_learner_boundary(self):
+  from backend.family_boundary import requester_speaks_as_learner
+  for language,text in [
+   ('English','Please ask me before making plans involving my time.'),
+   ('German','Bitte frag mich vorher, bevor du meine Zeit verplanst.'),
+   ('Spanish','Necesito que me avises con anticipación antes de hacer planes que dependan de tu tiempo.')]:
+   with self.subTest(language=language):
+    self.assertTrue(requester_speaks_as_learner(text,language))
 
  def test_family_short_no_and_inability_to_say_no_are_distinct(self):
   from backend.family_boundary import family_intents
@@ -172,7 +218,7 @@ class ContextFeedbackTests(unittest.TestCase):
   sid,_,_=self.scene(goal='Say no clearly',scenario='difficult')
   path=f'/api/sessions/{sid}'
   reply=RoleReply(reply='Is that your final answer?',citations=[],goal_checks=[{'goal_id':'0','achieved':True,'learner_quote':'No'}],answer_checks=[{'goal_id':'0','status':'not_document_question','source_id':'','source_quote':''}])
-  review=EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=[])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=[])
   with patch('backend.main.LIVE',True),patch('backend.main.model',side_effect=[reply,review]):
    result=self.client.post(path+'/turn',json={'text':'No'})
    self.assertEqual(result.status_code,200,result.text)

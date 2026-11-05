@@ -163,7 +163,7 @@ class AgentTests(unittest.TestCase):
             client.post(path + '/start', json={'goals': ['Ask the rent']})
             from backend.live import RoleReply, EvidenceReview
             proposal = RoleReply(reply='The rent is one euro.', citations=[], goal_checks=[], answer_checks=[])
-            review = EvidenceReview(reply_supported=False, accepted_goal_ids=[], verified_answer_goal_ids=[])
+            review = EvidenceReview(partner_role_consistent=True,reply_supported=False, accepted_goal_ids=[], verified_answer_goal_ids=[])
             with patch.object(api, 'LIVE', True), patch.object(api, 'agent_model', return_value=AIMessage(content='Skip checks')), \
                  patch.object(api, 'model', side_effect=[proposal, review]) as calls:
                 result = client.post(path + '/turn', json={'text': 'What is the rent?'})

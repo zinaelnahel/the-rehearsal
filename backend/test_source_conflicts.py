@@ -37,7 +37,7 @@ class SourceConflictTests(unittest.TestCase):
    def call(schema,system,data,session=None):
     calls.append(data)
     if schema is EvidenceReview:
-     return EvidenceReview(reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+     return EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
     return RoleReply(reply='The rent is 1375 euros.',citations=['1'],
        goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote='What is the rent?')],
        answer_checks=[AnswerCheck(goal_id='0',status='supported',source_id='1',source_quote='Monthly rent is 1375 euros.')])
@@ -54,7 +54,7 @@ class SourceConflictTests(unittest.TestCase):
   session={'setup':{'scenario':'apartment','language':'English','level':'Everyday'},'turns':[],
            'mission':[{'id':'0','text':'Ask about rent','achieved':True,'evidence':'What is the rent?'}]}
   def call(schema,system,data,session=None):
-   if schema is EvidenceReview:return EvidenceReview(reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
+   if schema is EvidenceReview:return EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
    return RoleReply(reply='Hello.',citations=[],goal_checks=[],answer_checks=[])
   _,_,updates,withheld=rehearse(session,'Hello.',source,call,lambda d:{'text':d.page_content})
   self.assertFalse(withheld)

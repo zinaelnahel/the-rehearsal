@@ -292,7 +292,7 @@ class RehearsalTests(unittest.TestCase):
   mission=self.client.post(path+'/mission',json={'scenario':'apartment','language':'German','level':'B2','feedback_language':'Spanish'}).json()
   self.client.post(path+'/start',json={'goals':[g['text'] for g in mission['goals']]})
   proposal=ReplyOutput(reply='Gerne. Was möchten Sie noch wissen?',citations=[],goal_checks=[],answer_checks=[])
-  review=EvidenceReview(reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
   with patch('backend.main.LIVE',True),patch('backend.main.model',side_effect=[proposal,review]) as mock:
    self.assertEqual(self.client.post(path+'/turn',json={'text':'Wie hoch ist die Miete?'}).status_code,200)
    self.assertIn('Speak German',mock.call_args_list[0].args[1])
