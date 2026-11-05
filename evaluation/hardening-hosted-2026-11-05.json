@@ -1,0 +1,91 @@
+{
+  "date": "2026-11-05",
+  "deployed_commit": "f00d47934ff24b0f3e5a9b5ee95099da457c479a",
+  "frontend_url": "https://the-rehearsal-lab.vercel.app",
+  "backend_url": "https://the-rehearsal-api.onrender.com",
+  "render_deploy_id": "dep-dbm5groae00c738drr70",
+  "vercel_deploy_id": "dpl_C1sKwJ9mCA7K9JYsA7RVTFQokLJn",
+  "ci_run_id": 42009729779,
+  "release_authorization": "User explicitly requested redeployment after being informed that independent human review was pending. Manual public-demo release; no production-quality certification claimed.",
+  "passed": true,
+  "api": {
+    "commit": "f00d47934ff24b0f3e5a9b5ee95099da457c479a",
+    "synthetic": true,
+    "checks": [
+      {
+        "check": "backend health",
+        "passed": true
+      },
+      {
+        "check": "direct backend API protected",
+        "passed": true
+      },
+      {
+        "check": "live proxy configuration",
+        "passed": true
+      },
+      {
+        "check": "sandboxed hosted pdf import",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "verified session deletion",
+        "passed": true
+      },
+      {
+        "check": "sandboxed hosted docx import",
+        "passed": true,
+        "detail": null
+      },
+      {
+        "check": "verified session deletion",
+        "passed": true
+      },
+      {
+        "check": "live mission",
+        "passed": true
+      },
+      {
+        "check": "live scene start",
+        "passed": true
+      },
+      {
+        "check": "source-confirmed live answer",
+        "passed": true
+      },
+      {
+        "check": "live feedback quotes actual learner text",
+        "passed": true
+      },
+      {
+        "check": "verified session deletion",
+        "passed": true
+      },
+      {
+        "check": "hosted YouTube captions",
+        "passed": true,
+        "source_method": "youtube_captions_supadata",
+        "detail": null
+      }
+    ],
+    "human_reviewed": false,
+    "passed": true
+  },
+  "browser": {
+    "passed": true,
+    "hosted": true,
+    "checks": [
+      "independent EN/DE/ES interface language",
+      "video URL and consent retained across language change",
+      "390px viewport has no overflow"
+    ],
+    "page_errors": []
+  },
+  "limitations": [
+    "Human-reviewed live benchmark remains pending",
+    "Physical mobile-device validation remains pending",
+    "Provider reservation ledger uses the existing free host filesystem; host replacement can reset it",
+    "Provider account billing settings were not changed"
+  ]
+}

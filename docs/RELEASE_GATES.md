@@ -74,8 +74,7 @@ docker run --rm --entrypoint python rehearsal-ci -m backend.sandbox_probe
 ```
 
 The policy follows the [kernel API](https://docs.kernel.org/userspace-api/landlock.html).
-Native Linux confinement was not executed on this Windows machine (Docker/WSL
-unavailable); CI now requires the probe. Do not weaken it for an unsupported host;
+Native Linux confinement passed in remote CI, including all denial checks and real PDF/DOCX parsing. Real document imports also passed on the deployed Render host. This Windows machine has no Docker/WSL. Do not weaken it for an unsupported host;
 use pasted text or a sandbox-capable host.
 
 Configure `PROVIDER_DAILY_BUDGET_USD`, `PROVIDER_CALL_RESERVATION_USD` and
@@ -92,5 +91,4 @@ with the proxy secret and UTC date; application counters retain no raw IPs.
 Physical iPhone/Safari and Android/Chrome tests still require those devices,
 including denied permissions, interruptions, poor speech and camera media.
 Viewport resizing and synthetic microphones are labeled accurately. Independent
-human scoring requires real reviewers; none was invented. No production deployment
-or provider billing setting was changed by this work.
+human scoring requires real reviewers; none was invented. A manual public-demo release was deployed after the user explicitly requested it despite the pending human review. Both hosts and hosted checks passed; see [deployment evidence](../evaluation/hardening-hosted-2026-11-05.json). Provider billing settings were not changed.

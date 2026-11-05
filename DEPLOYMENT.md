@@ -140,4 +140,4 @@ it across host replacement. Provider billing controls are separate.
 The manual release workflow now also requires current live benchmark outputs and
 attributed human reviews; it rescales neither missing reviews nor offline demo
 scores into passes. Existing LangSmith and successful-CI checks still apply.
-This update was implemented and tested locally; it has not been deployed.
+This update was deployed on 5 November 2026 at commit `f00d479` after the user explicitly requested a public-demo release with human review still pending. Both hosts are live. [Hosted checks](evaluation/hardening-hosted-2026-11-05.json) passed; the strict automated quality-release gate remains in place for future qualified releases.
