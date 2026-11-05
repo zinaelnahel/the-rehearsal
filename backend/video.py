@@ -224,6 +224,8 @@ def import_video(value, language, reserve, clip_start=None, clip_seconds=120):
                 if not caption_provider.enabled():raise
                 fetched=caption_provider.fetch_native(identifier,speech.CODES[language],deadline)
                 provider=True
+            if not provider and getattr(fetched,'language_code',None) != speech.CODES[language]:
+                raise HTTPException(422, 'Existing captions are in a different language. Select that conversation language or paste the transcript.')
             segments = caption_segments(fetched)
             if not segments:
                 raise HTTPException(422, 'No readable captions were found. ' + FALLBACK)

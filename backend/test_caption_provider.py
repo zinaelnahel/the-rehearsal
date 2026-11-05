@@ -56,7 +56,9 @@ class CaptionProviderTests(unittest.TestCase):
    with self.assertRaises(HTTPException):video.import_video('https://youtu.be/abcdefghijk','English',reserve)
    provider.assert_not_called()
   direct=[fetched]
-  class Direct(list):is_generated=False
+  class Direct(list):
+   is_generated=False
+   language_code="en"
   with patch('youtube_transcript_api.YouTubeTranscriptApi.fetch',return_value=Direct(direct)),patch.object(caption_provider,'fetch_native') as provider:
    self.assertEqual(video.import_video('https://youtu.be/abcdefghijk','English',reserve)['source_method'],'youtube_captions')
    provider.assert_not_called()

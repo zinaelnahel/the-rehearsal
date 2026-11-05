@@ -110,7 +110,9 @@ def transcribe(raw, filename, language, reserve, clip_start=None, clip_seconds=M
         for item in result.segments or []:
             # Whisper can hallucinate on silence. Reject high no-speech segments;
             # learner confirmation remains required even for accepted segments.
-            if getattr(item, 'no_speech_prob', 0) > 0.6:
+            if (getattr(item, 'no_speech_prob', 0) > 0.6
+                    or getattr(item, 'avg_logprob', 0) < -1.0
+                    or getattr(item, 'compression_ratio', 0) > 2.4):
                 continue
             start, end = float(item.start), float(item.end)
             if not math.isfinite(start) or not math.isfinite(end):

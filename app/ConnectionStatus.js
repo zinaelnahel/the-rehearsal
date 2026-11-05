@@ -1,4 +1,5 @@
 'use client';
+import {useI18n} from './i18n';
 import {useEffect,useState} from 'react';
 import samples from './sample-previews.json';
 
@@ -20,7 +21,9 @@ export function usePracticeConnection(){
 }
 
 export default function ConnectionStatus({connection,scenario,language}){
+ const {t,locale,errorText}=useI18n();
+
  if(connection.status==='ready')return null;
  const failed=connection.status==='failed';
- return <section className="connection-status" aria-label="Practice server connection"><div role="status" aria-live="polite"><strong>{failed?'The practice server could not be reached.':connection.status==='slow'?'Still connecting to the rehearsal room…':'Connecting to the rehearsal room…'}</strong><p>{failed?'Your setup is still here. Retry the connection when you are ready.':connection.status==='slow'?'The free server may be waking after inactivity. You can read a fictional sample while you wait.':'You can prepare your setup while we connect. Practice starts once the server is ready.'}</p></div>{failed&&<button className="secondary" onClick={connection.retry}>Retry connection</button>}<details className="waiting-sample"><summary>Read a sample while you wait</summary><p className="subtle">Fictional source text only. This does not start a rehearsal or send your data.</p><pre>{samples[scenario]?.[language]||samples.apartment.English}</pre></details></section>;
+ return <section className="connection-status" aria-label={t("Practice server connection")}><div role="status" aria-live="polite"><strong>{failed?t("The practice server could not be reached."):connection.status==='slow'?t("Still connecting to the rehearsal room…"):t("Connecting to the rehearsal room…")}</strong><p>{failed?t("Your setup is still here. Retry the connection when you are ready."):connection.status==='slow'?t("The free server may be waking after inactivity. You can read a fictional sample while you wait."):t("You can prepare your setup while we connect. Practice starts once the server is ready.")}</p></div>{failed&&<button className="secondary" onClick={connection.retry}>{t("Retry connection")}</button>}<details className="waiting-sample"><summary>{t("Read a sample while you wait")}</summary><p className="subtle">{t("Fictional source text only. This does not start a rehearsal or send your data.")}</p><pre>{samples[scenario]?.[language]||samples.apartment.English}</pre></details></section>;
 }

@@ -125,6 +125,7 @@ class VideoTests(unittest.TestCase):
     def test_caption_excerpt_is_reviewed_and_cited_with_original_url(self):
         class Captions(list):
             is_generated = True
+            language_code = "en"
         captions = Captions([SimpleNamespace(start=0, duration=2, text='Rent is 1420 euros.'),
                              SimpleNamespace(start=130, duration=5, text='Outside the excerpt.')])
         with patch('youtube_transcript_api.YouTubeTranscriptApi.fetch', return_value=captions):
@@ -145,6 +146,18 @@ class VideoTests(unittest.TestCase):
         self.assertEqual(evidence['url'], 'https://www.youtube.com/watch?v=abcdefghijk')
         self.assertEqual(evidence['start'], 0)
         self.client.delete('/api/sessions/' + sid)
+
+    def test_wrong_caption_language_is_rejected_before_source_creation(self):
+        class Captions(list):
+            is_generated = False
+            language_code = 'de'
+        captions=Captions([SimpleNamespace(start=0,duration=2,text='Die Miete ist 1420 Euro.')])
+        with patch('youtube_transcript_api.YouTubeTranscriptApi.fetch',return_value=captions):
+            response=self.client.post('/api/video/transcript',json={
+                'url':'https://youtu.be/abcdefghijk','language':'English','consent':True})
+        self.assertEqual(response.status_code,422,response.text)
+        self.assertIn('different language',response.json()['detail'])
+        self.assertFalse(api.sessions)
 
     def test_consent_errors_and_import_budget(self):
         body = {'url': 'https://youtu.be/abcdefghijk', 'language': 'English'}

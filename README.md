@@ -20,7 +20,7 @@ A session-only app for rehearsing real-life situations in **English, German or S
 
 The original visual design uses restrained rehearsal-room colors, mission cards and production notes. This is an independent real-life rehearsal project, with no affiliation or endorsement. The setup screen retains the existing Nathan Fielder reference picture, with its HBO/source credit and independent-project disclaimer, as requested.
 
-Choose the **conversation language** and **feedback language** independently from English, German and Spanish. Missions and feedback use the feedback language; partner turns, sentence starters, phrase sheets and retry openings use the conversation language. Interface labels remain in English. The default frontend style is **Everyday conversation**: clear adult communication, with attention to tone, listening and next steps. B1 and B2 are optional styles for language learners. Demo scripts are shared across styles; live mode adapts linguistic complexity. Fictional samples are provided in all three languages. Uploaded documents stay in their original language; evidence is quoted verbatim, never silently translated.
+Choose the **conversation language** and **feedback language** independently from English, German and Spanish. Missions and feedback use the feedback language; partner turns, sentence starters, phrase sheets and retry openings use the conversation language. An independent interface selector localizes controls, processing notices and errors into English, German or Spanish. The default frontend style is **Everyday conversation**: clear adult communication, with attention to tone, listening and next steps. B1 and B2 are optional styles for language learners. Demo scripts are shared across styles; live mode adapts linguistic complexity. Fictional samples are provided in all three languages. Uploaded documents stay in their original language; evidence is quoted verbatim, never silently translated.
 
 ## Run locally
 
@@ -145,7 +145,7 @@ Tests exercise all 36 scenario/conversation-language/feedback-language combinati
 
 ## Known limitations
 
-English, German and Spanish only; interface labels remain English. Text chat plus optional Whisper transcription and AI voice playback (enable speech on the backend). The demo is intentionally scripted and its keyword rules can misclassify achievement. No OCR, legacy DOC files, authentication, history, distributed sessions, semantic embeddings or user analytics. Synthetic real-provider speech and browser checks passed; broad human speech accuracy remains unmeasured. Replay focuses only on the selected goal and replaces the previous scene’s turns/debrief. Model feedback and goal detection need human review. File reads, interrupted uploads or response-body reads, deletion verification failures, non-JSON gateway errors and cold-start timeouts produce actionable messages; transient network failures can still occur, and mutations are not automatically retried. Live evidence checks combine exact quotations and a model review; human evaluation is still needed. Do not expose this unauthenticated prototype directly to the public internet: add transport security, deployment origin configuration, appropriate parser isolation, abuse controls and model cost limits first. Current limits include 100 active sessions, 30 learner turns per scene, 30 hints per session and one-hour idle expiry.
+English, German and Spanish only; interface language is selected independently from conversation and feedback language. Text chat plus optional Whisper transcription and AI voice playback (enable speech on the backend). The demo is intentionally scripted and its keyword rules can misclassify achievement. No OCR, legacy DOC files, authentication, history, distributed sessions, semantic embeddings or user analytics. Synthetic real-provider speech and browser checks passed; broad human speech accuracy remains unmeasured. Replay focuses only on the selected goal and replaces the previous scene’s turns/debrief. Model feedback and goal detection need human review. File reads, interrupted uploads or response-body reads, deletion verification failures, non-JSON gateway errors and cold-start timeouts produce actionable messages; transient network failures can still occur, and mutations are not automatically retried. Live evidence checks combine exact quotations and a model review; human evaluation is still needed. This unauthenticated prototype is not production-validated: verify transport security, edge controls, the required parser sandbox on your host, durable budget storage and provider billing limits before rollout. Current limits include 100 active sessions, 30 learner turns per scene, 30 hints per session and one-hour idle expiry.
 
 ## Navigation and optional download
 
@@ -191,3 +191,42 @@ Run `python scripts/evaluate_prompt_context.py` for an offline size comparison. 
 ## Hosted YouTube caption fallback
 
 When direct YouTube reads fail, the configured backend can fetch existing captions through Supadata in native-only mode. Both user-provided video links passed [hosted verification](evaluation/supadata-hosted-check-2026-11-04.json). Captions still require review; availability and service quotas apply. See [setup, privacy and verification details](docs/SUPADATA.md).
+
+
+## Hardening update (5 November 2026)
+
+The interface now has an independent EN/DE/ES selector covering controls,
+consent/privacy notices, navigation and errors. Original source quotations and
+user-authored text are not translated. Language values sent to the backend remain
+canonical regardless of the interface language.
+
+API mutations have configurable single-instance ceilings of 300 requests/minute,
+12 concurrent requests, and 30 requests/minute per proxy-identified client.
+Vercel's overwritten client-IP header is hashed with the proxy secret and UTC day;
+raw IPs are not forwarded or retained by this application. Deletes and reads stay
+available during throttling. Provider calls reserve a configurable amount from an
+atomic SQLite daily allowance before dispatch, including failed calls and optional
+caption-service requests. Input bytes and output tokens are bounded. These are
+conservative application reservations, not a provider billing guarantee; configure
+provider spend controls too. The ledger survives process restarts, but needs durable
+storage to survive host replacement.
+
+PDF/DOCX parsing runs in disposable subprocesses with a 12-second deadline, two
+parser slots, filtered secrets and Linux resource limits. Docker requires Landlock
+ABI 3 plus seccomp: runtime libraries are read-only, application data is inaccessible,
+networking and subprocess creation are denied. Unsupported hosts reject document
+imports with a text-paste fallback. CI now runs a sandbox confinement probe inside
+the image. Native Linux confinement has not been executed on this Windows machine.
+
+Video language changes preserve URL, pasted text and fetch consent while explaining
+why transcript confirmation must be renewed. Wrong-language caption responses are
+rejected before source creation. Listing instructions explain paste-and-retry.
+
+Verification includes the production build, complete EN/DE/ES browser journeys,
+real PDF/DOCX uploads, a synthetic-microphone MediaRecorder journey, real FFmpeg
+format decoding, hostile-document tests, and a 126-case offline quality report.
+The report exposes scripted-demo limitations; it is not a human quality score.
+
+See [release status and commands](docs/RELEASE_GATES.md). The production release
+workflow now requires current, hash-bound human-reviewed live benchmark evidence.
+No human verdicts, physical-device results or public deployments were fabricated.

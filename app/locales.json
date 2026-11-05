@@ -1,0 +1,1494 @@
+{
+  "Apartment viewing": {
+    "de": "Wohnungsbesichtigung",
+    "es": "Visita de un piso"
+  },
+  "Find a place that feels like home.": {
+    "de": "Finde ein Zuhause, das zu dir passt.",
+    "es": "Encuentra un lugar donde sentirte en casa."
+  },
+  "Casa Oliva · Property listing": {
+    "de": "Casa Oliva · Wohnungsanzeige",
+    "es": "Casa Oliva · Anuncio de vivienda"
+  },
+  "Housing": {
+    "de": "Wohnen",
+    "es": "Vivienda"
+  },
+  "Job interview": {
+    "de": "Vorstellungsgespräch",
+    "es": "Entrevista de trabajo"
+  },
+  "Let your experience do the talking.": {
+    "de": "Zeige, was du kannst.",
+    "es": "Deja que tu experiencia hable por ti."
+  },
+  "Estudio Nube · Job description": {
+    "de": "Estudio Nube · Stellenbeschreibung",
+    "es": "Estudio Nube · Oferta de empleo"
+  },
+  "Career": {
+    "de": "Beruf",
+    "es": "Trabajo"
+  },
+  "Course enquiry": {
+    "de": "Kursanfrage",
+    "es": "Consulta sobre un curso"
+  },
+  "Take the next step in your learning.": {
+    "de": "Mach den nächsten Schritt beim Lernen.",
+    "es": "Da el siguiente paso en tu aprendizaje."
+  },
+  "Escuela Horizonte · Course guide": {
+    "de": "Escuela Horizonte · Kursübersicht",
+    "es": "Escuela Horizonte · Guía del curso"
+  },
+  "Learning": {
+    "de": "Lernen",
+    "es": "Aprendizaje"
+  },
+  "A difficult conversation": {
+    "de": "Ein schwieriges Gespräch",
+    "es": "Una conversación difícil"
+  },
+  "Say what matters. Make room to listen.": {
+    "de": "Sag, was dir wichtig ist. Höre auch zu.",
+    "es": "Di lo que importa. Deja espacio para escuchar."
+  },
+  "Saying no to family · Conversation notes": {
+    "de": "Nein sagen in der Familie · Gesprächsnotizen",
+    "es": "Decir que no a la familia · Notas"
+  },
+  "Family & boundaries": {
+    "de": "Familie und Grenzen",
+    "es": "Familia y límites"
+  },
+  "English": {
+    "de": "Englisch",
+    "es": "Inglés"
+  },
+  "German": {
+    "de": "Deutsch",
+    "es": "Alemán"
+  },
+  "Spanish": {
+    "de": "Spanisch",
+    "es": "Español"
+  },
+  "The source material": {
+    "de": "Das Ausgangsmaterial",
+    "es": "El material de partida"
+  },
+  "The plan": {
+    "de": "Der Plan",
+    "es": "El plan"
+  },
+  "The rehearsal": {
+    "de": "Die Probe",
+    "es": "El ensayo"
+  },
+  "The review": {
+    "de": "Der Rückblick",
+    "es": "La revisión"
+  },
+  "Not yet checked": {
+    "de": "Noch nicht geprüft",
+    "es": "Aún sin comprobar"
+  },
+  "Confirmed by source": {
+    "de": "Durch die Quelle bestätigt",
+    "es": "Confirmado por la fuente"
+  },
+  "Not confirmed — ask in real life": {
+    "de": "Nicht bestätigt — im echten Gespräch nachfragen",
+    "es": "Sin confirmar: pregunta en la vida real"
+  },
+  "Not a document question": {
+    "de": "Keine Frage zum Dokument",
+    "es": "No es una pregunta sobre el documento"
+  },
+  "Not independently verified": {
+    "de": "Nicht unabhängig geprüft",
+    "es": "Sin verificación independiente"
+  },
+  "Asked / practised:": {
+    "de": "Gefragt / geübt:",
+    "es": "Preguntado / practicado:"
+  },
+  "Yes": {
+    "de": "Ja",
+    "es": "Sí"
+  },
+  "Not yet": {
+    "de": "Noch nicht",
+    "es": "Aún no"
+  },
+  "Answer:": {
+    "de": "Antwort:",
+    "es": "Respuesta:"
+  },
+  "Everyday": {
+    "de": "Alltag",
+    "es": "Cotidiano"
+  },
+  "Download requested. Your copy is separate from the app session.": {
+    "de": "Download angefordert. Deine Kopie ist unabhängig von der Sitzung.",
+    "es": "Descarga solicitada. Tu copia es independiente de la sesión."
+  },
+  "The download could not be created. Please try again.": {
+    "de": "Die Download-Datei konnte nicht erstellt werden. Versuche es erneut.",
+    "es": "No se pudo crear la descarga. Inténtalo de nuevo."
+  },
+  "Something went wrong. Please try again.": {
+    "de": "Etwas ist schiefgegangen. Versuche es erneut.",
+    "es": "Algo salió mal. Inténtalo de nuevo."
+  },
+  "Build a new mission? This replaces the current conversation and review. Cancel to return to them and download a copy first.": {
+    "de": "Neuen Plan erstellen? Das aktuelle Gespräch und der Rückblick werden ersetzt. Wähle Abbrechen, um zuerst eine Kopie herunterzuladen.",
+    "es": "¿Crear un nuevo plan? Sustituirá la conversación y la revisión actuales. Cancela para volver y descargar una copia primero."
+  },
+  "Wait for the practice server connection before starting.": {
+    "de": "Warte vor dem Start auf die Verbindung zum Übungsserver.",
+    "es": "Espera a que se conecte el servidor antes de empezar."
+  },
+  "Review and confirm a source transcript first.": {
+    "de": "Prüfe und bestätige zuerst das Transkript.",
+    "es": "Primero revisa y confirma la transcripción."
+  },
+  "Restart with this plan? The current conversation and review will be replaced. Cancel to return to the review and download a copy first.": {
+    "de": "Mit diesem Plan neu starten? Gespräch und Rückblick werden ersetzt. Brich ab, um zuerst eine Kopie herunterzuladen.",
+    "es": "¿Reiniciar con este plan? Se sustituirán la conversación y la revisión. Cancela para descargar una copia primero."
+  },
+  "Replay replaces this take and its review. Download a copy first if you want to keep it. Continue?": {
+    "de": "Die Wiederholung ersetzt diese Probe und den Rückblick. Lade vorher eine Kopie herunter, wenn du sie behalten möchtest. Fortfahren?",
+    "es": "La repetición sustituye este ensayo y su revisión. Descarga una copia primero si quieres conservarlos. ¿Continuar?"
+  },
+  "Session deleted on the server. Further access was checked and rejected.": {
+    "de": "Sitzung auf dem Server gelöscht. Ein weiterer Zugriff wurde geprüft und abgewiesen.",
+    "es": "Sesión eliminada del servidor. Se comprobó que ya no se puede acceder."
+  },
+  "The Rehearsal home": {
+    "de": "The Rehearsal Startseite",
+    "es": "Inicio de The Rehearsal"
+  },
+  "LIFE, REHEARSED": {
+    "de": "DAS LEBEN PROBEN",
+    "es": "ENSAYA LA VIDA"
+  },
+  "End & delete session ↗": {
+    "de": "Sitzung beenden und löschen ↗",
+    "es": "Terminar y eliminar sesión ↗"
+  },
+  "Practice progress": {
+    "de": "Übungsfortschritt",
+    "es": "Progreso del ensayo"
+  },
+  "Back to": {
+    "de": "Zurück zu",
+    "es": "Volver a"
+  },
+  "source material": {
+    "de": "Ausgangsmaterial",
+    "es": "material de partida"
+  },
+  "the plan": {
+    "de": "dem Plan",
+    "es": "el plan"
+  },
+  "the conversation": {
+    "de": "dem Gespräch",
+    "es": "la conversación"
+  },
+  "Return to": {
+    "de": "Zurück zu",
+    "es": "Volver a"
+  },
+  "Your current": {
+    "de": "Dein aktueller Stand",
+    "es": "Tu ensayo actual"
+  },
+  "is still here. Changes below apply only when you build a new mission.": {
+    "de": "bleibt erhalten. Änderungen gelten erst, wenn du einen neuen Plan erstellst.",
+    "es": "sigue aquí. Los cambios se aplican solo al crear un plan nuevo."
+  },
+  "Download visible conversation (.txt)": {
+    "de": "Sichtbares Gespräch herunterladen (.txt)",
+    "es": "Descargar conversación visible (.txt)"
+  },
+  "Start a new rehearsal": {
+    "de": "Neue Probe starten",
+    "es": "Empezar un nuevo ensayo"
+  },
+  "Your source selections and typed context will stay in the form. Starting again clears the old conversation from this tab.": {
+    "de": "Quellenauswahl und eingegebener Kontext bleiben im Formular. Beim Neustart wird das alte Gespräch in diesem Tab gelöscht.",
+    "es": "Se conservarán las fuentes y el contexto escrito. Al empezar de nuevo se borrará la conversación anterior de esta pestaña."
+  },
+  "Dismiss error": {
+    "de": "Fehlermeldung schließen",
+    "es": "Cerrar error"
+  },
+  "Close": {
+    "de": "Schließen",
+    "es": "Cerrar"
+  },
+  "A CONTROLLED ENVIRONMENT FOR REAL LIFE.": {
+    "de": "EIN GESCHÜTZTER RAHMEN FÜR DAS ECHTE LEBEN.",
+    "es": "UN ENTORNO DE PRÁCTICA PARA LA VIDA REAL."
+  },
+  "What if you could": {
+    "de": "Wie wäre es, wenn du es",
+    "es": "¿Y si pudieras"
+  },
+  "try it once before?": {
+    "de": "vorher einmal üben könntest?",
+    "es": "probarlo antes?"
+  },
+  "The apartment viewing. The interview. The question you didn’t ask.": {
+    "de": "Die Besichtigung. Das Bewerbungsgespräch. Die Frage, die du nicht gestellt hast.",
+    "es": "La visita al piso. La entrevista. La pregunta que no hiciste."
+  },
+  "Set the scene. Find your words. See what happens.": {
+    "de": "Bereite dich vor. Finde deine Worte. Probiere es aus.",
+    "es": "Prepara la escena. Encuentra tus palabras. Mira qué pasa."
+  },
+  "The inspiration behind The Rehearsal": {
+    "de": "Die Inspiration für The Rehearsal",
+    "es": "La inspiración de The Rehearsal"
+  },
+  "Nathan Fielder wearing a laptop harness in The Rehearsal.": {
+    "de": "Nathan Fielder mit einer Laptop-Halterung in The Rehearsal.",
+    "es": "Nathan Fielder con un arnés para portátil en The Rehearsal."
+  },
+  "OUR PRODUCTION NOTES": {
+    "de": "UNSERE NOTIZEN",
+    "es": "NOTAS DE PRODUCCIÓN"
+  },
+  "Go at your own pace. You can pause or end at any time.": {
+    "de": "In deinem Tempo. Du kannst jederzeit pausieren oder aufhören.",
+    "es": "A tu ritmo. Puedes pausar o terminar cuando quieras."
+  },
+  "Real conversations don’t have a retry button. Here, they do.": {
+    "de": "Echte Gespräche haben keine Wiederholungstaste. Hier schon.",
+    "es": "Las conversaciones reales no tienen botón de repetir. Aquí sí."
+  },
+  "Inspired by Nathan Fielder’s": {
+    "de": "Inspiriert von Nathan Fielders",
+    "es": "Inspirado en la serie de Nathan Fielder"
+  },
+  "Independent project. No affiliation.": {
+    "de": "Unabhängiges Projekt. Keine Verbindung zur Serie.",
+    "es": "Proyecto independiente. Sin afiliación."
+  },
+  "Series image: HBO · source ↗": {
+    "de": "Serienbild: HBO · Quelle ↗",
+    "es": "Imagen: HBO · fuente ↗"
+  },
+  "Bring a little context": {
+    "de": "Bring etwas Kontext mit",
+    "es": "Aporta un poco de contexto"
+  },
+  "Give your conversation something real to work with.": {
+    "de": "Gib deinem Gespräch eine konkrete Grundlage.",
+    "es": "Dale a tu conversación una base real."
+  },
+  "Document source": {
+    "de": "Dokumentquelle",
+    "es": "Fuente del documento"
+  },
+  "Try a sample": {
+    "de": "Beispiel ausprobieren",
+    "es": "Probar un ejemplo"
+  },
+  "Your situation": {
+    "de": "Deine Situation",
+    "es": "Tu situación"
+  },
+  "Audio / video": {
+    "de": "Audio / Video",
+    "es": "Audio / vídeo"
+  },
+  "Fictional sample": {
+    "de": "Fiktives Beispiel",
+    "es": "Ejemplo ficticio"
+  },
+  "Fictional context. Real-life practice. Samples follow your conversation language.": {
+    "de": "Fiktiver Kontext. Praktische Übung. Beispiele folgen deiner Gesprächssprache.",
+    "es": "Contexto ficticio. Práctica real. Los ejemplos siguen el idioma de conversación."
+  },
+  "Just for this rehearsal.": {
+    "de": "Nur für diese Probe.",
+    "es": "Solo para este ensayo."
+  },
+  "Sources are processed on the server.": {
+    "de": "Quellen werden auf dem Server verarbeitet.",
+    "es": "Las fuentes se procesan en el servidor."
+  },
+  "Source text and vectors are stored in a local database until deletion or idle expiry; they can survive a restart.": {
+    "de": "Quelltext und Vektoren bleiben bis zur Löschung oder zum Ablauf in einer lokalen Datenbank; auch über einen Neustart hinaus.",
+    "es": "El texto y los vectores se guardan en una base de datos local hasta su eliminación o caducidad; pueden sobrevivir a un reinicio."
+  },
+  "Sources stay in session memory.": {
+    "de": "Quellen bleiben im Sitzungsspeicher.",
+    "es": "Las fuentes permanecen en la memoria de la sesión."
+  },
+  "Live mode sends retrieved text and your conversation to OpenAI.": {
+    "de": "Im Live-Modus werden abgerufene Texte und dein Gespräch an OpenAI gesendet.",
+    "es": "El modo en vivo envía los textos recuperados y tu conversación a OpenAI."
+  },
+  "Demo chat makes no external model calls; optional speech uses OpenAI.": {
+    "de": "Der Demo-Chat nutzt kein externes Modell; die optionale Sprachfunktion nutzt OpenAI.",
+    "es": "El chat de demostración no usa modelos externos; la voz opcional utiliza OpenAI."
+  },
+  "Checking processing mode. Please wait before starting.": {
+    "de": "Verarbeitungsmodus wird geprüft. Bitte warte vor dem Start.",
+    "es": "Comprobando el modo de procesamiento. Espera antes de empezar."
+  },
+  "Conversations stay in memory. User sessions are not traced to LangSmith. End your session to delete its data; storage backups and provider retention are separate.": {
+    "de": "Gespräche bleiben im Arbeitsspeicher. Nutzersitzungen werden nicht an LangSmith übermittelt. Beende die Sitzung, um ihre Daten zu löschen; Sicherungskopien und Aufbewahrung beim Anbieter sind davon getrennt.",
+    "es": "Las conversaciones permanecen en memoria. Las sesiones no se registran en LangSmith. Termina la sesión para eliminar sus datos; las copias de seguridad y la retención del proveedor son independientes."
+  },
+  "Set the scene": {
+    "de": "Die Szene vorbereiten",
+    "es": "Prepara la escena"
+  },
+  "What would you like to feel ready for?": {
+    "de": "Worauf möchtest du dich vorbereiten?",
+    "es": "¿Para qué quieres prepararte?"
+  },
+  "What would a good conversation look like?": {
+    "de": "Was möchtest du im Gespräch erreichen?",
+    "es": "¿Qué te gustaría conseguir en la conversación?"
+  },
+  "Conversation language": {
+    "de": "Gesprächssprache",
+    "es": "Idioma de conversación"
+  },
+  "Conversation style": {
+    "de": "Gesprächsstil",
+    "es": "Estilo de conversación"
+  },
+  "Everyday conversation": {
+    "de": "Alltagsgespräch",
+    "es": "Conversación cotidiana"
+  },
+  "B1 · Clear & simple": {
+    "de": "B1 · Klar und einfach",
+    "es": "B1 · Claro y sencillo"
+  },
+  "B2 · More nuanced": {
+    "de": "B2 · Differenzierter",
+    "es": "B2 · Con más matices"
+  },
+  "Feedback language": {
+    "de": "Sprache der Rückmeldung",
+    "es": "Idioma de los comentarios"
+  },
+  "Connecting…": {
+    "de": "Verbindung wird hergestellt…",
+    "es": "Conectando…"
+  },
+  "Preparing your rehearsal…": {
+    "de": "Deine Probe wird vorbereitet…",
+    "es": "Preparando tu ensayo…"
+  },
+  "Build my mission": {
+    "de": "Meinen Plan erstellen",
+    "es": "Crear mi plan"
+  },
+  "Review your goals and explore possible dialogue paths before starting.": {
+    "de": "Prüfe vor dem Start deine Ziele und mögliche Gesprächsverläufe.",
+    "es": "Revisa tus objetivos y explora posibles respuestas antes de empezar."
+  },
+  "There is no perfect take.": {
+    "de": "Es gibt keine perfekte Probe.",
+    "es": "No hay un ensayo perfecto."
+  },
+  "Pause, ask for a prompt, and run the scene again.": {
+    "de": "Mach eine Pause, hol dir einen Hinweis und probiere es erneut.",
+    "es": "Pausa, pide una pista y vuelve a ensayar."
+  },
+  "This context raises safety concerns. The scene will pause with support information. You can end and delete the session at any time.": {
+    "de": "Dieser Kontext weist auf mögliche Gefahren hin. Die Szene pausiert mit unterstützenden Informationen. Du kannst die Sitzung jederzeit beenden und löschen.",
+    "es": "Este contexto plantea riesgos de seguridad. La escena se pausará con información de apoyo. Puedes terminar y eliminar la sesión cuando quieras."
+  },
+  "A LITTLE DIRECTION GOES A LONG WAY": {
+    "de": "MIT EINEM PLAN FÄLLT ES LEICHTER",
+    "es": "UN POCO DE ORIENTACIÓN AYUDA"
+  },
+  "Make it": {
+    "de": "Mach daraus",
+    "es": "Hazlo"
+  },
+  "your mission.": {
+    "de": "deinen Plan.",
+    "es": "a tu medida."
+  },
+  "Small, observable goals. Edit them so this practice feels useful to you.": {
+    "de": "Kleine, beobachtbare Ziele. Passe sie an, damit dir die Übung hilft.",
+    "es": "Objetivos pequeños y observables. Edítalos para que la práctica te resulte útil."
+  },
+  "Your conversation checklist": {
+    "de": "Deine Gesprächsziele",
+    "es": "Tu lista de objetivos"
+  },
+  "Scripted demo checklist · custom goal assessment requires live mode.": {
+    "de": "Demo-Ziele · eigene Ziele können nur im Live-Modus bewertet werden.",
+    "es": "Lista de demostración · evaluar objetivos personalizados requiere el modo en vivo."
+  },
+  "Generated for your situation and goal.": {
+    "de": "Für deine Situation und dein Ziel erstellt.",
+    "es": "Generado para tu situación y objetivo."
+  },
+  "Mission goal": {
+    "de": "Übungsziel",
+    "es": "Objetivo del ensayo"
+  },
+  "Remove goal": {
+    "de": "Ziel entfernen",
+    "es": "Eliminar objetivo"
+  },
+  "Ask a follow-up question": {
+    "de": "Eine Rückfrage stellen",
+    "es": "Hacer una pregunta de seguimiento"
+  },
+  "+ Add a goal": {
+    "de": "+ Ziel hinzufügen",
+    "es": "+ Añadir objetivo"
+  },
+  "Getting ready…": {
+    "de": "Vorbereitung…",
+    "es": "Preparando…"
+  },
+  "Read support note": {
+    "de": "Unterstützende Hinweise lesen",
+    "es": "Leer la nota de apoyo"
+  },
+  "Action - start Take 01": {
+    "de": "Action – Probe 01 starten",
+    "es": "Acción: empezar ensayo 01"
+  },
+  "Restart with this plan": {
+    "de": "Mit diesem Plan neu starten",
+    "es": "Reiniciar con este plan"
+  },
+  "MISSION CARD / TAKE": {
+    "de": "ÜBUNGSPLAN / PROBE",
+    "es": "PLAN / ENSAYO"
+  },
+  "Feedback in": {
+    "de": "Rückmeldung auf",
+    "es": "Comentarios en"
+  },
+  "Source: user-pasted transcript; not fetched from the video.": {
+    "de": "Quelle: eingefügtes Transkript; nicht aus dem Video abgerufen.",
+    "es": "Fuente: transcripción pegada; no obtenida del vídeo."
+  },
+  "Source: your pasted advert text; not fetched from the site.": {
+    "de": "Quelle: eingefügter Anzeigentext; nicht von der Website abgerufen.",
+    "es": "Fuente: anuncio pegado; no obtenido del sitio."
+  },
+  "Source: public-page snapshot; check the original for updates.": {
+    "de": "Quelle: Momentaufnahme der öffentlichen Seite; prüfe das Original auf Änderungen.",
+    "es": "Fuente: captura de la página pública; consulta el original para ver cambios."
+  },
+  "Take your time. You can ask for a hint whenever you need one.": {
+    "de": "Lass dir Zeit. Du kannst jederzeit einen Hinweis anfordern.",
+    "es": "Tómate tu tiempo. Puedes pedir una pista cuando la necesites."
+  },
+  "Explore possible responses": {
+    "de": "Mögliche Antworten erkunden",
+    "es": "Explorar posibles respuestas"
+  },
+  "Take": {
+    "de": "Probe",
+    "es": "Ensayo"
+  },
+  "Find your words.": {
+    "de": "Finde deine Worte.",
+    "es": "Encuentra tus palabras."
+  },
+  "Review this take": {
+    "de": "Diese Probe ansehen",
+    "es": "Revisar este ensayo"
+  },
+  "Review support note": {
+    "de": "Unterstützende Hinweise ansehen",
+    "es": "Revisar nota de apoyo"
+  },
+  "Cut - finish & reflect": {
+    "de": "Cut – beenden und reflektieren",
+    "es": "Corte: terminar y reflexionar"
+  },
+  "The rehearsal is paused. Read the support note below, or end and delete your session.": {
+    "de": "Die Probe pausiert. Lies die Hinweise oder beende und lösche die Sitzung.",
+    "es": "El ensayo está en pausa. Lee la nota de apoyo o termina y elimina la sesión."
+  },
+  "This is your finished conversation. You can reread it or continue; continuing keeps your messages and replaces the old review when you finish again.": {
+    "de": "Dies ist dein abgeschlossenes Gespräch. Du kannst es nachlesen oder fortsetzen. Dabei bleiben Nachrichten erhalten; der nächste Rückblick ersetzt den alten.",
+    "es": "Esta es tu conversación terminada. Puedes releerla o continuar; se conservarán los mensajes y la próxima revisión sustituirá a la anterior."
+  },
+  "Continue conversation": {
+    "de": "Gespräch fortsetzen",
+    "es": "Continuar conversación"
+  },
+  "Return to review": {
+    "de": "Zurück zum Rückblick",
+    "es": "Volver a la revisión"
+  },
+  "Conversation": {
+    "de": "Gespräch",
+    "es": "Conversación"
+  },
+  "Support note": {
+    "de": "Unterstützende Hinweise",
+    "es": "Nota de apoyo"
+  },
+  "Your conversation partner": {
+    "de": "Dein Gesprächspartner",
+    "es": "Tu interlocutor"
+  },
+  "Role-play paused": {
+    "de": "Rollenspiel pausiert",
+    "es": "Simulación en pausa"
+  },
+  "Scripted practice · not a live AI model": {
+    "de": "Skriptbasierte Übung · kein Live-KI-Modell",
+    "es": "Práctica con guion · sin modelo de IA en vivo"
+  },
+  "Conversation messages": {
+    "de": "Gesprächsnachrichten",
+    "es": "Mensajes de la conversación"
+  },
+  "An unsupported AI answer was withheld. The question remains open.": {
+    "de": "Eine unbelegte KI-Antwort wurde zurückgehalten. Die Frage bleibt offen.",
+    "es": "Se ha retenido una respuesta de IA sin respaldo. La pregunta sigue abierta."
+  },
+  "▤ View source evidence ·": {
+    "de": "▤ Quellenbelege ansehen ·",
+    "es": "▤ Ver pruebas de la fuente ·"
+  },
+  "passages": {
+    "de": "Abschnitte",
+    "es": "fragmentos"
+  },
+  "View original advert ↗": {
+    "de": "Originalanzeige ansehen ↗",
+    "es": "Ver anuncio original ↗"
+  },
+  "A little help": {
+    "de": "Eine kleine Hilfe",
+    "es": "Un poco de ayuda"
+  },
+  "Review and edit the voice transcript below, then press Send to confirm it.": {
+    "de": "Prüfe und bearbeite das Transkript. Bestätige es dann mit Senden.",
+    "es": "Revisa y edita la transcripción y pulsa Enviar para confirmarla."
+  },
+  "Transcripts are limited to 2,000 characters per turn.": {
+    "de": "Transkripte sind auf 2.000 Zeichen pro Beitrag begrenzt.",
+    "es": "Las transcripciones se limitan a 2000 caracteres por turno."
+  },
+  "Your message in": {
+    "de": "Deine Nachricht auf",
+    "es": "Tu mensaje en"
+  },
+  "Enter": {
+    "de": "Eingabe",
+    "es": "Intro"
+  },
+  "Send message": {
+    "de": "Nachricht senden",
+    "es": "Enviar mensaje"
+  },
+  "About this scripted demo": {
+    "de": "Über diese skriptbasierte Demo",
+    "es": "Sobre esta demostración con guion"
+  },
+  "This mode demonstrates the workflow using scripted replies and approximate keyword matching. It does not adapt like live AI and can miss paraphrases or misunderstand goals. Unknown source facts remain questions for real life.": {
+    "de": "Dieser Modus zeigt den Ablauf mit vorgegebenen Antworten und ungefährer Schlüsselworterkennung. Er passt sich nicht wie Live-KI an und kann Umschreibungen übersehen oder Ziele missverstehen. Unbekannte Fakten müssen im echten Gespräch geklärt werden.",
+    "es": "Este modo muestra el flujo con respuestas predefinidas y coincidencias aproximadas de palabras. No se adapta como la IA en vivo y puede malinterpretar objetivos o paráfrasis. Los datos desconocidos deben comprobarse en la vida real."
+  },
+  "Enter to send · Shift + Enter for a new line. Coaching comes in the review.": {
+    "de": "Eingabe zum Senden · Umschalt + Eingabe für einen Zeilenumbruch. Hinweise folgen im Rückblick.",
+    "es": "Intro para enviar · Mayús + Intro para una nueva línea. Los consejos llegan en la revisión."
+  },
+  "YOUR MISSION": {
+    "de": "DEINE ZIELE",
+    "es": "TUS OBJETIVOS"
+  },
+  "One step at a time.": {
+    "de": "Schritt für Schritt.",
+    "es": "Paso a paso."
+  },
+  "Asked / practised uses approximate matching. A document answer is tracked separately.": {
+    "de": "Gefragt / geübt nutzt ungefähre Erkennung. Dokumentantworten werden getrennt geprüft.",
+    "es": "Preguntado / practicado usa coincidencias aproximadas. La respuesta del documento se comprueba por separado."
+  },
+  "Progress is assessed from your messages.": {
+    "de": "Der Fortschritt wird anhand deiner Nachrichten bewertet.",
+    "es": "El progreso se evalúa a partir de tus mensajes."
+  },
+  "Not sure how": {
+    "de": "Du weißt nicht,",
+    "es": "¿No sabes cómo"
+  },
+  "to put it?": {
+    "de": "wie du es sagen sollst?",
+    "es": "decirlo?"
+  },
+  "Help me with": {
+    "de": "Ich brauche Hilfe bei",
+    "es": "Ayúdame con"
+  },
+  "A sentence starter": {
+    "de": "Einem Satzanfang",
+    "es": "Un inicio de frase"
+  },
+  "Useful vocabulary": {
+    "de": "Nützlichen Wörtern",
+    "es": "Vocabulario útil"
+  },
+  "A translation": {
+    "de": "Einer Übersetzung",
+    "es": "Una traducción"
+  },
+  "Phrase to translate": {
+    "de": "Zu übersetzender Ausdruck",
+    "es": "Frase para traducir"
+  },
+  "I would like to know…": {
+    "de": "Ich möchte wissen…",
+    "es": "Me gustaría saber…"
+  },
+  "Help me ✧": {
+    "de": "Hilf mir ✧",
+    "es": "Ayúdame ✧"
+  },
+  "Your safety comes first.": {
+    "de": "Deine Sicherheit geht vor.",
+    "es": "Tu seguridad es lo primero."
+  },
+  "That's a wrap.": {
+    "de": "Geschafft.",
+    "es": "Fin del ensayo."
+  },
+  "Here is what to take with you.": {
+    "de": "Das nimmst du mit.",
+    "es": "Esto es lo que te llevas."
+  },
+  "learner actions practised": {
+    "de": "Handlungen geübt",
+    "es": "acciones practicadas"
+  },
+  "document answers confirmed ·": {
+    "de": "Dokumentantworten bestätigt ·",
+    "es": "respuestas confirmadas ·"
+  },
+  "need follow-up": {
+    "de": "brauchen Rückfragen",
+    "es": "necesitan seguimiento"
+  },
+  "01 · YOUR MISSION": {
+    "de": "01 · DEINE ZIELE",
+    "es": "01 · TUS OBJETIVOS"
+  },
+  "What you made happen": {
+    "de": "Was du erreicht hast",
+    "es": "Lo que has conseguido"
+  },
+  "Document:": {
+    "de": "Dokument:",
+    "es": "Documento:"
+  },
+  "02 · YOUR COMMUNICATION": {
+    "de": "02 · DEINE KOMMUNIKATION",
+    "es": "02 · TU COMUNICACIÓN"
+  },
+  "Notes on your actual turns": {
+    "de": "Hinweise zu deinen Beiträgen",
+    "es": "Notas sobre tus intervenciones"
+  },
+  "Try a few more turns to get feedback from your own examples.": {
+    "de": "Schreibe noch ein paar Beiträge, um Rückmeldungen zu deinen Beispielen zu bekommen.",
+    "es": "Prueba algunos turnos más para recibir comentarios sobre tus propios ejemplos."
+  },
+  "03 · TAKE INTO REAL LIFE": {
+    "de": "03 · FÜR DAS ECHTE LEBEN",
+    "es": "03 · PARA LA VIDA REAL"
+  },
+  "Keep these questions open": {
+    "de": "Diese Fragen bleiben offen",
+    "es": "Mantén estas preguntas abiertas"
+  },
+  "A missing detail is a good reason to ask, never a reason to guess.": {
+    "de": "Fehlende Details sind ein Grund nachzufragen, nicht zu raten.",
+    "es": "Un dato que falta es motivo para preguntar, nunca para adivinar."
+  },
+  "04 · YOUR POCKET PHRASE SHEET": {
+    "de": "04 · DEIN SPICKZETTEL",
+    "es": "04 · TU GUÍA DE FRASES"
+  },
+  "A few words to bring along": {
+    "de": "Ein paar Worte zum Mitnehmen",
+    "es": "Unas palabras para llevar"
+  },
+  "Choose another goal to rehearse": {
+    "de": "Ein anderes Ziel üben",
+    "es": "Elegir otro objetivo para ensayar"
+  },
+  "Choose any goal for a short scene. An unanswered question is a chance to practise a follow-up.": {
+    "de": "Wähle ein Ziel für eine kurze Szene. Eine offene Frage ist eine Gelegenheit, das Nachfragen zu üben.",
+    "es": "Elige cualquier objetivo para una escena breve. Una pregunta sin respuesta permite practicar el seguimiento."
+  },
+  "Practise a follow-up": {
+    "de": "Eine Rückfrage üben",
+    "es": "Practicar una pregunta de seguimiento"
+  },
+  "Replay this goal": {
+    "de": "Dieses Ziel wiederholen",
+    "es": "Repetir este objetivo"
+  },
+  "Retry this goal": {
+    "de": "Dieses Ziel erneut üben",
+    "es": "Volver a intentar este objetivo"
+  },
+  "Was this rehearsal useful?": {
+    "de": "War diese Probe hilfreich?",
+    "es": "¿Te ha resultado útil este ensayo?"
+  },
+  "Optional feedback on the whole dialogue.": {
+    "de": "Freiwillige Rückmeldung zum gesamten Gespräch.",
+    "es": "Comentarios opcionales sobre todo el diálogo."
+  },
+  "Your rating and optional reason stay in this session. No conversation text is copied or sent for feedback. Ratings are not training labels.": {
+    "de": "Bewertung und optionaler Grund bleiben in dieser Sitzung. Gesprächsinhalte werden dafür nicht kopiert oder gesendet. Bewertungen sind keine Trainingsdaten.",
+    "es": "Tu valoración y el motivo opcional permanecen en esta sesión. No se copia ni envía la conversación para dar tu opinión. Las valoraciones no son etiquetas de entrenamiento."
+  },
+  "Keep a copy": {
+    "de": "Eine Kopie behalten",
+    "es": "Guardar una copia"
+  },
+  "Download this take and its review as a text file. Only clicking Download creates a copy on your device. It stays there after you delete the app session.": {
+    "de": "Lade diese Probe und den Rückblick als Textdatei herunter. Erst ein Klick erstellt eine Kopie auf deinem Gerät. Diese bleibt auch nach dem Löschen der Sitzung erhalten.",
+    "es": "Descarga este ensayo y su revisión como texto. Solo al pulsar Descargar se crea una copia en tu dispositivo. Seguirá allí tras eliminar la sesión."
+  },
+  "Download conversation (.txt)": {
+    "de": "Gespräch herunterladen (.txt)",
+    "es": "Descargar conversación (.txt)"
+  },
+  "Your practice stays in this session. Ready to let it go?": {
+    "de": "Deine Übung bleibt in dieser Sitzung. Bereit zum Löschen?",
+    "es": "Tu práctica permanece en esta sesión. ¿Quieres eliminarla?"
+  },
+  "End session & delete data": {
+    "de": "Sitzung beenden und Daten löschen",
+    "es": "Terminar sesión y eliminar datos"
+  },
+  "An independent real-life rehearsal experiment.": {
+    "de": "Ein unabhängiges Experiment zum Üben echter Gespräche.",
+    "es": "Un experimento independiente para ensayar la vida real."
+  },
+  "No account. No saved history. ·": {
+    "de": "Kein Konto. Kein gespeicherter Verlauf. ·",
+    "es": "Sin cuenta. Sin historial guardado. ·"
+  },
+  "Live AI": {
+    "de": "Live-KI",
+    "es": "IA en vivo"
+  },
+  "Demo": {
+    "de": "Demo",
+    "es": "Demostración"
+  },
+  "Connecting": {
+    "de": "Verbindung wird hergestellt",
+    "es": "Conectando"
+  },
+  "Interface language": {
+    "de": "Sprache der Oberfläche",
+    "es": "Idioma de la interfaz"
+  },
+  "The request could not be completed. Check your source and connection, then retry. You can paste text instead of importing a file or link.": {
+    "de": "Die Anfrage konnte nicht abgeschlossen werden. Prüfe Quelle und Verbindung und versuche es erneut. Du kannst Text einfügen, statt eine Datei oder einen Link zu importieren.",
+    "es": "No se pudo completar la solicitud. Comprueba la fuente y la conexión e inténtalo de nuevo. Puedes pegar texto en lugar de importar un archivo o enlace."
+  },
+  "Choose a clip start between 0 and 86,400 seconds and a duration between 1 and 120 seconds.": {
+    "de": "Wähle einen Start zwischen 0 und 86.400 Sekunden und eine Dauer von 1 bis 120 Sekunden.",
+    "es": "Elige un inicio entre 0 y 86 400 segundos y una duración de 1 a 120 segundos."
+  },
+  "Conversation language changed to": {
+    "de": "Gesprächssprache geändert auf",
+    "es": "Idioma de conversación cambiado a"
+  },
+  ". Your URL, pasted text and fetch consent were kept. Import captions in this language again, or review and confirm your pasted transcript. Caption availability depends on the video.": {
+    "de": ". URL, eingefügter Text und Abrufzustimmung bleiben erhalten. Importiere Untertitel erneut oder prüfe und bestätige das eingefügte Transkript. Verfügbarkeit hängt vom Video ab.",
+    "es": ". Se conservaron la URL, el texto y el consentimiento. Importa los subtítulos de nuevo o revisa y confirma el texto pegado. La disponibilidad depende del vídeo."
+  },
+  "Public video URL (optional for pasted transcripts)": {
+    "de": "Öffentliche Video-URL (optional bei eingefügtem Transkript)",
+    "es": "URL de vídeo público (opcional para texto pegado)"
+  },
+  "https://example.com/video.mp4 or a YouTube video link": {
+    "de": "https://example.com/video.mp4 oder ein YouTube-Link",
+    "es": "https://example.com/video.mp4 o un enlace de YouTube"
+  },
+  "YouTube: full available captions in": {
+    "de": "YouTube: verfügbare vollständige Untertitel auf",
+    "es": "YouTube: subtítulos completos disponibles en"
+  },
+  ", up to 100,000 characters. If configured on this server, blocked YouTube caption requests may be sent to Supadata to fetch existing captions only; no AI-generated transcript is requested. Direct MP4, WebM or MOV files: up to 4 MB; transcribe a short video or choose a clip of up to two minutes from a longer one. Audio is sent to OpenAI. Other video-hosting pages are not supported.": {
+    "de": ", bis zu 100.000 Zeichen. Falls eingerichtet, kann Supadata bei blockierten Anfragen vorhandene Untertitel abrufen; keine KI-Transkription. Direkte MP4-, WebM- oder MOV-Dateien: bis 4 MB. Wähle ein kurzes Video oder einen Ausschnitt bis zwei Minuten. Audio wird an OpenAI gesendet. Andere Videoportale werden nicht unterstützt.",
+    "es": ", hasta 100 000 caracteres. Si está configurado, Supadata puede recuperar subtítulos existentes cuando YouTube bloquea la solicitud; no se pide transcripción por IA. Archivos MP4, WebM o MOV directos: hasta 4 MB. Usa un vídeo corto o un fragmento de hasta dos minutos. El audio se envía a OpenAI. No se admiten otras páginas de vídeo."
+  },
+  "Choose a clip from a longer direct video": {
+    "de": "Ausschnitt aus einem längeren direkten Video wählen",
+    "es": "Elegir un fragmento de un vídeo directo más largo"
+  },
+  "Start time (seconds)": {
+    "de": "Startzeit (Sekunden)",
+    "es": "Inicio (segundos)"
+  },
+  "Clip duration (seconds)": {
+    "de": "Ausschnittdauer (Sekunden)",
+    "es": "Duración del fragmento (segundos)"
+  },
+  "I agree to fetch this public video or its captions and send direct-video audio to OpenAI.": {
+    "de": "Ich stimme dem Abruf dieses öffentlichen Videos oder seiner Untertitel zu. Audio direkter Videos wird an OpenAI gesendet.",
+    "es": "Acepto obtener este vídeo público o sus subtítulos y enviar a OpenAI el audio de vídeos directos."
+  },
+  "Importing transcript…": {
+    "de": "Transkript wird importiert…",
+    "es": "Importando transcripción…"
+  },
+  "Import video transcript": {
+    "de": "Videotranskript importieren",
+    "es": "Importar transcripción del vídeo"
+  },
+  "Preparing the transcript. No rehearsal has been created yet.": {
+    "de": "Transkript wird vorbereitet. Es wurde noch keine Probe erstellt.",
+    "es": "Preparando la transcripción. Aún no se ha creado ningún ensayo."
+  },
+  "Have the transcript? Paste it here": {
+    "de": "Transkript vorhanden? Hier einfügen",
+    "es": "¿Tienes la transcripción? Pégala aquí"
+  },
+  "On YouTube, open the video description and choose Show transcript if available. Copy the transcript and paste it below. This also works when YouTube blocks automatic import.": {
+    "de": "Öffne auf YouTube die Videobeschreibung und wähle „Transkript anzeigen“, falls verfügbar. Kopiere den Text hierher. Das funktioniert auch bei blockiertem automatischen Import.",
+    "es": "En YouTube, abre la descripción y selecciona Mostrar transcripción si está disponible. Cópiala y pégala aquí. También funciona si YouTube bloquea la importación automática."
+  },
+  "Transcript text": {
+    "de": "Transkripttext",
+    "es": "Texto de la transcripción"
+  },
+  "User-provided text, not fetched or verified against the video. Citations use text sections, not generated timestamps. Text is sent to the server only when you build your mission.": {
+    "de": "Von dir eingefügter Text, nicht aus dem Video abgerufen oder dagegen geprüft. Belege nutzen Textabschnitte statt erzeugter Zeitmarken. Der Text wird erst beim Erstellen des Plans an den Server gesendet.",
+    "es": "Texto aportado por ti, sin obtener ni verificar con el vídeo. Las citas usan secciones de texto, no marcas de tiempo generadas. Se envía al servidor solo al crear el plan."
+  },
+  "Paste transcript text above to enable confirmation. A video link is optional.": {
+    "de": "Füge oben Text ein, um ihn bestätigen zu können. Ein Videolink ist optional.",
+    "es": "Pega la transcripción arriba para poder confirmarla. El enlace es opcional."
+  },
+  "I reviewed this pasted transcript and want to use it as my source.": {
+    "de": "Ich habe das eingefügte Transkript geprüft und möchte es als Quelle nutzen.",
+    "es": "He revisado esta transcripción pegada y quiero usarla como fuente."
+  },
+  "Review the video transcript": {
+    "de": "Videotranskript prüfen",
+    "es": "Revisar la transcripción del vídeo"
+  },
+  "These are automatically generated captions.": {
+    "de": "Dies sind automatisch erzeugte Untertitel.",
+    "es": "Estos subtítulos se han generado automáticamente."
+  },
+  "These are published captions.": {
+    "de": "Dies sind veröffentlichte Untertitel.",
+    "es": "Estos son subtítulos publicados."
+  },
+  "View source video ↗": {
+    "de": "Originalvideo ansehen ↗",
+    "es": "Ver vídeo original ↗"
+  },
+  "timestamp blocks.": {
+    "de": "Zeitblöcke.",
+    "es": "bloques de tiempo."
+  },
+  "/ 100,000 characters.": {
+    "de": "/ 100.000 Zeichen.",
+    "es": "/ 100 000 caracteres."
+  },
+  "Previous transcript page": {
+    "de": "Vorherige Transkriptseite",
+    "es": "Página anterior"
+  },
+  "Page": {
+    "de": "Seite",
+    "es": "Página"
+  },
+  "of": {
+    "de": "von",
+    "es": "de"
+  },
+  "Next transcript page": {
+    "de": "Nächste Transkriptseite",
+    "es": "Página siguiente"
+  },
+  "I reviewed this transcript and want to use it as my source.": {
+    "de": "Ich habe dieses Transkript geprüft und möchte es als Quelle nutzen.",
+    "es": "He revisado esta transcripción y quiero usarla como fuente."
+  },
+  "Maximum media size is 4 MB. Choose a shorter recording.": {
+    "de": "Maximal 4 MB. Wähle eine kürzere Aufnahme.",
+    "es": "El tamaño máximo es de 4 MB. Elige una grabación más corta."
+  },
+  "Microphone recording is unavailable. Upload a recording or type instead.": {
+    "de": "Mikrofonaufnahme ist nicht verfügbar. Lade eine Aufnahme hoch oder schreibe deinen Text.",
+    "es": "La grabación no está disponible. Sube un archivo o escribe el texto."
+  },
+  "This browser cannot record a supported audio format. Upload a file instead.": {
+    "de": "Dieser Browser kann kein unterstütztes Audioformat aufnehmen. Lade stattdessen eine Datei hoch.",
+    "es": "Este navegador no puede grabar en un formato compatible. Sube un archivo."
+  },
+  "Recording exceeded 4 MB. Try a shorter recording.": {
+    "de": "Die Aufnahme überschreitet 4 MB. Versuche eine kürzere Aufnahme.",
+    "es": "La grabación supera los 4 MB. Prueba con una más corta."
+  },
+  "Microphone recording failed. Try uploading a file or type instead.": {
+    "de": "Die Aufnahme ist fehlgeschlagen. Lade eine Datei hoch oder schreibe den Text.",
+    "es": "La grabación ha fallado. Sube un archivo o escribe el texto."
+  },
+  "Microphone permission was denied. Upload a recording or type instead.": {
+    "de": "Mikrofonzugriff wurde abgelehnt. Lade eine Aufnahme hoch oder schreibe den Text.",
+    "es": "Se denegó el acceso al micrófono. Sube una grabación o escribe el texto."
+  },
+  "Audio is sent to OpenAI for transcription. Temporary media is removed after processing. Up to 4 MB / two minutes. Review the transcript before using it.": {
+    "de": "Audio wird zur Transkription an OpenAI gesendet. Temporäre Medien werden danach entfernt. Bis 4 MB / zwei Minuten. Prüfe das Transkript vor der Verwendung.",
+    "es": "El audio se envía a OpenAI para transcribirlo. Los archivos temporales se eliminan después. Hasta 4 MB / dos minutos. Revisa la transcripción antes de usarla."
+  },
+  "I agree to audio processing for transcription.": {
+    "de": "Ich stimme der Audioverarbeitung zur Transkription zu.",
+    "es": "Acepto el procesamiento del audio para transcribirlo."
+  },
+  "Stop & transcribe": {
+    "de": "Stoppen und transkribieren",
+    "es": "Detener y transcribir"
+  },
+  "Record a voice message": {
+    "de": "Sprachnachricht aufnehmen",
+    "es": "Grabar un mensaje de voz"
+  },
+  "Or upload audio/video": {
+    "de": "Oder Audio/Video hochladen",
+    "es": "O subir audio/vídeo"
+  },
+  "Recording… stops automatically before two minutes.": {
+    "de": "Aufnahme läuft… stoppt automatisch vor zwei Minuten.",
+    "es": "Grabando… se detiene automáticamente antes de dos minutos."
+  },
+  "Preparing transcript…": {
+    "de": "Transkript wird vorbereitet…",
+    "es": "Preparando transcripción…"
+  },
+  "Review the source transcript": {
+    "de": "Quelltranskript prüfen",
+    "es": "Revisar la transcripción de la fuente"
+  },
+  "These segments become your source evidence. Correct words before confirming; timestamps refer to the original recording.": {
+    "de": "Diese Abschnitte werden deine Quellenbelege. Korrigiere sie vor dem Bestätigen; Zeitmarken beziehen sich auf die Originalaufnahme.",
+    "es": "Estos fragmentos serán las pruebas de tu fuente. Corrige el texto antes de confirmar; los tiempos corresponden a la grabación original."
+  },
+  "Playback is unavailable.": {
+    "de": "Wiedergabe ist nicht verfügbar.",
+    "es": "La reproducción no está disponible."
+  },
+  "AI-generated voice. Playback sends this reply to OpenAI.": {
+    "de": "KI-generierte Stimme. Diese Antwort wird zur Wiedergabe an OpenAI gesendet.",
+    "es": "Voz generada por IA. La reproducción envía esta respuesta a OpenAI."
+  },
+  "AI-generated partner voice": {
+    "de": "KI-generierte Partnerstimme",
+    "es": "Voz del interlocutor generada por IA"
+  },
+  "Preparing voice…": {
+    "de": "Stimme wird vorbereitet…",
+    "es": "Preparando voz…"
+  },
+  "Play AI voice": {
+    "de": "KI-Stimme abspielen",
+    "es": "Reproducir voz de IA"
+  },
+  "How would you like to add context?": {
+    "de": "Wie möchtest du Kontext hinzufügen?",
+    "es": "¿Cómo quieres añadir contexto?"
+  },
+  "Describe your situation or paste text": {
+    "de": "Situation beschreiben oder Text einfügen",
+    "es": "Describir la situación o pegar texto"
+  },
+  "Upload a document": {
+    "de": "Dokument hochladen",
+    "es": "Subir un documento"
+  },
+  "Use a listing link (optional)": {
+    "de": "Anzeigenlink nutzen (optional)",
+    "es": "Usar un enlace de anuncio (opcional)"
+  },
+  "Situation notes or document text": {
+    "de": "Situationsnotizen oder Dokumenttext",
+    "es": "Notas de la situación o texto del documento"
+  },
+  "Describe the situation, who you are speaking to, and the facts you know. Or paste a document…": {
+    "de": "Beschreibe die Situation, dein Gegenüber und bekannte Fakten. Oder füge ein Dokument ein…",
+    "es": "Describe la situación, con quién hablas y los datos que conoces. O pega un documento…"
+  },
+  "/ 100,000 characters": {
+    "de": "/ 100.000 Zeichen",
+    "es": "/ 100 000 caracteres"
+  },
+  "Your document, your context": {
+    "de": "Dein Dokument, dein Kontext",
+    "es": "Tu documento, tu contexto"
+  },
+  "Text-based PDF or DOCX · up to 4 MB": {
+    "de": "PDF mit Text oder DOCX · bis 4 MB",
+    "es": "PDF con texto o DOCX · hasta 4 MB"
+  },
+  "Maximum file size is 4 MB.": {
+    "de": "Die maximale Dateigröße beträgt 4 MB.",
+    "es": "El tamaño máximo es de 4 MB."
+  },
+  "Scanned PDFs are not supported.": {
+    "de": "Gescannte PDFs werden nicht unterstützt.",
+    "es": "No se admiten PDF escaneados."
+  },
+  "Idealista listing URL": {
+    "de": "Idealista-Anzeigenlink",
+    "es": "URL del anuncio de Idealista"
+  },
+  "Spain, Portugal or Italy. Use a direct advert link, not a search page.": {
+    "de": "Spanien, Portugal oder Italien. Nutze einen direkten Anzeigenlink, keine Suchseite.",
+    "es": "España, Portugal o Italia. Usa un enlace directo al anuncio, no a una búsqueda."
+  },
+  "Paste advert text (recommended: Idealista often blocks imports)": {
+    "de": "Anzeigentext einfügen (empfohlen: Idealista blockiert oft Importe)",
+    "es": "Pegar texto del anuncio (recomendado: Idealista suele bloquear importaciones)"
+  },
+  "If the site blocks reading, paste the advert’s price, description and features here.": {
+    "de": "Wenn die Seite den Abruf blockiert, füge Preis, Beschreibung und Merkmale hier ein.",
+    "es": "Si el sitio bloquea la lectura, pega aquí el precio, la descripción y las características."
+  },
+  "Copy the price, description and features from the advert into this field, then select Build my mission again. Your URL stays attached as a reference. Pasted text is used without fetching the page. Otherwise, the server requests the public listing. Blocked pages and login walls are not bypassed.": {
+    "de": "Kopiere Preis, Beschreibung und Merkmale hierher und wähle erneut „Meinen Plan erstellen“. Die URL bleibt als Verweis erhalten. Eingefügter Text wird ohne Seitenabruf genutzt. Sonst wird die öffentliche Anzeige angefragt. Sperren und Anmeldeseiten werden nicht umgangen.",
+    "es": "Copia el precio, la descripción y las características aquí y vuelve a pulsar Crear mi plan. Se conserva la URL como referencia. El texto pegado se usa sin consultar la página. Si no, se solicita el anuncio público. No se eluden bloqueos ni accesos privados."
+  },
+  "How would you like to add media?": {
+    "de": "Wie möchtest du Medien hinzufügen?",
+    "es": "¿Cómo quieres añadir contenido multimedia?"
+  },
+  "Use a video link": {
+    "de": "Videolink nutzen",
+    "es": "Usar un enlace de vídeo"
+  },
+  "Record or upload audio / video": {
+    "de": "Audio/Video aufnehmen oder hochladen",
+    "es": "Grabar o subir audio/vídeo"
+  },
+  "They give a clear answer": {
+    "de": "Sie geben eine klare Antwort",
+    "es": "Dan una respuesta clara"
+  },
+  "Check the evidence. Confirm what you understood.": {
+    "de": "Prüfe die Belege. Bestätige, was du verstanden hast.",
+    "es": "Comprueba las pruebas. Confirma lo que has entendido."
+  },
+  "Ask your next useful question.": {
+    "de": "Stelle deine nächste hilfreiche Frage.",
+    "es": "Haz tu siguiente pregunta útil."
+  },
+  "The detail is missing": {
+    "de": "Die Angabe fehlt",
+    "es": "Falta el dato"
+  },
+  "Ask who can confirm it, or how to follow up.": {
+    "de": "Frage, wer es bestätigen kann oder wie du nachfragen kannst.",
+    "es": "Pregunta quién puede confirmarlo o cómo hacer seguimiento."
+  },
+  "Keep the question open for real life.": {
+    "de": "Lass die Frage für das echte Gespräch offen.",
+    "es": "Deja la pregunta abierta para la vida real."
+  },
+  "They ask you something back": {
+    "de": "Sie stellen dir eine Rückfrage",
+    "es": "Te hacen una pregunta"
+  },
+  "Explain your priorities. Then return to your question.": {
+    "de": "Erkläre deine Prioritäten. Kehre dann zu deiner Frage zurück.",
+    "es": "Explica tus prioridades y vuelve a tu pregunta."
+  },
+  "Agree on a practical next step.": {
+    "de": "Vereinbart einen konkreten nächsten Schritt.",
+    "es": "Acordad un siguiente paso práctico."
+  },
+  "They understand your point": {
+    "de": "Sie verstehen deinen Standpunkt",
+    "es": "Entienden tu postura"
+  },
+  "Check that your meaning is clear, without assuming agreement.": {
+    "de": "Prüfe, ob du verstanden wurdest, ohne Zustimmung vorauszusetzen.",
+    "es": "Comprueba que se entiende lo que dices, sin suponer acuerdo."
+  },
+  "Keep your stated goal and boundaries in view.": {
+    "de": "Behalte dein Ziel und deine Grenzen im Blick.",
+    "es": "Ten presentes tu objetivo y tus límites."
+  },
+  "They disagree or need time": {
+    "de": "Sie sind anderer Meinung oder brauchen Zeit",
+    "es": "No están de acuerdo o necesitan tiempo"
+  },
+  "Acknowledge what you heard. You can restate your decision or boundary.": {
+    "de": "Zeige, dass du zugehört hast. Du kannst deine Entscheidung oder Grenze wiederholen.",
+    "es": "Reconoce lo que has oído. Puedes repetir tu decisión o tu límite."
+  },
+  "You do not have to negotiate a final decision.": {
+    "de": "Eine endgültige Entscheidung musst du nicht verhandeln.",
+    "es": "No tienes que negociar una decisión definitiva."
+  },
+  "Answer only what you want to share. Return to your stated goal.": {
+    "de": "Teile nur, was du möchtest. Kehre zu deinem Ziel zurück.",
+    "es": "Responde solo lo que quieras compartir. Vuelve a tu objetivo."
+  },
+  "You can pause or end the conversation.": {
+    "de": "Du kannst das Gespräch pausieren oder beenden.",
+    "es": "Puedes pausar o terminar la conversación."
+  },
+  "Possible dialogue flow": {
+    "de": "Möglicher Gesprächsverlauf",
+    "es": "Posible desarrollo del diálogo"
+  },
+  "THE PLAN / POSSIBLE PATHS": {
+    "de": "DER PLAN / MÖGLICHE WEGE",
+    "es": "EL PLAN / POSIBLES CAMINOS"
+  },
+  "A plan for the unplanned.": {
+    "de": "Ein Plan für das Ungeplante.",
+    "es": "Un plan para lo imprevisto."
+  },
+  "TAKE 01 ↗": {
+    "de": "PROBE 01 ↗",
+    "es": "ENSAYO 01 ↗"
+  },
+  "A rehearsal sketch, not a prediction. These paths add no facts or promises.": {
+    "de": "Eine Übungsskizze, keine Vorhersage. Diese Wege ergänzen keine Fakten oder Versprechen.",
+    "es": "Un esquema de ensayo, no una predicción. Estos caminos no añaden datos ni promesas."
+  },
+  "Choose a goal to map": {
+    "de": "Ein Ziel für die Übersicht wählen",
+    "es": "Elegir un objetivo para el esquema"
+  },
+  "Goal": {
+    "de": "Ziel",
+    "es": "Objetivo"
+  },
+  "YOUR OPENING INTENT": {
+    "de": "DEINE ABSICHT ZUM EINSTIEG",
+    "es": "TU INTENCIÓN INICIAL"
+  },
+  "Current answer: still unknown": {
+    "de": "Aktuelle Antwort: weiterhin unbekannt",
+    "es": "Respuesta actual: aún desconocida"
+  },
+  "YOUR NEXT MOVE": {
+    "de": "DEIN NÄCHSTER SCHRITT",
+    "es": "TU SIGUIENTE PASO"
+  },
+  "People can surprise you. You can pause, ask for help, or try another path.": {
+    "de": "Menschen können dich überraschen. Du kannst pausieren, um Hilfe bitten oder einen anderen Weg probieren.",
+    "es": "Las personas pueden sorprenderte. Puedes pausar, pedir ayuda o probar otro camino."
+  },
+  "Didn’t feel realistic": {
+    "de": "Wirkte nicht realistisch",
+    "es": "No parecía realista"
+  },
+  "Didn’t answer my question": {
+    "de": "Meine Frage blieb unbeantwortet",
+    "es": "No respondió a mi pregunta"
+  },
+  "Got a fact wrong": {
+    "de": "Ein Fakt war falsch",
+    "es": "Se equivocó en un dato"
+  },
+  "Tone felt off": {
+    "de": "Der Ton passte nicht",
+    "es": "El tono no encajaba"
+  },
+  "Other": {
+    "de": "Sonstiges",
+    "es": "Otro"
+  },
+  "Thanks. Feedback noted for this session.": {
+    "de": "Danke. Rückmeldung für diese Sitzung gespeichert.",
+    "es": "Gracias. Opinión registrada en esta sesión."
+  },
+  "Feedback cleared.": {
+    "de": "Rückmeldung gelöscht.",
+    "es": "Opinión eliminada."
+  },
+  "Rehearsal feedback": {
+    "de": "Rückmeldung zur Probe",
+    "es": "Opinión sobre el ensayo"
+  },
+  "Useful rehearsal": {
+    "de": "Hilfreiche Probe",
+    "es": "Ensayo útil"
+  },
+  "Unhelpful rehearsal": {
+    "de": "Nicht hilfreiche Probe",
+    "es": "Ensayo poco útil"
+  },
+  "Clear": {
+    "de": "Löschen",
+    "es": "Borrar"
+  },
+  "Reason (optional)": {
+    "de": "Grund (optional)",
+    "es": "Motivo (opcional)"
+  },
+  "No reason": {
+    "de": "Kein Grund",
+    "es": "Sin motivo"
+  },
+  "YOUR NEXT STEP": {
+    "de": "DEIN NÄCHSTER SCHRITT",
+    "es": "TU SIGUIENTE PASO"
+  },
+  "You have practised every goal.": {
+    "de": "Du hast alle Ziele geübt.",
+    "es": "Has practicado todos los objetivos."
+  },
+  "Keep your notes for real life, or choose a goal below to rehearse again. Practice does not guarantee what the other person will say.": {
+    "de": "Behalte deine Notizen für das echte Leben oder übe ein Ziel erneut. Übung garantiert nicht, was dein Gegenüber sagen wird.",
+    "es": "Guarda tus notas o elige un objetivo para repetirlo. Practicar no garantiza lo que dirá la otra persona."
+  },
+  "Practise a follow-up.": {
+    "de": "Übe eine Rückfrage.",
+    "es": "Practica una pregunta de seguimiento."
+  },
+  "Give this moment another take.": {
+    "de": "Übe diesen Moment noch einmal.",
+    "es": "Vuelve a ensayar este momento."
+  },
+  "The answer is not confirmed. Practise how you’ll check it in real life.": {
+    "de": "Die Antwort ist nicht bestätigt. Übe, wie du im echten Leben nachfragen wirst.",
+    "es": "La respuesta no está confirmada. Practica cómo comprobarla en la vida real."
+  },
+  "This learner action has not been practised yet.": {
+    "de": "Diese Handlung wurde noch nicht geübt.",
+    "es": "Esta acción aún no se ha practicado."
+  },
+  "Rehearse this moment": {
+    "de": "Diesen Moment üben",
+    "es": "Ensayar este momento"
+  },
+  "Replay replaces this take. You can download a copy first; you’ll be asked before continuing.": {
+    "de": "Die Wiederholung ersetzt diese Probe. Du kannst vorher eine Kopie herunterladen; vor dem Fortfahren wirst du gefragt.",
+    "es": "La repetición sustituye este ensayo. Puedes descargar una copia primero; se te preguntará antes de continuar."
+  },
+  "Practice server connection": {
+    "de": "Verbindung zum Übungsserver",
+    "es": "Conexión al servidor"
+  },
+  "The practice server could not be reached.": {
+    "de": "Der Übungsserver ist nicht erreichbar.",
+    "es": "No se pudo conectar con el servidor."
+  },
+  "Still connecting to the rehearsal room…": {
+    "de": "Verbindung zum Übungsraum wird noch hergestellt…",
+    "es": "Seguimos conectando con la sala de ensayo…"
+  },
+  "Connecting to the rehearsal room…": {
+    "de": "Verbindung zum Übungsraum wird hergestellt…",
+    "es": "Conectando con la sala de ensayo…"
+  },
+  "Your setup is still here. Retry the connection when you are ready.": {
+    "de": "Deine Einstellungen bleiben erhalten. Versuche die Verbindung erneut, wenn du bereit bist.",
+    "es": "Tu configuración sigue aquí. Vuelve a conectar cuando quieras."
+  },
+  "The free server may be waking after inactivity. You can read a fictional sample while you wait.": {
+    "de": "Der kostenlose Server startet möglicherweise nach einer Ruhephase. Lies währenddessen ein fiktives Beispiel.",
+    "es": "El servidor gratuito puede estar despertando tras un periodo de inactividad. Puedes leer un ejemplo ficticio mientras esperas."
+  },
+  "You can prepare your setup while we connect. Practice starts once the server is ready.": {
+    "de": "Du kannst dich während des Verbindungsaufbaus vorbereiten. Die Übung beginnt, sobald der Server bereit ist.",
+    "es": "Puedes preparar la configuración mientras conectamos. La práctica empieza cuando el servidor esté listo."
+  },
+  "Retry connection": {
+    "de": "Verbindung erneut versuchen",
+    "es": "Volver a conectar"
+  },
+  "Read a sample while you wait": {
+    "de": "Während des Wartens ein Beispiel lesen",
+    "es": "Leer un ejemplo mientras esperas"
+  },
+  "Fictional source text only. This does not start a rehearsal or send your data.": {
+    "de": "Nur fiktiver Quelltext. Dadurch wird keine Probe gestartet und es werden keine Daten gesendet.",
+    "es": "Solo texto ficticio. Esto no inicia un ensayo ni envía tus datos."
+  },
+  "Feel confident asking about the details before making a decision.": {
+    "de": "Sicher nach Details fragen, bevor ich eine Entscheidung treffe.",
+    "es": "Sentirme capaz de preguntar los detalles antes de decidir."
+  },
+  "Say no to a family request and set a clear boundary about my time.": {
+    "de": "Eine Bitte der Familie ablehnen und eine klare Grenze für meine Zeit setzen.",
+    "es": "Decir que no a una petición familiar y poner un límite claro sobre mi tiempo."
+  },
+  "1 page": {
+    "de": "1 Seite",
+    "es": "1 página"
+  },
+  "DEMO / NO KEY REQUIRED": {
+    "de": "DEMO / OHNE SCHLÜSSEL",
+    "es": "DEMOSTRACIÓN / SIN CLAVE"
+  },
+  "LIVE / AI PARTNER": {
+    "de": "LIVE / KI-GESPRÄCHSPARTNER",
+    "es": "EN VIVO / INTERLOCUTOR IA"
+  },
+  "CONNECTING…": {
+    "de": "VERBINDUNG WIRD HERGESTELLT…",
+    "es": "CONECTANDO…"
+  },
+  "plan": {
+    "de": "Plan",
+    "es": "plan"
+  },
+  "conversation": {
+    "de": "Gespräch",
+    "es": "conversación"
+  },
+  "review": {
+    "de": "Rückblick",
+    "es": "revisión"
+  },
+  "· practised": {
+    "de": "· geübt",
+    "es": "· practicado"
+  },
+  "This transcript was imported in another conversation language. Review it before confirming again, or record/upload it in the selected language.": {
+    "de": "Dieses Transkript wurde in einer anderen Gesprächssprache importiert. Prüfe es vor dem erneuten Bestätigen oder erstelle eine Aufnahme in der gewählten Sprache.",
+    "es": "Esta transcripción se importó en otro idioma. Revísala antes de confirmarla o graba/sube el audio en el idioma seleccionado."
+  },
+  "The practice server is busy. Wait a minute and retry.": {
+    "de": "Der Übungsserver ist ausgelastet. Warte eine Minute und versuche es erneut.",
+    "es": "El servidor está ocupado. Espera un minuto e inténtalo de nuevo."
+  },
+  "The practice server took too long to respond. Wait a moment and retry.": {
+    "de": "Der Übungsserver hat zu lange gebraucht. Warte kurz und versuche es erneut.",
+    "es": "El servidor tardó demasiado. Espera un momento e inténtalo de nuevo."
+  },
+  "The daily provider allowance has been reached. Try tomorrow or use offline demo mode.": {
+    "de": "Das tägliche Anbieterkontingent ist aufgebraucht. Versuche es morgen oder nutze den Offline-Demomodus.",
+    "es": "Se ha alcanzado el límite diario del proveedor. Inténtalo mañana o usa el modo de demostración sin conexión."
+  },
+  "Secure document parsing is unavailable on this host. Paste document text instead.": {
+    "de": "Sichere Dokumentverarbeitung ist auf diesem Server nicht verfügbar. Füge stattdessen den Text ein.",
+    "es": "Este servidor no ofrece el procesamiento seguro de documentos. Pega el texto en su lugar."
+  },
+  "Provider budget protection is unavailable. External processing is paused.": {
+    "de": "Der Budgetschutz ist nicht verfügbar. Externe Verarbeitung pausiert.",
+    "es": "La protección del presupuesto no está disponible. El procesamiento externo está en pausa."
+  },
+  "This scene is too large for the AI allowance. Shorten the source or start a new scene.": {
+    "de": "Diese Szene überschreitet das KI-Kontingent. Kürze die Quelle oder starte eine neue Szene.",
+    "es": "Esta escena es demasiado grande para el límite de IA. Acorta la fuente o empieza una escena nueva."
+  },
+  "The hourly AI allowance has been reached. Please try again later.": {
+    "de": "Das stündliche KI-Kontingent ist aufgebraucht. Versuche es später erneut.",
+    "es": "Se ha alcanzado el límite de IA por hora. Inténtalo más tarde."
+  },
+  "This session has reached its AI request limit. End the session when you are ready.": {
+    "de": "Diese Sitzung hat ihr KI-Anfragelimit erreicht. Beende sie, wenn du bereit bist.",
+    "es": "Esta sesión ha alcanzado su límite de solicitudes de IA. Termínala cuando quieras."
+  },
+  "Choose a PDF or DOCX first.": {
+    "de": "Wähle zuerst eine PDF- oder DOCX-Datei.",
+    "es": "Elige primero un PDF o DOCX."
+  },
+  "Only PDF and DOCX files are supported.": {
+    "de": "Nur PDF und DOCX werden unterstützt.",
+    "es": "Solo se admiten PDF y DOCX."
+  },
+  "No clear speech was detected. Try a clearer recording or type your text.": {
+    "de": "Es wurde keine klare Sprache erkannt. Versuche eine deutlichere Aufnahme oder schreibe deinen Text.",
+    "es": "No se detectó voz clara. Prueba una grabación más nítida o escribe el texto."
+  },
+  "Existing captions are in a different language. Select that conversation language or paste the transcript.": {
+    "de": "Die vorhandenen Untertitel sind in einer anderen Sprache. Wähle diese Gesprächssprache oder füge das Transkript ein.",
+    "es": "Los subtítulos están en otro idioma. Selecciona ese idioma o pega la transcripción."
+  },
+  "Existing captions were returned in a different language. Change the conversation language or paste the transcript.": {
+    "de": "Die abgerufenen Untertitel sind in einer anderen Sprache. Ändere die Gesprächssprache oder füge das Transkript ein.",
+    "es": "Los subtítulos recibidos están en otro idioma. Cambia el idioma de conversación o pega la transcripción."
+  },
+  "The server did not confirm deletion. Please retry.": {
+    "de": "Der Server hat die Löschung nicht bestätigt. Versuche es erneut.",
+    "es": "El servidor no confirmó la eliminación. Inténtalo de nuevo."
+  },
+  "Deletion could not be verified. Please retry before leaving.": {
+    "de": "Die Löschung konnte nicht bestätigt werden. Versuche es vor dem Verlassen erneut.",
+    "es": "No se pudo verificar la eliminación. Inténtalo de nuevo antes de salir."
+  },
+  "The AI provider is currently rate-limited or its quota is exhausted. Try again later.": {
+    "de": "Der KI-Anbieter begrenzt Anfragen oder sein Kontingent ist aufgebraucht. Versuche es später erneut.",
+    "es": "El proveedor de IA limita las solicitudes o ha agotado su cuota. Inténtalo más tarde."
+  },
+  "Could not read this document. Use an unencrypted text PDF (up to 100 pages) or valid DOCX. Scanned PDFs need OCR.": {
+    "de": "Das Dokument konnte nicht gelesen werden. Nutze eine unverschlüsselte PDF mit Text (bis 100 Seiten) oder eine gültige DOCX. Gescannte PDFs benötigen OCR.",
+    "es": "No se pudo leer el documento. Usa un PDF con texto sin cifrar (hasta 100 páginas) o un DOCX válido. Los PDF escaneados necesitan OCR."
+  },
+  "Document parsing timed out. Try a smaller text PDF or DOCX.": {
+    "de": "Die Dokumentverarbeitung hat zu lange gedauert. Versuche eine kleinere PDF mit Text oder DOCX.",
+    "es": "Se agotó el tiempo de procesamiento. Prueba un PDF con texto o DOCX más pequeño."
+  },
+  "Document parsing exceeded its limits. Try a smaller document.": {
+    "de": "Die Dokumentverarbeitung hat ihre Grenzen überschritten. Versuche ein kleineres Dokument.",
+    "es": "El procesamiento superó sus límites. Prueba un documento más pequeño."
+  },
+  "Document readers are busy. Try again shortly.": {
+    "de": "Die Dokumentverarbeitung ist ausgelastet. Versuche es gleich erneut.",
+    "es": "El procesamiento de documentos está ocupado. Inténtalo en breve."
+  },
+  "No text found. Scanned PDFs need OCR and are not supported.": {
+    "de": "Kein Text gefunden. Gescannte PDFs benötigen OCR und werden nicht unterstützt.",
+    "es": "No se encontró texto. Los PDF escaneados necesitan OCR y no se admiten."
+  },
+  "Full available transcript imported. Captions may contain errors; review before use.": {
+    "de": "Das verfügbare vollständige Transkript wurde importiert. Untertitel können Fehler enthalten; bitte prüfen.",
+    "es": "Se importó la transcripción completa disponible. Los subtítulos pueden contener errores; revísalos."
+  },
+  "Existing YouTube captions retrieved through Supadata (native mode); caption authorship is not verified. Captions may contain errors; review before use.": {
+    "de": "Vorhandene YouTube-Untertitel wurden über Supadata abgerufen; die Urheberschaft ist nicht geprüft. Untertitel können Fehler enthalten; bitte prüfen.",
+    "es": "Se obtuvieron subtítulos existentes de YouTube mediante Supadata; no se verificó su autoría. Pueden contener errores; revísalos."
+  },
+  "This rehearsal is no longer available on the server. It may have timed out, or the server may have restarted or been updated. Any conversation still visible in this tab can be downloaded before you start again.": {
+    "de": "Diese Probe ist auf dem Server nicht mehr verfügbar. Sie ist möglicherweise abgelaufen oder der Server wurde neu gestartet oder aktualisiert. Lade das hier noch sichtbare Gespräch herunter, bevor du neu startest.",
+    "es": "Este ensayo ya no está disponible en el servidor. Puede haber caducado o el servidor puede haberse reiniciado o actualizado. Descarga la conversación que aún veas en esta pestaña antes de empezar de nuevo."
+  },
+  "The Rehearsal": {
+    "de": "The Rehearsal",
+    "es": "The Rehearsal"
+  },
+  "REHEARSAL PAUSED": {
+    "de": "PROBE PAUSIERT",
+    "es": "ENSAYO EN PAUSA"
+  },
+  "YOU": {
+    "de": "DU",
+    "es": "T?"
+  },
+  "YOUR PARTNER": {
+    "de": "DEIN GEGEN?BER",
+    "es": "TU INTERLOCUTOR"
+  },
+  "Take your time. Write your reply in {language}.": {
+    "de": "Lass dir Zeit. Schreibe deine Antwort auf {language}.",
+    "es": "T?mate tu tiempo. Escribe tu respuesta en {language}."
+  }
+}

@@ -21,7 +21,7 @@ jobs:
     name: Request production deployments
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     environment: production
     steps:
       - uses: actions/checkout@v4
@@ -40,6 +40,22 @@ jobs:
         run: |
           gh api "repos/$GITHUB_REPOSITORY/actions/workflows/langsmith-evaluation.yml/runs?head_sha=$GITHUB_SHA&event=workflow_dispatch&status=success" \
             --jq '.workflow_runs | length > 0' | grep -qx true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - run: python -m pip install -r backend/requirements.txt
+      - name: Require current independent human-reviewed live quality evidence
+        env:
+          REHEARSAL_MODE: demo
+          OPENAI_API_KEY: ''
+          VECTOR_STORE: memory
+        run: |
+          test -f evaluation/quality-release-live.json || { echo 'Missing live benchmark report'; exit 1; }
+          test -f evaluation/quality-release-live.review.json || { echo 'Missing attributed human reviews'; exit 1; }
+          python scripts/evaluate_quality.py --score-report evaluation/quality-release-live.json --reviews evaluation/quality-release-live.review.json --output .runtime/release-reviewed.json --require-human
+          python scripts/check_review_provenance.py .runtime/release-reviewed.json
       - name: Check deploy hook configuration
         env:
           RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}

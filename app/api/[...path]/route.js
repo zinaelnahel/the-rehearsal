@@ -1,3 +1,6 @@
+import {createHmac} from 'node:crypto';
+import {isIP} from 'node:net';
+
 // Server-only proxy: provider keys and the backend token never enter browser code.
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -25,6 +28,14 @@ async function proxy(request, context) {
   const type = request.headers.get('content-type');
   if (type) headers.set('content-type',type);
   if (process.env.API_PROXY_TOKEN) headers.set('x-rehearsal-token',process.env.API_PROXY_TOKEN);
+  // Vercel overwrites x-forwarded-for; never trust browser-supplied identity headers.
+  // https://vercel.com/docs/headers/request-headers
+  if (process.env.VERCEL && process.env.API_PROXY_TOKEN) {
+    const ip = request.headers.get('x-forwarded-for')?.trim();
+    if (!ip || !isIP(ip)) return Response.json({detail:'Client identity could not be verified.'},{status:503});
+    const day = new Date().toISOString().slice(0,10);
+    headers.set('x-rehearsal-client',createHmac('sha256',process.env.API_PROXY_TOKEN).update(day+'|'+ip).digest('hex'));
+  }
   let body;
   if (!['GET','HEAD'].includes(request.method)) {
     const reader = request.body?.getReader();
@@ -56,7 +67,8 @@ async function proxy(request, context) {
     });
     return new Response(result.body, {status:result.status,headers:{
       'content-type':result.headers.get('content-type') || 'application/json',
-      'cache-control':'no-store'
+      'cache-control':'no-store',
+      ...(result.headers.get('retry-after')?{'retry-after':result.headers.get('retry-after')}:{})
     }});
   } catch (error) {
     const timedOut=['TimeoutError','AbortError'].includes(error.name);

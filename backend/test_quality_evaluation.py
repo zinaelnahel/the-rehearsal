@@ -1,7 +1,7 @@
 """Evaluation arithmetic must not turn missing labels or failed runs into passes."""
 import unittest
 from copy import deepcopy
-from scripts.evaluate_quality import summarize, rate, digest, attach_reviews
+from scripts.evaluate_quality import summarize, rate, digest, attach_reviews, release_gate
 
 
 def row(**changes):
@@ -51,3 +51,13 @@ class QualityEvaluationTests(unittest.TestCase):
         for changes in ({'answer_sha256':'wrong'},{'dataset_sha256':'wrong'},{'reviewer':''}):
             with self.assertRaises(ValueError):attach_reviews(deepcopy(report),[{**review,**changes}])
         with self.assertRaises(ValueError):attach_reviews(deepcopy(report),[review,review])
+
+    def test_feedback_reviews_are_bound_to_full_output_and_missing_reviews_block_release(self):
+        report={'dataset_sha256':'dataset','cases':[row(output_sha256='full-output')]}
+        review=dict(run_id='case:1',dataset_sha256='dataset',answer_sha256=digest('1375'),
+            reviewer='Reviewer A',grounding='supported',answer_correct=True,goal_correct=True,
+            explanation='Exact value.',feedback_usefulness=4,safety_appropriate=True)
+        with self.assertRaises(ValueError):attach_reviews(deepcopy(report),[review])
+        scored=attach_reviews(deepcopy(report),[{**review,'output_sha256':'full-output'}])
+        self.assertFalse(scored['release_gate']['passed'])
+        self.assertFalse(release_gate({'cases':[]})['passed'])
