@@ -13,3 +13,5 @@
 .transcript-editor textarea{width:100%;min-height:70px}
 
 .interface-language{display:flex;align-items:center;gap:.5rem;font-size:.75rem;margin:0}.interface-language select{width:auto;min-width:6rem;margin:0;padding:.4rem}.header-right{flex-wrap:wrap}
+
+.build-info{display:flex;flex-wrap:wrap;gap:.7rem;font-size:.75rem}.build-info a{font-family:monospace;text-decoration:underline;text-underline-offset:3px}

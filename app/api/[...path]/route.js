@@ -65,6 +65,15 @@ async function proxy(request, context) {
       method:request.method,headers,body,cache:'no-store',redirect:'error',
       signal:AbortSignal.timeout(55000)
     });
+    if(result.ok&&request.method==='GET'&&path.length===1&&path[0]==='config'){
+      const config=await result.json();
+      // The existing backend need not restart to identify its deployed commit.
+      // Set BACKEND_BUILD_SHA from the verified live Render deploy when publishing.
+      const candidate=config.backend_build_sha||process.env.BACKEND_BUILD_SHA;
+      const backendSha=/^[a-f0-9]{40}$/i.test(candidate||'')?candidate:null;
+      return Response.json({...config,frontend_build_sha:process.env.NEXT_PUBLIC_BUILD_SHA,
+        backend_build_sha:backendSha},{headers:{'cache-control':'no-store'}});
+    }
     return new Response(result.body, {status:result.status,headers:{
       'content-type':result.headers.get('content-type') || 'application/json',
       'cache-control':'no-store',

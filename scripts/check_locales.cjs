@@ -7,6 +7,13 @@ for(const filename of fs.readdirSync('app').filter(f=>f.endsWith('.js')&&f!=='i1
  const ast=parse(fs.readFileSync('app/'+filename,'utf8'),{sourceType:'module',plugins:['jsx']});
  function visit(node){
   if(!node||typeof node!=='object')return;
+  if(node.type==='JSXAttribute'&&node.name?.name==='value'&&node.value?.type==='JSXExpressionContainer'
+     &&node.value.expression.type==='CallExpression'&&node.value.expression.callee?.name==='t'){
+   missing.add(filename+': controlled values must use canonical state, not translated labels');
+  }
+  if((node.type==='JSXText'||node.type==='StringLiteral')&&/Espa\?ol/.test(node.value||'')){
+   missing.add(filename+': Spanish must be spelled Español');
+  }
   if(node.type==='CallExpression'&&node.callee?.name==='t'&&node.arguments[0]?.type==='StringLiteral'){
    const key=node.arguments[0].value.trim();
    if(!catalog[key]&&!preserved.has(key))missing.add(filename+': '+key);

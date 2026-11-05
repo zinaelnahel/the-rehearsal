@@ -141,3 +141,34 @@ The manual release workflow now also requires current live benchmark outputs and
 attributed human reviews; it rescales neither missing reviews nor offline demo
 scores into passes. Existing LangSmith and successful-CI checks still apply.
 This update was deployed on 5 November 2026 at commit `f00d479` after the user explicitly requested a public-demo release with human review still pending. Both hosts are live. [Hosted checks](evaluation/hardening-hosted-2026-11-05.json) passed; the strict automated quality-release gate remains in place for future qualified releases.
+
+
+## Frontend identity and session-preserving UI releases
+
+The footer now shows independent UI and API commit links. The old role-play
+contract revision is no longer presented as the application build version.
+For Vercel CLI releases, pass `REHEARSAL_BUILD_SHA` as a build variable and
+`BACKEND_BUILD_SHA` as a runtime variable. Obtain the backend SHA from the live
+Render deploy, not from the current Git branch. An unidentified build is displayed
+as unidentified rather than guessed. A Vercel build without a valid frontend SHA
+fails. The proxy also exposes these non-secret IDs in `/api/config`.
+
+Example (replace both SHA placeholders with the verified full commits):
+
+```powershell
+vercel deploy --prod --yes --build-env REHEARSAL_BUILD_SHA=<frontend-sha> --env BACKEND_BUILD_SHA=<live-render-sha>
+```
+
+A frontend-only release does not restart Render or clear its in-memory sessions.
+Keep an existing review tab open, or download its review before refreshing; a
+refresh still invokes the app's existing best-effort page-close deletion behavior.
+The selector regression can be repeated without creating any sessions:
+
+```powershell
+node scripts/check_language_selectors.mjs
+```
+
+Set `REHEARSAL_TEST_URL` and optionally `CHROME_PATH`/`EXPECTED_FRONTEND_SHA`.
+The test checks nine interface/conversation combinations, feedback/style values,
+the spelling of Español, URL/consent retention, actual caption request payloads,
+build labels and mobile-width layout. Caption responses are explicit fixtures.

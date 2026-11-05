@@ -1490,5 +1490,25 @@
   "Take your time. Write your reply in {language}.": {
     "de": "Lass dir Zeit. Schreibe deine Antwort auf {language}.",
     "es": "T?mate tu tiempo. Escribe tu respuesta en {language}."
+  },
+  "Deployed builds": {
+    "de": "Bereitgestellte Versionen",
+    "es": "Versiones publicadas"
+  },
+  "UI build": {
+    "de": "Oberfläche",
+    "es": "Interfaz"
+  },
+  "API build": {
+    "de": "API-Version",
+    "es": "Versión de API"
+  },
+  "Not identified": {
+    "de": "Nicht ermittelt",
+    "es": "Sin identificar"
+  },
+  "Interface language changes the controls. Conversation language selects the rehearsal and video captions. Feedback language selects the coaching language.": {
+    "de": "Die Oberflächensprache ändert die Bedienelemente. Die Gesprächssprache gilt für die Übung und Videountertitel. Die Feedbacksprache gilt für die Rückmeldungen.",
+    "es": "El idioma de la interfaz cambia los controles. El idioma de conversación se usa para el ensayo y los subtítulos. El idioma de los comentarios se usa para las recomendaciones."
   }
 }
