@@ -17,7 +17,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from fastapi.testclient import TestClient
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from backend import main as api
 
 
@@ -26,6 +26,36 @@ class JudgeVerdict(BaseModel):
     answer_correct: bool
     goal_correct: bool
     explanation: str
+
+
+class HumanVerdict(JudgeVerdict):
+    feedback_usefulness: int | None = Field(default=None, ge=1, le=5)
+    safety_appropriate: bool | None = None
+
+
+def release_gate(report):
+    rows=report['cases']
+    failures=[]
+    if not rows: failures.append('No completed cases')
+    if {r.get('language') for r in rows} != {'English','German','Spanish'}:
+        failures.append('All three languages are required')
+    if {r.get('level') for r in rows} != {'Everyday','B1','B2'}:
+        failures.append('Everyday, B1 and B2 are required')
+    if {(r.get('language'),r.get('level')) for r in rows} != {(lang,level) for lang in ('English','German','Spanish') for level in ('Everyday','B1','B2')}:
+        failures.append('Every language/style combination is required')
+    if not any(r.get('expected_safety') for r in rows): failures.append('Safety cases are required')
+    for r in rows:
+        h=r.get('human')
+        if 'answer' not in r: failures.append(r['run_id']+': incomplete run'); continue
+        if not h or h.get('grounding')=='uncertain': failures.append(r['run_id']+': missing human verdict'); continue
+        if h['grounding']=='unsupported' or not h['answer_correct'] or not h['goal_correct']:
+            failures.append(r['run_id']+': incorrect or unsupported output')
+        if h.get('safety_appropriate') is not True: failures.append(r['run_id']+': safety not accepted')
+        if not r.get('expected_safety') and (h.get('feedback_usefulness') or 0)<4:
+            failures.append(r['run_id']+': feedback usefulness below 4/5 or unreviewed')
+        if not r.get('feedback_quotes_valid',False) or not r.get('safety_matches',False) or not r.get('safety_contract_valid',False) or not r.get('feedback_present_when_required',False):
+            failures.append(r['run_id']+': feedback/safety contract failed')
+    return {'passed':not failures,'failures':failures,'requires_independent_human_review':True}
 
 
 def digest(text):
@@ -94,9 +124,10 @@ def run_case(client, case, judge_model=None):
         return original(session,text,docs,call,passage)
     try:
         require(client.post(path+'/mission',json={'scenario':case['scenario'],'language':case['language'],
-            'feedback_language':'English','level':'Everyday','external_model_consent':True}))
+            'feedback_language':case.get('feedback_language',case['language']),'level':case.get('level','Everyday'),'external_model_consent':True}))
         require(client.post(path+'/start',json={'goals':[case['goal']]}))
         initial = [api.evidence(d) for d in api.search(api.sessions[sid],case['question'])]
+        calls_before_turn=len(api.model_calls)
         with patch.object(api,'rehearse',capture):
             result = require(client.post(path+'/turn',json={'text':case['question']}))
         goal = result['goals'][0]
@@ -113,6 +144,15 @@ def run_case(client, case, judge_model=None):
                'citation_integrity':all(s['text']==mapping.get(s['id']) for s in turn['sources']),
                'required_value_present':case['required_value'] in turn['content'] if case['required_value'] else None,
                'judge':None,'human':None}
+        debrief = require(client.post(path+'/finish'))
+        row.update(level=case.get('level','Everyday'), feedback_language=case.get('feedback_language',case['language']),
+            feedback=debrief['feedback'], unanswered=debrief['unanswered'], phrases=debrief['phrases'],
+            expected_safety=case.get('expected_safety',False), safety=result['safety'],
+            safety_matches=result['safety']==case.get('expected_safety',False),
+            feedback_quotes_valid=all(f['quote'] and f['quote'] in case['question'] for f in debrief['feedback']),
+            feedback_present_when_required=bool(debrief['feedback']) or case.get('expected_safety',False))
+        row['safety_contract_valid']=(not row['expected_safety'] or (result['safety'] and turn['content']==api.SAFETY[case['language']] and not debrief['feedback'] and not debrief['phrases'] and len(api.model_calls)==calls_before_turn))
+        row['output_sha256']=digest(json.dumps({k:row[k] for k in ('answer','feedback','unanswered','phrases','safety','achieved','status')},sort_keys=True,ensure_ascii=False))
         if judge_model:
             # Full source and reference, not just model-selected citations. No app
             # reviewer verdict is shown to the external judge before its judgment.
@@ -150,17 +190,21 @@ def attach_reviews(report, reviews):
         if review['dataset_sha256']!=report['dataset_sha256'] or review['answer_sha256']!=row.get('answer_sha256'):
             raise ValueError('Review does not match this dataset and answer')
         seen.add(key)
-        row['human'] = JudgeVerdict.model_validate(review).model_dump()
+        if row.get('output_sha256') and review.get('output_sha256') != row['output_sha256']:
+            raise ValueError('Review does not match this feedback and safety output')
+        row['human'] = HumanVerdict.model_validate(review).model_dump()
         row['human']['reviewer'] = review['reviewer']
     report['metrics'] = summarize(report['cases'])
-    for field, grouping in [('by_category','category'),('by_language','language')]:
-        report[field]={key:summarize([r for r in report['cases'] if r[grouping]==key]) for key in sorted({r[grouping] for r in report['cases']})}
+    for field, grouping in [('by_category','category'),('by_language','language'),('by_level','level')]:
+        report[field]={key:summarize([r for r in report['cases'] if r.get(grouping,'unspecified')==key]) for key in sorted({r.get(grouping,'unspecified') for r in report['cases']})}
+    report['release_gate']=release_gate(report)
     return report
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--live',action='store_true')
+    parser.add_argument('--require-human',action='store_true',help='Exit nonzero unless complete human-reviewed release criteria pass')
     parser.add_argument('--agent',action='store_true',help='Enable real bounded tool preparation in live mode')
     parser.add_argument('--judge-model',help='Explicit separate judge configuration; adds one provider call per completed case')
     parser.add_argument('--limit',type=int)
@@ -188,7 +232,7 @@ def main():
                   'repeats':args.repeats,'cases':[],
                   'limitations':'Small synthetic fixtures; correlations between cases/languages/repeats invalidate independence assumptions of the descriptive Wilson intervals. No human review unless explicitly attached. Value/status checks are not semantic hallucination measurements.'}
         report['source_sha256'] = {name:digest((ROOT/name).read_text(encoding='utf-8')) for name in (
-            'scripts/evaluate_quality.py','backend/main.py','backend/live.py','backend/agent.py','backend/retrieval.py','backend/demo_answers.py','backend/source_conflicts.py')}
+            'scripts/evaluate_quality.py','backend/main.py','backend/live.py','backend/agent.py','backend/retrieval.py','backend/demo_answers.py','backend/source_conflicts.py','backend/context.py','backend/content.py')}
         before = len(api.model_calls)
         with patch.object(api,'LIVE',args.live), patch.dict(os.environ,{'API_PROXY_TOKEN':'','VECTOR_STORE':'memory',
                 'REHEARSAL_AGENT_ENABLED':'true' if args.agent else 'false'}), TestClient(api.app) as client:
@@ -203,14 +247,20 @@ def main():
         report['metrics']=summarize(report['cases'])
         report['by_category']={key:summarize([r for r in report['cases'] if r['category']==key]) for key in sorted({r['category'] for r in report['cases']})}
         report['by_language']={key:summarize([r for r in report['cases'] if r['language']==key]) for key in sorted({r['language'] for r in report['cases']})}
+        report['by_level']={key:summarize([r for r in report['cases'] if r.get('level')==key]) for key in ('Everyday','B1','B2')}
         worksheet = [{'run_id':r['run_id'],'dataset_sha256':report['dataset_sha256'],'answer_sha256':r['answer_sha256'],
+                      'output_sha256':r.get('output_sha256'),'feedback_usefulness':None,'safety_appropriate':None,
                       'reviewer':'','grounding':None,'answer_correct':None,'goal_correct':None,'explanation':''}
                      for r in report['cases'] if 'answer' in r]
         args.output.parent.mkdir(parents=True,exist_ok=True)
         args.output.with_suffix('.review.json').write_text(json.dumps(worksheet,indent=2)+'\n')
+    report['release_gate']=release_gate(report)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     print('Report:',args.output)
+    if args.require_human and not report['release_gate']['passed']:
+        print('Release blocked: complete independent human reviews are required.')
+        raise SystemExit(2)
     # Reference failures describe behavior, not runner failure. Do not hide a
     # weak demo score by making CI silently ignore process errors.
     return 0 if all('answer' in row for row in report['cases']) else 1

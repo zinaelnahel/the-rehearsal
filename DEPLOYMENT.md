@@ -126,3 +126,18 @@ Run `python -m unittest backend.test_app -v` and `npm run build` before deployme
 ## Role-play validation patch 0.6.1
 
 The model-facing contract now uses required goal-assessment slots bound by the server, removing free goal/answer ID generation. Exact quotation and independent evidence checks remain in force. `/api/config` reports `roleplay_revision: 0.6.1`; partner response version identifiers use `roleplay-0.6.1`. The frontend API shape is unchanged. The patch passed 49 deterministic tests, the eight-fresh-take rent regression (40 calls), and the existing multilingual regression (27 calls). Reports use fictional samples only. Backend deployment remains explicit because Render auto-deploy is off; updating the backend restarts session-only state.
+
+
+## Production hardening update (5 November 2026)
+
+Read [current implementation and release evidence](docs/RELEASE_GATES.md) before
+rolling out these changes. Docker now requires a proxy token and Linux parser
+sandboxing; unsupported kernels reject file imports with a text fallback. CI
+runs the confinement probe. Configure the persistent provider reservation ledger
+at `/home/rehearsal/data/provider-budget.sqlite3`; the free plan cannot preserve
+it across host replacement. Provider billing controls are separate.
+
+The manual release workflow now also requires current live benchmark outputs and
+attributed human reviews; it rescales neither missing reviews nor offline demo
+scores into passes. Existing LangSmith and successful-CI checks still apply.
+This update was implemented and tested locally; it has not been deployed.

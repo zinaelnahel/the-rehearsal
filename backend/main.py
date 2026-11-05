@@ -1,20 +1,17 @@
 """Bounded rehearsal with persistent retrieval, optional speech and synthetic traces."""
 import asyncio
 import hashlib
-import io
 import json
 import os
 import re
 import secrets
 import time
 import unicodedata
-import zipfile
 import threading
 from collections import deque
 from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Literal
-from xml.etree import ElementTree as ET
 
 from backend.family_boundary import FAMILY_BOUNDARY, family_intents
 from backend.prompt_context import dialogue_history
@@ -26,18 +23,16 @@ from backend.listings import listing_url, fetch_listing
 from backend.retrieval import build_store, purge_expired, delete_persisted
 from backend.observability import trace_scope
 from backend.agent import prepare as prepare_agent
-from backend import speech
+from backend import speech, abuse, budget
 from backend.video import import_video, reference_url, SourceSegment
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Request
 from fastapi.responses import JSONResponse, Response
 from langchain_core.documents import Document
-from langchain_core.document_loaders import BaseLoader
 from langchain_core.embeddings import Embeddings
 from langsmith import traceable
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from pydantic import BaseModel, Field
-from pypdf import PdfReader
 
 load_dotenv()
 # Request tracing is controlled by trace_scope, not provider/environment defaults.
@@ -45,6 +40,8 @@ ROOT = Path(__file__).resolve().parent.parent
 LIMIT = 4 * 1024 * 1024
 TTL = 3600
 sessions = {}
+source_creation_lock=threading.Lock()
+pending_sources=0
 LIVE = os.getenv('REHEARSAL_MODE', 'demo') == 'live'
 model_calls=deque()
 model_call_lock=threading.Lock()
@@ -72,25 +69,8 @@ class LocalEmbeddings(Embeddings):
  def embed_documents(self, texts):
   return [self.embed_query(t) for t in texts]
 
-class MemoryLoader(BaseLoader):
- def __init__(self, raw, kind, name): self.raw, self.kind, self.name = raw, kind, name
- def lazy_load(self):
-  if self.kind == 'pdf':
-   reader = PdfReader(io.BytesIO(self.raw))
-   if reader.is_encrypted or len(reader.pages) > 100: raise ValueError('Use an unencrypted PDF with at most 100 pages.')
-   for i, page in enumerate(reader.pages):
-    yield Document(page_content=page.extract_text() or '', metadata={'source':self.name,'location':f'Page {i+1}'})
-  elif self.kind == 'docx':
-   with zipfile.ZipFile(io.BytesIO(self.raw)) as z:
-    if sum(x.file_size for x in z.infolist()) > 20 * 1024 * 1024: raise ValueError('Expanded DOCX is too large.')
-    root = ET.fromstring(z.read('word/document.xml'))
-    ns = {'w':'http://schemas.openxmlformats.org/wordprocessingml/2006/main'}
-    for i, p in enumerate(root.findall('.//w:p', ns)):
-     content = ''.join(t.text or '' for t in p.findall('.//w:t',ns))
-     if content.strip(): yield Document(page_content=content,metadata={'source':self.name,'location':f'Paragraph {i+1}'})
-  else:
-   for i, paragraph in enumerate(self.raw.decode('utf-8').splitlines()):
-    if paragraph.strip(): yield Document(page_content=paragraph, metadata={'source':self.name,'location':f'Section {i+1}'})
+from backend.document_parser import MemoryLoader
+from backend.parser_process import parse_document
 
 async def cleanup():
  while True:
@@ -101,6 +81,9 @@ async def cleanup():
 
 @asynccontextmanager
 async def lifespan(app):
+ if os.getenv('PUBLIC_DEPLOYMENT')=='true':
+  if not os.getenv('API_PROXY_TOKEN'): raise RuntimeError('Public deployment requires API_PROXY_TOKEN.')
+  if os.getenv('PARSER_SANDBOX')!='required': raise RuntimeError('Public deployment requires PARSER_SANDBOX=required.')
  await asyncio.to_thread(purge_expired)
  task = asyncio.create_task(cleanup())
  yield
@@ -126,8 +109,15 @@ async def privacy_headers(request: Request, call_next):
    return JSONResponse({'detail':'Invalid Content-Length.'},status_code=400,headers={'Cache-Control':'no-store'})
  if not token and request.method not in ('GET','HEAD') and request.headers.get('origin') not in (None,'http://localhost:3000','http://127.0.0.1:3000'):
   return JSONResponse({'detail':'Origin not allowed'},status_code=403)
- with trace_scope():
-  response = await call_next(request)
+ limited=request.url.path.startswith('/api/') and request.method not in ('GET','HEAD','DELETE')
+ client=request.headers.get('x-rehearsal-client') if token else None
+ if limited and not abuse.admit(client):
+  return JSONResponse({'detail':'The practice server is busy. Wait a minute and retry.'},status_code=429,headers={'Cache-Control':'no-store','Retry-After':'60'})
+ try:
+  with trace_scope():
+   response = await call_next(request)
+ finally:
+  if limited: abuse.release()
  response.headers['Cache-Control'] = 'no-store'
  return response
 
@@ -152,12 +142,22 @@ def get(sid, phase=None):
  return s
 
 def create(raw, kind, name, source_url=None, transcript=None):
- if len(sessions) >= 100: raise HTTPException(503,'Demo is full. Try again later.')
+ global pending_sources
+ with source_creation_lock:
+  if len(sessions)+pending_sources>=100: raise HTTPException(503,'Demo is full. Try again later.')
+  pending_sources+=1
+ try:
+  return _create(raw,kind,name,source_url,transcript)
+ finally:
+  with source_creation_lock: pending_sources-=1
+
+
+def _create(raw, kind, name, source_url=None, transcript=None):
  try:
   docs = ([Document(page_content=s.text,metadata={'source':name,
            'location':f'{s.start:.2f}s–{s.end:.2f}s (reviewed transcript)',
            'start':s.start,'end':s.end}) for s in transcript]
-          if transcript else MemoryLoader(raw,kind,name).load())
+          if transcript else parse_document(raw,kind,name) if kind in ('pdf','docx') else MemoryLoader(raw,kind,name).load())
   if sum(len(d.page_content) for d in docs)>100000: raise ValueError('Document text exceeds 100,000 characters.')
   chunks = RecursiveCharacterTextSplitter(chunk_size=700,chunk_overlap=100).split_documents(docs)
   if not chunks: raise ValueError('No text found. Scanned PDFs need OCR and are not supported.')
@@ -165,6 +165,7 @@ def create(raw, kind, name, source_url=None, transcript=None):
    d.metadata['id'] = str(i+1)
    if source_url: d.metadata['url']=source_url
   sid = secrets.token_urlsafe(32)
+ except HTTPException: raise
  except Exception as exc:
   raise HTTPException(400,str(exc) if isinstance(exc,ValueError) else 'Could not read this document. Use a valid text PDF or DOCX.')
  try:
@@ -240,7 +241,7 @@ async def upload(file: UploadFile = File(...)):
   raw = await file.read(LIMIT+1)
   if len(raw)>LIMIT: raise HTTPException(413,'Maximum file size is 4 MB.')
   if (ext=='pdf' and not raw.startswith(b'%PDF-')) or (ext=='docx' and not raw.startswith(b'PK')): raise HTTPException(400,'File contents do not match its extension.')
-  return create(raw,ext,Path(file.filename).name[:120])
+  return await asyncio.to_thread(create,raw,ext,Path(file.filename).name[:120])
  finally: await file.close()
 
 class Setup(BaseModel):
@@ -284,11 +285,13 @@ def reserve_call(session=None):
    raise HTTPException(429,'The hourly AI allowance has been reached. Please try again later.')
   if session is not None and session.get('model_calls',0)>=100:
    raise HTTPException(429,'This session has reached its AI request limit. End the session when you are ready.')
+  budget.reserve()
   model_calls.append(now)
   if session is not None: session['model_calls']=session.get('model_calls',0)+1
 
 @traceable(name='structured_model',run_type='chain')
 def model(schema, system, data, session=None):
+ budget.check_input(system+json.dumps(data,ensure_ascii=False)+json.dumps(strict_schema(schema)))
  reserve_call(session)
  from langchain_openai import ChatOpenAI
  try:
@@ -306,6 +309,7 @@ def agent_enabled():
 
 @traceable(name='agent_tool_selection')
 def agent_model(messages, tools, session):
+ budget.check_input(str(messages)+str([t.args_schema.model_json_schema() for t in tools]))
  reserve_call(session)
  from langchain_openai import ChatOpenAI
  try:

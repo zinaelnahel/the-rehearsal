@@ -6,7 +6,7 @@ def plain(text):
  return ''.join(c for c in unicodedata.normalize('NFD', text.lower()) if unicodedata.category(c) != 'Mn')
 
 def safety_concern(text):
- return bool(re.search(r'\b(fear|afraid|scared|unsafe|threat\w*|coerci\w*|violence|abuse|stalking|immediate danger|angst|bedroh\w*|gewalt|notigen|miedo|amenaz\w*|coaccion\w*|violencia|peligro)\b', plain(text)))
+ return bool(re.search(r'\b(fear|afraid|scared|unsafe|threat\w*|coerci\w*|violence|abuse|stalking|immediate danger|angst|bedroh\w*|gewalt|notigen|miedo|amenaz\w*|coaccion\w*|violencia|peligro)\b', plain(text)) or re.search(r'(will not|won.t|would not|does not|doesn.t) let me leave|took my (phone|passport)|lasst mich nicht.{0,30}(raus|verlassen|aus dem)|handy (weggenommen|genommen)|no me deja salir|me ha quitado el (telefono|pasaporte)', plain(text)))
 
 SAFETY = {
  'English': 'Let’s pause the rehearsal. Your safety matters more than finding the right words. If you are in immediate danger, contact local emergency services if you can do so safely. Consider reaching someone you trust or a local support service, using a device that is safe for you. You do not have to confront the other person or continue this scene. This app is conversation practice, not therapy or emergency support.',

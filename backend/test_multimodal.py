@@ -73,6 +73,15 @@ class SpeechTests(unittest.TestCase):
             self.assertNotIn('private provider error', result.text)
         self.assertFalse(api.sessions)
 
+    def test_unclear_segments_are_rejected_without_creating_a_source(self):
+        provider=Mock()
+        for quality in ({'avg_logprob':-2.0},{'compression_ratio':3.0}):
+            provider.audio.transcriptions.create.return_value=SimpleNamespace(segments=[
+                SimpleNamespace(start=0,end=1,text='Uncertain synthetic words',no_speech_prob=0,**quality)])
+            with patch('backend.speech.normalize_media',return_value=(b'wav',1.0)), patch('backend.speech.speech_client',return_value=provider):
+                self.assertEqual(self.upload().status_code,400)
+        self.assertFalse(api.sessions)
+
     def test_decoder_rejects_long_media_and_removes_temporary_files(self):
         paths = []
         def decode(args, **kwargs):
@@ -232,10 +241,25 @@ class MediaDecoderTests(unittest.TestCase):
                 capture_output=True, timeout=20)
             self.assertEqual(result.returncode, 0, result.stderr.decode(errors='replace'))
             with patch('backend.speech.speech_client') as provider:
-                for media in [audio, video]:
+                formats=[audio,video]
+                for suffix,codec in [('mp3','libmp3lame'),('m4a','aac'),('ogg','libvorbis'),('webm','libopus'),('mov','aac')]:
+                    target=Path(folder)/('sample.'+suffix)
+                    encoded=subprocess.run([executable,'-nostdin','-hide_banner','-loglevel','error',
+                        '-i',str(audio),'-c:a',codec,'-y',str(target)],capture_output=True,timeout=20)
+                    self.assertEqual(encoded.returncode,0,encoded.stderr.decode(errors='replace'))
+                    formats.append(target)
+                for media in formats:
                     normalized, duration = speech.normalize_media(media.read_bytes(), media.name)
                     self.assertTrue(normalized.startswith(b'RIFF'))
                     self.assertAlmostEqual(duration, 1, delta=0.1)
+                no_audio=Path(folder)/'no-audio.mp4'
+                encoded=subprocess.run([executable,'-nostdin','-hide_banner','-loglevel','error',
+                    '-f','lavfi','-i','color=c=black:s=64x64:d=1','-an','-c:v','mpeg4','-y',str(no_audio)],capture_output=True,timeout=20)
+                self.assertEqual(encoded.returncode,0)
+                for raw,name in [(no_audio.read_bytes(),no_audio.name),(b'invalid media','broken.wav')]:
+                    with self.assertRaises(HTTPException) as caught:
+                        speech.normalize_media(raw,name)
+                    self.assertEqual(caught.exception.status_code,400)
                 provider.assert_not_called()
 
 

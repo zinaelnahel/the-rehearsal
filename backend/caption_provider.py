@@ -5,6 +5,7 @@ import re
 import time
 from types import SimpleNamespace
 import httpx
+from backend import budget
 from fastapi import HTTPException
 from pydantic import BaseModel, Field
 
@@ -27,6 +28,7 @@ def fetch_native(identifier, language_code, deadline):
     if not key:raise HTTPException(503,'The optional caption service is not configured.')
     remaining=deadline-time.monotonic()
     if remaining<=0:raise HTTPException(504,'Caption import timed out. Paste the transcript instead.')
+    budget.reserve()
     try:
         with httpx.Client(timeout=min(remaining,20),trust_env=False,follow_redirects=False) as client:
             with client.stream('GET','https://api.supadata.ai/v1/transcript',

@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-05",
+  "passed": true,
+  "browser": "desktop Chromium",
+  "backend": "real local demo",
+  "checks": [
+    {
+      "locale": "en",
+      "flow": "source / mission / grounded answer / review / delete",
+      "passed": true
+    },
+    {
+      "locale": "de",
+      "flow": "source / mission / grounded answer / review / delete",
+      "passed": true
+    },
+    {
+      "locale": "es",
+      "flow": "source / mission / grounded answer / review / delete",
+      "passed": true
+    },
+    {
+      "flow": "language switch preserves URL/consent, invalidates transcript and imports selected captions",
+      "passed": true,
+      "provider": "stubbed"
+    },
+    {
+      "flow": "pdf file chooser / real upload / real parser / mission / verified deletion",
+      "passed": true
+    },
+    {
+      "flow": "docx file chooser / real upload / real parser / mission / verified deletion",
+      "passed": true
+    },
+    {
+      "flow": "real MediaRecorder / multipart transfer / edit / confirm / mission / delete",
+      "passed": true,
+      "device": "synthetic Chromium microphone",
+      "transcription": "stubbed; no provider call"
+    },
+    {
+      "flow": "offline review worksheet loads exact source and filters all benchmark cases",
+      "passed": true,
+      "human_verdicts_created": 0
+    }
+  ],
+  "page_errors": [],
+  "limitations": [
+    "Video provider response stubbed",
+    "Not a physical mobile device test",
+    "No independent human review"
+  ]
+}

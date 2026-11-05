@@ -1,0 +1,90 @@
+// npm install --no-save playwright; set CHROME_PATH for a system Chrome install.
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import {pathToFileURL} from 'node:url';
+const require=createRequire(import.meta.url);
+const {chromium}=require(require.resolve('playwright',{paths:[process.cwd(),path.resolve('.runtime/browser')]}));
+const base=process.env.REHEARSAL_TEST_URL||'http://127.0.0.1:3135';
+const browser=await chromium.launch({headless:true,args:['--use-fake-device-for-media-stream','--use-fake-ui-for-media-stream'],...(process.env.CHROME_PATH?{executablePath:process.env.CHROME_PATH}:{})});
+const errors=[],checks=[];
+try{
+ for(const locale of ['en','de','es']){
+  const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(base);await page.locator('.interface-language select').selectOption(locale);
+  await page.waitForFunction(code=>document.documentElement.lang===code,locale);
+  const lang={en:'English',de:'German',es:'Spanish'}[locale];
+  await page.locator('#language').selectOption(lang);await page.locator('#feedback').selectOption(lang);
+  await page.locator('.settings-panel .primary').click();await page.locator('.edit-goal').first().waitFor();
+  await page.locator('.mission-layout .primary').click();
+  await page.locator('#message').fill({en:'How much is the monthly rent?',de:'Wie viel kostet die Miete?',es:'¿Cuánto cuesta el alquiler?'}[locale]);
+  await page.locator('.composer button[type=submit],button[aria-label="Send message"],button[aria-label="Nachricht senden"],button[aria-label="Enviar mensaje"]').click();
+  await page.waitForFunction(()=>document.querySelector('#message')?.value==='');
+  assert.match(await page.locator('.message.assistant').last().innerText(),/850/);
+  await page.locator('.chat-heading button').click();await page.locator('.download-panel').waitFor();
+  assert.equal(await page.locator('.response-feedback small[role=status]').innerText(),'');
+  assert.ok(await page.locator('.download-panel button').isVisible());
+  for(const width of [390,1280]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));}
+  await page.locator('.header-right button').click();await page.locator('.deletion-notice').waitFor();
+  checks.push({locale,flow:'source / mission / grounded answer / review / delete',passed:true});
+  await page.close();
+ }
+ const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));
+ await page.goto(base);await page.getByRole('tab',{name:'Audio / video',exact:true}).click();
+ await page.locator('#video-url').fill('https://www.youtube.com/watch?v=abcdefghijk');
+ const consent=page.locator('.transcript-editor > .speech-consent input').last();await consent.check();
+ let imported;
+ await page.route('**/api/video/transcript',route=>{imported=route.request().postDataJSON();return route.fulfill({json:{segments:[{start:0,end:3,text:'Synthetic captions.'}],language:imported.language,source_url:imported.url,source_method:'youtube_captions',is_generated:false}});});
+ await page.getByRole('button',{name:'Import video transcript',exact:true}).click();
+ await page.getByRole('heading',{name:'Review the video transcript'}).waitFor();
+ await page.getByLabel('I reviewed this transcript and want to use it as my source.',{exact:true}).check();
+ await page.locator('#language').selectOption('Spanish');
+ assert.equal(await page.locator('#video-url').inputValue(),'https://www.youtube.com/watch?v=abcdefghijk');
+ assert.equal(await consent.isChecked(),true);
+ await page.getByText('Conversation language changed to',{exact:false}).waitFor();
+ assert.equal(await page.getByRole('heading',{name:'Review the video transcript'}).count(),0);
+ await page.getByRole('button',{name:'Import video transcript',exact:true}).click();
+ await page.getByRole('heading',{name:'Review the video transcript'}).waitFor();assert.equal(imported.language,'Spanish');
+ checks.push({flow:'language switch preserves URL/consent, invalidates transcript and imports selected captions',passed:true,provider:'stubbed'});
+ await page.close();
+ for(const ext of ['pdf','docx']){
+  const documentPage=await browser.newPage();documentPage.on('pageerror',e=>errors.push(e.message));
+  await documentPage.goto(base);await documentPage.getByRole('tab',{name:'Your situation',exact:true}).click();
+  await documentPage.locator('#situation-source-kind').selectOption('file');
+  await documentPage.locator('#upload').setInputFiles(path.resolve('.runtime/fixtures/synthetic.'+ext));
+  await documentPage.locator('.settings-panel .primary').click();await documentPage.locator('.edit-goal').first().waitFor();
+  await documentPage.locator('.header-right button').click();await documentPage.locator('.deletion-notice').waitFor();
+  checks.push({flow:ext+' file chooser / real upload / real parser / mission / verified deletion',passed:true});
+  await documentPage.close();
+ }
+ const mediaPage=await browser.newPage();mediaPage.on('pageerror',e=>errors.push(e.message));
+ await mediaPage.route('**/api/config',async route=>{const response=await route.fetch();const config=await response.json();await route.fulfill({json:{...config,speech_enabled:true}});});
+ let mediaBytes=0;
+ await mediaPage.route('**/api/speech/transcribe',route=>{mediaBytes=route.request().postDataBuffer().byteLength;return route.fulfill({json:{segments:[{start:0,end:1,text:'Monthly rent is 1375 euros.'}],language:'English',requires_confirmation:true,text:'Monthly rent is 1375 euros.'}});});
+ await mediaPage.goto(base);await mediaPage.getByRole('tab',{name:'Audio / video',exact:true}).click();
+ await mediaPage.locator('#media-source-kind').selectOption('upload');
+ await mediaPage.getByLabel('I agree to audio processing for transcription.',{exact:true}).check();
+ await mediaPage.getByRole('button',{name:'Record a voice message',exact:true}).click();
+ await mediaPage.getByText('Recording… stops automatically before two minutes.',{exact:true}).waitFor();
+ await mediaPage.waitForTimeout(700);await mediaPage.getByRole('button',{name:'Stop & transcribe',exact:true}).click();
+ await mediaPage.getByRole('heading',{name:'Review the source transcript'}).waitFor();assert.ok(mediaBytes>500);
+ await mediaPage.locator('.transcript-editor textarea').fill('Monthly rent is 1375 euros. Pets are not allowed.');
+ await mediaPage.getByLabel('I reviewed this transcript and want to use it as my source.',{exact:true}).check();
+ await mediaPage.locator('.settings-panel .primary').click();await mediaPage.locator('.edit-goal').first().waitFor();
+ await mediaPage.locator('.header-right button').click();await mediaPage.locator('.deletion-notice').waitFor();
+ checks.push({flow:'real MediaRecorder / multipart transfer / edit / confirm / mission / delete',passed:true,device:'synthetic Chromium microphone',transcription:'stubbed; no provider call'});
+ await mediaPage.close();
+ const reviewPage=await browser.newPage();reviewPage.on('pageerror',e=>errors.push(e.message));
+ const quality=JSON.parse(await fs.readFile('evaluation/quality-release-2026-11-05.json','utf8'));
+ await reviewPage.goto(pathToFileURL(path.resolve('.runtime/quality-human-review.html')).href);
+ assert.equal(await reviewPage.locator('#case option').count(),126);
+ assert.equal(await reviewPage.locator('#source').innerText(),quality.cases[0].document);
+ await reviewPage.locator('#language').selectOption('Spanish');assert.equal(await reviewPage.locator('#case option').count(),42);
+ checks.push({flow:'offline review worksheet loads exact source and filters all benchmark cases',passed:true,human_verdicts_created:0});
+ await reviewPage.close();
+ assert.deepEqual(errors,[]);
+ const report={date:'2026-11-05',passed:true,browser:'desktop Chromium',backend:'real local demo',checks,page_errors:errors,limitations:['Video provider response stubbed','Not a physical mobile device test','No independent human review']};
+ await fs.mkdir('evaluation',{recursive:true});await fs.writeFile('evaluation/browser-release-2026-11-05.json',JSON.stringify(report,null,2)+'\n');
+ console.log(JSON.stringify(report,null,2));
+}finally{await browser.close();}

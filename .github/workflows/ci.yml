@@ -24,6 +24,9 @@ jobs:
       API_PROXY_TOKEN: ''
       LANGSMITH_TRACING: 'false'
       LANGCHAIN_TRACING_V2: 'false'
+      API_REQUESTS_PER_MINUTE: '100000'
+      PROVIDER_DAILY_BUDGET_USD: '100000'
+      PROVIDER_BUDGET_PATH: .runtime/test-provider-budget.sqlite3
       VECTOR_STORE: memory
       REHEARSAL_AGENT_ENABLED: 'false'
     steps:
@@ -36,7 +39,7 @@ jobs:
       - run: python -m pip install -r backend/requirements.txt
       - run: python -m unittest discover -s backend -t . -p 'test_*.py' -v
       - run: python scripts/evaluate_rag.py
-      - run: python scripts/evaluate_quality.py
+      - run: python scripts/evaluate_quality.py --dataset evaluation/quality-release-dataset.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -61,6 +64,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: npm run check:locales
       - run: npm run build
 
   container:
@@ -70,3 +74,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker build --tag rehearsal-ci .
+
+      - run: docker run --rm --entrypoint python rehearsal-ci -m backend.sandbox_probe
