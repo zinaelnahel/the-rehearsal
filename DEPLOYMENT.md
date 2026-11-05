@@ -172,3 +172,12 @@ Set `REHEARSAL_TEST_URL` and optionally `CHROME_PATH`/`EXPECTED_FRONTEND_SHA`.
 The test checks nine interface/conversation combinations, feedback/style values,
 the spelling of Español, URL/consent retention, actual caption request payloads,
 build labels and mobile-width layout. Caption responses are explicit fixtures.
+
+
+Frontend follow-up deployed on 5 November 2026: UI `0553f3a`, API `f00d479`.
+The canonical selector values and Español spelling passed all nine language
+combinations on the public URL. Footer commit links matched the verified deploys.
+Fresh hosted PDF/DOCX imports and deletion passed. Render was not redeployed or
+restarted, and the user's existing review session was not accessed. See
+[the verification record](evaluation/language-selector-hosted-2026-11-05.json).
+Real physical microphone and mobile-device testing are not claimed by this check.

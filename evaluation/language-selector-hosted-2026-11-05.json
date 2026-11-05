@@ -1,0 +1,122 @@
+{
+  "passed": true,
+  "url": "https://the-rehearsal-lab.vercel.app",
+  "checks": [
+    {
+      "locale": "en",
+      "conversation": "English",
+      "feedback": "Spanish",
+      "style": "Everyday",
+      "selected_label": "English",
+      "caption_request": "English",
+      "passed": true
+    },
+    {
+      "locale": "en",
+      "conversation": "German",
+      "feedback": "English",
+      "style": "B1",
+      "selected_label": "German",
+      "caption_request": "German",
+      "passed": true
+    },
+    {
+      "locale": "en",
+      "conversation": "Spanish",
+      "feedback": "German",
+      "style": "B2",
+      "selected_label": "Spanish",
+      "caption_request": "Spanish",
+      "passed": true
+    },
+    {
+      "locale": "de",
+      "conversation": "English",
+      "feedback": "Spanish",
+      "style": "Everyday",
+      "selected_label": "Englisch",
+      "caption_request": "English",
+      "passed": true
+    },
+    {
+      "locale": "de",
+      "conversation": "German",
+      "feedback": "English",
+      "style": "B1",
+      "selected_label": "Deutsch",
+      "caption_request": "German",
+      "passed": true
+    },
+    {
+      "locale": "de",
+      "conversation": "Spanish",
+      "feedback": "German",
+      "style": "B2",
+      "selected_label": "Spanisch",
+      "caption_request": "Spanish",
+      "passed": true
+    },
+    {
+      "locale": "es",
+      "conversation": "English",
+      "feedback": "Spanish",
+      "style": "Everyday",
+      "selected_label": "Inglés",
+      "caption_request": "English",
+      "passed": true
+    },
+    {
+      "locale": "es",
+      "conversation": "German",
+      "feedback": "English",
+      "style": "B1",
+      "selected_label": "Alemán",
+      "caption_request": "German",
+      "passed": true
+    },
+    {
+      "locale": "es",
+      "conversation": "Spanish",
+      "feedback": "German",
+      "style": "B2",
+      "selected_label": "Español",
+      "caption_request": "Spanish",
+      "passed": true
+    }
+  ],
+  "spelling": "Español",
+  "builds": {
+    "frontend": "0553f3a3980280b3d836919a3eae98686f290e52",
+    "backend": "f00d47934ff24b0f3e5a9b5ee95099da457c479a"
+  },
+  "provider_responses": "stubbed caption fixtures; real rendered controls and request serialization",
+  "sessions_created": 0,
+  "page_errors": [],
+  "verified_at_utc": "2026-11-05T12:05:01.853891+00:00",
+  "frontend_deploy_id": "dpl_HYBpkYWMDaAXCk44kL3xUZGrsVVs",
+  "backend_deploy_id": "dep-dbm5groae00c738drr70",
+  "ci_run_id": 42023198203,
+  "backend_restarted": false,
+  "existing_review_session_accessed": false,
+  "hosted_import_verification": {
+    "passed": true,
+    "live_backend_commit": "f00d47934ff24b0f3e5a9b5ee95099da457c479a",
+    "backend_restarted": false,
+    "existing_user_sessions_accessed": false,
+    "health": true,
+    "direct_api_requires_proxy": true,
+    "imports": [
+      {
+        "kind": "pdf",
+        "sandboxed_import": true,
+        "deletion_verified": true
+      },
+      {
+        "kind": "docx",
+        "sandboxed_import": true,
+        "deletion_verified": true
+      }
+    ],
+    "provider_calls": 0
+  }
+}
