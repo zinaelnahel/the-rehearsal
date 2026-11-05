@@ -1,0 +1,124 @@
+{
+  "synthetic": true,
+  "human_reviewed": false,
+  "cases": [
+    {
+      "language": "English",
+      "turns": [
+        {
+          "learner": "I am sorry but i have some work to do ",
+          "partner": "I understand you have work, but I really need help with these errands this weekend. Can you please let me know if there's any way you can make some time? [4] [2] [5]",
+          "withheld": false
+        },
+        {
+          "learner": "No, I cannot help this weekend.",
+          "partner": "I understand you can't help this weekend. I just really need some assistance with these errands. Is there any chance you could reconsider? [2] [4]",
+          "withheld": false
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "commit": "1124913f3e6dfc4b086eae3f821fce209948b8c0",
+  "verified_at_utc": "2026-11-05T14:56:19.376437+00:00",
+  "render_deploy_id": "dep-dbm9enl6e07s73bi670g",
+  "vercel_deploy_id": "dpl_EFXoSDEDm5goTkWo5YV8QawjHuVk",
+  "ci_run_id": 42048120140,
+  "deletion_verified": true,
+  "browser_build_check": {
+    "passed": true,
+    "url": "https://the-rehearsal-lab.vercel.app",
+    "checks": [
+      {
+        "locale": "en",
+        "conversation": "English",
+        "feedback": "Spanish",
+        "style": "Everyday",
+        "selected_label": "English",
+        "caption_request": "English",
+        "passed": true
+      },
+      {
+        "locale": "en",
+        "conversation": "German",
+        "feedback": "English",
+        "style": "B1",
+        "selected_label": "German",
+        "caption_request": "German",
+        "passed": true
+      },
+      {
+        "locale": "en",
+        "conversation": "Spanish",
+        "feedback": "German",
+        "style": "B2",
+        "selected_label": "Spanish",
+        "caption_request": "Spanish",
+        "passed": true
+      },
+      {
+        "locale": "de",
+        "conversation": "English",
+        "feedback": "Spanish",
+        "style": "Everyday",
+        "selected_label": "Englisch",
+        "caption_request": "English",
+        "passed": true
+      },
+      {
+        "locale": "de",
+        "conversation": "German",
+        "feedback": "English",
+        "style": "B1",
+        "selected_label": "Deutsch",
+        "caption_request": "German",
+        "passed": true
+      },
+      {
+        "locale": "de",
+        "conversation": "Spanish",
+        "feedback": "German",
+        "style": "B2",
+        "selected_label": "Spanisch",
+        "caption_request": "Spanish",
+        "passed": true
+      },
+      {
+        "locale": "es",
+        "conversation": "English",
+        "feedback": "Spanish",
+        "style": "Everyday",
+        "selected_label": "Inglés",
+        "caption_request": "English",
+        "passed": true
+      },
+      {
+        "locale": "es",
+        "conversation": "German",
+        "feedback": "English",
+        "style": "B1",
+        "selected_label": "Alemán",
+        "caption_request": "German",
+        "passed": true
+      },
+      {
+        "locale": "es",
+        "conversation": "Spanish",
+        "feedback": "German",
+        "style": "B2",
+        "selected_label": "Español",
+        "caption_request": "Spanish",
+        "passed": true
+      }
+    ],
+    "spelling": "Español",
+    "builds": {
+      "frontend": "1124913f3e6dfc4b086eae3f821fce209948b8c0",
+      "backend": "1124913f3e6dfc4b086eae3f821fce209948b8c0"
+    },
+    "provider_responses": "stubbed caption fixtures; real rendered controls and request serialization",
+    "sessions_created": 0,
+    "page_errors": []
+  }
+}

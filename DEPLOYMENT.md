@@ -181,3 +181,14 @@ Fresh hosted PDF/DOCX imports and deletion passed. Render was not redeployed or
 restarted, and the user's existing review session was not accessed. See
 [the verification record](evaluation/language-selector-hosted-2026-11-05.json).
 Real physical microphone and mobile-device testing are not claimed by this check.
+
+
+Partner-role regression deployed on 5 November 2026: UI and API `1124913`.
+After the user confirmed their open review was saved/finished, Render was
+redeployed and Vercel published with matching build identities. CI and 118 offline
+tests passed. The final local real-provider check covered EN/DE/ES family scenes
+and a rent regression (30 calls); the hosted check repeated the reported English
+wording, verified actual-turn feedback and deleted its own test session. No
+independent human-review result is claimed. See
+[hosted evidence](evaluation/family-roles-hosted-2026-11-05.json) and
+[synthetic multilingual evidence](evaluation/family-roles-live-2026-11-05.json).
