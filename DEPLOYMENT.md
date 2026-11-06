@@ -1,5 +1,18 @@
 # Vercel deployment
 
+## Family action scoring — 6 November 2026
+
+Commit `6381135a97a6885ad97b9eefa1dd14cb9aa3f9a2` is live on both services.
+[Release evidence](evaluation/deployment-family-scoring-2026-11-06.json) records
+passing CI and public health/proxy/session checks. All 138 offline backend tests
+passed. The exact two-message Spanish QA sequence was also checked locally with
+the live model: progress 1/3 → 3/3 and final review 3/3, with verbatim evidence.
+This is a narrow check, not a general scoring accuracy estimate. The user approved
+a new one-time exception to the still-missing independent human-reviewed live
+release report; the release workflow and production provider settings were not
+changed. Public release verification made no model calls. Old browser-saved
+reviews remain historical snapshots; start a fresh take to test the fix.
+
 ## Browser library and conversation pacing — 6 November 2026
 
 Source commit `094065c307de4063abc8561cbf53548d743a8552` is live on both existing

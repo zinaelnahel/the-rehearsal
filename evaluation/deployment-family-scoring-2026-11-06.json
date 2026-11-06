@@ -1,0 +1,60 @@
+{
+  "recorded_at_utc": "2026-11-06T15:49:46.020248+00:00",
+  "deployed_source_commit": "6381135a97a6885ad97b9eefa1dd14cb9aa3f9a2",
+  "frontend_url": "https://the-rehearsal-lab.vercel.app",
+  "render_deploy_id": "dep-dbmvd1bbc2fs73b1jer0",
+  "render_status": "live",
+  "vercel_deploy_id": "dpl_9rV7TjJeBGPDErvpAb9AhfcyqrML",
+  "vercel_status": "READY; promoted",
+  "ci_run_url": "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42246030915",
+  "ci_jobs": {
+    "backend": "success",
+    "frontend": "success",
+    "container_and_sandbox_probe": "success"
+  },
+  "offline_backend_tests": 138,
+  "pre_release_local_live_spanish_check": {
+    "mode": "live",
+    "synthetic_family_sample": true,
+    "language": "Spanish",
+    "passed": true,
+    "checked_at_utc": "2026-11-06T15:44:38.283731+00:00",
+    "steps": [
+      {
+        "practised_goals": 1,
+        "expected": 1,
+        "reply_withheld": false
+      },
+      {
+        "practised_goals": 3,
+        "expected": 3,
+        "reply_withheld": false
+      }
+    ],
+    "review_practised_goals": 3,
+    "session_deleted": true
+  },
+  "public_checks": {
+    "public_homepage": true,
+    "library_in_published_page": true,
+    "frontend_build_matches": true,
+    "backend_build_metadata_matches": true,
+    "live_speech_feedback_enabled": true,
+    "config_no_store": true,
+    "feedback_phase_enforced": true,
+    "session_deletion": true,
+    "deletion_verified": true,
+    "backend_health": true,
+    "backend_proxy_protection": true
+  },
+  "release_verification_provider_calls": 0,
+  "user_authorized_one_time_gate_exception": true,
+  "release_gate_changed": false,
+  "production_provider_limit_settings_changed": false,
+  "limits": [
+    "The local live check is one Spanish fictional take, not a broad scoring accuracy estimate.",
+    "The complete independent human-reviewed live release report is still missing; this deployment used an explicit one-time user exception.",
+    "Custom goals and unseen paraphrases still rely on model assessment.",
+    "Historical browser-saved reviews are not rescored automatically."
+  ]
+}
