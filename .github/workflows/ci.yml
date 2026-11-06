@@ -68,6 +68,7 @@ jobs:
       - run: npm ci
       - run: npm run check:locales
       - run: npm run test:voice
+      - run: npm run test:library
       - run: npm run build
 
   container:

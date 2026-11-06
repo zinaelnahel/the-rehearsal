@@ -13,6 +13,8 @@ from fastapi import HTTPException
 
 
 def reserve():
+    if os.getenv('PROVIDER_DAILY_BUDGET_ENABLED','true').lower() == 'false':
+        return
     try:
         limit = Decimal(os.getenv('PROVIDER_DAILY_BUDGET_USD', '10'))
         charge = Decimal(os.getenv('PROVIDER_CALL_RESERVATION_USD', '0.10'))

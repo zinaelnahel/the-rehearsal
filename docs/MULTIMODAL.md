@@ -31,9 +31,9 @@ calls even when chat uses the offline demo. Speech controls are hidden when disa
 
 - Select **Audio / video** as source, choose **Record or upload audio / video**, agree to audio processing, record or upload,
   correct each timestamped segment and confirm it before building a mission.
-- In the rehearsal, record or upload a spoken turn. The result populates the
-  message editor; review it and press Send to confirm. Turns are limited to 2,000
-  characters. This manual recording flow never automatically submits a turn.
+- The rehearsal offers continuous voice or the text composer. Turns are limited
+  to 2,000 characters. The duplicate manual record/upload control was removed
+  from the conversation; media sources still have their own review workflow.
 - Alternatively, select **Start voice rehearsal** after accepting its separate
   notice. This mode automatically submits recognized speech as learner messages,
   runs the existing retrieval/generation/evidence-review pipeline, and plays only
@@ -54,8 +54,7 @@ calls even when chat uses the offline demo. Speech controls are hidden when disa
   and remains visible. Failed requests are never automatically retried.
 - Navigating away, hiding the tab, finishing, deleting or a safety pause stops
   voice mode. Transcripts longer than 2,000 characters are preserved for manual
-  editing and are not automatically sent. The manual recording/upload and text
-  composer remain available when voice mode is off. Supported browsers need
+  editing and are not automatically sent. The text composer remains available when voice mode is off. Supported browsers need
   HTTPS (or localhost), MediaRecorder, Web Audio and microphone permission.
 - **Play AI voice** sends only a stored assistant reply from the active session
   for TTS. Audio is labelled AI-generated. Unsupported generation is replaced by

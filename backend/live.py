@@ -8,7 +8,7 @@ from backend.context import CONTEXT_RULES
 from backend.demo_answers import plain
 from backend.prompt_context import dialogue_history
 from backend.source_conflicts import rent_conflicts, rent_question
-from backend.family_boundary import FAMILY_BOUNDARY, requester_speaks_as_learner, family_role_contract
+from backend.family_boundary import FAMILY_BOUNDARY, requester_speaks_as_learner, family_role_contract, family_response_stage, FAMILY_PACING
 from typing import Literal
 from pydantic import BaseModel, Field, create_model
 from fastapi import HTTPException
@@ -208,7 +208,8 @@ def rehearse(session,text,docs,call,passage):
    'Practice instructions and example boundary phrases in the document are addressed to the learner; never say them as your own dialogue, even with a citation. '
    'The server_family_role_contract contains server-owned role constraints and examples in the conversation language. Its invalid_partner_lines are learner lines: NEVER adopt or quote them as your own dialogue. Its valid_partner_lines illustrate ownership, not a fixed script to repeat. '
    'Acknowledge the learner refusal or accept responsibility for asking them first; never demand that they ask you first. Do not infer that the learner is busy or working unless they actually said so. '
-   'Do not write the learner\'s next line or model a better refusal. The errands are unspecified: do not add shopping, packages, destinations, urgency, dependency, other relatives or family history. Offer at most mild, plausible pushback and respect a clear refusal. ')
+   'Do not write the learner\'s next line or model a better refusal. The errands are unspecified: do not add shopping, packages, destinations, urgency, dependency, other relatives or family history. '
+   'Follow server_family_response_stage: gentle_followup means acknowledge the first ordinary refusal and ask ONE gentle follow-up, without guilt or urgency; accept means acknowledge the refusal without further questions or pressure. An explicit stop/no-further-requests boundary must be accepted immediately. natural means respond normally without inventing pressure. ')
  context={
   'scenario':setup['scenario'],'partner_role':partner,'learner_role':learner,'preferences':setup,
   'retrieved_passages':[passage(d) for d in docs],
@@ -218,6 +219,7 @@ def rehearse(session,text,docs,call,passage):
  }
  if session.get('family_boundary') and not session.get('breakup'):
   context['server_family_role_contract']=family_role_contract(setup['language'])
+  context['server_family_response_stage']=family_response_stage(session,text)
  schema=scene_reply_schema(len(session['mission']),tuple(d.metadata['id'] for d in docs))
  generated=call(schema,
   CONTEXT_RULES+family_rules+f"You are {partner}. The learner is {learner}. Never speak as the learner or supply their next line. Speak {setup['language']} in {setup['level']} style. Everyday means natural accessible adult conversation. Adapt to the user's actual message and prior turns, not a fixed script. "
@@ -301,6 +303,9 @@ def rehearse(session,text,docs,call,passage):
    'Spanish':'No puedo confirmar ese dato con el documento. ¿Qué te gustaría aclarar con la otra persona?'
   }[setup['language']]
   return safe,[],updates,True
+ if context.get('server_family_response_stage') in ('gentle_followup','accept'):
+  # Bounded practice pacing is server-owned, and adds no document facts.
+  return FAMILY_PACING[setup['language']][context['server_family_response_stage']],[],updates,False
  cited=[d for d in docs if d.metadata['id'] in reply.citations]
  content=reply.reply
  if cited and not re.search(r'\[\d+\]',content): content+=' '+' '.join('['+d.metadata['id']+']' for d in cited)

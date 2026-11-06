@@ -45,6 +45,37 @@ def family_role_contract(language):
  }
 
 
+def family_response_stage(session,text):
+ """Bounded sample pacing: one gentle follow-up, then accept the refusal."""
+ language=session['setup']['language']
+ history=[turn['content'] for turn in session['turns'] if turn['role']=='user']
+ boundaries={
+  'English':r"never ask|(?:do not|don['’]t) ask me again|stop asking|leave me alone|ask me (?:first|before)|my answer (?:is|remains) (?:still )?no",
+  'German':r'nie wieder|nicht (?:mehr|wieder) fragen|frag(?:e)? mich nicht|lass mich in ruhe|frag(?:e)? mich (?:vorher|zuerst)|meine antwort (?:ist|bleibt) nein',
+  'Spanish':r'no me (?:lo )?(?:preguntes|pidas) (?:mas|otra vez|de nuevo)|no (?:me )?vuelvas|nunca.*pregunt|deja de (?:preguntar|insistir)|preguntame (?:antes|primero)|mi respuesta (?:es|sigue siendo) no'
+ }
+ def refuses(value):
+  query=plain(value).strip()
+  if re.search(r"can['’]t say no|cannot say no|nicht nein sagen|no puedo decir que no|no problem|kein problem|sin problema",query):return False
+  patterns={
+   'English':r"\bno\b|\bi (?:can['’]?t|cannot|am not available|have no time|don['’]t have time)\b",
+   'German':r'\bnein\b|keine zeit|nicht helfen|(?:leider )?kann ich nicht|ich kann (?:\w+\s+){0,4}nicht',
+   'Spanish':r'^no(?:[,!\s]+gracias)?[.!\s]*$|no puedo (?:ayudar|este)|no tengo tiempo|no estoy disponible'
+  }
+  return bool(re.search(patterns[language],query))
+ if re.search(boundaries[language],plain(text)):return 'accept'
+ if not refuses(text):return 'natural'
+ if any(refuses(value) or re.search(boundaries[language],plain(value)) for value in history):return 'accept'
+ return 'gentle_followup'
+
+
+FAMILY_PACING = {
+ 'English':{'gentle_followup':"I was hoping you could help. Are you sure you can't make time this weekend?",'accept':"Understood. I respect your decision and won't press you further."},
+ 'German':{'gentle_followup':'Ich hatte auf deine Hilfe gehofft. Könntest du dir dieses Wochenende doch etwas Zeit nehmen?','accept':'Verstanden. Ich respektiere deine Entscheidung und frage nicht weiter nach.'},
+ 'Spanish':{'gentle_followup':'Esperaba contar con tu ayuda. ¿Seguro que no puedes este fin de semana?','accept':'Entendido. Respeto tu decisión y no insistiré más.'}
+}
+
+
 def requester_speaks_as_learner(text, language):
  """Narrow fail-closed check for the known requester/decliner role contract.
 

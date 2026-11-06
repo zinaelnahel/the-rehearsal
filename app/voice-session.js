@@ -32,7 +32,7 @@ export class VoiceSession {
     try {
       const AudioContext=window.AudioContext||window.webkitAudioContext;
       if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder||!AudioContext) {
-        throw Error('Continuous voice is unavailable in this browser. Record a voice message or type instead.');
+        throw Error('Continuous voice is unavailable in this browser. Type your message instead.');
       }
       this.mime=['audio/webm','audio/mp4','audio/ogg'].find(type=>MediaRecorder.isTypeSupported(type));
       if(!this.mime)throw Error('This browser cannot record a supported audio format. Upload a file instead.');

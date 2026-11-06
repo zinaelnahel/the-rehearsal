@@ -13,6 +13,14 @@ dialogue is replaced with a localized clarification, without its source cards,
 before the text can reach voice playback. This guard is limited to the known
 family sample; custom relationships are not silently assigned that scenario.
 
+The sample also has bounded practice pacing in demo and live mode: a first ordinary
+refusal gets one localized, gentle follow-up; a repeated refusal or explicit
+stop/no-further-requests boundary is accepted. These short server-owned replies
+add no document facts or citations. Role/evidence validation still runs before a
+live reply is delivered. Other questions can continue naturally. The helper uses
+narrow multilingual patterns rather than a general semantic intent classifier;
+`backend/test_family_pacing.py` verifies the bounded sequence in all three languages.
+
 `evaluation/family-role-regressions.json` contains 10 invalid and seven valid
 partner replies per language. The cases include the reported German failures,
 their English/Spanish equivalents, polite/formal requests and correct acceptance

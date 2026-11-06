@@ -111,7 +111,7 @@ try {
   await voice.getByRole('button',{name:'Stop voice mode'}).click();
   assert.equal(await page.evaluate(()=>window.voiceTestTracks.every(track=>track.readyState==='ended')),true);
   assert.equal(await page.locator('#message').isEnabled(),true);
-  assert.equal(await page.getByRole('button',{name:'Record a voice message'}).isVisible(),true);
+  assert.equal(await page.getByRole('button',{name:'Record a voice message'}).count(),0);
   await page.getByLabel('Interface language').selectOption('de');
   await page.getByRole('button',{name:'Sprachprobe starten'}).waitFor();
   await page.getByLabel('Sprache der Oberfläche').selectOption('es');

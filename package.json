@@ -6,7 +6,8 @@
     "build": "next build",
     "start": "next start",
     "check:locales": "node scripts/check_locales.cjs",
-    "test:voice": "node --test scripts/test_voice_session.mjs"
+    "test:voice": "node --test scripts/test_voice_session.mjs",
+    "test:library": "node --test scripts/test_library.mjs"
   },
   "dependencies": {
     "next": "^16.0.0",

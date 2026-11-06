@@ -9,7 +9,7 @@ from fastapi.testclient import TestClient
 from langchain_core.documents import Document
 from backend import main
 from backend.live import EvidenceReview,RoleReply
-from backend.family_boundary import FAMILY_BOUNDARY
+from backend.family_boundary import FAMILY_BOUNDARY, FAMILY_PACING
 
 DATA=json.loads((Path(__file__).resolve().parents[1]/'evaluation/family-role-regressions.json').read_text(encoding='utf-8'))
 
@@ -46,8 +46,8 @@ class FamilyRoleMatrixTests(unittest.TestCase):
                                 self.assertEqual(turn['sources'],[])
                                 counts['reversals_withheld']+=1
                             else:
-                                self.assertEqual(turn['content'],proposal.reply)
-                                self.assertEqual(turn['sources'][0]['id'],'1')
+                                self.assertEqual(turn['content'],FAMILY_PACING[language]['accept'])
+                                self.assertEqual(turn['sources'],[])
                                 counts['valid_replies_delivered']+=1
                             self.assertEqual(main.sessions[sid]['turns'][-2]['content'],fixture['learner_turn'])
                             self.assertFalse(any(goal['achieved'] for goal in result.json()['goals']))

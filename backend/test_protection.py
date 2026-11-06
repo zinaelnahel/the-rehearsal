@@ -12,6 +12,7 @@ from backend.parser_process import parse_document
 
 class ProtectionTests(unittest.TestCase):
     def setUp(self):
+        self.enterContext(patch.dict(os.environ, {'PROVIDER_DAILY_BUDGET_ENABLED':'true'}))
         abuse.requests.clear()
         abuse.active = 0
         abuse.clients.clear()
@@ -72,6 +73,15 @@ class ProtectionTests(unittest.TestCase):
         with patch.dict(os.environ, {'MODEL_MAX_INPUT_BYTES': '3'}):
             with self.assertRaises(HTTPException):
                 budget.check_input('éé')
+
+    def test_explicitly_disabled_daily_budget_does_not_touch_the_ledger(self):
+        with tempfile.TemporaryDirectory() as folder, patch.dict(os.environ, {
+            'PROVIDER_DAILY_BUDGET_ENABLED':'false',
+            'PROVIDER_DAILY_BUDGET_USD':'0',
+            'PROVIDER_BUDGET_PATH':str(Path(folder)/'budget.sqlite3')
+        }):
+            budget.reserve()
+            self.assertFalse((Path(folder)/'budget.sqlite3').exists())
 
     def test_required_sandbox_refuses_unsupported_host(self):
         import sys

@@ -1694,5 +1694,153 @@
   "Shared feedback could not be removed. Please retry before leaving this review.": {
     "de": "Geteiltes Feedback konnte nicht entfernt werden. Versuche es erneut, bevor du diese Auswertung verlässt.",
     "es": "No se pudieron eliminar los comentarios compartidos. Inténtalo de nuevo antes de salir de esta revisión."
+  },
+  "Continuous voice is unavailable in this browser. Type your message instead.": {
+    "de": "Dieser Browser unterstützt keinen fortlaufenden Sprachmodus. Schreibe deine Nachricht stattdessen.",
+    "es": "Este navegador no admite el modo de voz continuo. Escribe tu mensaje."
+  },
+  "Rehearsal library": {
+    "de": "Übungsbibliothek",
+    "es": "Biblioteca de ensayos"
+  },
+  "Remember this rehearsal": {
+    "de": "Diese Übung behalten",
+    "es": "Guarda este ensayo"
+  },
+  "Keep this conversation, feedback and phrases to review your language practice later.": {
+    "de": "Bewahre dieses Gespräch, Feedback und Redewendungen auf, um deine Sprachübungen später nachzulesen.",
+    "es": "Guarda esta conversación, los comentarios y las frases para repasar tu práctica de idiomas."
+  },
+  "Rehearsal title": {
+    "de": "Titel der Übung",
+    "es": "Título del ensayo"
+  },
+  "Save my conversation and review in this browser on this device.": {
+    "de": "Mein Gespräch und die Auswertung in diesem Browser auf diesem Gerät speichern.",
+    "es": "Guardar mi conversación y revisión en este navegador y dispositivo."
+  },
+  "Saved copies remain after you delete the server session. Anyone using this browser profile may read them. No original files or audio are saved. You can delete saved copies in your library.": {
+    "de": "Gespeicherte Kopien bleiben nach dem Löschen der Serversitzung erhalten. Alle, die dieses Browserprofil verwenden, können sie lesen. Originaldateien und Audio werden nicht gespeichert. Du kannst die Kopien in deiner Bibliothek löschen.",
+    "es": "Las copias guardadas permanecen tras borrar la sesión del servidor. Cualquier persona que use este perfil del navegador puede leerlas. No se guardan archivos originales ni audio. Puedes borrar las copias en tu biblioteca."
+  },
+  "Saving…": {
+    "de": "Wird gespeichert…",
+    "es": "Guardando…"
+  },
+  "Save rehearsal on this device": {
+    "de": "Übung auf diesem Gerät speichern",
+    "es": "Guardar ensayo en este dispositivo"
+  },
+  "My saved rehearsals": {
+    "de": "Meine gespeicherten Übungen",
+    "es": "Mis ensayos guardados"
+  },
+  "Only saved on this browser and device. No account or sync. Browser data can be cleared or lost; download important rehearsals as a backup. Saved conversations can be reread, not resumed as live sessions.": {
+    "de": "Nur in diesem Browser auf diesem Gerät gespeichert. Kein Konto und keine Synchronisierung. Browserdaten können gelöscht werden oder verloren gehen; lade wichtige Übungen als Sicherung herunter. Gespeicherte Gespräche kannst du nachlesen, aber nicht als laufende Sitzung fortsetzen.",
+    "es": "Solo se guardan en este navegador y dispositivo. Sin cuenta ni sincronización. Los datos del navegador pueden borrarse o perderse; descarga los ensayos importantes como copia de seguridad. Puedes releer las conversaciones guardadas, pero no reanudarlas como sesiones en vivo."
+  },
+  "Loading saved rehearsals…": {
+    "de": "Gespeicherte Übungen werden geladen…",
+    "es": "Cargando ensayos guardados…"
+  },
+  "No saved rehearsals yet. Finish a rehearsal and choose to save it.": {
+    "de": "Noch keine gespeicherten Übungen. Beende eine Übung und speichere sie bei Bedarf.",
+    "es": "Aún no hay ensayos guardados. Termina un ensayo y elige guardarlo."
+  },
+  "Filter saved rehearsals": {
+    "de": "Gespeicherte Übungen filtern",
+    "es": "Filtrar ensayos guardados"
+  },
+  "Compare with another rehearsal": {
+    "de": "Mit einer anderen Übung vergleichen",
+    "es": "Comparar con otro ensayo"
+  },
+  "No comparison": {
+    "de": "Kein Vergleich",
+    "es": "Sin comparación"
+  },
+  "Saved scripted practice": {
+    "de": "Gespeicherte geskriptete Übung",
+    "es": "Práctica guiada guardada"
+  },
+  "Saved AI practice": {
+    "de": "Gespeicherte KI-Übung",
+    "es": "Práctica con IA guardada"
+  },
+  "Historical practice, not a current confirmation of source facts.": {
+    "de": "Frühere Übung, keine aktuelle Bestätigung von Quellenangaben.",
+    "es": "Práctica anterior, no una confirmación actual de los datos de la fuente."
+  },
+  "Saved conversation": {
+    "de": "Gespeichertes Gespräch",
+    "es": "Conversación guardada"
+  },
+  "Delete saved rehearsal": {
+    "de": "Gespeicherte Übung löschen",
+    "es": "Borrar ensayo guardado"
+  },
+  "Delete all saved rehearsals": {
+    "de": "Alle gespeicherten Übungen löschen",
+    "es": "Borrar todos los ensayos guardados"
+  },
+  "Delete this saved rehearsal from this browser?": {
+    "de": "Diese gespeicherte Übung aus diesem Browser löschen?",
+    "es": "¿Borrar este ensayo guardado de este navegador?"
+  },
+  "Delete all saved rehearsals from this browser? This cannot be undone.": {
+    "de": "Alle gespeicherten Übungen aus diesem Browser löschen? Dies kann nicht rückgängig gemacht werden.",
+    "es": "¿Borrar todos los ensayos guardados de este navegador? Esta acción no se puede deshacer."
+  },
+  "Saved on this device. You can revisit it in your rehearsal library.": {
+    "de": "Auf diesem Gerät gespeichert. Du findest die Übung in deiner Übungsbibliothek.",
+    "es": "Guardado en este dispositivo. Puedes volver a verlo en tu biblioteca de ensayos."
+  },
+  "Saved rehearsal deleted from this browser.": {
+    "de": "Gespeicherte Übung aus diesem Browser gelöscht.",
+    "es": "Ensayo guardado borrado de este navegador."
+  },
+  "All saved rehearsals deleted from this browser.": {
+    "de": "Alle gespeicherten Übungen aus diesem Browser gelöscht.",
+    "es": "Todos los ensayos guardados se borraron de este navegador."
+  },
+  "Some saved entries could not be read. Clear the library to remove them.": {
+    "de": "Einige gespeicherte Einträge konnten nicht gelesen werden. Leere die Bibliothek, um sie zu entfernen.",
+    "es": "No se pudieron leer algunas entradas guardadas. Vacía la biblioteca para eliminarlas."
+  },
+  "Browser storage is unavailable. You can download the rehearsal instead.": {
+    "de": "Der Browserspeicher ist nicht verfügbar. Du kannst die Übung stattdessen herunterladen.",
+    "es": "El almacenamiento del navegador no está disponible. Puedes descargar el ensayo."
+  },
+  "Close other tabs of this app and try the library again.": {
+    "de": "Schließe andere Tabs dieser App und öffne die Bibliothek erneut.",
+    "es": "Cierra otras pestañas de esta aplicación y vuelve a abrir la biblioteca."
+  },
+  "This rehearsal cannot be saved.": {
+    "de": "Diese Übung kann nicht gespeichert werden.",
+    "es": "No se puede guardar este ensayo."
+  },
+  "This rehearsal is too large to save in the browser.": {
+    "de": "Diese Übung ist zu groß für den Browserspeicher.",
+    "es": "Este ensayo es demasiado grande para guardarlo en el navegador."
+  },
+  "The library could not be updated. Browser storage may be full or blocked.": {
+    "de": "Die Bibliothek konnte nicht aktualisiert werden. Der Browserspeicher ist möglicherweise voll oder gesperrt.",
+    "es": "No se pudo actualizar la biblioteca. El almacenamiento del navegador puede estar lleno o bloqueado."
+  },
+  "Your library is full. Delete a saved rehearsal or download a copy before saving more.": {
+    "de": "Deine Bibliothek ist voll. Lösche eine gespeicherte Übung oder lade eine Kopie herunter, bevor du weitere speicherst.",
+    "es": "Tu biblioteca está llena. Borra un ensayo guardado o descarga una copia antes de guardar más."
+  },
+  "No account. Optional on-device history. ·": {
+    "de": "Kein Konto. Optionaler Verlauf auf diesem Gerät. ·",
+    "es": "Sin cuenta. Historial opcional en este dispositivo. ·"
+  },
+  "Ending deletes the server session. Rehearsals saved in this browser stay in your library.": {
+    "de": "Beim Beenden wird die Serversitzung gelöscht. In diesem Browser gespeicherte Übungen bleiben in deiner Bibliothek.",
+    "es": "Al terminar se borra la sesión del servidor. Los ensayos guardados en este navegador permanecen en tu biblioteca."
+  },
+  "Rehearsals you explicitly save in this browser remain until you delete them from your library or clear browser data.": {
+    "de": "Übungen, die du ausdrücklich in diesem Browser speicherst, bleiben erhalten, bis du sie aus deiner Bibliothek oder die Browserdaten löschst.",
+    "es": "Los ensayos que guardes expresamente en este navegador permanecen hasta que los borres de tu biblioteca o borres los datos del navegador."
   }
 }

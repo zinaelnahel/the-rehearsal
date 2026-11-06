@@ -71,6 +71,15 @@ The single backend instance limits provider calls to `MODEL_CALLS_PER_HOUR` (def
 
 The UI waits for server mode before enabling setup. Live missions require `external_model_consent=true`, sent by the updated client after displaying the processing notice. Older open demo tabs are told to refresh before a live mission; their old notice cannot silently authorize model processing.
 
+## Remember your language practice
+
+At the review, explicitly save a named take to **My saved rehearsals**. Revisit
+conversations, feedback and phrase sheets, filter by language/scenario and compare
+two attempts. Saved copies stay in this browser after server-session deletion;
+remove one or clear the library whenever you want. Original files, source cards
+and audio are excluded. There is no account, cross-device sync or live-session
+resumption. Download important takes as a backup. See [storage and privacy](docs/REHEARSAL_LIBRARY.md).
+
 ## Voice rehearsal
 
 **Learning from real use:** visitors can optionally share an anonymous rating and
@@ -84,8 +93,7 @@ Accept its audio-processing notice and select **Start voice rehearsal**. Speak
 and pause: your transcript is automatically sent as a message, the normal source
 checks run, and the partner's validated reply plays automatically. Transcripts,
 citations and mission progress remain visible. A short 1.2-second pause ends your
-turn; mute, interrupt playback or stop at any time. Manual recording and
-typing remain available when voice mode is off.
+turn; mute, interrupt playback or stop at any time. Typing remains available when voice mode is off; source media uploads stay under Audio / video.
 
 This is turn-based voice with pauses for transcription, validation and playback,
 not simultaneous speech-to-speech streaming. Microphone audio and synthesized
@@ -142,11 +150,11 @@ implementation and labels deployment-dependent capabilities.
 - **Frontend:** Next.js App Router + React, responsive original CSS, keyboard-accessible native inputs, explicit labels, visible focus states, live conversation/error regions, reduced-motion styling and collapsible source cards.
 - **Backend:** FastAPI, Pydantic schemas, a single explicit session state machine: `setup → mission → chat → debrief → chat (targeted retry)`; deletion is allowed from every phase. Actions in the wrong phase return 409.
 - **RAG:** LangChain loaders, `RecursiveCharacterTextSplitter`, local deterministic 512-dimensional hashed word embeddings through LangChain’s `Embeddings`, and persistent Chroma by default (`VECTOR_STORE=memory` selects `InMemoryVectorStore`). Retrieval is lexical with a small English/German/Spanish alias map, keeping demo and live embeddings local. The initial search retrieves four chunks; agent retrieval can expand live context to eight unique chunks. It is not a pretrained semantic embedding model; cross-language retrieval is limited.
-- **State:** random bearer session IDs, per-session retrieval collection, role/scenario, language/level, mission, turns, hints and goal evidence; Chroma stores source text/vectors and expiry metadata on disk. No accounts, localStorage, persistent conversation checkpointing or long-term conversation memory. Calls to a session are serialized for chat and finish.
+- **State:** random bearer session IDs, per-session retrieval collection, role/scenario, language/level, mission, turns, hints and goal evidence; Chroma stores source text/vectors and expiry metadata on disk. No accounts or persistent server conversation checkpoints. Optional, explicitly saved browser archives use IndexedDB and cannot resume expired sessions. Calls to a session are serialized for chat and finish.
 
 ## Privacy and trust boundaries
 
-Documents are processed **on the server**, not just on the device. Upload multipart parsing may temporarily spool larger files to the OS temporary directory; the upload is closed and its temporary backing file removed immediately after parsing. With Chroma, extracted source text and vectors are stored in the configured database directory until deletion/expiry. Memory mode keeps them in process memory. Conversation state stays in memory; neither mode saves conversations to disk, logs or browser storage. The optional review download creates a file on your device only when you request it. API responses use `Cache-Control: no-store`; Ordinary user-session tracing is disabled; the explicit synthetic LangSmith runner uploads fictional fixtures and traces. Do not enable request-body logging or proxy caching.
+Documents are processed **on the server**, not just on the device. Upload multipart parsing may temporarily spool larger files to the OS temporary directory; the upload is closed and its temporary backing file removed immediately after parsing. With Chroma, extracted source text and vectors are stored in the configured database directory until deletion/expiry. Memory mode keeps them in process memory. Live conversation state stays in server memory; neither retrieval mode saves conversations to server disk or logs. Separately, you can explicitly save a source-free conversation/review snapshot in this browser for language practice; it remains after server-session deletion until removed from the library or browser data. The optional review download creates a file on your device only when you request it. API responses use `Cache-Control: no-store`; Ordinary user-session tracing is disabled; the explicit synthetic LangSmith runner uploads fictional fixtures and traces. Do not enable request-body logging or proxy caching.
 
 **End & delete session** deletes server references and its persisted retrieval collection, verifies a subsequent `/api/sessions/{id}/status` request returns 404, and clears visible client data only after that verification. Closing the tab attempts best-effort deletion with a keepalive request. Browser crashes/offline closes cannot guarantee that request; abandoned sessions expire after one hour of inactivity and a cleanup task runs every 30 seconds. Expiry also occurs before every action. Restarting the single backend process clears conversation sessions. Chroma collections survive until explicit deletion or persisted idle expiry; startup and periodic cleanup purge expired collections. Process memory deletion is reference deletion, not cryptographic zeroization. Collection deletion is logical deletion, not secure disk erasure or removal from hosting snapshots/backups. Local browser/OS memory and external provider retention are outside this app’s control.
 
@@ -165,7 +173,7 @@ Tests exercise all 36 scenario/conversation-language/feedback-language combinati
 
 ## Known limitations
 
-English, German and Spanish only; interface language is selected independently from conversation and feedback language. Text chat plus optional Whisper transcription and AI voice playback (enable speech on the backend). The demo is intentionally scripted and its keyword rules can misclassify achievement. No OCR, legacy DOC files, authentication, history, distributed sessions, semantic embeddings or user analytics. Synthetic real-provider speech and browser checks passed; broad human speech accuracy remains unmeasured. Replay focuses only on the selected goal and replaces the previous scene’s turns/debrief. Model feedback and goal detection need human review. File reads, interrupted uploads or response-body reads, deletion verification failures, non-JSON gateway errors and cold-start timeouts produce actionable messages; transient network failures can still occur, and mutations are not automatically retried. Live evidence checks combine exact quotations and a model review; human evaluation is still needed. This unauthenticated prototype is not production-validated: verify transport security, edge controls, the required parser sandbox on your host, durable budget storage and provider billing limits before rollout. Current limits include 100 active sessions, 30 learner turns per scene, 30 hints per session and one-hour idle expiry.
+English, German and Spanish only; interface language is selected independently from conversation and feedback language. Text chat plus optional Whisper transcription and AI voice playback (enable speech on the backend). The demo is intentionally scripted and its keyword rules can misclassify achievement. No OCR, legacy DOC files, authentication, synchronized history, distributed sessions or semantic embeddings. The optional on-device rehearsal library is separate from live sessions. Synthetic real-provider speech and browser checks passed; broad human speech accuracy remains unmeasured. Replay focuses only on the selected goal and replaces the previous scene’s turns/debrief. Model feedback and goal detection need human review. File reads, interrupted uploads or response-body reads, deletion verification failures, non-JSON gateway errors and cold-start timeouts produce actionable messages; transient network failures can still occur, and mutations are not automatically retried. Live evidence checks combine exact quotations and a model review; human evaluation is still needed. This unauthenticated prototype is not production-validated: verify transport security, edge controls, the required parser sandbox on your host, durable budget storage and provider billing limits before rollout. Current limits include 100 active sessions, 30 learner turns per scene, 30 hints per session and one-hour idle expiry.
 
 ## Navigation and optional download
 

@@ -13,7 +13,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Literal
 
-from backend.family_boundary import FAMILY_BOUNDARY, family_intents
+from backend.family_boundary import FAMILY_BOUNDARY, family_intents, family_response_stage, FAMILY_PACING
 from backend.prompt_context import dialogue_history
 from backend.context import safety_concern, SAFETY, CONTEXT_RULES, is_final_breakup, BREAKUP
 from backend.content import LANGUAGES, LEVELS, CONTENT, COMMON, TRANSLATIONS, NO_CORRECTION, pack, goal_index
@@ -498,7 +498,8 @@ async def turn(sid: str, body: Turn):
    if s.get('breakup'):
     reply,outcomes,docs=pack(s)['reply'],{idx:{'status':'not_applicable','quote':'','ids':[]} for idx in indexes},[]
    elif s.get('family_boundary'):
-    reply=pack(s)['replies'][max(indexes)] if indexes else pack(s)['clarify']
+    stage=family_response_stage(s,body.text)
+    reply=FAMILY_PACING[s['setup']['language']][stage] if stage!='natural' else pack(s)['clarify']
     docs=[]
    if not reply:
     reply=ANSWER_COPY[s['setup']['language']]['unknown'] if asks_question(body.text) else COMMON[s['setup']['language']]['continue']
