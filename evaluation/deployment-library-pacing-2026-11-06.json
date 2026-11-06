@@ -1,0 +1,82 @@
+{
+  "recorded_at_utc": "2026-11-06T15:22:55.316619+00:00",
+  "deployed_source_commit": "094065c307de4063abc8561cbf53548d743a8552",
+  "frontend_url": "https://the-rehearsal-lab.vercel.app",
+  "backend_url": "https://the-rehearsal-api.onrender.com",
+  "render_deploy_id": "dep-dbmv09jbc2fs73b0kn10",
+  "render_status": "live",
+  "vercel_deploy_id": "dpl_2gKpCwHLxaygc1CQfkkYzJUdK8zf",
+  "vercel_status": "READY; promoted to production",
+  "ci_run_url": "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42241825773",
+  "ci_jobs": {
+    "backend": "success",
+    "frontend": "success",
+    "container_and_sandbox_probe": "success"
+  },
+  "local_checks": {
+    "backend_tests": 136,
+    "voice_tests": 17,
+    "library_unit_tests": 3,
+    "rag_cases_passed": 9,
+    "offline_role_cases_passed": 153
+  },
+  "release_gate_exception": {
+    "explicitly_authorized_by_user": true,
+    "scope": "One-time manual deployment of this commit despite missing current independently human-reviewed live evidence.",
+    "workflow_gate_changed": false
+  },
+  "production_provider_limit_settings_changed": false,
+  "release_verification_provider_calls": 0,
+  "public_checks": {
+    "public_homepage": true,
+    "library_in_published_page": true,
+    "frontend_build_matches": true,
+    "backend_build_metadata_matches": true,
+    "live_speech_feedback_enabled": true,
+    "config_no_store": true,
+    "feedback_phase_enforced": true,
+    "session_deletion": true,
+    "deletion_verified": true,
+    "backend_health": true,
+    "backend_proxy_protection": true
+  },
+  "hosted_browser_checks": {
+    "library": {
+      "passed": true,
+      "real_indexeddb": true,
+      "backend_responses_mocked": true,
+      "checks": [
+        "explicit save",
+        "privacy allowlist",
+        "duplicate update",
+        "reload and server-deletion persistence",
+        "reading with backend unavailable",
+        "comparison",
+        "translations",
+        "mobile layout",
+        "delete and clear",
+        "unavailable storage"
+      ]
+    },
+    "voice": {
+      "passed": true,
+      "synthetic_audio": true,
+      "backend_responses_mocked": true,
+      "checks": [
+        "turn detection",
+        "validation-before-playback",
+        "interrupt/mute/stop",
+        "duplicate recorder absent",
+        "navigation",
+        "translations",
+        "mobile layout"
+      ]
+    }
+  },
+  "limitations": [
+    "No new live-model or human-speech reliability claim: hosted browser API responses were mocked.",
+    "Only the local daily reservation ceiling was explicitly disabled for local testing; this release did not change production provider-limit settings.",
+    "Saved rehearsals are browser/origin-specific and not synchronized or resumable server sessions.",
+    "Shared rating storage on the free backend remains ephemeral."
+  ]
+}

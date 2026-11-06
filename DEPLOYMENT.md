@@ -1,5 +1,19 @@
 # Vercel deployment
 
+## Browser library and conversation pacing — 6 November 2026
+
+Source commit `094065c307de4063abc8561cbf53548d743a8552` is live on both existing
+services. [Release evidence](evaluation/deployment-library-pacing-2026-11-06.json)
+records passing CI, hosted public checks and browser checks. This update adds the
+optional on-device rehearsal library, one gentle follow-up before accepting a
+repeated refusal/firm boundary, and removes the duplicate recorder from chat.
+The user explicitly approved a new one-time manual release exception for this
+commit; the previous release's exception was not reused. The workflow remains
+unchanged. Hosted browser API responses were mocked and release verification made
+no paid model calls. Production provider limits were not changed; the explicitly
+disabled local daily ceiling remains a local setting. See
+[library behavior and privacy](docs/REHEARSAL_LIBRARY.md).
+
 ## Voice, shared feedback and role checks — 6 November 2026
 
 Source commit `551518cda41c185c404cee8d6f372fc13ca088be` is live on the existing
