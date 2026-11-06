@@ -50,7 +50,12 @@ class FamilyRoleMatrixTests(unittest.TestCase):
                                 self.assertEqual(turn['sources'],[])
                                 counts['valid_replies_delivered']+=1
                             self.assertEqual(main.sessions[sid]['turns'][-2]['content'],fixture['learner_turn'])
-                            self.assertFalse(any(goal['achieved'] for goal in result.json()['goals']))
+                            for goal in result.json()['goals']:
+                                if goal['achieved']:
+                                    self.assertEqual(goal['evidence'],fixture['learner_turn'])
+                                    self.assertEqual(goal['answer_status'],'not_applicable')
+                            # These turns include a boundary immediately; no challenge was delivered.
+                            self.assertFalse(result.json()['goals'][2]['achieved'])
             finally:
                 self.client.delete(path)
         self.assertEqual(counts,{'reversals_withheld':30,'valid_replies_delivered':21})

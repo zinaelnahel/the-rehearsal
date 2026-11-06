@@ -21,6 +21,29 @@ live reply is delivered. Other questions can continue naturally. The helper uses
 narrow multilingual patterns rather than a general semantic intent classifier;
 `backend/test_family_pacing.py` verifies the bounded sequence in all three languages.
 
+## Evidence-based progress for the standard family goals
+
+The standard family sample now starts with three stable, editable action goals
+rather than model-rephrased variants. A custom situation goal still uses live
+mission generation. For unchanged standard goal texts, a bounded multilingual
+recognizer can add missed progress using the latest learner message verbatim:
+refuse help, state a request/time boundary, and maintain the refusal after the
+server's actual gentle follow-up. Restatement needs that preceding delivered
+follow-up; the first refusal alone cannot complete it. These communication actions
+are `not_applicable` to document confirmation, never new confirmed source facts.
+Previously achieved evidence is preserved. Custom edited goals retain live model
+assessment; unknown paraphrases can still be missed by this narrow backstop.
+
+For example, `Este fin de semana no puedo ayudar.` completes refusal. After the
+gentle follow-up, `No me lo vuelvas a pedir. Pregúntame antes de contar con mi
+tiempo.` completes the boundary and restatement goals. Tests force the model to
+miss every action and check 1/3 → 3/3 in the turn response and final review, across
+all conversation/feedback language combinations. Quoted examples, translation
+requests, hypothetical statements, questions and keyword-only text do not earn
+extra credit from the recognizer. This supplements the existing assessment; it
+does not establish general scoring accuracy. Existing browser-saved reviews are
+historical snapshots and are not automatically rescored.
+
 `evaluation/family-role-regressions.json` contains 10 invalid and seven valid
 partner replies per language. The cases include the reported German failures,
 their English/Spanish equivalents, polite/formal requests and correct acceptance

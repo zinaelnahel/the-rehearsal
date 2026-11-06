@@ -190,7 +190,11 @@ class ContextFeedbackTests(unittest.TestCase):
     self.assertEqual(turn['content'],FAMILY_BOUNDARY[language]['clarify'])
     self.assertTrue(turn['answer_withheld'])
     self.assertEqual(turn['sources'],[])
-    self.assertFalse(any(g['achieved'] for g in result.json()['goals']))
+    for goal in result.json()['goals']:
+     if goal['achieved']:
+      self.assertEqual(goal['evidence'],learner)
+      self.assertEqual(goal['answer_status'],'not_applicable')
+    self.assertFalse(any(g['achieved'] for g in result.json()['goals'][1:]))
     self.assertEqual(sessions[sid]['turns'][-2]['content'],learner)
 
  def test_family_guard_allows_requester_to_reflect_learner_unavailability(self):
