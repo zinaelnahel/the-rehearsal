@@ -1,0 +1,77 @@
+{
+  "description": "Fictional role-ownership regressions, not real-model reliability estimates. The AI is the requester; the learner declines and owns the time boundary.",
+  "languages": {
+    "English": {
+      "learner_turn": "Sorry, I cannot help this weekend. Please ask me before making plans involving my time.",
+      "invalid_partner_replies": [
+        "I understand, but I cannot help this weekend.",
+        "I do not have time this weekend.",
+        "I don't have any time for errands.",
+        "My answer is still no.",
+        "Please ask me before making plans involving my time.",
+        "Please check with me first before planning errands.",
+        "Please don't plan errands with me this weekend.",
+        "Do not count on me for errands this weekend.",
+        "Please plan this weekend without me.",
+        "Don't assume I'm available this weekend."
+      ],
+      "valid_partner_replies": [
+        "I understand you cannot help this weekend.",
+        "You don't have time this weekend. I understand.",
+        "I will ask you before making plans involving your time.",
+        "Then I will plan without your help this weekend.",
+        "I was hoping you could help, but I hear your answer is no.",
+        "Are you saying this weekend is definitely a no?",
+        "I understand. You do not need to give me an explanation."
+      ]
+    },
+    "German": {
+      "learner_turn": "Leider kann ich dieses Wochenende nicht helfen. Bitte frag mich vorher, bevor du meine Zeit verplanst.",
+      "invalid_partner_replies": [
+        "Ich kann dieses Wochenende nicht helfen.",
+        "Ich habe keine Zeit.",
+        "Meine Antwort bleibt Nein.",
+        "Ich verstehe, dass du beschäftigt bist. Bitte plane dieses Wochenende keine Besorgungen mit mir ein.",
+        "Ich verstehe, dass du keine Zeit hast. Bitte frage mich in Zukunft vorher, bevor du meine Zeit für Besorgungen einplanst.",
+        "Bitte frag mich vorher, bevor du meine Zeit verplanst.",
+        "Fragen Sie mich bitte vorher, bevor Sie meine Zeit verplanen.",
+        "Könntest du mich bitte vorher fragen?",
+        "Bitte plane mich dieses Wochenende nicht für Besorgungen ein.",
+        "Bitte plane dieses Wochenende ohne mich."
+      ],
+      "valid_partner_replies": [
+        "Ich verstehe, dass du dieses Wochenende nicht helfen kannst.",
+        "Du hast keine Zeit. Das verstehe ich.",
+        "Ich werde dich in Zukunft vorher fragen.",
+        "Dann plane ich dieses Wochenende ohne dich.",
+        "Ich hatte mit deiner Hilfe gerechnet, aber ich höre dein Nein.",
+        "Ist deine Antwort für dieses Wochenende also Nein?",
+        "Du musst mir keine ausführliche Erklärung geben."
+      ]
+    },
+    "Spanish": {
+      "learner_turn": "Lo siento, no puedo ayudar este fin de semana. Por favor, pregúntame antes de hacer planes con mi tiempo.",
+      "invalid_partner_replies": [
+        "No puedo ayudar este fin de semana.",
+        "No tengo tiempo para los recados.",
+        "No estoy disponible este fin de semana.",
+        "Mi respuesta sigue siendo no.",
+        "Por favor, pregúntame antes de hacer planes con mi tiempo.",
+        "Por favor, pregúnteme primero antes de hacer planes.",
+        "Consulta conmigo antes de organizar los recados.",
+        "No cuentes conmigo para los recados este fin de semana.",
+        "No planifiques recados conmigo este fin de semana.",
+        "No dispongas de mi tiempo sin preguntarme."
+      ],
+      "valid_partner_replies": [
+        "Entiendo que no puedes ayudar este fin de semana.",
+        "No tienes tiempo. Lo entiendo.",
+        "Te preguntaré antes de hacer planes que dependan de tu tiempo.",
+        "Entonces organizaré los recados sin tu ayuda este fin de semana.",
+        "Contaba con tu ayuda, pero entiendo que tu respuesta es no.",
+        "¿Es un no definitivo para este fin de semana?",
+        "No necesitas darme una explicación."
+      ]
+    }
+  }
+}

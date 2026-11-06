@@ -23,7 +23,7 @@ from backend.listings import listing_url, fetch_listing
 from backend.retrieval import build_store, purge_expired, delete_persisted
 from backend.observability import trace_scope
 from backend.agent import prepare as prepare_agent
-from backend import speech, abuse, budget
+from backend import speech, abuse, budget, feedback
 from backend.video import import_video, reference_url, SourceSegment
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Request
@@ -78,6 +78,7 @@ async def cleanup():
   for sid,s in list(sessions.items()):
    if time.monotonic()-s['touched'] > TTL: dispose_session(sid)
   await asyncio.to_thread(purge_expired)
+  await asyncio.to_thread(feedback.cleanup)
 
 @asynccontextmanager
 async def lifespan(app):
@@ -85,6 +86,7 @@ async def lifespan(app):
   if not os.getenv('API_PROXY_TOKEN'): raise RuntimeError('Public deployment requires API_PROXY_TOKEN.')
   if os.getenv('PARSER_SANDBOX')!='required': raise RuntimeError('Public deployment requires PARSER_SANDBOX=required.')
  await asyncio.to_thread(purge_expired)
+ await asyncio.to_thread(feedback.cleanup)
  task = asyncio.create_task(cleanup())
  yield
  task.cancel()
@@ -176,7 +178,7 @@ def _create(raw, kind, name, source_url=None, transcript=None):
  return {'id':sid,'name':name,'passages':len(chunks),'mode':'live' if LIVE else 'demo','source_url':source_url}
 
 @app.get('/api/config')
-def config(): return {'mode':'live' if LIVE else 'demo','speech_enabled':speech.enabled(), 'vector_store':os.getenv('VECTOR_STORE','chroma'), 'agent_enabled':agent_enabled(), 'demo_revision':'0.6','roleplay_revision':'0.7','listing_provider':'Idealista public links or pasted advert text','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
+def config(): return {'mode':'live' if LIVE else 'demo','speech_enabled':speech.enabled(), 'vector_store':os.getenv('VECTOR_STORE','chroma'), 'agent_enabled':agent_enabled(), 'feedback_enabled':feedback.enabled(), 'feedback_retention_days':feedback.retention_days(), 'demo_revision':'0.6','roleplay_revision':'0.7','listing_provider':'Idealista public links or pasted advert text','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
 
 class ListingInput(BaseModel):
  url: str = Field(max_length=2048)
@@ -400,6 +402,7 @@ async def start(sid: str, body: MissionEdit):
   s['safety']=s['safety'] or safety_concern(' '.join(body.goals))
   opening = SAFETY[s['setup']['language']] if s['safety'] else pack(s)['opening']
   s['turns']=[partner_turn(opening, safety=s['safety'])]
+  s['turn_timings']=[]
   s['ratings']={}
   s.pop('debrief',None)
   s.pop('extra_questions',None)
@@ -423,20 +426,32 @@ def partner_turn(content, sources=None, withheld=False, safety=False):
 class ResponseRating(BaseModel):
  model_config = {'extra':'forbid'}
  rating: Literal['up','down'] | None = None
- reason: Literal['realism','unanswered','fact','tone','other'] | None = None
+ reason: Literal['realism','unanswered','fact','tone','speed','other'] | None = None
+ share_for_improvement: bool = False
+ frontend_build: str = Field(default='unknown',pattern=r'^(?:[a-fA-F0-9]{40}|unknown)$')
 
 @app.put('/api/sessions/{sid}/responses/{response_id}/feedback')
 async def response_feedback(sid: str, response_id: str, body: ResponseRating):
  s=get(sid,('chat','debrief'))
  async with s['lock']:
   response=next((t for t in s['turns'] if t.get('id')==response_id and t['role']=='assistant'),None)
+  kind='response'
   if s['phase']=='debrief' and s.get('debrief',{}).get('feedback_id')==response_id:
    response={'version':'dialogue-0.6'}
+   kind='dialogue'
   if response is None: raise HTTPException(404,'Response is no longer in this scene.')
   if body.reason and body.rating!='down': raise HTTPException(400,'Reasons apply only to thumbs-down feedback.')
+  keys=s.setdefault('shared_feedback',{})
+  shared=body.share_for_improvement and body.rating is not None
+  if shared:
+   record=feedback.snapshot(s,response,kind,body.rating,body.reason,body.frontend_build,LIVE)
+   keys[response_id]=await asyncio.to_thread(feedback.save,keys.get(response_id),record)
+  elif response_id in keys:
+   await asyncio.to_thread(feedback.remove,keys[response_id])
+   keys.pop(response_id)
   if body.rating is None: s['ratings'].pop(response_id,None)
   else: s['ratings'][response_id]={'rating':body.rating,'reason':body.reason,'scenario':s['setup']['scenario'],'response_id':response_id,'version':response['version']}
-  return {'saved':True}
+  return {'saved':True,'shared':shared}
 
 class Turn(BaseModel):
  text: str = Field(min_length=1,max_length=2000)
@@ -454,6 +469,7 @@ def evidence(d):
 async def turn(sid: str, body: Turn):
  s = get(sid,('chat',))
  async with s['lock']:
+  started=time.monotonic()
   if s['phase']!='chat': raise HTTPException(409,'Conversation has ended.')
   if len(s['turns'])>=61: raise HTTPException(400,'Turn limit reached. Finish to see your debrief.')
   if not body.text.strip(): raise HTTPException(400,'Enter a message.')
@@ -496,6 +512,7 @@ async def turn(sid: str, body: Turn):
     g.update(achieved=True,evidence=outcome.get('evidence',body.text),answer_status=outcome['status'],answer_evidence=outcome['quote'],answer_sources=outcome['ids'])
   if sessions.get(sid) is not s: raise HTTPException(404,'Session was deleted while the request was running.')
   s['turns'] += [{'role':'user','content':body.text,'sources':[]},partner_turn(reply, [evidence(d) for d in docs], withheld, s['safety'])]
+  s.setdefault('turn_timings',[]).append(round((time.monotonic()-started)*1000))
   return {'turn':s['turns'][-1],'goals':s['mission'],'safety':s['safety'],
           'agent_tools':tool_calls if LIVE and not s['safety'] else []}
 
@@ -586,7 +603,7 @@ def retry(sid: str, body: RetryInput):
  target=next((g for g in s['mission'] if g['id']==body.goal_id),None)
  if not target: raise HTTPException(400,'Choose a goal from this rehearsal.')
  reset=Goal(id=target['id'],text=target['text']).model_dump()
- s.update(phase='chat',mission=[reset],turns=[partner_turn(SAFETY[s['setup']['language']] if s['safety'] else pack(s)['opening'] if s.get('breakup') else COMMON[s['setup']['language']]['retry'],safety=s['safety'])],ratings={})
+ s.update(phase='chat',mission=[reset],turns=[partner_turn(SAFETY[s['setup']['language']] if s['safety'] else pack(s)['opening'] if s.get('breakup') else COMMON[s['setup']['language']]['retry'],safety=s['safety'])],ratings={},turn_timings=[])
  s.pop('debrief',None)
  return {'turns':s['turns'],'goals':s['mission'],'safety':s['safety']}
 

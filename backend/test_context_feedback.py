@@ -169,6 +169,10 @@ class ContextFeedbackTests(unittest.TestCase):
     'I understand, but I cannot help this weekend. I need to keep my time free for my work and rest. Please do not ask me again for this weekend. [4] [2]'),
    ('German','Es tut mir leid, aber ich muss arbeiten.',
     'Ich kann dieses Wochenende nicht helfen. Meine Antwort bleibt Nein.'),
+   ('German','Okay, leider kann ich nicht.',
+    'Ich verstehe, dass du beschäftigt bist. Bitte plane dieses Wochenende keine Besorgungen mit mir ein. [2] [4]'),
+   ('German','Ich habe keine Zeit.',
+    'Ich verstehe, dass du keine Zeit hast. Bitte frage mich in Zukunft vorher, bevor du meine Zeit für Besorgungen einplanst. [3] [4]'),
    ('Spanish','Lo siento, pero tengo trabajo.',
     'No puedo ayudar este fin de semana. Mi respuesta sigue siendo no.')]
   for language,learner,bad in cases:
@@ -194,6 +198,8 @@ class ContextFeedbackTests(unittest.TestCase):
   for language,text in [
    ('English','I understand you cannot help this weekend. Is that a definite no?'),
    ('German','Ich verstehe, dass du nicht helfen kannst. Ist das ein klares Nein?'),
+   ('German','Ich verstehe, dass du keine Zeit hast. Ich werde dich in Zukunft vorher fragen.'),
+   ('German','Dann plane ich dieses Wochenende ohne dich. Danke, dass du mir Bescheid gesagt hast.'),
    ('Spanish','Entiendo que no puedes ayudar. ¿Es un no definitivo?')]:
    with self.subTest(language=language):
     self.assertFalse(requester_speaks_as_learner(text,language))
@@ -203,6 +209,11 @@ class ContextFeedbackTests(unittest.TestCase):
   for language,text in [
    ('English','Please ask me before making plans involving my time.'),
    ('German','Bitte frag mich vorher, bevor du meine Zeit verplanst.'),
+   ('German','Bitte frage mich in Zukunft vorher, bevor du meine Zeit für Besorgungen einplanst.'),
+   ('German','Fragen Sie mich bitte vorher, bevor Sie meine Zeit verplanen.'),
+   ('German','Bitte plane dieses Wochenende keine Besorgungen mit mir ein.'),
+   ('German','Bitte plane mich dieses Wochenende nicht für Besorgungen ein.'),
+   ('German','Könntest du mich bitte vorher fragen?'),
    ('Spanish','Necesito que me avises con anticipación antes de hacer planes que dependan de tu tiempo.')]:
    with self.subTest(language=language):
     self.assertTrue(requester_speaks_as_learner(text,language))

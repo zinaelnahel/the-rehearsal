@@ -1,14 +1,15 @@
 // No automatic POST retries: a lost response must not duplicate sessions or turns.
-export async function api(path,body,method='POST') {
+export async function api(path,body,method='POST',signal) {
   let response;
   try {
     response=await fetch('/api'+path,{
       method,cache:'no-store',
       headers:body instanceof FormData?{}:{'Content-Type':'application/json'},
       body:body===undefined?undefined:body instanceof FormData?body:JSON.stringify(body),
-      signal:AbortSignal.timeout(65000)
+      signal:signal?AbortSignal.any([signal,AbortSignal.timeout(65000)]):AbortSignal.timeout(65000)
     });
   } catch (error) {
+    if(signal?.aborted)throw error;
     throw Error(error.name==='TimeoutError'
       ? 'The practice server took too long to respond. Wait a moment and retry.'
       : 'The request could not reach the server. Check your connection and retry. If you are uploading, select the file again.');

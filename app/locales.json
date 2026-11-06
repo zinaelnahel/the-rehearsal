@@ -1514,5 +1514,185 @@
   "An AI reply failed validation and was replaced.": {
     "de": "Eine KI-Antwort hat die Prüfung nicht bestanden und wurde ersetzt.",
     "es": "Una respuesta de IA no superó las comprobaciones y fue sustituida."
+  },
+  "Voice rehearsal": {
+    "de": "Sprachprobe",
+    "es": "Ensayo por voz"
+  },
+  "Rehearse out loud": {
+    "de": "Laut üben",
+    "es": "Ensaya en voz alta"
+  },
+  "Speak, pause, and hear your partner reply. Replies are checked before they are spoken. Use headphones to reduce echo.": {
+    "de": "Sprich, mache eine Pause und höre die Antwort. Antworten werden vor dem Vorlesen geprüft. Kopfhörer verringern Echos.",
+    "es": "Habla, haz una pausa y escucha la respuesta. Las respuestas se verifican antes de reproducirse. Usa auriculares para reducir el eco."
+  },
+  "I agree to send microphone audio and partner replies to OpenAI. Voice transcripts are sent automatically as my messages; I can read them in the conversation.": {
+    "de": "Ich stimme zu, Mikrofonaufnahmen und Antworten an OpenAI zu senden. Meine Sprachtranskripte werden automatisch als Nachrichten gesendet und sind im Gespräch lesbar.",
+    "es": "Acepto enviar el audio del micrófono y las respuestas a OpenAI. Las transcripciones se envían automáticamente como mis mensajes y puedo leerlas en la conversación."
+  },
+  "Pause before sending": {
+    "de": "Pause vor dem Senden",
+    "es": "Pausa antes de enviar"
+  },
+  "Short · 1.2 seconds": {
+    "de": "Kurz · 1,2 Sekunden",
+    "es": "Breve · 1,2 segundos"
+  },
+  "Natural · 1.8 seconds": {
+    "de": "Natürlich · 1,8 Sekunden",
+    "es": "Natural · 1,8 segundos"
+  },
+  "Relaxed · 2.6 seconds": {
+    "de": "Entspannt · 2,6 Sekunden",
+    "es": "Tranquila · 2,6 segundos"
+  },
+  "Unmute microphone": {
+    "de": "Mikrofon einschalten",
+    "es": "Activar micrófono"
+  },
+  "Mute microphone": {
+    "de": "Mikrofon stummschalten",
+    "es": "Silenciar micrófono"
+  },
+  "Send voice turn now": {
+    "de": "Sprachbeitrag jetzt senden",
+    "es": "Enviar intervención ahora"
+  },
+  "Interrupt & speak": {
+    "de": "Unterbrechen und sprechen",
+    "es": "Interrumpir y hablar"
+  },
+  "Stop voice mode": {
+    "de": "Sprachmodus beenden",
+    "es": "Detener modo de voz"
+  },
+  "Start voice rehearsal": {
+    "de": "Sprachprobe starten",
+    "es": "Iniciar ensayo por voz"
+  },
+  "Voice mode is off.": {
+    "de": "Sprachmodus ist aus.",
+    "es": "El modo de voz está desactivado."
+  },
+  "Connecting your microphone…": {
+    "de": "Mikrofon wird verbunden…",
+    "es": "Conectando el micrófono…"
+  },
+  "Listening. Take your time.": {
+    "de": "Ich höre zu. Lass dir Zeit.",
+    "es": "Escuchando. Tómate tu tiempo."
+  },
+  "Your turn. Pause when you are finished.": {
+    "de": "Du bist dran. Mache eine Pause, wenn du fertig bist.",
+    "es": "Tu turno. Haz una pausa cuando termines."
+  },
+  "Transcribing your turn…": {
+    "de": "Dein Beitrag wird transkribiert…",
+    "es": "Transcribiendo tu intervención…"
+  },
+  "Checking the reply against your sources…": {
+    "de": "Die Antwort wird anhand deiner Quellen geprüft…",
+    "es": "Verificando la respuesta con tus fuentes…"
+  },
+  "Preparing your partner’s voice…": {
+    "de": "Die Sprachausgabe wird vorbereitet…",
+    "es": "Preparando la voz de tu interlocutor…"
+  },
+  "Your partner is speaking.": {
+    "de": "Dein Gegenüber spricht.",
+    "es": "Tu interlocutor está hablando."
+  },
+  "Microphone muted.": {
+    "de": "Mikrofon ist stummgeschaltet.",
+    "es": "Micrófono silenciado."
+  },
+  "Your microphone pauses during replies. Interrupt to take your turn. Stopping voice mode does not undo a message already sent.": {
+    "de": "Dein Mikrofon pausiert während der Antworten. Unterbrich, um zu sprechen. Das Beenden des Sprachmodus macht bereits gesendete Nachrichten nicht rückgängig.",
+    "es": "El micrófono se pausa durante las respuestas. Interrumpe para hablar. Detener el modo de voz no deshace un mensaje ya enviado."
+  },
+  "Continuous voice is unavailable in this browser. Record a voice message or type instead.": {
+    "de": "Dieser Browser unterstützt keinen fortlaufenden Sprachmodus. Nimm eine Sprachnachricht auf oder schreibe.",
+    "es": "Este navegador no admite el modo de voz continuo. Graba un mensaje de voz o escribe."
+  },
+  "The microphone disconnected. Check your device and start voice mode again.": {
+    "de": "Das Mikrofon wurde getrennt. Prüfe dein Gerät und starte den Sprachmodus erneut.",
+    "es": "El micrófono se desconectó. Revisa el dispositivo y vuelve a iniciar el modo de voz."
+  },
+  "Voice mode was paused by the browser. Return to this tab and start again.": {
+    "de": "Der Browser hat den Sprachmodus angehalten. Kehre zu diesem Tab zurück und starte erneut.",
+    "es": "El navegador pausó el modo de voz. Vuelve a esta pestaña e inícialo de nuevo."
+  },
+  "No speech was detected. Voice mode stopped; start again when you are ready.": {
+    "de": "Es wurde keine Sprache erkannt. Der Sprachmodus wurde beendet. Starte erneut, wenn du bereit bist.",
+    "es": "No se detectó voz. El modo de voz se detuvo; inícialo cuando estés listo."
+  },
+  "Your voice turn is too long. Review and shorten the transcript below, then send it as text.": {
+    "de": "Dein Sprachbeitrag ist zu lang. Prüfe und kürze das Transkript unten und sende es als Text.",
+    "es": "Tu intervención es demasiado larga. Revisa y acorta la transcripción de abajo y envíala como texto."
+  },
+  "Voice playback failed. Your partner reply is still available as text.": {
+    "de": "Die Sprachausgabe ist fehlgeschlagen. Die Antwort ist weiterhin als Text verfügbar.",
+    "es": "Falló la reproducción. La respuesta sigue disponible como texto."
+  },
+  "Your browser blocked automatic audio. Allow sound for this site, then start voice mode again.": {
+    "de": "Dein Browser hat die automatische Wiedergabe blockiert. Erlaube Ton für diese Website und starte den Sprachmodus erneut.",
+    "es": "Tu navegador bloqueó el audio automático. Permite el sonido para este sitio y vuelve a iniciar el modo de voz."
+  },
+  "Voice mode stopped. Check your connection and try again.": {
+    "de": "Der Sprachmodus wurde beendet. Prüfe deine Verbindung und versuche es erneut.",
+    "es": "El modo de voz se detuvo. Revisa tu conexión e inténtalo de nuevo."
+  },
+  "Wait for the current action to finish before speaking again.": {
+    "de": "Warte, bis die aktuelle Aktion abgeschlossen ist, bevor du weitersprichst.",
+    "es": "Espera a que termine la acción actual antes de volver a hablar."
+  },
+  "Enter a message of up to 2,000 characters in an active rehearsal.": {
+    "de": "Gib in einer laufenden Probe eine Nachricht mit höchstens 2.000 Zeichen ein.",
+    "es": "Escribe un mensaje de hasta 2000 caracteres en un ensayo activo."
+  },
+  "Too slow": {
+    "de": "Zu langsam",
+    "es": "Demasiado lento"
+  },
+  "Share my anonymous rating to help improve the app.": {
+    "de": "Meine anonyme Bewertung teilen, um die App zu verbessern.",
+    "es": "Compartir mi valoración anónima para ayudar a mejorar la aplicación."
+  },
+  "Shared feedback includes your rating, optional category, scenario, language, app/model version and numeric performance summaries. No conversation, source text, audio or contact details. It may remain for up to {days} days after session deletion. Untick or Clear before leaving this review to remove it.": {
+    "de": "Geteiltes Feedback enthält deine Bewertung, eine optionale Kategorie, Situation, Sprache, App-/Modellversion und numerische Leistungsübersichten. Keine Gespräche, Quelltexte, Audiodaten oder Kontaktdaten. Es kann nach dem Löschen der Sitzung bis zu {days} Tage gespeichert bleiben. Entferne das Häkchen oder lösche die Bewertung vor dem Verlassen dieser Auswertung, um es zu entfernen.",
+    "es": "Los comentarios compartidos incluyen tu valoración, categoría opcional, situación, idioma, versión de la aplicación/modelo y resúmenes numéricos de rendimiento. Sin conversación, textos fuente, audio ni datos de contacto. Pueden conservarse hasta {days} días tras borrar la sesión. Desmarca la casilla o borra la valoración antes de salir de esta revisión para eliminarlos."
+  },
+  "Thanks. Your anonymous feedback was saved to help improve the app.": {
+    "de": "Danke. Dein anonymes Feedback wurde gespeichert, um die App zu verbessern.",
+    "es": "Gracias. Se guardó tu valoración anónima para ayudar a mejorar la aplicación."
+  },
+  "Feedback cleared, including any shared copy.": {
+    "de": "Die Bewertung wurde einschließlich einer geteilten Kopie gelöscht.",
+    "es": "Valoración borrada, incluida cualquier copia compartida."
+  },
+  "Without sharing, your rating stays in this session. Shared ratings help us evaluate the app; they do not automatically train a model.": {
+    "de": "Ohne Teilen bleibt deine Bewertung in dieser Sitzung. Geteilte Bewertungen helfen uns, die App auszuwerten; sie trainieren nicht automatisch ein Modell.",
+    "es": "Si no la compartes, tu valoración queda en esta sesión. Las valoraciones compartidas nos ayudan a evaluar la aplicación; no entrenan un modelo automáticamente."
+  },
+  "Opt-in shared ratings are stored separately from session data.": {
+    "de": "Freiwillig geteilte Bewertungen werden getrennt von den Sitzungsdaten gespeichert.",
+    "es": "Las valoraciones compartidas voluntariamente se guardan por separado de los datos de la sesión."
+  },
+  "Sharing was not confirmed. Please retry or keep your rating in this session.": {
+    "de": "Das Teilen wurde nicht bestätigt. Versuche es erneut oder behalte die Bewertung nur in dieser Sitzung.",
+    "es": "No se confirmó que se compartiera. Inténtalo de nuevo o conserva la valoración solo en esta sesión."
+  },
+  "Shared feedback is disabled. Your rating has not been shared.": {
+    "de": "Geteiltes Feedback ist deaktiviert. Deine Bewertung wurde nicht geteilt.",
+    "es": "Los comentarios compartidos están desactivados. No se compartió tu valoración."
+  },
+  "Feedback could not be saved. Please retry; sharing was not confirmed.": {
+    "de": "Das Feedback konnte nicht gespeichert werden. Versuche es erneut; das Teilen wurde nicht bestätigt.",
+    "es": "No se pudo guardar la valoración. Inténtalo de nuevo; no se confirmó que se compartiera."
+  },
+  "Shared feedback could not be removed. Please retry before leaving this review.": {
+    "de": "Geteiltes Feedback konnte nicht entfernt werden. Versuche es erneut, bevor du diese Auswertung verlässt.",
+    "es": "No se pudieron eliminar los comentarios compartidos. Inténtalo de nuevo antes de salir de esta revisión."
   }
 }

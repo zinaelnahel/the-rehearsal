@@ -3,6 +3,48 @@ import re
 from backend.context import plain
 
 
+# Server-owned examples: never sourced from uploaded instructions or user text.
+FAMILY_ROLE_EXAMPLES = {
+ 'English': {
+  'invalid_partner_lines':[
+   "I cannot help this weekend.",
+   "I do not have time. Please do not plan errands with me this weekend.",
+   "Please ask me before making plans involving my time."],
+  'valid_partner_lines':[
+   "I understand you cannot help this weekend.",
+   "I will ask you before making plans that involve your time.",
+   "Then I will plan without your help this weekend."]},
+ 'German': {
+  'invalid_partner_lines':[
+   'Ich kann dieses Wochenende nicht helfen.',
+   'Bitte plane dieses Wochenende keine Besorgungen mit mir ein.',
+   'Bitte frage mich in Zukunft vorher, bevor du meine Zeit für Besorgungen einplanst.'],
+  'valid_partner_lines':[
+   'Ich verstehe, dass du dieses Wochenende nicht helfen kannst.',
+   'Ich werde dich in Zukunft vorher fragen.',
+   'Dann plane ich dieses Wochenende ohne dich.']},
+ 'Spanish': {
+  'invalid_partner_lines':[
+   'No puedo ayudar este fin de semana.',
+   'No cuentes conmigo para los recados este fin de semana.',
+   'Por favor, pregúntame antes de hacer planes con mi tiempo.'],
+  'valid_partner_lines':[
+   'Entiendo que no puedes ayudar este fin de semana.',
+   'Te preguntaré antes de hacer planes que dependan de tu tiempo.',
+   'Entonces organizaré los recados sin tu ayuda este fin de semana.']}
+}
+
+
+def family_role_contract(language):
+ return {
+  'partner_action':'request help with errands; respond to the learner refusal',
+  'learner_action':'decline the request and set a boundary about their own time',
+  'owner_of_unavailability_and_boundary':'learner',
+  'source_practice_instructions_address':'learner, never the partner',
+  **FAMILY_ROLE_EXAMPLES[language]
+ }
+
+
 def requester_speaks_as_learner(text, language):
  """Narrow fail-closed check for the known requester/decliner role contract.
 
@@ -10,9 +52,26 @@ def requester_speaks_as_learner(text, language):
  learner's refusal remains valid; first-person refusal by the requester does not.
  """
  patterns={
-  'English':r"\b(?:i|we)\s+(?:cannot|can['’]t|won['’]t|am unable to)\s+(?:help|come|make it)\b|\bmy answer (?:is|remains) (?:still )?no\b|\b(?:please )?(?:do not|don['’]t) ask me again\b|\b(?:ask|check with) me\b[^.!?]{0,70}\b(?:my time|in advance|before)\b|\b(?:tell|warn|notify|let) me\b[^.!?]{0,50}\b(?:in advance|ahead of time)\b",
-  'German':r'\bich kann\b[^.!?]{0,70}\bnicht helfen\b|\bich habe keine zeit\b|\bmeine antwort (?:ist|bleibt) nein\b|\bfrag mich nicht (?:noch einmal|wieder)\b|\bfrag mich\b[^.!?]{0,70}\b(?:meine zeit|bevor|vorher)\b|\b(?:sag|gib|informier)\w* mir\b[^.!?]{0,50}\b(?:vorher|im voraus|rechtzeitig)\b',
-  'Spanish':r'\bno (?:te )?puedo ayudar(?:te)?\b|\bno estoy disponible\b|\bmi respuesta (?:es|sigue siendo) no\b|\bno me (?:lo )?(?:pidas|preguntes) (?:otra vez|de nuevo)\b|\b(?:preguntame|me preguntes)\b[^.!?]{0,70}\b(?:mi tiempo|antes)\b|\b(?:avisame|me avises)\b[^.!?]{0,50}\b(?:anticipacion|antelacion|antes)\b'
+  'English':(
+   r"\b(?:i|we)\s+(?:cannot|can['’]t|won['’]t|am unable to)\s+(?:help|come|make it|this weekend)\b"
+   r"|\bi (?:have no time|do not have (?:any )?time|don['’]t have (?:any )?time|am not available|am unavailable)\b"
+   r"|\bmy answer (?:is|remains) (?:still )?no\b"
+   r"|\b(?:please )?(?:do not|don['’]t) ask me again\b"
+   r"|\b(?:ask|check with|consult) me\b[^.!?]{0,70}\b(?:my time|in advance|before|first)\b"
+   r"|\b(?:tell|warn|notify|let) me\b[^.!?]{0,50}\b(?:in advance|ahead of time)\b"
+   r"|\b(?:do not|don['’]t|never) (?:plan|count on|include|schedule)\b[^.!?]{0,90}\b(?:me|my time)\b"
+   r"|\b(?:plan|make plans|schedule)\b[^.!?]{0,80}\bwithout me\b"
+   r"|\b(?:do not|don['’]t) assume\b[^.!?]{0,40}\bi(?: am|['’]m) available\b"),
+  'German':r'\bich kann\b[^.!?]{0,70}\bnicht helfen\b|\bich habe keine zeit\b|\bmeine antwort (?:ist|bleibt) nein\b|\b(?:frag(?:e|t)?|fragen sie) mich nicht (?:noch einmal|wieder)\b|\b(?:frag(?:e|t)?|fragen sie|fragst du) mich\b[^.!?]{0,90}\b(?:meine zeit|bevor|vorher|zuerst)\b|\b(?:kannst|konntest|wurdest) du mich\b[^.!?]{0,90}\b(?:vorher|zuerst)\b[^.!?]{0,30}\bfragen\b|\bplan(?:e|t|en sie)?\b[^.!?]{0,100}\b(?:keine\w*|nicht)\b[^.!?]{0,60}\bmit mir\b|\bplan(?:e|t|en sie)?\b[^.!?]{0,80}\b(?:mich|meine zeit)\b[^.!?]{0,60}\b(?:nicht|ohne)\b|\bplan(?:e|t|en sie)?\b[^.!?]{0,80}\bohne mich\b|\b(?:sag|gib|informier)\w* mir\b[^.!?]{0,50}\b(?:vorher|im voraus|rechtzeitig)\b',
+  'Spanish':(
+   r'\bno (?:te )?puedo ayudar(?:te)?\b|\bno estoy disponible\b|\bno tengo tiempo\b'
+   r'|\bmi respuesta (?:es|sigue siendo) no\b'
+   r'|\bno me (?:lo )?(?:pidas|preguntes) (?:otra vez|de nuevo)\b'
+   r'|\b(?:preguntame|pregunteme|me preguntes|consultame|consulteme|consulta conmigo)\b[^.!?]{0,90}\b(?:mi tiempo|antes|primero)\b'
+   r'|\b(?:avisame|me avises)\b[^.!?]{0,50}\b(?:anticipacion|antelacion|antes|de antemano)\b'
+   r'|\bno (?:cuentes|cuente|conteis|cuenten) conmigo\b'
+   r'|\bno (?:planifiques|planifique|organices|organice|hagas planes|haga planes)\b[^.!?]{0,90}\b(?:conmigo|mi tiempo)\b'
+   r'|\bno (?:dispongas|disponga) de mi tiempo\b')
  }
  return bool(re.search(patterns[language],plain(text)))
 

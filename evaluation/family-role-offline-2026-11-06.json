@@ -1,0 +1,1125 @@
+{
+  "run_at_utc": "2026-11-06T14:18:10.090557+00:00",
+  "kind": "offline deterministic regression with mocked model generation and an approving reviewer",
+  "provider_calls": 0,
+  "live_model_tested": false,
+  "scope": "Fictional family requester versus learner declining help; not general role reliability.",
+  "passed": true,
+  "test_methods": 3,
+  "case_count": 153,
+  "languages": {
+    "English": {
+      "styles": [
+        "B1",
+        "B2",
+        "Everyday"
+      ],
+      "cases": 51,
+      "passed": 51,
+      "reversed_replies_blocked": 30,
+      "valid_requester_replies_allowed": 21
+    },
+    "German": {
+      "styles": [
+        "B1",
+        "B2",
+        "Everyday"
+      ],
+      "cases": 51,
+      "passed": 51,
+      "reversed_replies_blocked": 30,
+      "valid_requester_replies_allowed": 21
+    },
+    "Spanish": {
+      "styles": [
+        "B1",
+        "B2",
+        "Everyday"
+      ],
+      "cases": 51,
+      "passed": 51,
+      "reversed_replies_blocked": 30,
+      "valid_requester_replies_allowed": 21
+    }
+  },
+  "source_sha256": {
+    "backend/family_boundary.py": "3d59e31fa784096b834580fea8b8f25e7456bef3cdf0f8938ae16357bd676984",
+    "backend/live.py": "60cfbb77aaf6a9f781909e129c73aea73eb546f8853035b1def5b3f527b6af2a",
+    "backend/test_family_roles.py": "1495ae17410f08ae6b3aed59c8d9f5e5a34b0f4a3bf6017892ea17bfa26a2abe",
+    "evaluation/family-role-regressions.json": "7ef4432be1372faf52eebd6e45a27c72ffdf887142b2747f9542b480771f7e34",
+    "scripts/evaluate_role_boundaries.py": "c9135327a97317e75fb2fe1fef8aa2cecc89b697722a62154cf1d97e82287128"
+  },
+  "cases": [
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "I understand, but I cannot help this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "I do not have time this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "I don't have any time for errands.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "My answer is still no.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Please ask me before making plans involving my time.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Please check with me first before planning errands.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Please don't plan errands with me this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Do not count on me for errands this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Please plan this weekend without me.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Don't assume I'm available this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "I understand you cannot help this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "You don't have time this weekend. I understand.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "I will ask you before making plans involving your time.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Then I will plan without your help this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "I was hoping you could help, but I hear your answer is no.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Are you saying this weekend is definitely a no?",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "I understand. You do not need to give me an explanation.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": true,
+      "reply": "I understand, but I cannot help this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": true,
+      "reply": "I do not have time this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": true,
+      "reply": "I don't have any time for errands.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": true,
+      "reply": "My answer is still no.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Please ask me before making plans involving my time.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Please check with me first before planning errands.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Please don't plan errands with me this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Do not count on me for errands this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Please plan this weekend without me.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Don't assume I'm available this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": false,
+      "reply": "I understand you cannot help this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": false,
+      "reply": "You don't have time this weekend. I understand.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": false,
+      "reply": "I will ask you before making plans involving your time.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Then I will plan without your help this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": false,
+      "reply": "I was hoping you could help, but I hear your answer is no.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Are you saying this weekend is definitely a no?",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B1",
+      "invalid": false,
+      "reply": "I understand. You do not need to give me an explanation.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": true,
+      "reply": "I understand, but I cannot help this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": true,
+      "reply": "I do not have time this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": true,
+      "reply": "I don't have any time for errands.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": true,
+      "reply": "My answer is still no.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Please ask me before making plans involving my time.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Please check with me first before planning errands.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Please don't plan errands with me this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Do not count on me for errands this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Please plan this weekend without me.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Don't assume I'm available this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": false,
+      "reply": "I understand you cannot help this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": false,
+      "reply": "You don't have time this weekend. I understand.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": false,
+      "reply": "I will ask you before making plans involving your time.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Then I will plan without your help this weekend.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": false,
+      "reply": "I was hoping you could help, but I hear your answer is no.",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Are you saying this weekend is definitely a no?",
+      "passed": true
+    },
+    {
+      "language": "English",
+      "style": "B2",
+      "invalid": false,
+      "reply": "I understand. You do not need to give me an explanation.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Ich kann dieses Wochenende nicht helfen.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Ich habe keine Zeit.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Meine Antwort bleibt Nein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Ich verstehe, dass du beschäftigt bist. Bitte plane dieses Wochenende keine Besorgungen mit mir ein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Ich verstehe, dass du keine Zeit hast. Bitte frage mich in Zukunft vorher, bevor du meine Zeit für Besorgungen einplanst.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Bitte frag mich vorher, bevor du meine Zeit verplanst.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Fragen Sie mich bitte vorher, bevor Sie meine Zeit verplanen.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Könntest du mich bitte vorher fragen?",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Bitte plane mich dieses Wochenende nicht für Besorgungen ein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Bitte plane dieses Wochenende ohne mich.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Ich verstehe, dass du dieses Wochenende nicht helfen kannst.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Du hast keine Zeit. Das verstehe ich.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Ich werde dich in Zukunft vorher fragen.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Dann plane ich dieses Wochenende ohne dich.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Ich hatte mit deiner Hilfe gerechnet, aber ich höre dein Nein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Ist deine Antwort für dieses Wochenende also Nein?",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Du musst mir keine ausführliche Erklärung geben.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Ich kann dieses Wochenende nicht helfen.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Ich habe keine Zeit.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Meine Antwort bleibt Nein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Ich verstehe, dass du beschäftigt bist. Bitte plane dieses Wochenende keine Besorgungen mit mir ein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Ich verstehe, dass du keine Zeit hast. Bitte frage mich in Zukunft vorher, bevor du meine Zeit für Besorgungen einplanst.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Bitte frag mich vorher, bevor du meine Zeit verplanst.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Fragen Sie mich bitte vorher, bevor Sie meine Zeit verplanen.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Könntest du mich bitte vorher fragen?",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Bitte plane mich dieses Wochenende nicht für Besorgungen ein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Bitte plane dieses Wochenende ohne mich.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Ich verstehe, dass du dieses Wochenende nicht helfen kannst.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Du hast keine Zeit. Das verstehe ich.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Ich werde dich in Zukunft vorher fragen.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Dann plane ich dieses Wochenende ohne dich.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Ich hatte mit deiner Hilfe gerechnet, aber ich höre dein Nein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Ist deine Antwort für dieses Wochenende also Nein?",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Du musst mir keine ausführliche Erklärung geben.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Ich kann dieses Wochenende nicht helfen.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Ich habe keine Zeit.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Meine Antwort bleibt Nein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Ich verstehe, dass du beschäftigt bist. Bitte plane dieses Wochenende keine Besorgungen mit mir ein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Ich verstehe, dass du keine Zeit hast. Bitte frage mich in Zukunft vorher, bevor du meine Zeit für Besorgungen einplanst.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Bitte frag mich vorher, bevor du meine Zeit verplanst.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Fragen Sie mich bitte vorher, bevor Sie meine Zeit verplanen.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Könntest du mich bitte vorher fragen?",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Bitte plane mich dieses Wochenende nicht für Besorgungen ein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Bitte plane dieses Wochenende ohne mich.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Ich verstehe, dass du dieses Wochenende nicht helfen kannst.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Du hast keine Zeit. Das verstehe ich.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Ich werde dich in Zukunft vorher fragen.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Dann plane ich dieses Wochenende ohne dich.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Ich hatte mit deiner Hilfe gerechnet, aber ich höre dein Nein.",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Ist deine Antwort für dieses Wochenende also Nein?",
+      "passed": true
+    },
+    {
+      "language": "German",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Du musst mir keine ausführliche Erklärung geben.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "No puedo ayudar este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "No tengo tiempo para los recados.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "No estoy disponible este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Mi respuesta sigue siendo no.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Por favor, pregúntame antes de hacer planes con mi tiempo.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Por favor, pregúnteme primero antes de hacer planes.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "Consulta conmigo antes de organizar los recados.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "No cuentes conmigo para los recados este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "No planifiques recados conmigo este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": true,
+      "reply": "No dispongas de mi tiempo sin preguntarme.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Entiendo que no puedes ayudar este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "No tienes tiempo. Lo entiendo.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Te preguntaré antes de hacer planes que dependan de tu tiempo.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Entonces organizaré los recados sin tu ayuda este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "Contaba con tu ayuda, pero entiendo que tu respuesta es no.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "¿Es un no definitivo para este fin de semana?",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "Everyday",
+      "invalid": false,
+      "reply": "No necesitas darme una explicación.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": true,
+      "reply": "No puedo ayudar este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": true,
+      "reply": "No tengo tiempo para los recados.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": true,
+      "reply": "No estoy disponible este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Mi respuesta sigue siendo no.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Por favor, pregúntame antes de hacer planes con mi tiempo.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Por favor, pregúnteme primero antes de hacer planes.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": true,
+      "reply": "Consulta conmigo antes de organizar los recados.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": true,
+      "reply": "No cuentes conmigo para los recados este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": true,
+      "reply": "No planifiques recados conmigo este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": true,
+      "reply": "No dispongas de mi tiempo sin preguntarme.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Entiendo que no puedes ayudar este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": false,
+      "reply": "No tienes tiempo. Lo entiendo.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Te preguntaré antes de hacer planes que dependan de tu tiempo.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Entonces organizaré los recados sin tu ayuda este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": false,
+      "reply": "Contaba con tu ayuda, pero entiendo que tu respuesta es no.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": false,
+      "reply": "¿Es un no definitivo para este fin de semana?",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B1",
+      "invalid": false,
+      "reply": "No necesitas darme una explicación.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": true,
+      "reply": "No puedo ayudar este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": true,
+      "reply": "No tengo tiempo para los recados.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": true,
+      "reply": "No estoy disponible este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Mi respuesta sigue siendo no.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Por favor, pregúntame antes de hacer planes con mi tiempo.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Por favor, pregúnteme primero antes de hacer planes.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": true,
+      "reply": "Consulta conmigo antes de organizar los recados.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": true,
+      "reply": "No cuentes conmigo para los recados este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": true,
+      "reply": "No planifiques recados conmigo este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": true,
+      "reply": "No dispongas de mi tiempo sin preguntarme.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Entiendo que no puedes ayudar este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": false,
+      "reply": "No tienes tiempo. Lo entiendo.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Te preguntaré antes de hacer planes que dependan de tu tiempo.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Entonces organizaré los recados sin tu ayuda este fin de semana.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": false,
+      "reply": "Contaba con tu ayuda, pero entiendo que tu respuesta es no.",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": false,
+      "reply": "¿Es un no definitivo para este fin de semana?",
+      "passed": true
+    },
+    {
+      "language": "Spanish",
+      "style": "B2",
+      "invalid": false,
+      "reply": "No necesitas darme una explicación.",
+      "passed": true
+    }
+  ]
+}

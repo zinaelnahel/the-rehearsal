@@ -71,6 +71,26 @@ The single backend instance limits provider calls to `MODEL_CALLS_PER_HOUR` (def
 
 The UI waits for server mode before enabling setup. Live missions require `external_model_consent=true`, sent by the updated client after displaying the processing notice. Older open demo tabs are told to refresh before a live mission; their old notice cannot silently authorize model processing.
 
+## Voice rehearsal
+
+**Learning from real use:** visitors can optionally share an anonymous rating and
+category after a rehearsal. Shared ratings are stored separately without source
+or conversation text. Generate your private evaluation report with
+`python scripts/report_feedback.py --html .runtime/feedback-report.html`.
+See [consent, metrics, retention and durable-hosting requirements](docs/USER_FEEDBACK.md).
+
+With `SPEECH_ENABLED=true`, the conversation offers **Rehearse out loud**.
+Accept its audio-processing notice and select **Start voice rehearsal**. Speak
+and pause: your transcript is automatically sent as a message, the normal source
+checks run, and the partner's validated reply plays automatically. Transcripts,
+citations and mission progress remain visible. A short 1.2-second pause ends your
+turn; mute, interrupt playback or stop at any time. Manual recording and
+typing remain available when voice mode is off.
+
+This is turn-based voice with pauses for transcription, validation and playback,
+not simultaneous speech-to-speech streaming. Microphone audio and synthesized
+replies use OpenAI even in demo mode. See [behavior, limits and verification](docs/MULTIMODAL.md#speech-workflow).
+
 ## Situation sources, video links and dialogue maps
 
 The source screen has three tabs: **Try a sample**, **Your situation** and

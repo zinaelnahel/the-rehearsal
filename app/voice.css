@@ -1,0 +1,25 @@
+.voice-rehearsal {
+  margin: 0 20px 18px;
+  padding: 18px;
+  border: 1px solid var(--line, #d8d6cd);
+  border-radius: 12px;
+  background: var(--paper, #f8f7f2);
+}
+.voice-heading { display: flex; align-items: center; gap: 10px; }
+.voice-heading strong { font-size: 16px; }
+.voice-indicator { width: 8px; height: 8px; border-radius: 50%; background: #8b8b80; }
+.voice-indicator.active { background: var(--accent, #b6cd8b); box-shadow: 0 0 0 4px #b6cd8b18; }
+.voice-rehearsal .subtle { margin: 10px 0; }
+.voice-rehearsal .speech-consent { display: flex; align-items: flex-start; gap: 9px; line-height: 1.5; }
+.voice-rehearsal .speech-consent input { flex: 0 0 auto; margin-top: 4px; }
+.voice-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+.voice-status { font-size: 14px; margin: 14px 0 0; }
+.voice-rehearsal small { display: block; margin-top: 8px; line-height: 1.5; }
+.voice-rehearsal [role="alert"] { color: #f1aaa0; line-height: 1.5; }
+.feedback-consent { display: flex; align-items: flex-start; gap: 10px; margin: 12px 0; color: var(--ink); }
+.feedback-consent input { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 3px; }
+.response-feedback > .subtle { max-width: 700px; font-size: 12px; line-height: 1.6; }
+@media (max-width: 600px) {
+  .voice-rehearsal { margin: 0 12px 14px; padding: 14px; }
+  .voice-actions button { min-height: 44px; }
+}

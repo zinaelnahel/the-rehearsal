@@ -33,7 +33,30 @@ calls even when chat uses the offline demo. Speech controls are hidden when disa
   correct each timestamped segment and confirm it before building a mission.
 - In the rehearsal, record or upload a spoken turn. The result populates the
   message editor; review it and press Send to confirm. Turns are limited to 2,000
-  characters. Transcription never automatically submits or scores a turn.
+  characters. This manual recording flow never automatically submits a turn.
+- Alternatively, select **Start voice rehearsal** after accepting its separate
+  notice. This mode automatically submits recognized speech as learner messages,
+  runs the existing retrieval/generation/evidence-review pipeline, and plays only
+  the stored, validated partner reply. It first reads the current partner turn.
+  The transcript, citations and goal updates remain visible in the conversation.
+  No unchecked generated text is streamed to the user.
+- Browser-local volume detection ends a turn after a short 1.2-second pause;
+  **Send voice turn now** also ends a detected turn.
+  This is volume-based detection, not semantic turn detection. Background noise
+  can cause false starts, and quiet speech can be missed. Use headphones to
+  reduce echo. Capture is capped at 90 seconds/4 MB;
+  30 seconds without detected speech stops voice mode without a provider call.
+- The microphone is disabled while transcribing, validating and playing audio.
+  **Interrupt & speak** cancels playback/preparation and starts listening;
+  automatic spoken interruption is not implemented. **Mute microphone** discards
+  an unsent recording; **Stop voice mode** releases the device and cancels pending
+  transcription/playback. A message already submitted may still complete once
+  and remains visible. Failed requests are never automatically retried.
+- Navigating away, hiding the tab, finishing, deleting or a safety pause stops
+  voice mode. Transcripts longer than 2,000 characters are preserved for manual
+  editing and are not automatically sent. The manual recording/upload and text
+  composer remain available when voice mode is off. Supported browsers need
+  HTTPS (or localhost), MediaRecorder, Web Audio and microphone permission.
 - **Play AI voice** sends only a stored assistant reply from the active session
   for TTS. Audio is labelled AI-generated. Unsupported generation is replaced by
   the existing explicit unknown before it can be played. Paused scenes cannot play.
@@ -52,6 +75,30 @@ labelled a reviewed transcript. `POST /api/sessions/{id}/speech` accepts
 `response_id` and `consent`, never arbitrary text, and returns MP3 without caching.
 Whisper and TTS share the existing hourly provider-call ceiling; playback also
 uses the session ceiling. Provider timeouts are 25 seconds with no retries.
+
+Continuous voice uses the same speech endpoints and provider budget reservations.
+Each completed voice exchange adds a transcription and a TTS call to the normal
+chat calls; starting voice mode also synthesizes the current partner turn.
+Generation and evidence review finish before playback begins, so pauses include
+transcription, model validation and TTS latency. This is automatic turn-based voice,
+not a low-latency speech-to-speech connection. No real-time provider API, new
+provider credentials or backend protocol is required.
+
+`npm run test:voice` exercises turn detection, validation-before-playback,
+mute/interrupt, limits, safety, provider failure and stop/cancellation races using
+browser API doubles. These checks make no provider calls and do not measure human
+speech recognition accuracy or real provider latency.
+
+For the optional browser integration check, install Playwright and its Chromium
+browser, start the frontend, then run
+`VOICE_TEST_URL=http://localhost:3000 node scripts/test_voice_browser.mjs`
+(in PowerShell, set `$env:VOICE_TEST_URL='http://localhost:3000'` first).
+`CHROME_PATH` optionally selects an installed Chrome executable;
+`PLAYWRIGHT_MODULE` can point to an existing Playwright `index.mjs`.
+The check uses a synthetic microphone file and real browser recording/playback
+with mocked transcription/chat/TTS responses. It verifies the validation gate,
+visible evidence, interruption, mute/stop, navigation/deletion, EN/DE/ES controls
+and mobile layout. It makes no provider calls.
 
 ## Public video links
 

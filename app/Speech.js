@@ -66,13 +66,14 @@ export function SpeechPlayback({sessionId,responseId,disabled}){
  const {t,locale,errorText}=useI18n();
 
  const [url,setUrl]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState('');
- const current=useRef(''),controller=useRef(null);
+ const current=useRef(''),controller=useRef(null),audio=useRef(null);
  useEffect(()=>()=>{controller.current?.abort();if(current.current)URL.revokeObjectURL(current.current);},[]);
+ useEffect(()=>{if(disabled){controller.current?.abort();audio.current?.pause();setBusy(false);}},[disabled]);
  async function play(){
   setBusy(true);setError('');const abort=new AbortController();controller.current=abort;
   try{const response=await fetch('/api/sessions/'+sessionId+'/speech',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({response_id:responseId,consent:true}),signal:AbortSignal.any([abort.signal,AbortSignal.timeout(65000)])});if(!response.ok){const data=await response.json().catch(()=>({}));throw Error(data.detail||'Playback is unavailable.');}const blob=await response.blob();if(abort.signal.aborted)return;if(current.current)URL.revokeObjectURL(current.current);current.current=URL.createObjectURL(blob);setUrl(current.current);}
   catch(e){if(!abort.signal.aborted)setError(e.message);}
   finally{if(!abort.signal.aborted)setBusy(false);}
  }
- return <div className="speech-playback"><small>{t("AI-generated voice. Playback sends this reply to OpenAI.")}</small>{url?<audio controls src={url} aria-label={t("AI-generated partner voice")}/>:<button className="text-button" type="button" disabled={busy||disabled} onClick={play}>{busy?t("Preparing voice…"):t("Play AI voice")}</button>}{error&&<small role="alert">{errorText(error)}</small>}</div>;
+ return <div className="speech-playback"><small>{t("AI-generated voice. Playback sends this reply to OpenAI.")}</small>{url?<audio ref={audio} controls={!disabled} src={url} aria-label={t("AI-generated partner voice")}/>:<button className="text-button" type="button" disabled={busy||disabled} onClick={play}>{busy?t("Preparing voice…"):t("Play AI voice")}</button>}{error&&<small role="alert">{errorText(error)}</small>}</div>;
 }
