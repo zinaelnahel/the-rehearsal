@@ -1,5 +1,25 @@
 # Vercel deployment
 
+## Voice, shared feedback and role checks — 6 November 2026
+
+Source commit `551518cda41c185c404cee8d6f372fc13ca088be` is live on the existing
+Render and Vercel services. [Deployment evidence](evaluation/deployment-voice-feedback-2026-11-06.json)
+records the deploy IDs, successful GitHub CI, public health/proxy/config/session
+checks, and hosted browser checks. The frontend was promoted after the backend
+became live. No paid model calls were made during release verification; browser
+speech/chat/feedback API responses were mocked. Live multilingual model behavior
+and broad speech accuracy are not established by those checks.
+
+The user explicitly authorized this one manual deployment as an exception to the
+Release workflow's missing current, independently human-reviewed live evidence.
+The workflow gate and provider allowance settings were left unchanged. This is
+not a precedent or a standing approval to bypass the release workflow.
+
+Voice uses a fixed 1.2-second pause. Shared feedback is opt-in, retained separately
+for up to 90 days and exposed only through private owner reports. The existing
+free backend still has ephemeral storage; durable feedback collection requires a
+durable volume or store. No paid hosting upgrade was applied.
+
 ## Current multimodal deployment
 
 See [the implementation and activation guide](docs/MULTIMODAL.md). The source now

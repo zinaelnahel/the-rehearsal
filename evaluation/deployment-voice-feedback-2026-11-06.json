@@ -1,0 +1,75 @@
+{
+  "recorded_at_utc": "2026-11-06T14:28:12.613136+00:00",
+  "deployed_source_commit": "551518cda41c185c404cee8d6f372fc13ca088be",
+  "frontend_url": "https://the-rehearsal-lab.vercel.app",
+  "backend_url": "https://the-rehearsal-api.onrender.com",
+  "render_deploy_id": "dep-dbmu5fu7bikc73c0qlsg",
+  "render_status": "live",
+  "vercel_deploy_id": "dpl_DDTVhayu2zwrHtP7MDdwn3B6HvCL",
+  "vercel_status": "READY; promoted to production",
+  "ci_run_url": "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42232985678",
+  "ci_jobs": {
+    "backend": "success",
+    "frontend": "success",
+    "container_and_sandbox_probe": "success"
+  },
+  "local_checks": {
+    "backend_tests": 133,
+    "voice_tests": 17,
+    "rag_cases_passed": 9,
+    "offline_quality_cases_completed": 126,
+    "offline_role_cases_passed": 153
+  },
+  "release_gate_exception": {
+    "explicitly_authorized_by_user": true,
+    "scope": "One-time manual production deployment despite missing current independently human-reviewed live evidence.",
+    "workflow_gate_changed": false,
+    "new_live_multilingual_model_evaluation": false,
+    "provider_limit_settings_changed": false,
+    "release_verification_provider_calls": 0
+  },
+  "public_verification": {
+    "public_homepage": true,
+    "frontend_build_matches": true,
+    "backend_build_metadata_matches": true,
+    "live_speech_feedback_enabled": true,
+    "retention_90_days": true,
+    "config_no_store": true,
+    "new_feedback_body_accepted_and_phase_enforced": true,
+    "source_created_without_model": true,
+    "session_deletion": true,
+    "deletion_verified": true,
+    "backend_health": true,
+    "backend_proxy_protection": true
+  },
+  "hosted_voice_ui": {
+    "passed": true,
+    "synthetic_microphone_audio": true,
+    "api_responses_mocked": true,
+    "provider_calls": 0
+  },
+  "hosted_feedback_ui": {
+    "passed": true,
+    "hosted_frontend": true,
+    "api_responses_mocked": true,
+    "provider_calls": 0,
+    "checks": [
+      "published frontend build SHA",
+      "unchecked sharing by default",
+      "session-only rating",
+      "too-slow category",
+      "explicit sharing",
+      "withdrawal",
+      "clear",
+      "EN/DE/ES controls",
+      "mobile layout",
+      "no browser errors"
+    ]
+  },
+  "limitations": [
+    "Browser speech/chat/feedback provider responses were mocked; these checks do not establish real-model or human-speech reliability.",
+    "Only source creation/deletion, config, health, phase enforcement and proxy protection were verified against the real hosted backend without model calls.",
+    "Backend and feedback storage remain on the existing free ephemeral host; redeploy or host replacement can remove shared ratings.",
+    "Backend build metadata is set on the frontend deployment and was independently checked against the live Render deploy commit."
+  ]
+}
