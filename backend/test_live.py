@@ -27,6 +27,27 @@ class LiveTests(unittest.TestCase):
   values.update(kwargs)
   return RoleReply(**values)
 
+ def test_live_mission_separates_feedback_and_conversation_languages(self):
+  from backend.main import MissionOutput
+  from backend.content import CONTENT
+  for conversation in ('Spanish','German'):
+   with self.subTest(conversation=conversation):
+    with patch('backend.main.LIVE',False):
+     sid=self.client.post('/api/sessions',json={'sample':'apartment'}).json()['id']
+    expected=CONTENT['apartment']['English']['goals']
+    with patch('backend.main.model',return_value=MissionOutput(goals=expected)) as generate:
+     response=self.client.post('/api/sessions/'+sid+'/mission',json={
+      'scenario':'apartment','language':conversation,'feedback_language':'English',
+      'external_model_consent':True})
+    self.assertEqual(response.status_code,200,response.text)
+    self.assertEqual([g['text'] for g in response.json()['goals']],expected)
+    system=generate.call_args.args[1]
+    self.assertIn('OUTPUT LANGUAGE: English',system)
+    self.assertIn('Write EVERY goals item entirely in English',system)
+    self.assertIn('The partner will speak '+conversation,system)
+    self.assertEqual(generate.call_args.args[2]['suggested_goals'],expected)
+    self.client.delete('/api/sessions/'+sid)
+
  def test_role_consistency_is_required_and_can_withhold_a_source_supported_reply(self):
   with self.assertRaises(ValidationError):
    EvidenceReview(reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
