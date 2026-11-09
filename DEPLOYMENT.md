@@ -1,5 +1,19 @@
 # Vercel deployment
 
+## Engineering update — 9 November 2026
+
+Commit `83b4cbdc08fe3c17c02f905f9104cea133313845` is live on both services.
+[Release evidence](evaluation/deployment-engineering-update-2026-11-09.json)
+records successful CI and dependency security workflows, 149 offline backend
+tests and passing public build-identity, health, access-protection and deletion
+checks. The frontend was promoted after the backend became live. This deploy
+updates the locked dependency stack, adds numeric session-local model usage
+metrics, improves history trimming and strengthens evidence provenance. The
+user requested manual redeployment; independent human-reviewed live evidence
+is still missing. Hosted checks made no paid model calls. The four documented
+Chroma exceptions and remaining engineering work are described in
+[SECURITY.md](SECURITY.md) and [the engineering review](docs/BEST_PRACTICES.md).
+
 ## Removal of automatic danger pauses — 9 November 2026
 
 Commit `a52270fd6805a52afabb56923ea8aafa9097c602` is live on both services.

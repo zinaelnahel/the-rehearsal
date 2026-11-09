@@ -1,0 +1,31 @@
+﻿{
+    "source_commit":  "83b4cbdc08fe3c17c02f905f9104cea133313845",
+    "checked_at_utc":  "2026-11-09T10:01:08.863070+00:00",
+    "frontend_url":  "https://the-rehearsal-lab.vercel.app",
+    "checks":  {
+                   "public_homepage":  true,
+                   "library_in_published_page":  true,
+                   "frontend_build_matches":  true,
+                   "backend_build_metadata_matches":  true,
+                   "live_speech_feedback_enabled":  true,
+                   "config_no_store":  true,
+                   "feedback_phase_enforced":  true,
+                   "session_deletion":  true,
+                   "deletion_verified":  true,
+                   "backend_health":  true,
+                   "backend_proxy_protection":  true
+               },
+    "provider_calls":  0,
+    "passed":  true,
+    "render_deploy_id":  "dep-dbopir2jnfac73fl7tcg",
+    "vercel_deploy_id":  "dpl_2sgoAPNZ9zEAMrceCwBS3Lja6d2f",
+    "ci_run_url":  "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42596878555",
+    "security_run_url":  "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42596878559",
+    "offline_backend_tests":  149,
+    "deployment_authorization":  "User requested redeployment of the tested engineering update through the existing manual deployment path.",
+    "limits":  [
+                   "Hosted release checks made no model calls; SDK integration tests used mocked HTTP.",
+                   "Independent human-reviewed live benchmark evidence is still missing.",
+                   "Four upstream Chroma advisories have documented, version-scoped exceptions expiring on 2026-12-09."
+               ]
+}
