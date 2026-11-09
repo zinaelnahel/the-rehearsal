@@ -46,6 +46,21 @@ export async function uploadDocument(file) {
   return api('/upload',data);
 }
 
+export async function uploadMedia(file,language,signal) {
+  if (!file) throw Error('Choose an audio or video file first.');
+  if (file.size>4*1024*1024) throw Error('Maximum media size is 4 MB. Choose a shorter recording.');
+  let bytes;
+  try { bytes=await file.arrayBuffer(); } catch {
+    throw Error('The selected media file could not be read. Select it again or try another recording.');
+  }
+  if(signal?.aborted)throw signal.reason||new DOMException('Upload cancelled.','AbortError');
+  const form=new FormData();
+  form.append('file',new Blob([bytes],{type:file.type||'application/octet-stream'}),file.name);
+  form.append('language',language);
+  form.append('consent','true');
+  return api('/speech/transcribe',form,'POST',signal);
+}
+
 export async function deleteSession(id) {
   const result=await api('/sessions/'+id,undefined,'DELETE');
   if (!result.deleted) throw Error('The server did not confirm deletion. Please retry.');

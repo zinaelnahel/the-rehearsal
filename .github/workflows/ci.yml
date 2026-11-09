@@ -71,6 +71,7 @@ jobs:
       - run: npm run check:locales
       - run: npm run test:voice
       - run: npm run test:library
+      - run: npm run test:media
       - run: npm run build
 
   container:

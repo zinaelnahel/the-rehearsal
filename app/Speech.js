@@ -1,25 +1,27 @@
 'use client';
 import {useI18n} from './i18n';
 import {useEffect,useRef,useState} from 'react';
-import {api} from './api-client';
+import {uploadMedia} from './api-client';
+import {microphoneError} from './media-errors';
 
 export function SpeechInput({language,disabled=false,onTranscript,onBegin}) {
  const {t,locale,errorText}=useI18n();
 
  const [consent,setConsent]=useState(false),[recording,setRecording]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState('');
- const recorder=useRef(null),stream=useRef(null),timer=useRef(null),mounted=useRef(true),pending=useRef(false),cancelled=useRef(false);
+ const recorder=useRef(null),stream=useRef(null),timer=useRef(null),mounted=useRef(true),pending=useRef(false),cancelled=useRef(false),upload=useRef(null);
  function release(){clearTimeout(timer.current);stream.current?.getTracks().forEach(t=>t.stop());stream.current=null;}
- useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;cancelled.current=true;if(recorder.current?.state==='recording')recorder.current.stop();release();};},[]);
- useEffect(()=>{if(disabled){cancelled.current=true;if(recorder.current?.state==='recording')recorder.current.stop();release();}},[disabled]);
+ useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;cancelled.current=true;upload.current?.abort();if(recorder.current?.state==='recording')recorder.current.stop();release();};},[]);
+ useEffect(()=>{if(disabled){cancelled.current=true;upload.current?.abort();if(recorder.current?.state==='recording')recorder.current.stop();release();}},[disabled]);
  const previousLanguage=useRef(language);
- useEffect(()=>{if(previousLanguage.current!==language){previousLanguage.current=language;cancelled.current=true;if(recorder.current?.state==='recording')recorder.current.stop();release();setRecording(false);}},[language]);
+ useEffect(()=>{if(previousLanguage.current!==language){previousLanguage.current=language;cancelled.current=true;upload.current?.abort();if(recorder.current?.state==='recording')recorder.current.stop();release();setRecording(false);}},[language]);
  async function transcribe(file){
   if(!file||!consent||pending.current)return;
   cancelled.current=false;
   if(file.size>4*1024*1024){setError('Maximum media size is 4 MB. Choose a shorter recording.');return;}
   onBegin?.();pending.current=true;setBusy(true);setError('');
-  try{const form=new FormData();form.append('file',file,file.name);form.append('language',language);form.append('consent','true');const result=await api('/speech/transcribe',form);if(mounted.current&&!cancelled.current)onTranscript(result);}
-  catch(e){if(mounted.current)setError(e.message);}
+  const abort=new AbortController();upload.current=abort;
+  try{const result=await uploadMedia(file,language,abort.signal);if(mounted.current&&!cancelled.current)onTranscript(result);}
+  catch(e){if(mounted.current&&!abort.signal.aborted)setError(e.message);}
   finally{pending.current=false;if(mounted.current)setBusy(false);}
  }
  async function record(){
@@ -37,7 +39,7 @@ export function SpeechInput({language,disabled=false,onTranscript,onBegin}) {
    active.onstop=()=>{release();if(mounted.current)setRecording(false);if(!mounted.current||cancelled.current)return;if(tooLarge){setError('Recording exceeded 4 MB. Try a shorter recording.');return;}const ext=mime.includes('mp4')?'m4a':mime.includes('ogg')?'ogg':'webm';transcribe(new File(chunks,'microphone.'+ext,{type:mime}));};
    active.onerror=()=>{cancelled.current=true;release();setRecording(false);setError('Microphone recording failed. Try uploading a file or type instead.');};
    active.start(500);setRecording(true);timer.current=setTimeout(()=>{if(active.state==='recording')active.stop();},115000);
-  }catch(e){release();if(mounted.current)setError(e.name==='NotAllowedError'?'Microphone permission was denied. Upload a recording or type instead.':e.message);}
+  }catch(e){release();if(mounted.current)setError(microphoneError(e));}
   finally{if(mounted.current)setBusy(false);}
  }
  return <div className="speech-controls">

@@ -1,3 +1,4 @@
+import {microphoneError} from './media-errors.js';
 import {api} from './api-client.js';
 
 const MAX_BYTES=4*1024*1024;
@@ -230,9 +231,7 @@ export class VoiceSession {
   fail(error,token) {
     if(!this.current(token))return;
     this.stop();
-    this.onError(error.name==='NotAllowedError'
-      ? 'Microphone permission was denied. Upload a recording or type instead.'
-      :error.message||'Voice mode stopped. Check your connection and try again.');
+    this.onError(microphoneError(error));
   }
 
   stop() {

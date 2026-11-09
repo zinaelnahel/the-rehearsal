@@ -1842,5 +1842,17 @@
   "Rehearsals you explicitly save in this browser remain until you delete them from your library or clear browser data.": {
     "de": "Übungen, die du ausdrücklich in diesem Browser speicherst, bleiben erhalten, bis du sie aus deiner Bibliothek oder die Browserdaten löschst.",
     "es": "Los ensayos que guardes expresamente en este navegador permanecen hasta que los borres de tu biblioteca o borres los datos del navegador."
+  },
+  "Choose an audio or video file first.": {
+    "de": "Wähle zuerst eine Audio- oder Videodatei.",
+    "es": "Elige primero un archivo de audio o vídeo."
+  },
+  "The selected media file could not be read. Select it again or try another recording.": {
+    "de": "Die ausgewählte Mediendatei konnte nicht gelesen werden. Wähle sie erneut oder versuche eine andere Aufnahme.",
+    "es": "No se pudo leer el archivo multimedia seleccionado. Vuelve a seleccionarlo o prueba otra grabación."
+  },
+  "No microphone was found. Connect a microphone, upload a recording, or type instead.": {
+    "de": "Kein Mikrofon gefunden. Schließe ein Mikrofon an, lade eine Aufnahme hoch oder schreibe stattdessen.",
+    "es": "No se encontró ningún micrófono. Conecta uno, sube una grabación o escribe."
   }
 }
