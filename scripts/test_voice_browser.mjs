@@ -90,11 +90,15 @@ try {
   assert.equal(await page.locator('#message').isDisabled(),true);
   await voice.getByText('Checking the reply against your sources…',{exact:true}).waitFor();
   assert.equal(turns.length,1);
-  assert.deepEqual(turns[0],{text:'How much is the rent?'});
+  assert.deepEqual(turns[0],{text:'How much is the rent?',interaction_mode:'voice'});
+  assert.equal(await voice.locator('[aria-current=step]').innerText(),'Check the reply');
+  await page.waitForFunction(()=>document.querySelector('.voice-wait p')?.textContent.includes('1 seconds'));
+  assert.equal(await voice.locator('.loading-clapper').count(),1);
   assert.equal(requests.filter(request=>request.pathname.endsWith('/speech')).length,1);
   assert.equal(await page.locator('.message.assistant').count(),1);
   resolveTurn();
   await voice.getByText('Your partner is speaking.',{exact:true}).waitFor();
+  assert.equal(await voice.locator('.voice-wait').count(),0);
   assert.equal(await page.locator('.message').count(),3);
   assert.match(await page.locator('.message.assistant').last().innerText(),/850/);
   await page.getByText(/View source evidence/).click();

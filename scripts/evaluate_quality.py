@@ -120,9 +120,9 @@ def run_case(client, case, judge_model=None):
     path = '/api/sessions/'+sid
     captured = []
     original = api.rehearse
-    def capture(session, text, docs, call, passage):
+    def capture(session, text, docs, call, passage, voice=False):
         captured.extend(api.evidence(d) for d in docs)
-        return original(session,text,docs,call,passage)
+        return original(session,text,docs,call,passage,voice=voice)
     try:
         require(client.post(path+'/mission',json={'scenario':case['scenario'],'language':case['language'],
             'feedback_language':case.get('feedback_language',case['language']),'level':case.get('level','Everyday'),'external_model_consent':True}))

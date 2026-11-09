@@ -1867,6 +1867,30 @@
     "de": "Die erste Verbindung nach einer Ruhephase kann etwa eine Minute dauern.",
     "es": "La primera conexión tras un periodo de inactividad puede tardar alrededor de un minuto."
   },
+  "Time in this step: {seconds} seconds.": {
+    "de": "Zeit in diesem Schritt: {seconds} Sekunden.",
+    "es": "Tiempo en este paso: {seconds} segundos."
+  },
+  "Voice reply progress": {
+    "de": "Fortschritt der Sprachantwort",
+    "es": "Progreso de la respuesta de voz"
+  },
+  "Transcribe your words": {
+    "de": "Deine Worte transkribieren",
+    "es": "Transcribir tus palabras"
+  },
+  "Check the reply": {
+    "de": "Die Antwort prüfen",
+    "es": "Comprobar la respuesta"
+  },
+  "Prepare the voice": {
+    "de": "Die Stimme vorbereiten",
+    "es": "Preparar la voz"
+  },
+  "Voice works in separate steps, so replies can take a while. You can stop voice mode and continue with text.": {
+    "de": "Der Sprachmodus arbeitet in einzelnen Schritten. Antworten können deshalb dauern. Du kannst den Sprachmodus beenden und mit Text fortfahren.",
+    "es": "El modo de voz funciona en pasos separados, así que las respuestas pueden tardar. Puedes detenerlo y continuar por texto."
+  },
   "Setting the stage…": {
     "de": "Die Bühne wird vorbereitet…",
     "es": "Preparando el escenario…"

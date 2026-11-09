@@ -102,6 +102,16 @@ checks run, and the partner's validated reply plays automatically. Transcripts,
 citations and mission progress remain visible. A short 1.2-second pause ends your
 turn; mute, interrupt playback or stop at any time. Typing remains available when voice mode is off; source media uploads stay under Audio / video.
 
+Continuous voice turns use `interaction_mode: voice`: direct session retrieval,
+reply generation and mandatory independent evidence/role review. They skip the
+optional agent planning rounds and request one or two short spoken sentences.
+Text turns retain the optional agent. The voice panel shows the current stage
+and elapsed time; **Send voice turn now** bypasses waiting for the pause.
+This removes optional model round trips, but is not a measured real-device
+latency guarantee. Synthetic browser audio and mocked-provider regressions cover
+capture, mode selection, stage timing, validation before playback and stopping;
+real-device/provider latency still needs measurement.
+
 This is turn-based voice with pauses for transcription, validation and playback,
 not simultaneous speech-to-speech streaming. Microphone audio and synthesized
 replies use OpenAI even in demo mode. See [behavior, limits and verification](docs/MULTIMODAL.md#speech-workflow).

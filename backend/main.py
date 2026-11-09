@@ -436,6 +436,7 @@ async def response_feedback(sid: str, response_id: str, body: ResponseRating):
 
 class Turn(BaseModel):
  text: str = Field(min_length=1,max_length=2000)
+ interaction_mode: Literal['text','voice'] = 'text'
 
 def search(s, query):
  return s['store'].similarity_search(query,k=4)
@@ -461,10 +462,12 @@ async def turn(sid: str, body: Turn):
   live_updates={}
   withheld=False
   if LIVE:
-   if agent_enabled():
+   # Voice already has a local retrieval query. Avoid optional planning rounds
+   # in the sequential speech path; mandatory grounding/role review still runs.
+   if agent_enabled() and body.interaction_mode!='voice':
     tool_calls,docs=await asyncio.to_thread(prepare_agent,s,body.text,docs,agent_model,search,evidence)
    else: tool_calls=[]
-   reply,docs,live_updates,withheld=await asyncio.to_thread(rehearse,s,body.text,docs,model,evidence)
+   reply,docs,live_updates,withheld=await asyncio.to_thread(rehearse,s,body.text,docs,model,evidence,voice=body.interaction_mode=='voice')
    achieved=list(live_updates)
   else:
    indexes=family_intents(body.text,s['setup']['language']) if s.get('family_boundary') and not s.get('breakup') else detect_intents(s['setup']['scenario'],body.text,pack(s)['patterns'])

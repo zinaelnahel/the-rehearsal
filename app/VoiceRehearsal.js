@@ -2,6 +2,7 @@
 import {forwardRef,useEffect,useImperativeHandle,useRef,useState} from 'react';
 import {useI18n} from './i18n';
 import {VoiceSession} from './voice-session';
+import {LoadingClapper} from './LoadingCue';
 
 const statusLabels={
   idle:'Voice mode is off.',starting:'Connecting your microphone…',
@@ -15,6 +16,15 @@ const VoiceRehearsal=forwardRef(function VoiceRehearsal({sessionId,language,resp
   const [consent,setConsent]=useState(false);
   const [snapshot,setSnapshot]=useState({state:'idle',active:false,muted:false});
   const [error,setError]=useState('');
+  const [elapsed,setElapsed]=useState(0);
+  const waiting=['transcribing','thinking','preparing'].includes(snapshot.state);
+  useEffect(()=>{
+    setElapsed(0);
+    if(!waiting)return;
+    const started=Date.now();
+    const timer=setInterval(()=>setElapsed(Math.floor((Date.now()-started)/1000)),1000);
+    return()=>clearInterval(timer);
+  },[snapshot.state,waiting]);
   const engine=useRef(null);
   const handlers=useRef({onTurn,onTranscript,onActiveChange});
   handlers.current={onTurn,onTranscript,onActiveChange};
@@ -56,6 +66,9 @@ const VoiceRehearsal=forwardRef(function VoiceRehearsal({sessionId,language,resp
       <button className="text-button" type="button" onClick={()=>engine.current?.stop()}>{t('Stop voice mode')}</button>
     </>:<button className="secondary" type="button" disabled={!consent||disabled} onClick={()=>{setError('');void engine.current.start(responseId);}}>{t('Start voice rehearsal')}</button>}</div>
     <p className="voice-status" role="status">{t(statusLabels[snapshot.state])}</p>
+    {waiting&&<div className="voice-wait"><LoadingClapper/><div><p>{t('Time in this step: {seconds} seconds.').replace('{seconds}',elapsed)}</p><ol aria-label={t('Voice reply progress')}>
+      {['transcribing','thinking','preparing'].map((stage,index)=><li key={stage} aria-current={snapshot.state===stage?'step':undefined}>{t(['Transcribe your words','Check the reply','Prepare the voice'][index])}</li>)}
+    </ol>{elapsed>=8&&<p>{t('Voice works in separate steps, so replies can take a while. You can stop voice mode and continue with text.')}</p>}</div></div>}
     {snapshot.active&&<small>{t('Your microphone pauses during replies. Interrupt to take your turn. Stopping voice mode does not undo a message already sent.')}</small>}
     {error&&<p role="alert">{errorText(error)}</p>}
   </section>;

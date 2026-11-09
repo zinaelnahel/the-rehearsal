@@ -38,6 +38,34 @@ class LiveTests(unittest.TestCase):
   self.assertEqual(result.json()['turn']['sources'],[])
   self.assertNotEqual(result.json()['goals'][0]['answer_status'],'confirmed')
 
+ def test_voice_skips_optional_planning_but_keeps_independent_evidence_review(self):
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=False,accepted_goal_ids=[],verified_answer_goal_ids=[])
+  with patch.dict(os.environ,{'REHEARSAL_AGENT_ENABLED':'true'}), \
+    patch('backend.main.prepare_agent') as planner, \
+    patch('backend.main.model',side_effect=[self.proposal(),review]) as calls:
+   response=self.client.post(self.p+'/turn',json={'text':'Are utilities included?','interaction_mode':'voice'})
+  self.assertEqual(response.status_code,200,response.text)
+  planner.assert_not_called()
+  self.assertEqual(calls.call_count,2,'Proposal and independent review must both run')
+  self.assertIn('one or two short natural sentences',calls.call_args_list[0].args[1])
+  self.assertTrue(response.json()['turn']['answer_withheld'])
+  self.assertEqual(response.json()['agent_tools'],[])
+  self.assertNotEqual(response.json()['goals'][0]['answer_status'],'confirmed')
+
+ def test_text_turn_keeps_optional_planner_and_normal_reply_prompt(self):
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+  from backend.main import search
+  docs=search(sessions[self.sid],'Are utilities included?')
+  with patch.dict(os.environ,{'REHEARSAL_AGENT_ENABLED':'true'}), \
+    patch('backend.main.prepare_agent',return_value=([],docs)) as planner, \
+    patch('backend.main.model',side_effect=[self.proposal(),review]) as calls:
+   response=self.client.post(self.p+'/turn',json={'text':'Are utilities included?'})
+  self.assertEqual(response.status_code,200,response.text)
+  planner.assert_called_once()
+  self.assertEqual(calls.call_count,2)
+  self.assertNotIn('one or two short natural sentences',calls.call_args_list[0].args[1])
+  self.assertEqual(response.json()['goals'][0]['answer_status'],'confirmed')
+
  def test_custom_goal_requires_exact_quote_and_verified_answer(self):
   review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
   with patch('backend.main.model',side_effect=[self.proposal(),review]):
