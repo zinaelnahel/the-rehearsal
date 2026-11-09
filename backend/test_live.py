@@ -77,6 +77,26 @@ class LiveTests(unittest.TestCase):
   self.assertEqual(goal['answer_status'],'confirmed')
   self.assertEqual(goal['answer_sources'],['1'])
 
+ def test_interview_self_report_needs_no_document_evidence(self):
+  sessions[self.sid]['setup']['scenario']='interview'
+  sessions[self.sid]['mission'][0]['text']='Describe your relevant experience'
+  text='I worked the past five years in QA.'
+  proposal=self.proposal(reply='What kinds of testing did you do?',citations=[],
+   goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote=text)],
+   answer_checks=[AnswerCheck(goal_id='0',status='not_document_question',source_id='',source_quote='')])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,
+   accepted_goal_ids=['0'],verified_answer_goal_ids=[])
+  with patch('backend.main.model',side_effect=[proposal,review]) as calls:
+   response=self.client.post(self.p+'/turn',json={'text':text})
+  self.assertEqual(response.status_code,200,response.text)
+  result=response.json()
+  self.assertEqual(result['turn']['content'],proposal.reply)
+  self.assertFalse(result['turn'].get('answer_withheld',False))
+  self.assertEqual(result['turn']['sources'],[])
+  self.assertEqual(result['goals'][0]['answer_status'],'not_applicable')
+  self.assertIn('Learner self-reports',calls.call_args_list[0].args[1])
+  self.assertIn('acknowledged as self-reports',calls.call_args_list[1].args[1])
+
  def test_missing_policy_stays_unknown_even_when_both_models_verify_it(self):
   from langchain_core.documents import Document
   variants=['The pet policy is not specified.', 'Die Haustierregelung ist nicht angegeben.',
