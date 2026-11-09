@@ -1,5 +1,17 @@
 # Vercel deployment
 
+## Retrieval benchmark and Chroma safeguards — 9 November 2026
+
+Commit `5ca60281f4df39b9c6d7336c039ee1145e63f3ad` is live on both services.
+[Deployment evidence](evaluation/deployment-retrieval-safeguards-2026-11-09.json)
+records passing CI/security workflows and public build-identity, health,
+access-protection and session-deletion checks. Lexical alias retrieval remains
+active. The semantic candidate is offline benchmark-only: no model files were
+deployed and no semantic loading path was enabled. Chroma's embedded adapter is
+explicitly fixed, and the audit runner requires a fresh report per invocation.
+The user requested manual redeployment; independent human-reviewed live release
+evidence remains missing. Hosted verification made no provider calls.
+
 ## Reviewed media navigation and uploads — 9 November 2026
 
 Commit `dc0cc54f25fd2faf358ba6f552e0d63c60e5d379` is live on both services.

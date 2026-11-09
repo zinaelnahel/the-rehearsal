@@ -1,0 +1,30 @@
+﻿{
+    "source_commit":  "5ca60281f4df39b9c6d7336c039ee1145e63f3ad",
+    "checked_at_utc":  "2026-11-09T12:59:17.832826+00:00",
+    "frontend_url":  "https://the-rehearsal-lab.vercel.app",
+    "checks":  {
+                   "public_homepage":  true,
+                   "library_in_published_page":  true,
+                   "frontend_build_matches":  true,
+                   "backend_build_metadata_matches":  true,
+                   "live_speech_feedback_enabled":  true,
+                   "config_no_store":  true,
+                   "feedback_phase_enforced":  true,
+                   "session_deletion":  true,
+                   "deletion_verified":  true,
+                   "backend_health":  true,
+                   "backend_proxy_protection":  true
+               },
+    "provider_calls":  0,
+    "passed":  true,
+    "render_deploy_id":  "dep-dbos3o15efls73erccog",
+    "vercel_deploy_id":  "dpl_CtP3VwZv9k5Qt4rA4JPQpK6EJ3uD",
+    "ci_run_url":  "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42619852206",
+    "security_run_url":  "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42619852286",
+    "retrieval":  "Lexical alias retrieval remains active. Semantic model is benchmark-only and no model data was deployed.",
+    "limits":  [
+                   "Hosted checks made no provider calls.",
+                   "Independent human-reviewed live benchmark remains missing; user requested manual redeployment.",
+                   "Chroma exceptions remain scoped to embedded-only use and expire 2026-12-09."
+               ]
+}
