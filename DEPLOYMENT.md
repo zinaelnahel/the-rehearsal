@@ -1,5 +1,20 @@
 # Vercel deployment
 
+## Removal of automatic danger pauses — 9 November 2026
+
+Commit `a52270fd6805a52afabb56923ea8aafa9097c602` is live on both services.
+[Release evidence](evaluation/deployment-no-danger-checks-2026-11-09.json) records
+successful CI, 141 offline backend tests, 126 completed offline quality cases
+and passing public build-identity, health, proxy-protection and deletion checks.
+The user requested removal of application danger-keyword checks and forced
+support-note pauses, then explicitly requested push and redeployment. Related
+model pause instructions were removed. The 18 sensitive-context fixtures now
+expect ordinary rehearsal rather than an automatic pause; human review is still
+required by the release workflow. This was a user-requested manual release;
+independent human-reviewed live evidence remains missing. Hosted checks made no
+provider calls. The complete reported rental transcript also passed a local
+source-to-review check without a pause. Start a fresh rehearsal for retesting.
+
 ## Pet-question tracking — 9 November 2026
 
 Commit `d4ccddd75a05ed7e4f3405dfd964e869ccd8715a` is live on both services.

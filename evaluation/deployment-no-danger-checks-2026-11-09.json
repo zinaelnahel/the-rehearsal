@@ -1,0 +1,32 @@
+﻿{
+    "source_commit":  "a52270fd6805a52afabb56923ea8aafa9097c602",
+    "checked_at_utc":  "2026-11-09T08:52:02.320789+00:00",
+    "frontend_url":  "https://the-rehearsal-lab.vercel.app",
+    "checks":  {
+                   "public_homepage":  true,
+                   "library_in_published_page":  true,
+                   "frontend_build_matches":  true,
+                   "backend_build_metadata_matches":  true,
+                   "live_speech_feedback_enabled":  true,
+                   "config_no_store":  true,
+                   "feedback_phase_enforced":  true,
+                   "session_deletion":  true,
+                   "deletion_verified":  true,
+                   "backend_health":  true,
+                   "backend_proxy_protection":  true
+               },
+    "provider_calls":  0,
+    "passed":  true,
+    "render_deploy_id":  "dep-dbooim1srm7s73ckplc0",
+    "vercel_deploy_id":  "dpl_87doUBcYc8yUcTveuasSuaFYDHkS",
+    "ci_run_url":  "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42588644440",
+    "offline_backend_tests":  141,
+    "offline_quality_cases":  126,
+    "offline_sensitive_cases_without_pause":  18,
+    "deployment_authorization":  "User requested removal of danger checks, then explicitly requested push and redeployment through the existing manual deployment path.",
+    "limits":  [
+                   "Hosted release checks made no provider calls.",
+                   "Independent human-reviewed live release evidence is still missing.",
+                   "Model-provider behavior is separate from the removed application keyword checks."
+               ]
+}
