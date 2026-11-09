@@ -350,7 +350,7 @@ async def speak_reply(sid: str, body: Playback):
  async with s['lock']:
   reply=next((t for t in s['turns'] if t.get('id')==body.response_id and t['role']=='assistant'),None)
   if not reply: raise HTTPException(404,'Reply is no longer available.')
-  audio=await asyncio.to_thread(speech.synthesize,reply['content'],lambda:reserve_call(s))
+  audio=await asyncio.to_thread(speech.synthesize,reply['content'],lambda:reserve_call(s),s['setup']['language'])
   if sessions.get(sid) is not s: raise HTTPException(404,'Session expired or deleted. Start a new rehearsal.')
   return Response(audio,media_type='audio/mpeg',headers={'Cache-Control':'no-store'})
 

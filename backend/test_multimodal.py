@@ -34,6 +34,31 @@ class SpeechTests(unittest.TestCase):
         return self.client.post('/api/speech/transcribe', files={'file': ('clip.webm', raw, 'audio/webm')},
             data={'language': 'German', 'consent': consent})
 
+    def test_speech_uses_rehearsal_pronunciation_without_changing_text(self):
+        for language, text, accent in (
+            ('Spanish', '¿Cuánto cuesta el alquiler?', 'español de España'),
+            ('German', 'Wie hoch ist die Miete?', 'Hochdeutsch'),
+            ('English', 'How much is the rent?', 'Speak English'),
+        ):
+            with self.subTest(language=language), patch('backend.speech.speech_client') as client:
+                client.return_value.audio.speech.create.return_value.content = b'mp3'
+                reserve = Mock()
+                self.assertEqual(speech.synthesize(text, reserve, language), b'mp3')
+                reserve.assert_called_once_with()
+                request = client.return_value.audio.speech.create.call_args.kwargs
+                self.assertEqual(request['model'], 'gpt-4o-mini-tts')
+                self.assertEqual(request['voice'], 'marin')
+                self.assertEqual(request['input'], text)
+                self.assertIn(accent, request['instructions'])
+
+    def test_unknown_playback_language_never_calls_provider(self):
+        with patch('backend.speech.speech_client') as client:
+            reserve = Mock()
+            with self.assertRaises(HTTPException):
+                speech.synthesize('Hallo', reserve, 'untrusted-language')
+            reserve.assert_not_called()
+            client.assert_not_called()
+
     def test_consent_disabled_and_limits_prevent_provider_calls(self):
         with patch('backend.speech.speech_client') as provider:
             self.assertEqual(self.upload('false').status_code, 409)
@@ -113,6 +138,7 @@ class SpeechTests(unittest.TestCase):
             self.assertEqual(result.content, b'fictional-mp3')
             self.assertEqual(result.headers['content-type'], 'audio/mpeg')
             self.assertEqual(provider.call_args.args[0], reply['content'])
+            self.assertEqual(provider.call_args.args[2], api.sessions[ids[0]]['setup']['language'])
         for sid in ids:
             self.client.delete('/api/sessions/' + sid)
 

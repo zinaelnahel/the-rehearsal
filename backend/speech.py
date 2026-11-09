@@ -17,6 +17,13 @@ EXTENSIONS = {'.wav', '.mp3', '.mp4', '.m4a', '.webm', '.ogg', '.mpeg', '.mpga',
 DEMUXERS = {'.wav': 'wav', '.mp3': 'mp3', '.mp4': 'mov', '.m4a': 'mov',
             '.mov': 'mov', '.webm': 'matroska', '.ogg': 'ogg', '.mpeg': 'mpeg', '.mpga': 'mp3'}
 CODES = {'English': 'en', 'German': 'de', 'Spanish': 'es'}
+TTS_MODEL = 'gpt-4o-mini-tts'
+TTS_VOICE = 'marin'
+PRONUNCIATION = {
+    'English': 'Speak English with natural, clear pronunciation.',
+    'Spanish': 'Habla en español de España, con pronunciación castellana estándar y distinción entre s y z o c ante e/i. Usa una entonación natural de España.',
+    'German': 'Sprich auf Standarddeutsch (Hochdeutsch), mit natürlicher deutscher Aussprache und Intonation, ohne regionalen Dialekt.',
+}
 
 
 class Segment(BaseModel):
@@ -132,13 +139,16 @@ def transcribe(raw, filename, language, reserve, clip_start=None, clip_seconds=M
         raise HTTPException(502, 'Transcription failed. Retry or use text; no transcript was saved.') from None
 
 
-def synthesize(text, reserve):
+def synthesize(text, reserve, language):
+    if language not in PRONUNCIATION:
+        raise HTTPException(400, 'Choose English, German or Spanish.')
     if not text.strip() or len(text) > 4000:
         raise HTTPException(400, 'This reply is too long for speech playback.')
     reserve()
     try:
-        result = speech_client().audio.speech.create(model='tts-1', voice='alloy',
-                                                     input=text, response_format='mp3')
+        result = speech_client().audio.speech.create(model=TTS_MODEL, voice=TTS_VOICE,
+            input=text, response_format='mp3', instructions=PRONUNCIATION[language] +
+            ' Read only the supplied text, preserving its words and meaning. Use a natural conversational pace and clear articulation. Do not add commentary or read these instructions aloud.')
         return result.content
     except Exception:
         raise HTTPException(502, 'Speech playback could not be generated. The text reply is still available.') from None

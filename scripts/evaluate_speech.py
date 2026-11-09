@@ -109,7 +109,7 @@ def main():
     args = parser.parse_args()
     if not os.getenv('OPENAI_API_KEY'):
         parser.error('OPENAI_API_KEY is required; this makes six paid speech calls.')
-    report = {'run_at_utc': datetime.now(timezone.utc).isoformat(), 'tts_model': 'tts-1',
+    report = {'run_at_utc': datetime.now(timezone.utc).isoformat(), 'tts_model': api.speech.TTS_MODEL,
         'stt_model': 'whisper-1', 'fixture_type': 'TTS-generated scripted fictional openings',
         'limitation': 'Three synthetic round trips; not human-recorded speech, microphone usability or broad accuracy.',
         'word_error_gate': 0.25, 'cases': [], 'passed': False,
