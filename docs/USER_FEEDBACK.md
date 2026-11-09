@@ -1,6 +1,20 @@
 # Learning from real use
 
 Visitors can give thumbs up/down and an optional category, including **Too slow**.
+
+After choosing a thumbs rating, **A little more detail (optional)** offers six
+questions: responding to what the learner said, remembering earlier answers,
+conversation flow, staying in character, source details and natural language.
+Each question accepts Yes, No, Not sure or Not rated. Answers save with the vote;
+changing or clearing a vote updates or removes the details too. They follow the
+same sharing checkbox and retention rules as the overall vote. No new free-text
+field or transcript storage is introduced. Existing feedback databases gain a
+quality column automatically; old votes remain unrated on the new questions.
+
+The owner report shows Yes/No/Not sure/Unrated counts for each question; JSON
+also includes counts by conversation language. These are participant impressions,
+not output-bound expert reviews. They cannot calibrate the synthetic dialogue
+judge without reviewing the actual benchmark cases independently.
 Ratings stay in session memory by default. An unchecked **Share my anonymous
 rating to help improve the app** checkbox explicitly opts that rating into a
 separate SQLite feedback store. This is product evaluation, not automatic model

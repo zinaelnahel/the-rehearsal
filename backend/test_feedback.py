@@ -45,6 +45,47 @@ class SharedFeedbackTests(unittest.TestCase):
         self.assertFalse(response.json()['shared'])
         self.assertFalse(self.db.exists())
 
+    def test_quality_ratings_share_update_withdraw_and_clear_with_the_vote(self):
+        quality={'relevance':'pass','continuity':'fail','grounding':'uncertain'}
+        self.assertEqual(self.rate(quality=quality).status_code,200)
+        self.assertFalse(self.db.exists())
+        saved=main.sessions[self.sid]['ratings'][self.review['feedback_id']]
+        self.assertEqual(saved['quality'],quality)
+        self.assertEqual(self.rate(quality=quality,share_for_improvement=True).status_code,200)
+        self.assertEqual(json.loads(self.rows()[0]['quality']),quality)
+        report=feedback.report()
+        self.assertEqual(report['quality_ratings']['continuity']['fail'],1)
+        self.assertEqual(report['quality_ratings']['memory']['unrated'],1)
+        self.assertEqual(report['quality_ratings']['grounding']['uncertain'],1)
+        self.assertEqual(report['quality_by_language']['English']['relevance']['pass'],1)
+        self.assertEqual(self.rate(quality={'memory':'fail'},share_for_improvement=True).status_code,200)
+        self.assertEqual(json.loads(self.rows()[0]['quality']),{'memory':'fail'})
+        self.assertEqual(self.rate(quality=quality,share_for_improvement=False).status_code,200)
+        self.assertEqual(self.rows(),[])
+        self.assertEqual(self.rate(rating=None,reason=None).status_code,200)
+        self.assertNotIn(self.review['feedback_id'],main.sessions[self.sid]['ratings'])
+
+    def test_quality_rejects_free_text_unknown_dimensions_and_response_ratings(self):
+        for quality in ({'memory':'a private explanation'},{'private_text':'fail'},{'grounding':None}):
+            self.assertEqual(self.rate(quality=quality).status_code,422)
+        self.assertEqual(self.rate(rating=None,reason=None,quality={'memory':'pass'}).status_code,400)
+        response_id=main.sessions[self.sid]['turns'][0]['id']
+        response_url=self.path+'/responses/'+response_id+'/feedback'
+        self.assertEqual(self.client.put(response_url,json={'rating':'up','quality':{'memory':'fail'}}).status_code,400)
+        self.assertFalse(self.db.exists())
+
+    def test_existing_database_is_migrated_without_losing_old_votes(self):
+        self.assertEqual(self.rate(share_for_improvement=True).status_code,200)
+        identifier=self.rows()[0]['id']
+        with closing(sqlite3.connect(self.db)) as db,db:
+            db.execute('ALTER TABLE feedback DROP COLUMN quality')
+        self.assertEqual(feedback.report()['dialogue_ratings']['ratings'],1)
+        self.assertEqual(self.rows()[0]['id'],identifier)
+        self.assertEqual(json.loads(self.rows()[0]['quality']),{})
+        self.assertEqual(feedback.report()['quality_ratings']['memory']['unrated'],1)
+        self.assertEqual(self.rate(quality={'memory':'pass'},share_for_improvement=True).status_code,200)
+        self.assertEqual(json.loads(self.rows()[0]['quality']),{'memory':'pass'})
+
     def test_shared_feedback_survives_session_deletion_without_private_text_or_ids(self):
         response=self.rate(share_for_improvement=True)
         self.assertEqual(response.status_code,200,response.text)

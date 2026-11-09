@@ -17,6 +17,9 @@ LIMITS=('Opt-in ratings describe participating rated takes, not all visitors or 
         'Mean latency covers successful server chat turns only, excluding speech, network time and failed requests. '
         'Small groups are noisy; compare matching mode/model/scenario and offline evaluations before drawing conclusions.')
 REASONS={'realism':"Did not feel realistic",'unanswered':"Did not answer the question",'fact':"Reported factual error",'tone':"Tone felt off",'speed':"Too slow",'other':"Other",'not_specified':"No category"}
+QUALITY={'relevance':'Responded to the learner','memory':'Remembered earlier answers',
+         'continuity':'Conversation flowed naturally','role_consistency':'Stayed in character',
+         'grounding':'Source details seemed accurate','language_agreement':'Language sounded natural'}
 
 
 def render_html(data):
@@ -29,6 +32,10 @@ def render_html(data):
     latency=overview['mean_turn_latency_ms']
     sections=[table(['Whole-dialogue ratings','Useful','Unhelpful','Useful %','Mean chat turn'],[[overview['ratings'],overview['useful'],overview['unhelpful'],str(percent)+'%' if percent is not None else '—',str(latency)+' ms' if latency is not None else 'Not measured']])]
     sections.append('<h2>Why a rehearsal was unhelpful</h2>'+table(['Category','Ratings'],[(REASONS.get(key,key),value) for key,value in sorted(data['negative_reasons'].items(),key=lambda item:-item[1])]))
+    sections.append('<h2>Optional conversation quality ratings</h2><p>Participant impressions, not verified accuracy or expert benchmark labels. Not sure and unrated answers are shown separately.</p>'+table(
+        ['Question','Yes','No','Not sure','Unrated'],
+        [[QUALITY[key],values['pass'],values['fail'],values['uncertain'],values['unrated']]
+         for key,values in data['quality_ratings'].items()]))
     for dimension,groups in data['breakdowns'].items():
         sections.append('<h2>By '+escape(dimension.replace('_',' '))+'</h2>'+table(['Group','Ratings','Useful','Unhelpful','Useful %','Mean chat turn'],[
             [key,value['ratings'],value['useful'],value['unhelpful'],str(value['useful_percent'])+'%',str(value['mean_turn_latency_ms'])+' ms' if value['mean_turn_latency_ms'] is not None else 'Not measured'] for key,value in groups.items()]))

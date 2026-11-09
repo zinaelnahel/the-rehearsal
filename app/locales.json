@@ -1902,5 +1902,53 @@
   "A little backstage preparation. We’ll bring you in when it’s ready.": {
     "de": "Ein wenig Vorbereitung hinter den Kulissen. Sobald alles bereit ist, geht es weiter.",
     "es": "Un poco de preparación entre bastidores. Continuaremos cuando esté listo."
+  },
+  "A little more detail (optional)": {
+    "de": "Ein paar Details mehr (optional)",
+    "es": "Un poco más de detalle (opcional)"
+  },
+  "Answer any questions you like. Choose Not sure if you cannot judge. Each answer is saved with your rating.": {
+    "de": "Beantworte die Fragen, die du möchtest. Wähle Nicht sicher, wenn du es nicht beurteilen kannst. Jede Antwort wird mit deiner Bewertung gespeichert.",
+    "es": "Responde a las preguntas que quieras. Elige No lo sé si no puedes valorarlo. Cada respuesta se guarda con tu valoración."
+  },
+  "Did the partner respond to what you said?": {
+    "de": "Ist dein Gegenüber auf das eingegangen, was du gesagt hast?",
+    "es": "¿Tu interlocutor respondió a lo que dijiste?"
+  },
+  "Did the partner remember your earlier answers?": {
+    "de": "Hat sich dein Gegenüber an deine früheren Antworten erinnert?",
+    "es": "¿Tu interlocutor recordó tus respuestas anteriores?"
+  },
+  "Did the conversation flow naturally?": {
+    "de": "Ist das Gespräch natürlich verlaufen?",
+    "es": "¿La conversación fluyó con naturalidad?"
+  },
+  "Did the partner stay in character?": {
+    "de": "Ist dein Gegenüber in der Rolle geblieben?",
+    "es": "¿Tu interlocutor se mantuvo en su papel?"
+  },
+  "Did the details match your source?": {
+    "de": "Stimmten die Details mit deiner Quelle überein?",
+    "es": "¿Los detalles coincidían con tu fuente?"
+  },
+  "Did the language and wording sound natural?": {
+    "de": "Klangen Sprache und Formulierungen natürlich?",
+    "es": "¿El lenguaje y las expresiones sonaron naturales?"
+  },
+  "Not rated": {
+    "de": "Nicht bewertet",
+    "es": "Sin valorar"
+  },
+  "No": {
+    "de": "Nein",
+    "es": "No"
+  },
+  "Not sure": {
+    "de": "Nicht sicher",
+    "es": "No lo sé"
+  },
+  "Shared feedback includes your rating, optional category and quality answers, scenario, language, app/model version and numeric performance summaries. No conversation, source text, audio or contact details. It may remain for up to {days} days after session deletion. Untick or Clear before leaving this review to remove it.": {
+    "de": "Geteiltes Feedback enthält deine Bewertung, optionale Kategorie und Qualitätsantworten, Situation, Sprache, App-/Modellversion und numerische Leistungsdaten. Keine Gesprächs- oder Quelltexte, Audiodaten oder Kontaktdaten. Es kann nach dem Löschen der Sitzung bis zu {days} Tage gespeichert bleiben. Entferne das Häkchen oder wähle Löschen, bevor du diese Rückschau verlässt, um es zu entfernen.",
+    "es": "Los comentarios compartidos incluyen tu valoración, categoría y respuestas de calidad opcionales, situación, idioma, versión de la aplicación y del modelo y resúmenes numéricos de rendimiento. No incluyen la conversación, el texto fuente, audio ni datos de contacto. Pueden conservarse hasta {days} días después de eliminar la sesión. Desmarca la casilla o pulsa Borrar antes de salir de esta revisión para eliminarlos."
   }
 }

@@ -4,6 +4,7 @@ from contextlib import closing
 from datetime import datetime, timedelta, timezone
 from functools import lru_cache
 import hashlib
+import json
 import logging
 import os
 from pathlib import Path
@@ -17,6 +18,8 @@ FIELDS=('rating','reason','kind','scenario','language','style','mode','model',
         'practised_goals','confirmed_goals','unresolved_goals','withheld_replies',
         'measured_turns','turn_latency_ms')
 NUMERIC=set(FIELDS[11:])
+FIELDS += ('quality',)
+QUALITY_DIMENSIONS=('relevance','memory','continuity','role_consistency','grounding','language_agreement')
 
 
 def enabled():
@@ -43,6 +46,8 @@ def connect():
         db.row_factory=sqlite3.Row
         columns=','.join(f'{field} {"INTEGER" if field in NUMERIC else "TEXT"} NOT NULL' for field in FIELDS)
         db.execute(f'CREATE TABLE IF NOT EXISTS feedback (id TEXT PRIMARY KEY, created_day TEXT NOT NULL, updated_day TEXT NOT NULL, {columns})')
+        if 'quality' not in {row['name'] for row in db.execute('PRAGMA table_info(feedback)')}:
+            db.execute("ALTER TABLE feedback ADD COLUMN quality TEXT NOT NULL DEFAULT '{}'")
         db.execute('CREATE INDEX IF NOT EXISTS feedback_created ON feedback(created_day)')
         db.commit()
         return db
@@ -76,7 +81,7 @@ def backend_build():
     return 'sha256:'+digest.hexdigest()[:16]
 
 
-def snapshot(session,response,kind,rating,reason,frontend_build,live):
+def snapshot(session,response,kind,rating,reason,frontend_build,live,quality=None):
     setup=session['setup']
     turns=session['turns']
     goals=session['mission']
@@ -90,7 +95,8 @@ def snapshot(session,response,kind,rating,reason,frontend_build,live):
         confirmed_goals=sum(goal['answer_status']=='confirmed' for goal in goals),
         unresolved_goals=sum(goal['answer_status'] in ('unknown','unverified') for goal in goals),
         withheld_replies=sum(bool(turn.get('answer_withheld')) for turn in turns),
-        measured_turns=len(timings),turn_latency_ms=sum(timings))
+        measured_turns=len(timings),turn_latency_ms=sum(timings),
+        quality=json.dumps(quality or {},sort_keys=True))
 
 
 def save(identifier,record):
@@ -131,6 +137,14 @@ def summary(rows):
             'unresolved_goals':sum(row['unresolved_goals'] for row in rows)}
 
 
+def quality_summary(rows):
+    ratings=[json.loads(row['quality']) for row in rows]
+    return {dimension:{value:sum(rating.get(dimension)==value for rating in ratings)
+                       for value in ('pass','fail','uncertain')} | {
+                           'unrated':sum(dimension not in rating for rating in ratings)}
+            for dimension in QUALITY_DIMENSIONS}
+
+
 def report(days=30):
     if not 1<=days<=365:raise ValueError('Choose between 1 and 365 days.')
     rows=[]
@@ -144,6 +158,9 @@ def report(days=30):
     result={'days':days,'retention_days':retention_days(),'all_ratings':summary(rows),
             'dialogue_ratings':summary(dialogue),'response_ratings':summary([row for row in rows if row['kind']=='response']),
             'negative_reasons':dict(Counter(row['reason'] or 'not_specified' for row in dialogue if row['rating']=='down')),
+            'quality_ratings':quality_summary(dialogue),
+            'quality_by_language':{language:quality_summary([row for row in dialogue if row['language']==language])
+                                   for language in sorted({row['language'] for row in dialogue})},
             'breakdowns':{}}
     for field in ('scenario','language','style','mode','model','frontend_build','backend_build','response_version'):
         result['breakdowns'][field]={value:summary([row for row in dialogue if row[field]==value]) for value in sorted({row[field] for row in dialogue})}

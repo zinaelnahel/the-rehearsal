@@ -410,6 +410,7 @@ class ResponseRating(BaseModel):
  reason: Literal['realism','unanswered','fact','tone','speed','other'] | None = None
  share_for_improvement: bool = False
  frontend_build: str = Field(default='unknown',pattern=r'^(?:[a-fA-F0-9]{40}|unknown)$')
+ quality: dict[Literal['relevance','memory','continuity','role_consistency','grounding','language_agreement'],Literal['pass','fail','uncertain']] = Field(default_factory=dict)
 
 @app.put('/api/sessions/{sid}/responses/{response_id}/feedback')
 async def response_feedback(sid: str, response_id: str, body: ResponseRating):
@@ -422,16 +423,19 @@ async def response_feedback(sid: str, response_id: str, body: ResponseRating):
    kind='dialogue'
   if response is None: raise HTTPException(404,'Response is no longer in this scene.')
   if body.reason and body.rating!='down': raise HTTPException(400,'Reasons apply only to thumbs-down feedback.')
+  if body.quality and (kind!='dialogue' or body.rating is None):
+   raise HTTPException(400,'Quality ratings require a whole-dialogue thumbs rating.')
   keys=s.setdefault('shared_feedback',{})
   shared=body.share_for_improvement and body.rating is not None
   if shared:
-   record=feedback.snapshot(s,response,kind,body.rating,body.reason,body.frontend_build,LIVE)
+   record=feedback.snapshot(s,response,kind,body.rating,body.reason,body.frontend_build,LIVE,body.quality)
    keys[response_id]=await asyncio.to_thread(feedback.save,keys.get(response_id),record)
   elif response_id in keys:
    await asyncio.to_thread(feedback.remove,keys[response_id])
    keys.pop(response_id)
   if body.rating is None: s['ratings'].pop(response_id,None)
   else: s['ratings'][response_id]={'rating':body.rating,'reason':body.reason,'scenario':s['setup']['scenario'],'response_id':response_id,'version':response['version']}
+  if body.rating is not None and body.quality: s['ratings'][response_id]['quality']=body.quality
   return {'saved':True,'shared':shared}
 
 class Turn(BaseModel):
