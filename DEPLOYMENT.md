@@ -1,5 +1,23 @@
 # Vercel deployment
 
+## Voice response path and progress - 9 November 2026
+
+Commit `e1889f07e9585d81435a5165c7c4151afe6a3cb3` is live on both services.
+[Deployment evidence](evaluation/deployment-voice-progress-2026-11-09.json)
+records successful CI/security workflows, 161 local backend tests, 24 frontend
+tests, and passing public build metadata, health, access-protection and deletion
+checks. Continuous voice skips optional agent planning, uses direct session
+retrieval, requests concise spoken replies, and retains independent source and
+role validation. Text turns retain the optional agent. Voice waiting stages show
+elapsed time and an active progress step. Hosted Chrome checks used synthetic
+microphone audio and mocked API responses to verify voice-mode selection, stage
+timing, validation before playback, interrupt/mute/stop, navigation cleanup,
+English/German/Spanish controls and mobile layout. Hosted checks made no provider
+calls. This removes optional model round trips; a real-device latency reduction
+and retrieval-quality comparison are not yet established. Independent
+human-reviewed live release evidence remains missing. The user requested manual
+deployment; release workflow requirements remain unchanged.
+
 ## Debrief questions and loading feedback - 9 November 2026
 
 Commit `ef68e7c16630d587ee9dbe85e062b3f76d06e752` is live on both services.
