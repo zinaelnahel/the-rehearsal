@@ -177,9 +177,9 @@ English, German and Spanish only; interface language is selected independently f
 
 ## Navigation and optional download
 
-**Action - start Take 01** begins the planned scene; **Cut - finish & reflect** ends it and opens review. These use the existing start/finish actions with no countdown, audio or extra step. Safety-paused scenes use plain support labels. Completed progress steps are clickable, with explicit Back controls. Revisiting the source or editing a draft plan does not change the active conversation or its scenario/language. Returning to the conversation preserves an unsent reply. Applying a new source or restarting an edited plan asks before replacing the current take; a failed new mission leaves the existing session available. Replay also warns before replacement.
+**Action - start Take 01** begins the planned scene; **Cut - finish & reflect** ends it and opens review. These use the existing start/finish actions with no countdown, audio or extra step. Completed progress steps are clickable, with explicit Back controls. Revisiting the source or editing a draft plan does not change the active conversation or its scenario/language. Returning to the conversation preserves an unsent reply. Applying a new source or restarting an edited plan asks before replacing the current take; a failed new mission leaves the existing session available. Replay also warns before replacement.
 
-From review, **Back to the conversation** opens the finished dialogue for rereading. **Continue conversation** resumes the same messages and goals, discards the old review/rating, and generates a fresh review when you finish again. Safety-paused scenes remain paused. Browsing between review and other steps preserves the current rating.
+From review, **Back to the conversation** opens the finished dialogue for rereading. **Continue conversation** resumes the same messages and goals, discards the old review/rating, and generates a fresh review when you finish again. Browsing between review and other steps preserves the current rating.
 
 The review offers **Download conversation (.txt)**. This explicit action creates a UTF-8 text file in the browser containing only the current take's dialogue and review (goals, communication notes, open questions and phrases). It makes no export API call, sends nothing extra to a provider, and does not use localStorage or add server persistence. The downloaded file remains on the user's device after session deletion. There is no automatic download or archive of earlier takes. If the server reports an expired/deleted session, the app explains timeout/restart possibilities and offers a download of any locally visible dialogue before starting again; source selections and typed context remain in the form. This recovery cannot restore a server session or data lost when a tab closes.
 
@@ -189,7 +189,7 @@ The review offers one optional thumbs-up/down rating for the whole dialogue, aft
 
 Partner dialogue stays in character; coaching belongs in the review. Live generation receives the stated outcome in missions, hints, dialogue and review. Demo includes a specific final-breakup pack in all three supported languages; other demo situations remain scripted and require mission editing for custom needs. Emotional dialogue-map paths preserve boundaries without assuming compromise or continued contact.
 
-Explicit multilingual fear/threat/coercion terms in source text, goals or turns pause ordinary role-play with calm safety information. This is a conservative keyword safeguard, not reliable risk assessment: it can over-trigger or miss indirect language. Live prompts also instruct the partner to prioritize safety. Safety pauses do not call the provider, offer graded coaching, or encourage replay/confrontation. The app is conversation practice, not therapy or emergency support.
+The app does not scan context, goals or messages for danger keywords or automatically pause sensitive conversations. Users can continue, review, replay or end their rehearsal. The app is conversation practice, not therapy or emergency support.
 
 ## Live validation record
 

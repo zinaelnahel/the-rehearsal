@@ -3,7 +3,6 @@ import unittest
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from backend.main import app, sessions
-from backend.context import safety_concern
 
 
 class ContextFeedbackTests(unittest.TestCase):
@@ -103,12 +102,12 @@ class ContextFeedbackTests(unittest.TestCase):
   self.assertNotIn('extra_questions',sessions[sid])
   self.assertEqual(sessions[sid]['ratings'],{})
 
- def test_safety_pause_cannot_resume_ordinary_roleplay(self):
+ def test_sensitive_context_can_resume_ordinary_roleplay(self):
   sid,_,_=self.scene(text='I am afraid of threats.',scenario='difficult')
   path=f'/api/sessions/{sid}'
   self.client.post(path+'/finish')
-  self.assertEqual(self.client.post(path+'/resume').status_code,409)
-  self.assertEqual(sessions[sid]['phase'],'debrief')
+  self.assertEqual(self.client.post(path+'/resume').status_code,200)
+  self.assertEqual(sessions[sid]['phase'],'chat')
 
  def test_final_breakup_goals_hints_and_review(self):
   sid,mission,start=self.scene('I want a final breakup',scenario='difficult')
@@ -240,26 +239,51 @@ class ContextFeedbackTests(unittest.TestCase):
    self.assertTrue(result.json()['goals'][0]['achieved'])
    self.assertEqual(result.json()['goals'][0]['evidence'],'No')
 
- def test_safety_interrupts_without_provider_calls(self):
-  for phrase in ['I am afraid of him','He threatened me','Ich habe Angst','Tengo miedo']:
-   self.assertTrue(safety_concern(phrase))
-  sid,_,_=self.scene(scenario='difficult')
-  with patch('backend.main.LIVE',True),patch('backend.main.rehearse') as roleplay,patch('backend.main.model') as model:
-   result=self.client.post(f'/api/sessions/{sid}/turn',json={'text':'He threatened me. I am afraid.'}).json()
-   self.assertTrue(result['safety'])
-   self.assertTrue(result['turn']['safety'])
-   self.assertIn('pause',result['turn']['content'])
-   self.assertEqual(result['turn']['sources'],[])
-   review=self.client.post(f'/api/sessions/{sid}/finish').json()
-   self.assertEqual(review['feedback'],[])
-   self.assertEqual(review['phrases'],[])
-   roleplay.assert_not_called()
-   model.assert_not_called()
+ def test_sensitive_source_goals_and_turns_do_not_pause(self):
+  for phrase in ['I am afraid of him', 'He threatened me', 'Ich habe Angst',
+                 'Tengo miedo', 'He took my passport.']:
+   with self.subTest(phrase=phrase):
+    sid,mission,start=self.scene(goal=phrase,text=phrase,scenario='difficult')
+    path=f'/api/sessions/{sid}'
+    self.assertFalse(mission['safety'])
+    self.assertFalse(start['safety'])
+    edited=self.client.post(path+'/start',json={'goals':[phrase],'reset':True})
+    self.assertEqual(edited.status_code,200,edited.text)
+    self.assertFalse(edited.json()['safety'])
+    turn=self.client.post(path+'/turn',json={'text':phrase})
+    self.assertEqual(turn.status_code,200,turn.text)
+    self.assertFalse(turn.json()['safety'])
+    self.assertFalse(turn.json()['turn']['safety'])
+    hint=self.client.post(path+'/hint',json={'kind':'starter'})
+    self.assertEqual(hint.status_code,200,hint.text)
+    review=self.client.post(path+'/finish')
+    self.assertEqual(review.status_code,200,review.text)
+    self.assertTrue(review.json()['feedback'])
+    self.assertTrue(review.json()['phrases'])
+    retry=self.client.post(path+'/retry',json={'goal_id':'0'})
+    self.assertEqual(retry.status_code,200,retry.text)
+    self.assertFalse(retry.json()['safety'])
+    self.client.delete(path)
 
- def test_safety_in_source_pauses_opening(self):
-  _,mission,start=self.scene(text='I am scared. My partner uses threats.',scenario='difficult')
-  self.assertTrue(mission['safety'])
-  self.assertTrue(start['turns'][0]['safety'])
+ def test_sensitive_turn_uses_live_roleplay_instead_of_support_note(self):
+  sid,_,_=self.scene(scenario='difficult')
+  with patch('backend.main.LIVE',True),patch('backend.main.rehearse',
+    return_value=('What would you like to say?',[],{},False)) as roleplay:
+   response=self.client.post(f'/api/sessions/{sid}/turn',json={'text':'He threatened me. I am afraid.'})
+  self.assertEqual(response.status_code,200,response.text)
+  roleplay.assert_called_once()
+  self.assertFalse(response.json()['safety'])
+  self.assertEqual(response.json()['turn']['content'],'What would you like to say?')
+
+ def test_rental_courtesy_phrases_allow_plan_and_roleplay(self):
+  text=("Does it come with a washing machine? I'm afraid it doesn't at the moment. "
+        "Is council tax included? No, I'm afraid council tax is extra for this flat.")
+  sid,mission,start=self.scene(text=text)
+  self.assertFalse(mission['safety'])
+  self.assertFalse(start['safety'])
+  turn=self.client.post(f'/api/sessions/{sid}/turn',json={'text':'Are pets allowed?'})
+  self.assertEqual(turn.status_code,200,turn.text)
+  self.assertFalse(turn.json()['safety'])
 
 
 if __name__=='__main__': unittest.main()
