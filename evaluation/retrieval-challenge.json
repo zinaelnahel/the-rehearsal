@@ -1,0 +1,1406 @@
+{
+  "label_provenance": "Author-authored fictional retrieval labels; not independently human-reviewed.",
+  "created_before_comparison": true,
+  "corpora": [
+    {
+      "id": "english",
+      "language": "English",
+      "passages": [
+        {
+          "id": "rent",
+          "text": "The monthly rent is 850 euros, payable at the beginning of each month."
+        },
+        {
+          "id": "availability",
+          "text": "The apartment is available from 1 December. The tenant can collect the keys on that date."
+        },
+        {
+          "id": "pets",
+          "text": "Tenants may keep cats and dogs in the apartment. Other animals require written permission."
+        },
+        {
+          "id": "deposit",
+          "text": "A refundable security deposit of 1700 euros is required before moving in. It is separate from monthly rent."
+        },
+        {
+          "id": "accessibility",
+          "text": "There are no entrance steps, and a lift reaches the apartment. A wheelchair can pass through the front door."
+        },
+        {
+          "id": "internet",
+          "text": "Fibre broadband is installed with a download speed of 300 megabits per second, suitable for video calls from home."
+        },
+        {
+          "id": "parking",
+          "text": "One underground parking space is available for an additional 70 euros per month."
+        },
+        {
+          "id": "utilities",
+          "text": "Electricity and water are billed separately according to consumption. Heating is included in the rent."
+        },
+        {
+          "id": "furniture",
+          "text": "The bedroom contains a bed and a wardrobe. The living room is unfurnished."
+        },
+        {
+          "id": "viewing",
+          "text": "Apartment viewings take place on Tuesday afternoons by appointment. Contact the agent to book a viewing."
+        },
+        {
+          "id": "transport",
+          "text": "The tram stop is five minutes away on foot. The number 4 tram travels to the city centre."
+        },
+        {
+          "id": "park",
+          "text": "There is a public dog park across the street. It has a fenced exercise area and drinking fountains."
+        },
+        {
+          "id": "storage",
+          "text": "Residents can store bicycles in a locked basement room. Large furniture cannot be stored there."
+        },
+        {
+          "id": "documents",
+          "text": "Applicants need identification and their last three payslips. No bank password is requested."
+        },
+        {
+          "id": "lease",
+          "text": "The rental agreement initially runs for twelve months. Renewal can be discussed before the contract ends."
+        },
+        {
+          "id": "payment",
+          "text": "Payments are made by bank transfer. The agent provides the account details after the agreement is signed."
+        }
+      ]
+    },
+    {
+      "id": "german",
+      "language": "German",
+      "passages": [
+        {
+          "id": "rent",
+          "text": "Die monatliche Miete beträgt 850 Euro und ist zu Beginn jedes Monats fällig."
+        },
+        {
+          "id": "availability",
+          "text": "Die Wohnung ist ab dem 1. Dezember verfügbar. An diesem Tag können die Schlüssel abgeholt werden."
+        },
+        {
+          "id": "pets",
+          "text": "Mieter dürfen Katzen und Hunde in der Wohnung halten. Andere Tiere benötigen eine schriftliche Erlaubnis."
+        },
+        {
+          "id": "deposit",
+          "text": "Vor dem Einzug ist eine rückzahlbare Kaution von 1700 Euro erforderlich. Sie ist von der monatlichen Miete getrennt."
+        },
+        {
+          "id": "accessibility",
+          "text": "Der Eingang ist stufenlos und ein Aufzug führt zur Wohnung. Ein Rollstuhl passt durch die Eingangstür."
+        },
+        {
+          "id": "internet",
+          "text": "Ein Glasfaseranschluss mit 300 Megabit pro Sekunde ist installiert und für Videoanrufe von zu Hause geeignet."
+        },
+        {
+          "id": "parking",
+          "text": "Ein Tiefgaragenstellplatz ist für zusätzliche 70 Euro pro Monat verfügbar."
+        },
+        {
+          "id": "utilities",
+          "text": "Strom und Wasser werden nach Verbrauch separat abgerechnet. Die Heizung ist in der Miete enthalten."
+        },
+        {
+          "id": "furniture",
+          "text": "Im Schlafzimmer stehen ein Bett und ein Kleiderschrank. Das Wohnzimmer ist unmöbliert."
+        },
+        {
+          "id": "viewing",
+          "text": "Wohnungsbesichtigungen finden dienstagnachmittags nach Vereinbarung statt. Termine werden mit dem Makler vereinbart."
+        },
+        {
+          "id": "transport",
+          "text": "Die Straßenbahnhaltestelle ist zu Fuß fünf Minuten entfernt. Die Linie 4 fährt ins Stadtzentrum."
+        },
+        {
+          "id": "park",
+          "text": "Auf der anderen Straßenseite liegt ein öffentlicher Hundepark mit eingezäunter Auslauffläche und Trinkbrunnen."
+        },
+        {
+          "id": "storage",
+          "text": "Bewohner können Fahrräder in einem abgeschlossenen Kellerraum abstellen. Große Möbel dürfen dort nicht gelagert werden."
+        },
+        {
+          "id": "documents",
+          "text": "Bewerber benötigen einen Ausweis und die letzten drei Gehaltsabrechnungen. Es wird kein Bankpasswort verlangt."
+        },
+        {
+          "id": "lease",
+          "text": "Der Mietvertrag läuft zunächst zwölf Monate. Eine Verlängerung kann vor Vertragsende besprochen werden."
+        },
+        {
+          "id": "payment",
+          "text": "Zahlungen erfolgen per Banküberweisung. Die Kontodaten werden nach der Vertragsunterzeichnung mitgeteilt."
+        }
+      ]
+    },
+    {
+      "id": "spanish",
+      "language": "Spanish",
+      "passages": [
+        {
+          "id": "rent",
+          "text": "El alquiler mensual es de 850 euros y se paga al comienzo de cada mes."
+        },
+        {
+          "id": "availability",
+          "text": "El piso está disponible a partir del 1 de diciembre. Las llaves se pueden recoger ese día."
+        },
+        {
+          "id": "pets",
+          "text": "Los inquilinos pueden tener gatos y perros en el piso. Otros animales requieren autorización por escrito."
+        },
+        {
+          "id": "deposit",
+          "text": "Antes de entrar se requiere una fianza reembolsable de 1700 euros. Es independiente del alquiler mensual."
+        },
+        {
+          "id": "accessibility",
+          "text": "La entrada no tiene escalones y un ascensor llega al piso. Una silla de ruedas cabe por la puerta principal."
+        },
+        {
+          "id": "internet",
+          "text": "Hay fibra óptica instalada de 300 megabits por segundo, adecuada para videollamadas desde casa."
+        },
+        {
+          "id": "parking",
+          "text": "Hay una plaza de garaje subterránea por 70 euros adicionales al mes."
+        },
+        {
+          "id": "utilities",
+          "text": "La electricidad y el agua se facturan aparte según el consumo. La calefacción está incluida en el alquiler."
+        },
+        {
+          "id": "furniture",
+          "text": "El dormitorio tiene una cama y un armario. El salón no está amueblado."
+        },
+        {
+          "id": "viewing",
+          "text": "Las visitas al piso son los martes por la tarde con cita previa. Contacta con la agencia para reservar."
+        },
+        {
+          "id": "transport",
+          "text": "La parada de tranvía está a cinco minutos a pie. La línea 4 va al centro de la ciudad."
+        },
+        {
+          "id": "park",
+          "text": "Al otro lado de la calle hay un parque canino público con zona vallada y fuentes de agua."
+        },
+        {
+          "id": "storage",
+          "text": "Los residentes pueden guardar bicicletas en un cuarto cerrado del sótano. No se permiten muebles grandes allí."
+        },
+        {
+          "id": "documents",
+          "text": "Los solicitantes necesitan identificación y las tres últimas nóminas. No se pide ninguna contraseña bancaria."
+        },
+        {
+          "id": "lease",
+          "text": "El contrato de alquiler dura inicialmente doce meses. Se puede hablar de renovarlo antes de que termine."
+        },
+        {
+          "id": "payment",
+          "text": "Los pagos se hacen por transferencia bancaria. La agencia facilita los datos de la cuenta después de firmar."
+        }
+      ]
+    }
+  ],
+  "queries": [
+    {
+      "id": "english-english-rent-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "direct",
+      "question": "How much is the monthly rent?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "english-english-rent-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "What would I pay each month just to live here?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "english-german-rent-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "direct",
+      "question": "Wie hoch ist die monatliche Miete?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "english-german-rent-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Was zahle ich jeden Monat allein für die Wohnung?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "english-spanish-rent-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Cuánto cuesta el alquiler mensual?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "english-spanish-rent-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Qué tendría que pagar cada mes solo por vivir aquí?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "english-english-availability-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "direct",
+      "question": "When is the apartment available?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "english-english-availability-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "How soon could I move my belongings in and get the keys?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "english-german-availability-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "direct",
+      "question": "Ab wann ist die Wohnung verfügbar?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "english-german-availability-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Wann könnte ich meine Sachen einräumen und die Schlüssel bekommen?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "english-spanish-availability-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Desde cuándo está disponible el piso?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "english-spanish-availability-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Cuándo podría traer mis cosas y recoger las llaves?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "english-english-pets-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "direct",
+      "question": "Are pets allowed?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "english-english-pets-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "Could my dog live here with me?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "english-german-pets-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "direct",
+      "question": "Sind Haustiere erlaubt?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "english-german-pets-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Dürfte mein Hund hier mit mir wohnen?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "english-spanish-pets-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Se permiten mascotas?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "english-spanish-pets-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Podría mi perro vivir aquí conmigo?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "english-english-deposit-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "direct",
+      "question": "How much is the security deposit?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "english-english-deposit-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "What money must I leave as a guarantee that I can get back later?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "english-german-deposit-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "direct",
+      "question": "Wie hoch ist die Kaution?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "english-german-deposit-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Welchen Betrag muss ich als Sicherheit hinterlegen und kann ihn später zurückbekommen?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "english-spanish-deposit-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Cuánto es la fianza?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "english-spanish-deposit-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Qué dinero debo dejar como garantía y podría recuperar después?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "english-english-accessibility-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "direct",
+      "question": "Is the apartment wheelchair accessible?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "english-english-accessibility-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "Can I get from the street to the flat without climbing stairs?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "english-german-accessibility-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "direct",
+      "question": "Ist die Wohnung rollstuhlgerecht?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "english-german-accessibility-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Komme ich von der Straße bis in die Wohnung, ohne Treppen steigen zu müssen?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "english-spanish-accessibility-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Es accesible el piso para una silla de ruedas?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "english-spanish-accessibility-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Puedo llegar de la calle a la vivienda sin subir escaleras?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "english-english-internet-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "direct",
+      "question": "What internet connection is available?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "english-english-internet-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "Would the connection cope with working from home and video meetings?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "english-german-internet-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "direct",
+      "question": "Welcher Internetanschluss ist vorhanden?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "english-german-internet-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Reicht die Verbindung für die Arbeit von zu Hause und Videokonferenzen?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "english-spanish-internet-0",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Qué conexión a internet hay?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "english-spanish-internet-1",
+      "corpus_id": "english",
+      "source_language": "English",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿La conexión serviría para teletrabajar y hacer reuniones por vídeo?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "german-english-rent-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "direct",
+      "question": "How much is the monthly rent?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "german-english-rent-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "What would I pay each month just to live here?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "german-german-rent-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "direct",
+      "question": "Wie hoch ist die monatliche Miete?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "german-german-rent-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Was zahle ich jeden Monat allein für die Wohnung?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "german-spanish-rent-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Cuánto cuesta el alquiler mensual?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "german-spanish-rent-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Qué tendría que pagar cada mes solo por vivir aquí?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "german-english-availability-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "direct",
+      "question": "When is the apartment available?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "german-english-availability-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "How soon could I move my belongings in and get the keys?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "german-german-availability-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "direct",
+      "question": "Ab wann ist die Wohnung verfügbar?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "german-german-availability-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Wann könnte ich meine Sachen einräumen und die Schlüssel bekommen?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "german-spanish-availability-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Desde cuándo está disponible el piso?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "german-spanish-availability-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Cuándo podría traer mis cosas y recoger las llaves?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "german-english-pets-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "direct",
+      "question": "Are pets allowed?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "german-english-pets-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "Could my dog live here with me?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "german-german-pets-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "direct",
+      "question": "Sind Haustiere erlaubt?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "german-german-pets-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Dürfte mein Hund hier mit mir wohnen?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "german-spanish-pets-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Se permiten mascotas?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "german-spanish-pets-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Podría mi perro vivir aquí conmigo?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "german-english-deposit-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "direct",
+      "question": "How much is the security deposit?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "german-english-deposit-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "What money must I leave as a guarantee that I can get back later?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "german-german-deposit-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "direct",
+      "question": "Wie hoch ist die Kaution?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "german-german-deposit-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Welchen Betrag muss ich als Sicherheit hinterlegen und kann ihn später zurückbekommen?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "german-spanish-deposit-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Cuánto es la fianza?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "german-spanish-deposit-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Qué dinero debo dejar como garantía y podría recuperar después?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "german-english-accessibility-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "direct",
+      "question": "Is the apartment wheelchair accessible?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "german-english-accessibility-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "Can I get from the street to the flat without climbing stairs?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "german-german-accessibility-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "direct",
+      "question": "Ist die Wohnung rollstuhlgerecht?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "german-german-accessibility-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Komme ich von der Straße bis in die Wohnung, ohne Treppen steigen zu müssen?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "german-spanish-accessibility-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Es accesible el piso para una silla de ruedas?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "german-spanish-accessibility-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Puedo llegar de la calle a la vivienda sin subir escaleras?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "german-english-internet-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "direct",
+      "question": "What internet connection is available?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "german-english-internet-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "Would the connection cope with working from home and video meetings?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "german-german-internet-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "direct",
+      "question": "Welcher Internetanschluss ist vorhanden?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "german-german-internet-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Reicht die Verbindung für die Arbeit von zu Hause und Videokonferenzen?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "german-spanish-internet-0",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Qué conexión a internet hay?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "german-spanish-internet-1",
+      "corpus_id": "german",
+      "source_language": "German",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿La conexión serviría para teletrabajar y hacer reuniones por vídeo?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "spanish-english-rent-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "direct",
+      "question": "How much is the monthly rent?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "spanish-english-rent-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "What would I pay each month just to live here?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "spanish-german-rent-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "direct",
+      "question": "Wie hoch ist die monatliche Miete?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "spanish-german-rent-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Was zahle ich jeden Monat allein für die Wohnung?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "spanish-spanish-rent-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Cuánto cuesta el alquiler mensual?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "spanish-spanish-rent-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Qué tendría que pagar cada mes solo por vivir aquí?",
+      "relevant_ids": [
+        "rent"
+      ]
+    },
+    {
+      "id": "spanish-english-availability-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "direct",
+      "question": "When is the apartment available?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "spanish-english-availability-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "How soon could I move my belongings in and get the keys?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "spanish-german-availability-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "direct",
+      "question": "Ab wann ist die Wohnung verfügbar?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "spanish-german-availability-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Wann könnte ich meine Sachen einräumen und die Schlüssel bekommen?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "spanish-spanish-availability-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Desde cuándo está disponible el piso?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "spanish-spanish-availability-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Cuándo podría traer mis cosas y recoger las llaves?",
+      "relevant_ids": [
+        "availability"
+      ]
+    },
+    {
+      "id": "spanish-english-pets-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "direct",
+      "question": "Are pets allowed?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "spanish-english-pets-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "Could my dog live here with me?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "spanish-german-pets-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "direct",
+      "question": "Sind Haustiere erlaubt?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "spanish-german-pets-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Dürfte mein Hund hier mit mir wohnen?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "spanish-spanish-pets-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Se permiten mascotas?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "spanish-spanish-pets-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Podría mi perro vivir aquí conmigo?",
+      "relevant_ids": [
+        "pets"
+      ]
+    },
+    {
+      "id": "spanish-english-deposit-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "direct",
+      "question": "How much is the security deposit?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "spanish-english-deposit-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "What money must I leave as a guarantee that I can get back later?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "spanish-german-deposit-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "direct",
+      "question": "Wie hoch ist die Kaution?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "spanish-german-deposit-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Welchen Betrag muss ich als Sicherheit hinterlegen und kann ihn später zurückbekommen?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "spanish-spanish-deposit-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Cuánto es la fianza?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "spanish-spanish-deposit-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Qué dinero debo dejar como garantía y podría recuperar después?",
+      "relevant_ids": [
+        "deposit"
+      ]
+    },
+    {
+      "id": "spanish-english-accessibility-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "direct",
+      "question": "Is the apartment wheelchair accessible?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "spanish-english-accessibility-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "Can I get from the street to the flat without climbing stairs?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "spanish-german-accessibility-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "direct",
+      "question": "Ist die Wohnung rollstuhlgerecht?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "spanish-german-accessibility-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Komme ich von der Straße bis in die Wohnung, ohne Treppen steigen zu müssen?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "spanish-spanish-accessibility-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Es accesible el piso para una silla de ruedas?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "spanish-spanish-accessibility-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿Puedo llegar de la calle a la vivienda sin subir escaleras?",
+      "relevant_ids": [
+        "accessibility"
+      ]
+    },
+    {
+      "id": "spanish-english-internet-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "direct",
+      "question": "What internet connection is available?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "spanish-english-internet-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "English",
+      "category": "paraphrase",
+      "question": "Would the connection cope with working from home and video meetings?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "spanish-german-internet-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "direct",
+      "question": "Welcher Internetanschluss ist vorhanden?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "spanish-german-internet-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "German",
+      "category": "paraphrase",
+      "question": "Reicht die Verbindung für die Arbeit von zu Hause und Videokonferenzen?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "spanish-spanish-internet-0",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "direct",
+      "question": "¿Qué conexión a internet hay?",
+      "relevant_ids": [
+        "internet"
+      ]
+    },
+    {
+      "id": "spanish-spanish-internet-1",
+      "corpus_id": "spanish",
+      "source_language": "Spanish",
+      "language": "Spanish",
+      "category": "paraphrase",
+      "question": "¿La conexión serviría para teletrabajar y hacer reuniones por vídeo?",
+      "relevant_ids": [
+        "internet"
+      ]
+    }
+  ]
+}

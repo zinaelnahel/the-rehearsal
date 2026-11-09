@@ -5,6 +5,8 @@
       "version": "1.5.9",
       "advisories": ["PYSEC-2026-311", "PYSEC-2026-3813", "PYSEC-2026-3814", "PYSEC-2026-3815"],
       "expires": "2026-12-09",
+      "reviewed_on": "2026-11-09",
+      "review_artifact": "evaluation/chroma-security-review-2026-11-09.json",
       "reason": "These unresolved advisories concern Chroma HTTP server collection/configuration endpoints and server RBAC. This application never starts a Chroma HTTP server: it uses only embedded PersistentClient with embedding_function=None and server-owned collection names/configuration. The public deployment uses VECTOR_STORE=memory. This exception does not authorize exposing Chroma as a service or accepting user-supplied embedding functions; review before changing that architecture. See SECURITY.md."
     }
   ]

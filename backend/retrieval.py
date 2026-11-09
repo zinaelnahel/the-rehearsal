@@ -18,7 +18,10 @@ PREFIX = 'rehearsal-'
 def client(path):
     import chromadb
     from chromadb.config import Settings
-    return chromadb.PersistentClient(path=path, settings=Settings(anonymized_telemetry=False))
+    # The advisory applicability assessment relies on embedded-only operation.
+    # Never let environment configuration select Chroma's HTTP API adapter.
+    return chromadb.PersistentClient(path=path, settings=Settings(
+        anonymized_telemetry=False,chroma_api_impl='chromadb.api.rust.RustBindingsAPI'))
 
 
 def database():

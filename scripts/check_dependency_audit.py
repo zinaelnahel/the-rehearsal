@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -37,12 +38,16 @@ def main():
     args.output.parent.mkdir(parents=True,exist_ok=True)
     # A tool/registry failure is not a clean audit. pip-audit returns 1 for
     # vulnerability findings; other exit codes and absent reports are failures.
-    result=subprocess.run([sys.executable,'-m','pip_audit','--disable-pip','--no-deps',
-        '--require-hashes','-r',str(ROOT/'backend/requirements.lock'),
-        '--format','json','--output',str(args.output)])
-    if result.returncode not in (0,1):return result.returncode
-    report=json.loads(args.output.read_text(encoding='utf-8'))
-    if not report.get('dependencies'):raise ValueError('No audited dependencies')
+    with tempfile.TemporaryDirectory(prefix='audit-',dir=args.output.parent) as folder:
+        fresh=Path(folder)/'report.json'
+        result=subprocess.run([sys.executable,'-m','pip_audit','--disable-pip',
+            '--require-hashes','-r',str(ROOT/'backend/requirements.lock'),
+            '--format','json','--output',str(fresh)])
+        if result.returncode not in (0,1):return result.returncode
+        if not fresh.is_file():raise ValueError('Scanner did not produce a fresh audit report')
+        report=json.loads(fresh.read_text(encoding='utf-8'))
+        if not report.get('dependencies'):raise ValueError('No audited dependencies')
+        args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     rejected,excepted=findings(report,json.loads((ROOT/'security/dependency-exceptions.json').read_text()))
     for key in excepted:print('Documented temporary exception:',*key)
     for key in rejected:print('Unresolved dependency finding:',*key)

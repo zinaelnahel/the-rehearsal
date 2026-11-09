@@ -14,6 +14,13 @@ Python updates must regenerate the lockfile and pass CI before merging.
 
 ## Unresolved Chroma advisories
 
+The [9 November review](evaluation/chroma-security-review-2026-11-09.json)
+checked the latest PyPI release, all four upstream GitHub advisory records and a
+fresh dependency audit. Version 1.5.9 remained latest and no patched version was
+identified. The exception was reviewed, **not renewed**; its expiry stays unchanged.
+Run `python scripts/review_chroma_security.py --audit-report .runtime/dependency-audit.json`
+after a fresh dependency audit to repeat the online review.
+
 The audit still reports four unique upstream Chroma advisories (some feeds
 duplicate a finding). No patched version was available in the audit:
 
@@ -29,6 +36,14 @@ server-owned collection names and `embedding_function=None`. It does not accept
 remote model repositories or embedding-function configuration from visitors.
 This is an architecture-based assessment, not proof that the package is free
 of vulnerabilities.
+
+The adapter is now explicitly fixed to `chromadb.api.rust.RustBindingsAPI` so
+environment configuration cannot select the HTTP client. Regression tests cover
+that invariant, server-owned hashed names and source text remaining document
+content rather than embedding-function configuration. The audit runner requires
+a new report for each invocation: a scanner failure cannot reuse an older clean
+report. These tests support the assessment; they are not an independent exploit
+or penetration-test result.
 
 These exact advisories on `chromadb==1.5.9` have a visible, version-scoped
 exception in `security/dependency-exceptions.json`, expiring **9 December 2026**.

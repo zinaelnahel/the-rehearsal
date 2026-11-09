@@ -1,0 +1,114 @@
+{
+  "reviewed_at_utc": "2026-11-09T12:40:43.359612+00:00",
+  "installed_locked_version": "1.5.9",
+  "latest_pypi_version": "1.5.9",
+  "unique_audit_advisories": [
+    "PYSEC-2026-311",
+    "PYSEC-2026-3813",
+    "PYSEC-2026-3814",
+    "PYSEC-2026-3815"
+  ],
+  "raw_audit_findings": 5,
+  "upstream": [
+    {
+      "id": "GHSA-2wm9-hf6c-p5cr",
+      "url": "https://github.com/advisories/GHSA-2wm9-hf6c-p5cr",
+      "updated_at": "2026-08-24T19:57:43Z",
+      "withdrawn_at": null,
+      "severity": "high",
+      "affected_packages": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "chromadb"
+          },
+          "vulnerable_version_range": ">= 0.4.17, <= 1.5.9",
+          "first_patched_version": null,
+          "vulnerable_functions": []
+        }
+      ]
+    },
+    {
+      "id": "GHSA-36p7-vc44-83pf",
+      "url": "https://github.com/advisories/GHSA-36p7-vc44-83pf",
+      "updated_at": "2026-08-24T20:03:34Z",
+      "withdrawn_at": null,
+      "severity": "critical",
+      "affected_packages": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "chromadb"
+          },
+          "vulnerable_version_range": ">= 0.4.17, <= 1.5.9",
+          "first_patched_version": null,
+          "vulnerable_functions": []
+        }
+      ]
+    },
+    {
+      "id": "GHSA-f4j7-r4q5-qw2c",
+      "url": "https://github.com/advisories/GHSA-f4j7-r4q5-qw2c",
+      "updated_at": "2026-10-05T21:32:32Z",
+      "withdrawn_at": null,
+      "severity": "critical",
+      "affected_packages": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "chromadb"
+          },
+          "vulnerable_version_range": ">= 1.0.0, <= 1.5.9",
+          "first_patched_version": null,
+          "vulnerable_functions": []
+        }
+      ]
+    },
+    {
+      "id": "GHSA-xph7-9rjv-w5fr",
+      "url": "https://github.com/advisories/GHSA-xph7-9rjv-w5fr",
+      "updated_at": "2026-08-24T20:00:43Z",
+      "withdrawn_at": null,
+      "severity": "high",
+      "affected_packages": [
+        {
+          "package": {
+            "ecosystem": "pip",
+            "name": "chromadb"
+          },
+          "vulnerable_version_range": ">= 0.5.0, <= 1.5.9",
+          "first_patched_version": null,
+          "vulnerable_functions": []
+        }
+      ]
+    }
+  ],
+  "exception_expiry_unchanged": "2026-12-09",
+  "policy_sha256": "8c290fd02edef381f3df8d2cb1834c2af7b5744bf37b88d7d11724dd2a63dabc",
+  "lock_sha256": "56809d64d7923ec4b5fc219dc0cc21f460d58d286e2e4c0f541ace096149e1cb",
+  "audit_sha256": "ba4e1a6a17c25ad8a058d60d4c1c351f1d15fb3a994c9b83e901afb99938a2ce",
+  "architecture_source_sha256": {
+    "backend/retrieval.py": "aae85376c5c41ed20df0c81fd9229c017ed37409739d14522663b86130f9d127",
+    "backend/test_chroma_security.py": "e576bfe5ff191066367dbcb25ac20b36f1c6c0bf9f6a0e4bec1799ecfe68eb56",
+    "scripts/check_dependency_audit.py": "68c24e88e1566329a3c00075ca2ae86a70c7f5bfd25db8684f1403192632283e",
+    "scripts/review_chroma_security.py": "6991b22c71972dcdca4235691fd6d2f3454225e1a2510edbc7cb450dd7f8de3e"
+  },
+  "architecture_regressions": {
+    "command": "python -m unittest backend.test_chroma_security -q",
+    "passed": true
+  },
+  "assessment": "The reviewed Chroma HTTP server paths are not exposed by our embedded-only configuration. No claim that the package is vulnerability-free.",
+  "controls": [
+    "Explicit Rust embedded adapter; environment cannot select HTTP adapter.",
+    "No Chroma server is started or proxied; source text cannot supply embedding-function configuration.",
+    "Collections use server-owned hashed names and embedding_function=None.",
+    "Public deployment remains memory retrieval; exception does not authorize a Chroma HTTP service."
+  ],
+  "needs_reassessment": false,
+  "reasons": [],
+  "exception_renewed": false,
+  "limitations": [
+    "Applicability assessment and regression tests, not an independent penetration test.",
+    "Patch availability is a point-in-time observation; scheduled dependency checks remain required."
+  ]
+}

@@ -2,6 +2,11 @@
 
 Current [engineering review](docs/BEST_PRACTICES.md), [dependency security status](SECURITY.md), and [deployment history](DEPLOYMENT.md).
 
+[Retrieval comparison](docs/EMBEDDING_COMPARISON.md): a pinned local multilingual
+candidate was measured against lexical retrieval on identical fixtures. It
+improved challenge retrieval but exceeded the current host's memory budget in
+the local worker measurement, so the deployed default remains lexical.
+
 **Measured quality:** [36-case baseline, failures and rent-conflict fix](evaluation/QUALITY_RESULTS.md).
 On the same small synthetic fixture set, the local post-fix live run improved
 answer-status accuracy from 83.3% to 91.7% and conflicting-price false confirmations

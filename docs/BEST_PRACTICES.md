@@ -63,8 +63,18 @@ feedback. Normal session deletion/expiry removes those in-memory counters.
 
 ## Open improvements
 
-1. Compare multilingual semantic embeddings against the lexical baseline using
-   retrieval recall, latency, memory and cost. Do not silently send documents to
+The initial [paired embedding comparison](EMBEDDING_COMPARISON.md) and
+[Chroma advisory review](../evaluation/chroma-security-review-2026-11-09.json)
+are now complete. The semantic candidate is not enabled in production because
+deployment memory suitability has not been established. The Chroma review kept
+the existing 9 December expiry; it did not establish a patched version.
+The subsequent retrieval/security work passed 157 backend tests locally,
+including inference with the explicitly downloaded model. CI does not download
+model weights; its local-model integration test is explicitly skipped when the
+files are absent.
+
+1. Reduce the measured semantic candidate's memory and validate the full backend
+   under deployment-like limits before switching retrieval. Do not send documents to
    an embedding provider before consent or load an unmeasured large model into
    the existing free host. No semantic retrieval improvement is claimed here.
 2. Obtain independent, fluent human reviews of the live benchmark in all three
