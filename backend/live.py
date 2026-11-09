@@ -114,7 +114,7 @@ class DebriefNotes(BaseModel):
  note: str
 
 @lru_cache(maxsize=32)
-def scene_review_schema(learner_count):
+def scene_review_schema(learner_count, goal_ids=()):
  """Select real learner turns; do not ask the model to manufacture quotations."""
  turn_ids=tuple(f'turn_{i}' for i in range(learner_count))
  turn_type=Literal.__getitem__(turn_ids) if turn_ids else str
@@ -122,15 +122,41 @@ def scene_review_schema(learner_count):
   learner_turn_id=(turn_type,...),
   suggestion=(str,Field(description='A relevant alternative phrase in the conversation language, or empty if no change is needed. Never invent a correction.')),
   explanation=(str,Field(description='Specific feedback about the selected real learner turn, in the feedback language; explain what worked or what could be clearer.')))
+ question_type=str
+ if goal_ids:
+  question_type=create_model('OpenGoalQuestion',__config__={'extra':'forbid'},
+   goal_id=(Literal.__getitem__((*goal_ids,'other')),...),
+   question=(str,Field(min_length=1,description='One concise open question in the feedback language. Use the mission goal ID for any question about that goal; other only for a distinct topic outside the mission. Never repeat a goal under other.')))
  return create_model('SelectedDebriefNotes',__config__={'extra':'forbid'},
   feedback=(list[selected_note],Field(min_length=1 if learner_count else 0,max_length=min(3,learner_count))),
-  unanswered=(list[str],...),phrases=(list[str],...),note=(str,...))
+  unanswered=(list[question_type],...),phrases=(list[str],...),note=(str,...))
 
-def bind_review(result, learner_turns):
+def bind_review(result, learner_turns, mission=None):
  data=result.model_dump()
  if data['feedback'] and 'learner_turn_id' in data['feedback'][0]:
   mapping={f'turn_{i}':text for i,text in enumerate(learner_turns)}
   data['feedback']=[{'quote':mapping[note['learner_turn_id']],'suggestion':note['suggestion'],'explanation':note['explanation']} for note in data['feedback']]
+ if mission is not None:
+  pending={g['id']:g for g in mission if not g['achieved'] or g['answer_status'] in ('unknown','unverified')}
+  covered=set()
+  questions=[]
+  seen=set()
+  for item in data['unanswered']:
+   goal_id=item.get('goal_id','other') if isinstance(item,dict) else 'other'
+   text=(item['question'] if isinstance(item,dict) else item).strip()
+   if goal_id!='other':
+    if goal_id not in pending or goal_id in covered: continue
+    covered.add(goal_id)
+   key=' '.join(re.findall(r'\w+',text.casefold()))
+   if key and key not in seen:
+    seen.add(key)
+    questions.append(text)
+  for goal_id,goal in pending.items():
+   key=' '.join(re.findall(r'\w+',goal['text'].casefold()))
+   if goal_id not in covered and key not in seen:
+    questions.append(goal['text'])
+    seen.add(key)
+  data['unanswered']=questions
  return DebriefNotes.model_validate(data)
 
 def strict_schema(schema):

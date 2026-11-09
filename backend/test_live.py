@@ -249,6 +249,36 @@ class LiveTests(unittest.TestCase):
   self.assertEqual(len(sessions[self.sid]['turns']),1)
   self.assertFalse(sessions[self.sid]['mission'][0]['achieved'])
 
+ def test_review_questions_are_grouped_by_goal_not_wording(self):
+  mission=[{'id':'0','text':'Ask about availability','achieved':False,'answer_status':'not_assessed'},
+   {'id':'1','text':'Ask about deposit and guarantor requirements','achieved':False,'answer_status':'not_assessed'},
+   {'id':'2','text':'Ask about rent','achieved':True,'answer_status':'confirmed'}]
+  schema=scene_review_schema(0,('0','1','2'))
+  for first,second in [('When is the apartment available?','Ask about availability'),
+   ('Wann ist die Wohnung verfügbar?','Nach der Verfügbarkeit fragen'),
+   ('¿Cuándo está disponible el piso?','Preguntar por la disponibilidad')]:
+   with self.subTest(question=first):
+    generated=schema.model_validate({'feedback':[],'unanswered':[
+     {'goal_id':'0','question':first},{'goal_id':'0','question':second},
+     {'goal_id':'2','question':'How much is the rent?'},
+     {'goal_id':'other','question':'Is parking available?'},
+     {'goal_id':'other','question':'Is parking available?'}], 'phrases':[],'note':'Review.'})
+    bound=bind_review(generated,[],mission)
+    self.assertEqual(bound.unanswered,[first,'Is parking available?',mission[1]['text']])
+  with self.assertRaises(ValidationError):
+   schema.model_validate({'feedback':[],'unanswered':[{'goal_id':'invented','question':'Anything?'}],'phrases':[],'note':'Review.'})
+
+ def test_finish_preserves_one_open_question_for_an_unknown_goal(self):
+  sessions[self.sid]['mission'][0].update(text='Ask about availability',achieved=True,answer_status='unknown')
+  generated=scene_review_schema(0,('0',)).model_validate({'feedback':[],
+   'unanswered':[{'goal_id':'0','question':'When is the apartment available?'},
+    {'goal_id':'0','question':'Ask about availability'}],'phrases':[],'note':'Review.'})
+  with patch('backend.main.model',return_value=generated):
+   response=self.client.post(self.p+'/finish')
+  self.assertEqual(response.status_code,200,response.text)
+  self.assertEqual(response.json()['unanswered'],['When is the apartment available?'])
+  self.assertEqual(response.json()['goals'][0]['answer_status'],'unknown')
+
  def test_review_requires_real_turn_selection_when_learner_has_spoken(self):
   schema=scene_review_schema(1)
   payload={'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'The question clearly asks about the cost.'}],'unanswered':[],'phrases':[],'note':'Communication notes.'}

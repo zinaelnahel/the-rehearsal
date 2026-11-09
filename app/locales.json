@@ -1854,5 +1854,29 @@
   "No microphone was found. Connect a microphone, upload a recording, or type instead.": {
     "de": "Kein Mikrofon gefunden. Schließe ein Mikrofon an, lade eine Aufnahme hoch oder schreibe stattdessen.",
     "es": "No se encontró ningún micrófono. Conecta uno, sube una grabación o escribe."
+  },
+  "Waiting: {seconds} seconds.": {
+    "de": "Wartezeit: {seconds} Sekunden.",
+    "es": "Espera: {seconds} segundos."
+  },
+  "Retrying automatically once. Your setup stays here.": {
+    "de": "Die Verbindung wird einmal automatisch erneut versucht. Deine Einstellungen bleiben erhalten.",
+    "es": "Reintentamos automáticamente una vez. Tu configuración se conserva."
+  },
+  "The first connection can take about a minute after inactivity.": {
+    "de": "Die erste Verbindung nach einer Ruhephase kann etwa eine Minute dauern.",
+    "es": "La primera conexión tras un periodo de inactividad puede tardar alrededor de un minuto."
+  },
+  "Setting the stage…": {
+    "de": "Die Bühne wird vorbereitet…",
+    "es": "Preparando el escenario…"
+  },
+  "Working on your rehearsal…": {
+    "de": "Deine Probe wird bearbeitet…",
+    "es": "Trabajando en tu ensayo…"
+  },
+  "A little backstage preparation. We’ll bring you in when it’s ready.": {
+    "de": "Ein wenig Vorbereitung hinter den Kulissen. Sobald alles bereit ist, geht es weiter.",
+    "es": "Un poco de preparación entre bastidores. Continuaremos cuando esté listo."
   }
 }
