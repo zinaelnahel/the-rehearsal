@@ -1,5 +1,13 @@
 # Evaluation plan
 
+## Multi-turn conversation quality
+
+[Dialogue evaluation instructions](docs/DIALOGUE_EVALS.md) cover fixed-history
+EN/DE/ES replays, six conversation-quality dimensions, separate model judging,
+output-bound human review, calibration and paired prompt-version comparisons.
+Offline CI validates execution and report integrity without provider calls;
+live quality and human calibration require explicit runs and actual reviews.
+
 ## Multimodal implementation checks
 
 [The implementation guide](docs/MULTIMODAL.md) documents the new offline contracts,

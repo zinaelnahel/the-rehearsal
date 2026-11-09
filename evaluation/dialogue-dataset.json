@@ -1,0 +1,119 @@
+[
+  {
+    "id": "interview-es-willingness",
+    "language": "Spanish", "scenario": "interview", "partner_role": "job interviewer",
+    "interaction_mode": "voice",
+    "document": "Customer service role in Seville. Previous customer service experience is preferred, not required. Working hours are Monday to Friday, 09:00 to 17:00. Salary is not specified.",
+    "goals": ["Describe relevant experience", "Ask about working hours", "Ask about salary"],
+    "history": [
+      {"role": "assistant", "content": "Hola, gracias por venir. ¿Puedes contarme un poco sobre tu experiencia?"},
+      {"role": "user", "content": "Sí, yo trabajo como programadora."},
+      {"role": "assistant", "content": "Este puesto es de atención al cliente. ¿Tienes experiencia en ese campo?"},
+      {"role": "user", "content": "Eh, no."},
+      {"role": "assistant", "content": "¿Te interesa aprender a trabajar en atención al cliente?"}
+    ],
+    "learner": "Sí, yo soy... yo aprendo esto, sí.",
+    "fixture_candidate": "Claro, el horario es de lunes a viernes, de 9:00 a 17:00. ¿Quieres saber algo más sobre el puesto?",
+    "author_expected_defects": ["relevance", "continuity"],
+    "provenance": "Fictional regression adapted from the reported interview; author labels are not human gold."
+  },
+  {
+    "id": "interview-de-willingness",
+    "language": "German", "scenario": "interview", "partner_role": "job interviewer",
+    "document": "Customer service position. Prior customer service experience is preferred, not required. Hours: Monday to Friday, 09:00 to 17:00. Salary is unspecified.",
+    "goals": ["Describe relevant experience", "Ask about working hours"],
+    "history": [
+      {"role": "assistant", "content": "Welche Berufserfahrung haben Sie?"},
+      {"role": "user", "content": "Ich arbeite als Programmiererin."},
+      {"role": "assistant", "content": "Haben Sie schon im Kundenservice gearbeitet?"},
+      {"role": "user", "content": "Nein, bisher nicht."},
+      {"role": "assistant", "content": "Möchten Sie sich in diesen Bereich einarbeiten?"}
+    ],
+    "learner": "Ja, ich möchte das lernen.",
+    "fixture_candidate": "Was hat Ihnen bisher geholfen, sich in ein neues Thema einzuarbeiten?",
+    "author_expected_defects": []
+  },
+  {
+    "id": "interview-en-repeated-denial",
+    "language": "English", "scenario": "interview", "partner_role": "job interviewer",
+    "document": "Customer support role. Prior experience preferred. Training arrangements are not specified.",
+    "goals": ["Describe relevant experience"],
+    "history": [
+      {"role": "assistant", "content": "Have you worked in customer support?"},
+      {"role": "user", "content": "No, I have never worked in customer support."},
+      {"role": "assistant", "content": "What interests you about this role?"}
+    ],
+    "learner": "I enjoy explaining technical things to people.",
+    "fixture_candidate": "Do you have any experience working in customer support?",
+    "author_expected_defects": ["memory", "continuity"]
+  },
+  {
+    "id": "interview-es-agreement",
+    "language": "Spanish", "scenario": "interview", "partner_role": "job interviewer",
+    "document": "Customer service role. No minimum prior experience is specified.",
+    "goals": ["Describe relevant experience"],
+    "history": [
+      {"role": "assistant", "content": "¿A qué te dedicas?"},
+      {"role": "user", "content": "Soy programadora y nunca he trabajado en atención al cliente."},
+      {"role": "assistant", "content": "¿Cómo te sientes ante un cambio de sector?"}
+    ],
+    "learner": "Me interesa aprender.",
+    "fixture_candidate": "¿Estás dispuesto a aprender a trabajar con clientes?",
+    "author_expected_defects": ["language_agreement"]
+  },
+  {
+    "id": "interview-en-self-report",
+    "language": "English", "scenario": "interview", "partner_role": "job interviewer",
+    "document": "Customer service position. Technical communication is useful. Applicant qualifications are not verified by this advert.",
+    "goals": ["Describe relevant experience"],
+    "history": [{"role": "assistant", "content": "Could you tell me about your experience?"}],
+    "learner": "I have worked in QA for five years.",
+    "fixture_candidate": "What kinds of testing have you done?",
+    "author_expected_defects": []
+  },
+  {
+    "id": "apartment-de-correction",
+    "language": "German", "scenario": "apartment", "partner_role": "person showing the apartment",
+    "document": "Rent is 850 euros a month. Move-in date and pet policy are not specified.",
+    "goals": ["Clarify the move-in date", "Ask about rent"],
+    "history": [
+      {"role": "assistant", "content": "Wann möchten Sie einziehen?"},
+      {"role": "user", "content": "Im Juni."},
+      {"role": "assistant", "content": "Sie möchten also im Juni einziehen?"}
+    ],
+    "learner": "Entschuldigung, ich meinte Juli, nicht Juni.",
+    "fixture_candidate": "Gut, dann halten wir Juni als Einzugstermin fest.",
+    "author_expected_defects": ["memory", "grounding"]
+  },
+  {
+    "id": "apartment-es-requested-topic-change",
+    "language": "Spanish", "scenario": "apartment", "partner_role": "person showing the apartment",
+    "document": "The monthly rent is 850 euros, including utilities. Pets and availability are not specified.",
+    "goals": ["Ask about availability", "Ask about monthly rent"],
+    "history": [{"role": "assistant", "content": "¿Cuándo te gustaría mudarte?"}],
+    "learner": "Antes de hablar de fechas, ¿cuánto cuesta el alquiler al mes?",
+    "fixture_candidate": "El alquiler mensual es de 850 euros e incluye los suministros. [1]",
+    "author_expected_defects": [],
+    "provenance": "Positive control: learner-requested topic changes are allowed. Offline citation is illustrative; live retrieval IDs come from the actual store."
+  },
+  {
+    "id": "interview-de-unknown-training",
+    "language": "German", "scenario": "interview", "partner_role": "job interviewer",
+    "document": "Customer service role. Work is Monday to Friday. Training, salary and hiring decisions are not specified.",
+    "goals": ["Ask about training"],
+    "history": [{"role": "assistant", "content": "Haben Sie noch Fragen zur Stelle?"}],
+    "learner": "Bekomme ich eine bezahlte Einarbeitung?",
+    "fixture_candidate": "Ja, wir garantieren Ihnen sechs Wochen bezahlte Einarbeitung.",
+    "author_expected_defects": ["grounding"]
+  },
+  {
+    "id": "interview-en-no-coaching",
+    "language": "English", "scenario": "interview", "partner_role": "job interviewer",
+    "document": "Customer support job. Previous experience is preferred. No hiring decision has been made.",
+    "goals": ["Describe relevant experience"],
+    "history": [{"role": "assistant", "content": "Tell me about your previous work."}],
+    "learner": "I work programmer. I help people with computer problems.",
+    "fixture_candidate": "Good answer! You should say: I work as a programmer. Try saying that again.",
+    "author_expected_defects": ["role_consistency", "continuity"]
+  }
+]

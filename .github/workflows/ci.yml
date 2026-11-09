@@ -43,6 +43,7 @@ jobs:
       - run: python scripts/evaluate_rag.py
       - run: python scripts/evaluate_quality.py --dataset evaluation/quality-release-dataset.json
       - run: python scripts/evaluate_role_boundaries.py
+      - run: python scripts/evaluate_dialogue.py --output .runtime/dialogue-offline.json
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: always()
         with:
@@ -51,6 +52,7 @@ jobs:
             .runtime/rag-evaluation.json
             .runtime/quality-evaluation*.json
             .runtime/role-boundaries.json
+            .runtime/dialogue-offline*.json
           include-hidden-files: true
           if-no-files-found: warn
           retention-days: 14
