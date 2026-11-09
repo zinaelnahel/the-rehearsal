@@ -76,6 +76,37 @@ class LiveTests(unittest.TestCase):
     self.assertEqual(debrief['goals'][0]['answer_status'],'unknown')
     self.assertIn('Ask whether pets are allowed',debrief['unanswered'])
 
+ def test_explicit_pet_question_survives_missed_assessments_and_replay(self):
+  sessions[self.sid]['mission'][0]['text']='Ask whether pets are allowed'
+  proposal=self.proposal(reply='I cannot confirm the pet policy.',citations=[],
+   goal_checks=[GoalCheck(goal_id='0',achieved=False,learner_quote='')],
+   answer_checks=[])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=False,
+   accepted_goal_ids=[],verified_answer_goal_ids=[])
+  for replay in (False,True):
+   if replay:
+    sessions[self.sid]['phase']='debrief'
+    replay_response=self.client.post(self.p+'/retry',json={'goal_id':'0'})
+    self.assertEqual(replay_response.status_code,200,replay_response.text)
+   with patch('backend.main.model',side_effect=[proposal,review]):
+    response=self.client.post(self.p+'/turn',json={'text':'Are pets allowed?'})
+   self.assertEqual(response.status_code,200,response.text)
+   goal=response.json()['goals'][0]
+   self.assertTrue(goal['achieved'])
+   self.assertEqual(goal['evidence'],'Are pets allowed?')
+   self.assertEqual(goal['answer_status'],'unverified')
+   self.assertEqual(goal['answer_sources'],[])
+
+ def test_explicit_pet_question_is_not_keyword_matching(self):
+  from backend.live import explicit_pet_question
+  for text in ['Pets.', 'I will not ask whether pets are allowed.',
+               'You asked: Are pets allowed?', 'Pets are allowed.']:
+   self.assertFalse(explicit_pet_question(text,'Ask whether pets are allowed'))
+  self.assertFalse(explicit_pet_question('Are pets allowed?',
+   'Ask whether pets are allowed and negotiate the deposit'))
+  for text in ['Are pets allowed?', 'Sind Haustiere erlaubt?', '¿Se permiten mascotas?']:
+   self.assertTrue(explicit_pet_question(text,'Ask whether pets are allowed'))
+
  def test_conflicting_rent_cannot_be_confirmed_by_two_approving_models(self):
   from langchain_core.documents import Document
   source=[Document(page_content=f'Monthly rent is {value} euros.',metadata={

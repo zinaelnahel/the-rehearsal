@@ -14,6 +14,23 @@ from pydantic import BaseModel, Field, create_model
 from fastapi import HTTPException
 from langsmith import traceable
 
+def explicit_pet_question(text, goal):
+ """Bounded action evidence only; never establishes a document answer."""
+ goals = (
+  r'ask (?:whether|if) pets are allowed',
+  r'ask about (?:the )?pet policy',
+  r'fragen,? ob haustiere erlaubt sind',
+  r'preguntar si se (?:permiten|admiten) mascotas',
+ )
+ questions = (
+  r'are pets allowed', r'are pets permitted',
+  r'sind haustiere erlaubt', r'sind haustiere gestattet',
+  r'se permiten mascotas', r'se admiten mascotas',
+ )
+ normalize=lambda value: plain(value).strip(' .!?¿¡')
+ return (any(re.fullmatch(pattern,normalize(goal)) for pattern in goals)
+         and any(re.fullmatch(pattern,normalize(text)) for pattern in questions))
+
 class GoalCheck(BaseModel):
  goal_id: str
  achieved: bool = Field(description='True only when the latest_learner_turn itself performs this goal. Your partner reply cannot achieve a learner goal.')
@@ -238,7 +255,8 @@ def rehearse(session,text,docs,call,passage):
   'For a family member requesting help, I cannot help this weekend or please do not ask me again is a role reversal, not a supported source quote. You cannot help this weekend is a possible reflection of the learner, not a role reversal. Source second-person you refers to the learner, not the partner. '
   'When server_family_role_contract is present, enforce its speaker ownership and localized examples. Reject the ENTIRE reply if any clause adopts the learner boundary, even when its opening correctly acknowledges the learner and its citations exist. A requester accepting responsibility to ask the learner first is allowed; asking the learner to seek the requester permission is a reversal. Practice notes do not license the requester to state the learner boundary. '
   'reply_supported is true only if the reply maintains the partner role without praise, grading or coaching and EVERY document-specific claim or commitment is supported by retrieved passages. Conversational questions, acknowledgements and reflections of learner-provided preferences need no citation; fabricated facts or agreements are unsupported. '
-  'accepted_goal_ids must be a subset of goal_checks marked achieved=true, and require that the quoted latest learner text actually meets the goal semantically. NEVER accept a check marked false, or assess the partner reply as a learner action. Reject negation, keyword-only mentions and evidence from earlier turns. '
+  'An accurate statement that the document does not specify a policy is a valid cautious reply, not an unsupported policy claim. Do not reject it merely because the policy itself is unknown. '
+  'accepted_goal_ids must be a subset of goal_checks marked achieved=true, and require that the quoted latest learner text actually meets the goal semantically. Asking whether pets are allowed achieves an ask-about-pets goal even when the policy is unknown or the partner reply is rejected. Learner actions and answer verification are independent. NEVER accept a check marked false, or assess the partner reply as a learner action. Reject negation, keyword-only mentions and evidence from earlier turns. '
   'verified_answer_goal_ids must be a subset of answer_checks marked supported. A quote merely existing is not enough: the quote must actually answer that goal and entail what the partner said. Conflicting source values do not establish a confirmed value: do not verify such an answer, even when the reply mentions both amounts. Unknown details must stay unknown. Never verify an answer goal when its policy or detail is unspecified, unstated or unknown, even if the reply accurately describes that absence. A stated prohibition is a known answer.',
   {**context,'proposal':reply.model_dump()},session=session)
  role_reversal=not review.partner_role_consistent or (
@@ -274,6 +292,9 @@ def rehearse(session,text,docs,call,passage):
     quote=answer.source_quote
     source_ids=[answer.source_id]
   updates[identifier]={'evidence':checks[identifier].learner_quote,'status':status,'quote':quote,'ids':source_ids}
+ for goal in session['mission']:
+  if goal['id'] not in updates and explicit_pet_question(text,goal['text']):
+   updates[goal['id']]={'evidence':text,'status':'unverified','quote':'','ids':[]}
  if conflict_relevant:
   # An earlier retrieval may have missed the conflicting passage. Revoke an
   # existing confirmation without claiming a new learner action took place.
