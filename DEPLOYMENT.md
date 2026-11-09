@@ -1,5 +1,19 @@
 # Vercel deployment
 
+## Pet-question tracking — 9 November 2026
+
+Commit `d4ccddd75a05ed7e4f3405dfd964e869ccd8715a` is live on both services.
+[Release evidence](evaluation/deployment-pet-tracking-2026-11-09.json) records
+passing CI, 140 offline backend tests, frontend checks and public health,
+build-identity, proxy-protection and session-deletion checks. Explicit pet-policy
+questions have a bounded action-evidence backstop, including replay, without
+confirming an unsupported answer. The German partner label is corrected.
+The user approved a new one-time exception to the missing independent
+human-reviewed live benchmark. The release gate remains unchanged. Hosted
+verification made no model calls; broader live-model reliability and generation
+latency are not established by these checks. Start a fresh take to test the fix;
+historical saved reviews are not rescored.
+
 ## Family action scoring — 6 November 2026
 
 Commit `6381135a97a6885ad97b9eefa1dd14cb9aa3f9a2` is live on both services.

@@ -1,0 +1,31 @@
+﻿{
+    "source_commit":  "d4ccddd75a05ed7e4f3405dfd964e869ccd8715a",
+    "checked_at_utc":  "2026-11-09T08:31:06.118452+00:00",
+    "frontend_url":  "https://the-rehearsal-lab.vercel.app",
+    "checks":  {
+                   "public_homepage":  true,
+                   "library_in_published_page":  true,
+                   "frontend_build_matches":  true,
+                   "backend_build_metadata_matches":  true,
+                   "live_speech_feedback_enabled":  true,
+                   "config_no_store":  true,
+                   "feedback_phase_enforced":  true,
+                   "session_deletion":  true,
+                   "deletion_verified":  true,
+                   "backend_health":  true,
+                   "backend_proxy_protection":  true
+               },
+    "provider_calls":  0,
+    "passed":  true,
+    "render_deploy_id":  "dep-dboo81lg1s2s73fr9p8g",
+    "vercel_deploy_id":  "dpl_Hnmw84bwrWjKG53ZAtBcPag89Rha",
+    "ci_run_url":  "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42585659197",
+    "offline_backend_tests":  140,
+    "user_authorized_one_time_gate_exception":  true,
+    "release_gate_changed":  false,
+    "limits":  [
+                   "Hosted checks made no model calls; broad live-model reliability remains unverified.",
+                   "Explicit pet-question backstop is narrowly scoped; other goals and paraphrases still use model assessments.",
+                   "Independent human-reviewed live release evidence remains missing."
+               ]
+}
