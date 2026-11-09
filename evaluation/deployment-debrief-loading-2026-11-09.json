@@ -1,0 +1,49 @@
+{
+  "source_commit": "ef68e7c16630d587ee9dbe85e062b3f76d06e752",
+  "checked_at_utc": "2026-11-09T14:06:23.874151+00:00",
+  "frontend_url": "https://the-rehearsal-lab.vercel.app",
+  "checks": {
+    "public_homepage": true,
+    "loading_copy_published": true,
+    "library_in_published_page": true,
+    "frontend_build_matches": true,
+    "backend_build_metadata_matches": true,
+    "live_speech_feedback_enabled": true,
+    "config_no_store": true,
+    "feedback_phase_enforced": true,
+    "session_deletion": true,
+    "deletion_verified": true,
+    "backend_health": true,
+    "backend_proxy_protection": true
+  },
+  "provider_calls": 0,
+  "passed": true,
+  "render_deploy_id": "dep-dbot5u61egvs7380rfjg",
+  "vercel_deploy_id": "dpl_HicKQ9vVRVjMV5TpZNhzQaQCDVqZ",
+  "ci_run_url": "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42630813943",
+  "security_run_url": "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42630813862",
+  "local_backend_tests": 159,
+  "frontend_tests": 24,
+  "hosted_browser_checks": {
+    "passed": true,
+    "api_responses": "simulated, no provider calls",
+    "checks": [
+      "elapsed wait",
+      "single automatic retry",
+      "preserved setup",
+      "bounded failure",
+      "manual recovery",
+      "permanent HTTP failure",
+      "animated clapperboard",
+      "mobile layout",
+      "reduced motion",
+      "action loading cleanup"
+    ]
+  },
+  "limits": [
+    "Hosted checks made no provider calls; debrief grouping is covered by synthetic backend regressions in English, German and Spanish.",
+    "Independent human-reviewed live benchmark remains missing; user requested manual deployment.",
+    "Physical microphone capture remains unverified.",
+    "Chroma exceptions remain scoped to embedded-only use and expire 2026-12-09."
+  ]
+}

@@ -1,5 +1,22 @@
 # Vercel deployment
 
+## Debrief questions and loading feedback - 9 November 2026
+
+Commit `ef68e7c16630d587ee9dbe85e062b3f76d06e752` is live on both services.
+[Deployment evidence](evaluation/deployment-debrief-loading-2026-11-09.json)
+records successful CI/security workflows, 159 local backend tests, 24 frontend
+tests and passing public health, build metadata, access-protection and deletion
+checks. Open review questions now bind to mission goal IDs, removing repeated
+wordings for the same goal while retaining unconfirmed answers and distinct
+questions. Startup shows elapsed waiting time and retries a temporary connection
+failure once. A smiling animated clapperboard accompanies startup and rehearsal
+actions, with reduced-motion support and English/German/Spanish loading copy.
+Hosted Chrome checks used simulated API responses to verify loading, bounded
+retry, preserved setup, manual recovery, mobile layout and reduced motion.
+Hosted verification made no provider calls. Physical microphone capture and an
+independent human-reviewed live benchmark remain unverified. This was a
+user-requested manual deployment; the release workflow remains unchanged.
+
 ## Retrieval benchmark and Chroma safeguards — 9 November 2026
 
 Commit `5ca60281f4df39b9c6d7336c039ee1145e63f3ad` is live on both services.
