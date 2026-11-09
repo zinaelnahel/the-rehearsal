@@ -5,6 +5,8 @@ from pathlib import Path
 import sys
 
 ROOT=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT))
+from scripts.release_sources import source_paths
 
 
 def check(report, dataset):
@@ -18,9 +20,9 @@ def check(report, dataset):
     run_ids=[r.get('run_id') for r in report.get('cases',[])]
     if expected!=actual or len(set(run_ids))!=len(run_ids):
         errors.append('Benchmark cases are missing, unexpected or duplicated')
-    required=('backend/main.py','backend/live.py','backend/agent.py','backend/retrieval.py',
-              'backend/demo_answers.py','backend/source_conflicts.py','backend/context.py',
-              'backend/content.py','scripts/evaluate_quality.py')
+    required=source_paths()
+    if set(report.get('source_sha256',{})) != set(required):
+        errors.append('Evaluation source manifest is incomplete or stale')
     for name in required:
         if report.get('source_sha256',{}).get(name)!=digest((ROOT/name).read_text(encoding='utf-8')):
             errors.append('Code changed or was not recorded: '+name)

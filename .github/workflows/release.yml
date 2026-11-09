@@ -24,7 +24,7 @@ jobs:
     timeout-minutes: 15
     environment: production
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - name: Require successful CI for this commit
         env:
           GH_TOKEN: ${{ github.token }}
@@ -40,12 +40,18 @@ jobs:
         run: |
           gh api "repos/$GITHUB_REPOSITORY/actions/workflows/langsmith-evaluation.yml/runs?head_sha=$GITHUB_SHA&event=workflow_dispatch&status=success" \
             --jq '.workflow_runs | length > 0' | grep -qx true
-      - uses: actions/setup-python@v5
+      - name: Require dependency security checks for this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/security.yml/runs?head_sha=$GITHUB_SHA&event=push&status=success" \
+            --jq '.workflow_runs | length > 0' | grep -qx true
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
           cache: pip
-          cache-dependency-path: backend/requirements.txt
-      - run: python -m pip install -r backend/requirements.txt
+          cache-dependency-path: backend/requirements.lock
+      - run: python -m pip install --require-hashes -r backend/requirements.lock
       - name: Require current independent human-reviewed live quality evidence
         env:
           REHEARSAL_MODE: demo

@@ -19,8 +19,18 @@ class PromptContextTests(unittest.TestCase):
         self.assertEqual(projected, [{'role': t['role'], 'content': t['content']} for t in turns])
         self.assertEqual(turns, original)
         self.assertLess(len(json.dumps(projected)), len(json.dumps(turns)))
-        self.assertEqual(dialogue_history(turns, 1), projected[-1:])
+        self.assertEqual(dialogue_history(turns, 1), [])
         self.assertEqual(dialogue_history(turns, None), projected)
+
+    def test_trim_keeps_complete_pairs_and_zero_does_not_leak_history(self):
+        turns = [{'role': role, 'content': str(i)} for i, role in enumerate(
+            ['assistant', 'user', 'assistant', 'user', 'assistant'])]
+        self.assertEqual(dialogue_history(turns, 3), turns[-2:])
+        self.assertEqual(dialogue_history(turns, 4), turns[-4:])
+        self.assertEqual(dialogue_history(turns, 0), [])
+        for limit in [-1, True, 1.5]:
+            with self.assertRaises(ValueError):
+                dialogue_history(turns, limit)
 
     def test_generation_and_independent_review_keep_full_current_evidence(self):
         doc = Document(page_content='Pets are not allowed. Exceptions are not offered.',

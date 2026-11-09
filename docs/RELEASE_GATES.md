@@ -1,5 +1,12 @@
 # Implementation and release evidence — 5 November 2026
 
+Historical verification below describes 5 November. Since 9 November, danger-keyword
+pauses have been removed: the 18 sensitive-context cases expect ordinary practice.
+Current source status is in [BEST_PRACTICES.md](BEST_PRACTICES.md). The release now
+also requires dependency security checks, hash-locked installs and provenance for
+all backend modules and the dependency lockfile. Independent human-reviewed live
+evidence remains missing; historical manual deployments do not satisfy that gate.
+
 Delivered:
 
 - Shared and per-client request throttling; concurrency control; deletion stays available.
@@ -54,7 +61,7 @@ python scripts/check_review_provenance.py .runtime/release-reviewed.json
 ```
 
 Release runs these checks before deploy hooks. Passing requires three languages
-and styles, safety cases, complete human verdicts, accepted grounding/answer/goal/
+and styles, sensitive-context cases, complete human verdicts, accepted grounding/answer/goal/
 safety behavior, usefulness at least 4/5, valid feedback/safety contracts and current
 code/dataset hashes. A finite benchmark cannot guarantee general reliability.
 

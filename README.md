@@ -1,5 +1,7 @@
 # The Rehearsal
 
+Current [engineering review](docs/BEST_PRACTICES.md), [dependency security status](SECURITY.md), and [deployment history](DEPLOYMENT.md).
+
 **Measured quality:** [36-case baseline, failures and rent-conflict fix](evaluation/QUALITY_RESULTS.md).
 On the same small synthetic fixture set, the local post-fix live run improved
 answer-status accuracy from 83.3% to 91.7% and conflicting-price false confirmations
@@ -24,12 +26,12 @@ Choose the **conversation language** and **feedback language** independently fro
 
 ## Run locally
 
-Requirements: Python 3.11+ and Node.js 20.9+ (Node 22 recommended).
+Verified runtime: Python 3.12 and Node.js 22. CI and Docker install the hashed Python lockfile; use the same file locally.
 
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-python -m pip install -r backend/requirements.txt
+python -m pip install --require-hashes -r backend/requirements.lock
 Copy-Item .env.example .env
 python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --no-access-log
 ```

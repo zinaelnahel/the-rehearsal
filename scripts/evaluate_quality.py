@@ -19,6 +19,7 @@ sys.path.insert(0, str(ROOT))
 from fastapi.testclient import TestClient
 from pydantic import BaseModel, Field
 from backend import main as api
+from scripts.release_sources import source_paths
 
 
 class JudgeVerdict(BaseModel):
@@ -146,6 +147,7 @@ def run_case(client, case, judge_model=None):
         debrief = require(client.post(path+'/finish'))
         row.update(level=case.get('level','Everyday'), feedback_language=case.get('feedback_language',case['language']),
             feedback=debrief['feedback'], unanswered=debrief['unanswered'], phrases=debrief['phrases'],
+            model_usage=dict(api.sessions[sid].get('model_usage',{})),
             sensitive_context=case.get('sensitive_context',False),
             expected_safety=case.get('expected_safety',False), safety=result['safety'],
             safety_matches=result['safety']==case.get('expected_safety',False),
@@ -231,8 +233,7 @@ def main():
                   'agent_enabled':args.agent,'vector_store':'memory','dataset_sha256':digest(args.dataset.read_text(encoding='utf-8')),
                   'repeats':args.repeats,'cases':[],
                   'limitations':'Small synthetic fixtures; correlations between cases/languages/repeats invalidate independence assumptions of the descriptive Wilson intervals. No human review unless explicitly attached. Value/status checks are not semantic hallucination measurements.'}
-        report['source_sha256'] = {name:digest((ROOT/name).read_text(encoding='utf-8')) for name in (
-            'scripts/evaluate_quality.py','backend/main.py','backend/live.py','backend/agent.py','backend/retrieval.py','backend/demo_answers.py','backend/source_conflicts.py','backend/context.py','backend/content.py')}
+        report['source_sha256'] = {name:digest((ROOT/name).read_text(encoding='utf-8')) for name in source_paths()}
         before = len(api.model_calls)
         with patch.object(api,'LIVE',args.live), patch.dict(os.environ,{'API_PROXY_TOKEN':'','VECTOR_STORE':'memory',
                 'REHEARSAL_AGENT_ENABLED':'true' if args.agent else 'false'}), TestClient(api.app) as client:

@@ -15,6 +15,7 @@ from typing import Literal
 
 from backend.family_boundary import FAMILY_BOUNDARY, family_intents, family_response_stage, FAMILY_PACING, family_action_observations
 from backend.prompt_context import dialogue_history
+from backend.model_metrics import ModelMetrics
 from backend.context import CONTEXT_RULES, is_final_breakup, BREAKUP
 from backend.content import LANGUAGES, LEVELS, CONTENT, COMMON, TRANSLATIONS, NO_CORRECTION, pack, goal_index
 from backend.demo_answers import answer as demo_answer, COPY as ANSWER_COPY, detect_intents, EXTRA_STARTERS, asks_question
@@ -65,6 +66,9 @@ class LocalEmbeddings(Embeddings):
    if word=='pet': word='mascotas'
    word = aliases.get(word, word)
    vector[int(hashlib.sha256(word.encode()).hexdigest()[:8],16) % 512] += 1
+  # Cosine similarity is undefined for all-zero vectors (empty/punctuation input).
+  # A deterministic sentinel keeps these valid without claiming semantic meaning.
+  if not any(vector): vector[0] = 1.0
   return vector
  def embed_documents(self, texts):
   return [self.embed_query(t) for t in texts]
@@ -297,8 +301,9 @@ def model(schema, system, data, session=None):
  reserve_call(session)
  from langchain_openai import ChatOpenAI
  try:
-  raw=ChatOpenAI(model=os.getenv('OPENAI_MODEL','gpt-4.1-mini'),temperature=0,timeout=20,max_retries=0,max_tokens=1400,model_kwargs={'store':False}).with_structured_output(strict_schema(schema),method='json_schema',strict=True).invoke([('system',system),('human',json.dumps(data,ensure_ascii=False))])
-  return schema.model_validate(raw)
+  with ModelMetrics(session) as metrics:
+   raw=ChatOpenAI(model=os.getenv('OPENAI_MODEL','gpt-4.1-mini'),temperature=0,timeout=20,max_retries=0,max_tokens=1400,store=False).with_structured_output(strict_schema(schema),method='json_schema',strict=True).invoke([('system',system),('human',json.dumps(data,ensure_ascii=False))],config={'callbacks':[metrics]})
+   return schema.model_validate(raw)
  except HTTPException: raise
  except Exception as exc:
   status=getattr(exc,'status_code',None)
@@ -315,8 +320,9 @@ def agent_model(messages, tools, session):
  reserve_call(session)
  from langchain_openai import ChatOpenAI
  try:
-  return ChatOpenAI(model=os.getenv('OPENAI_MODEL','gpt-4.1-mini'),temperature=0,
-   timeout=6,max_retries=0,max_tokens=600,model_kwargs={'store':False}).bind_tools(tools).invoke(messages)
+  with ModelMetrics(session) as metrics:
+   return ChatOpenAI(model=os.getenv('OPENAI_MODEL','gpt-4.1-mini'),temperature=0,
+    timeout=6,max_retries=0,max_tokens=600,store=False).bind_tools(tools).invoke(messages,config={'callbacks':[metrics]})
  except Exception:
   raise HTTPException(502,'Agent preparation could not be completed. Retry this turn; it has not been saved.') from None
 

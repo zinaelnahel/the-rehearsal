@@ -7,7 +7,9 @@ committed and pushed before reviewers can see them in the linked repository.
 
 Repository: https://github.com/zinaelnahel/the-rehearsal
 
-Current evidence: [submission verification](SUBMISSION.md). Public release evidence
+Current engineering status: [best-practices review](docs/BEST_PRACTICES.md).
+Current deployment history: [DEPLOYMENT.md](DEPLOYMENT.md).
+Historical submission evidence: [submission verification](SUBMISSION.md). Public release evidence
 is published with [version 0.7.0](https://github.com/zinaelnahel/the-rehearsal/releases/tag/v0.7.0).
 
 ![Updated architecture infographic](docs/architecture-infographic.png)
@@ -17,9 +19,9 @@ is published with [version 0.7.0](https://github.com/zinaelnahel/the-rehearsal/r
 | Evaluation | [Dataset](evaluation/rag-dataset.json), [runner](scripts/evaluate_rag.py), [offline report](evaluation/rag-demo-baseline.json), [evaluation plan](EVALUATION.md) | Nine demo cases are a regression baseline, not a live-model quality score. The current real-provider nine-case run and all four judges passed; see SUBMISSION.md. |
 | Automated tests | `backend/test_*.py`; see current verification in docs/MULTIMODAL.md | Stubbed live-model tests verify safeguards, not general real-model performance. |
 | Historical live evidence | [Rent-flow report](evaluation/rent-fixed-slots-2026-11-02.json), [multilingual report](evaluation/multilingual-fixed-slots-2026-11-02.json) | Small historical smoke runs; not results for every subsequent code revision or proof of broad reliability. |
-| Reproducibility | [README](README.md), [.env.example](.env.example), `package-lock.json`, `backend/requirements.txt` | Frontend dependencies have a lockfile; Python dependencies have version ranges, so backend installs are not fully pinned. |
-| Containerization | [Dockerfile](Dockerfile), [.dockerignore](.dockerignore), [Render configuration](render.yaml) | Container build is configured in CI; it was not verified locally because Docker is unavailable. |
-| CI/CD | [CI workflow](.github/workflows/ci.yml), [release workflow](.github/workflows/release.yml), [activation steps](DEPLOYMENT.md) | Prepared locally; GitHub execution and deployment secrets still need verification. Hook acceptance is not deployment health. |
+| Reproducibility | [README](README.md), [.env.example](.env.example), `package-lock.json`, `backend/requirements.lock` | Both stacks have lockfiles; Python transitive dependencies include hashes and are checked in CI. Dependency advisories and exceptions are documented in SECURITY.md. |
+| Containerization | [Dockerfile](Dockerfile), [.dockerignore](.dockerignore), [Render configuration](render.yaml) | Container build and parser-confinement probe passed in hosted CI for the deployed source. The current source must also pass CI before release. |
+| CI/CD | [CI workflow](.github/workflows/ci.yml), [release workflow](.github/workflows/release.yml), [activation steps](DEPLOYMENT.md) | Hosted CI and manual deployment checks are recorded in DEPLOYMENT.md. Independent human-reviewed live evidence is still missing; manual releases are not proof that the quality gate passed. |
 | Guardrails | [Role-play and evidence review](backend/live.py), [context safeguards](backend/context.py), [API limits](backend/main.py) | Exact quotes and model review reduce risk; neither proves every response is correct or safe. |
 | Production trade-offs | Cost, latency and scaling analysis below | This is a bounded single-instance prototype, not a horizontally scalable production service. |
 
@@ -114,7 +116,7 @@ Follow [README.md](README.md) for Python/Node installation and local startup.
 No provider key is needed for these checks:
 
 ```powershell
-python -m pip install -r backend/requirements.txt
+python -m pip install --require-hashes -r backend/requirements.lock
 python -m unittest discover -s backend -t . -p 'test_*.py' -v
 python scripts/evaluate_rag.py
 npm ci
@@ -133,8 +135,8 @@ generation and four separate model-graded dimensions: correctness, relevance,
 groundedness and retrieval relevance. It uses provider calls and writes local
 results; it does not upload traces to LangSmith. Use `scripts/evaluate_langsmith.py` for the explicit synthetic LangSmith experiment. Human review is still needed,
 especially because the judge uses the same configured model as the generator.
-The broader dataset and human annotation gates in EVALUATION.md are planned work,
-not achieved scores. Safety evidence currently consists of automated regressions
+The broader synthetic dataset and human-review gate are implemented; independent
+human-reviewed live quality evidence remains missing. See docs/BEST_PRACTICES.md. Safety evidence currently consists of automated regressions
 for conflicting/instructional documents, fabricated quotes, unsupported replies,
 negated goals, context boundaries and session isolation; no broad safety benchmark
 or measured attack success rate is claimed.
@@ -147,8 +149,8 @@ or measured attack success rate is claimed.
 - Confirmed answers require valid retrieved IDs, exact supporting text and a
   separate semantic evidence review. Unsupported generated replies are withheld
   and replaced with an explicit unknown response.
-- Sensitive-scene rules can pause role-play. Pattern matching has false positives
-  and false negatives; this is not clinical safety screening.
+- There is no application danger-keyword scan or forced support-note pause.
+  Source-grounding, schema validation and tool restrictions remain active.
 - API keys remain server-side. Sessions expire after an hour of inactivity;
   deletion removes server references and its persisted retrieval collection, then verifies session inaccessibility. Logical deletion is not secure disk erasure.
 - Bounded uploads, parser limits, session/turn/hint limits, provider call ceilings,

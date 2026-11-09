@@ -52,7 +52,7 @@ calls even when chat uses the offline demo. Speech controls are hidden when disa
   an unsent recording; **Stop voice mode** releases the device and cancels pending
   transcription/playback. A message already submitted may still complete once
   and remains visible. Failed requests are never automatically retried.
-- Navigating away, hiding the tab, finishing, deleting or a safety pause stops
+- Navigating away, hiding the tab, finishing or deleting stops
   voice mode. Transcripts longer than 2,000 characters are preserved for manual
   editing and are not automatically sent. The text composer remains available when voice mode is off. Supported browsers need
   HTTPS (or localhost), MediaRecorder, Web Audio and microphone permission.

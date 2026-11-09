@@ -3,8 +3,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 CHROMA_PATH=/home/rehearsal/dat
 WORKDIR /app
 ENV FEEDBACK_DB_PATH=/home/rehearsal/data/feedback.sqlite3
 RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg libseccomp2 && rm -rf /var/lib/apt/lists/*
-COPY backend/requirements.txt /app/backend/requirements.txt
-RUN pip install --no-cache-dir -r backend/requirements.txt
+COPY backend/requirements.lock /app/backend/requirements.lock
+RUN pip install --no-cache-dir --require-hashes -r backend/requirements.lock
 COPY backend /app/backend
 COPY samples /app/samples
 COPY scripts/report_feedback.py /app/scripts/report_feedback.py
