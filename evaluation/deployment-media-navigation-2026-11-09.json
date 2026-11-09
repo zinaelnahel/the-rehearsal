@@ -1,0 +1,43 @@
+﻿{
+    "source_commit":  "dc0cc54f25fd2faf358ba6f552e0d63c60e5d379",
+    "checked_at_utc":  "2026-11-09T11:00:49.963685+00:00",
+    "frontend_url":  "https://the-rehearsal-lab.vercel.app",
+    "checks":  {
+                   "public_homepage":  true,
+                   "library_in_published_page":  true,
+                   "frontend_build_matches":  true,
+                   "backend_build_metadata_matches":  true,
+                   "live_speech_feedback_enabled":  true,
+                   "config_no_store":  true,
+                   "feedback_phase_enforced":  true,
+                   "session_deletion":  true,
+                   "deletion_verified":  true,
+                   "backend_health":  true,
+                   "backend_proxy_protection":  true
+               },
+    "provider_calls":  0,
+    "passed":  true,
+    "render_deploy_id":  "dep-dboqeprm8hqs73envamg",
+    "vercel_deploy_id":  "dpl_2V6w3qdVVGdHKRivinEXmT3AMMaY",
+    "ci_run_url":  "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42605067695",
+    "security_run_url":  "https://github.com/zinaelnahel/the-rehearsal/actions/runs/42605067767",
+    "backend_tests":  149,
+    "frontend_tests":  24,
+    "hosted_browser_checks":  {
+                                  "passed":  true,
+                                  "missing_microphone_message":  true,
+                                  "all_api_responses_mocked":  true,
+                                  "deletion_clears_draft":  true,
+                                  "rebuild_without_reimport":  true,
+                                  "audio_transcript_navigation":  true,
+                                  "video_draft_confirmation_navigation":  true
+                              },
+    "local_upload_pipeline":  "Synthetic PCM WAV passed through browser, Next proxy, FastAPI and FFmpeg; only provider response was stubbed.",
+    "deployment_authorization":  "User explicitly requested push and redeployment through the existing manual path.",
+    "limits":  [
+                   "No paid model calls were made during release verification.",
+                   "Physical microphone capture and real-provider transcription remain unverified for this revision.",
+                   "The original reported hosted audio-network failure was not reproduced; byte-snapshot handling adds local read errors rather than proving that cause.",
+                   "Independent human-reviewed live benchmark evidence remains missing."
+               ]
+}

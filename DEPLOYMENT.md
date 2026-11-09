@@ -1,5 +1,21 @@
 # Vercel deployment
 
+## Reviewed media navigation and uploads — 9 November 2026
+
+Commit `dc0cc54f25fd2faf358ba6f552e0d63c60e5d379` is live on both services.
+[Release evidence](evaluation/deployment-media-navigation-2026-11-09.json)
+records passing CI/security checks, 149 backend tests, 24 frontend tests and
+successful public build-identity, health, access-protection and deletion checks.
+Hosted Chrome checks with all API responses mocked verified edited transcript
+and confirmation retention, rebuilding without reimport, clearing on deletion,
+and the missing-microphone message. A separate local test passed a synthetic WAV
+through the actual browser/Next/FastAPI/FFmpeg path with a stubbed provider.
+No paid provider calls were made. Real-device capture and real-provider
+transcription remain unverified; the original hosted upload-network error was
+not reproduced. The user explicitly requested push and manual redeployment;
+independent human-reviewed live release evidence remains missing.
+See [media verification](docs/MEDIA_RETEST.md).
+
 ## Engineering update — 9 November 2026
 
 Commit `83b4cbdc08fe3c17c02f905f9104cea133313845` is live on both services.
