@@ -51,6 +51,10 @@ try{
  await page.getByLabel('I reviewed this OCR text and want to use it as my source.',{exact:true}).check();
  await use.click();await page.locator('.edit-goal').first().waitFor();
  assert.equal(missions,1);
+ assert.equal(await page.locator('.scene-card').getByText('Source: uploaded PDF; OCR text reviewed by you.',{exact:true}).count(),1);
+ assert.equal(await page.locator('.scene-card').getByText(/public-page snapshot/).count(),0);
+ const goalText=await page.locator('.edit-goal input').first().inputValue();
+ assert.equal(await page.getByRole('textbox',{name:goalText,exact:true}).count(),1);
  assert.deepEqual(reviewed,{texts:['Rent is 2,400 euros.','Available December 2026.'],confirmed:true});
  assert.equal(await page.locator('.document-review').count(),0);
  await page.getByRole('button',{name:'End & delete session ↗',exact:true}).click();

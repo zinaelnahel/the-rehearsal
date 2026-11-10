@@ -2082,5 +2082,9 @@
   "Use reviewed text and build mission": {
     "de": "Geprüften Text verwenden und Mission erstellen",
     "es": "Usar el texto revisado y crear la misión"
+  },
+  "Source: uploaded PDF; OCR text reviewed by you.": {
+    "de": "Quelle: hochgeladene PDF; OCR-Text von dir gepr?ft.",
+    "es": "Fuente: PDF subido; texto OCR revisado por ti."
   }
 }
