@@ -29,6 +29,13 @@ class OcrTests(unittest.TestCase):
    self.assertNotIn('OPENAI_API_KEY',call.kwargs['env'])
    self.assertNotIn('API_PROXY_TOKEN',call.kwargs['env'])
 
+ def test_document_worker_starts_without_importing_model_libraries(self):
+  import subprocess
+  code="import runpy,sys; runpy.run_module('backend.document_parser',run_name='__main__'); assert 'langchain_core' not in sys.modules"
+  completed=subprocess.run([sys.executable,'-c',code,'text'],input=b'Synthetic source text.',capture_output=True,timeout=25)
+  self.assertEqual(completed.returncode,0,completed.stderr)
+  self.assertEqual(json.loads(completed.stdout)['documents'][0]['text'],'Synthetic source text.')
+
  def test_ocr_limits_and_missing_pages_do_not_silently_import_partial_text(self):
   first=result({'documents':[{'location':'Page '+str(i+1),'text':'','needs_ocr':True} for i in range(9)]})
   with patch('backend.parser_process.subprocess.run',return_value=first) as run:

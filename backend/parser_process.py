@@ -20,7 +20,7 @@ def parse_document(raw, kind, name):
                ('PATH', 'SYSTEMROOT', 'WINDIR', 'TEMP', 'TMP', 'PYTHONPATH', 'LANG', 'PARSER_SANDBOX')}
         try:
             result = subprocess.run([sys.executable, '-m', 'backend.document_parser', kind],
-                input=raw, capture_output=True, timeout=12, env=env,
+                input=raw, capture_output=True, timeout=25, env=env,
                 cwd=Path(__file__).resolve().parent.parent, check=False)
             if result.returncode or len(result.stdout) > 2_000_000:
                 raise ValueError('Document parsing exceeded its limits. Try a smaller document.')

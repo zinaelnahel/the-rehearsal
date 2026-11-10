@@ -7,8 +7,19 @@ import sys
 import zipfile
 from xml.etree import ElementTree as ET
 from pypdf import PdfReader
-from langchain_core.documents import Document
-from langchain_core.document_loaders import BaseLoader
+# The disposable worker only needs text and metadata. Avoid importing the
+# application/model stack on every upload, especially on a throttled host.
+if __name__ == '__main__':
+ from dataclasses import dataclass
+ @dataclass
+ class Document:
+  page_content: str
+  metadata: dict
+ class BaseLoader:
+  pass
+else:
+ from langchain_core.documents import Document
+ from langchain_core.document_loaders import BaseLoader
 
 class MemoryLoader(BaseLoader):
  def __init__(self, raw, kind, name): self.raw, self.kind, self.name = raw, kind, name
@@ -18,7 +29,7 @@ class MemoryLoader(BaseLoader):
    if reader.is_encrypted or len(reader.pages) > 100: raise ValueError('Use an unencrypted PDF with at most 100 pages.')
    for i, page in enumerate(reader.pages):
     text=page.extract_text() or ''
-    needs_ocr=(not text.strip() or (len(text.strip())<250 and bool(page.images))) and bool(page.get('/Contents') or page.get('/Annots'))
+    needs_ocr=(not text.strip() or (len(text.strip())<250 and bool(page.get('/Resources',{}).get('/XObject')))) and bool(page.get('/Contents') or page.get('/Annots'))
     yield Document(page_content=text, metadata={'source':self.name,'location':f'Page {i+1}','needs_ocr':needs_ocr})
   elif self.kind == 'docx':
    with zipfile.ZipFile(io.BytesIO(self.raw)) as z:
