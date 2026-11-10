@@ -47,6 +47,9 @@ class CaptionGroundingTests(unittest.TestCase):
         for reply in ('Los recibos del gas y del agua estan incluidos en el alquiler.',
             'No puedo confirmar si se permiten mascotas.',
             'La politica de mascotas no se menciona.',
+            "I don't have confirmation of whether pets are allowed in this flat.",
+            'Ob Haustiere in dieser Wohnung erlaubt sind, kann ich noch nicht bestätigen.',
+            'No tengo confirmado si se permiten mascotas en este piso.',
             'Quieres saber si se permiten mascotas?'):
             with self.subTest(reply=reply):
                 self.assertFalse(unsupported_rental_claim(reply,self.docs,self.docs))

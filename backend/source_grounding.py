@@ -11,7 +11,7 @@ DATE = r'\b(?:available|availability|move.in|disponib\w*|entrar|einzug|verfugbar
 UTILITY = r'\b(?:utilities|bills|gas|water|electricity|gastos|recibos|agua|luz|strom|wasser|nebenkosten)\b'
 INCLUDED = r'\b(?:included|incluid[oa]s?|inbegriffen|enthalten)\b'
 NEGATIVE = r'\b(?:not|no|nicht|excluded|excluid[oa]s?)\b'
-UNKNOWN = r'\b(?:unknown|unspecified|not (?:specified|stated|confirmed|mentioned)|cannot confirm|can.t confirm|no puedo confirmar|no (?:se )?(?:especifica|indica|menciona)|nicht (?:angegeben|bekannt|bestatigt)|kann.{0,20}nicht bestatigen)\b'
+UNKNOWN = r'\b(?:unknown|unspecified|not (?:specified|stated|confirmed|mentioned)|cannot confirm|can.t confirm|i (?:do not|don.t) have confirmation of whether|no puedo confirmar|no tengo confirmad[oa]|no (?:se )?(?:especifica|indica|menciona)|nicht (?:angegeben|bekannt|bestatigt)|kann.{0,20}nicht bestatigen)\b'
 
 
 def rental_price_question(text):

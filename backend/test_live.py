@@ -260,6 +260,8 @@ class LiveTests(unittest.TestCase):
      data=response.json()
      self.assertTrue(data['turn']['answer_withheld'])
      self.assertNotIn('Move in next month',data['turn']['content'])
+     for jargon in ('document','Dokument','documento','other person','otra persona'):
+      self.assertNotIn(jargon,data['turn']['content'])
      self.assertEqual(data['turn']['sources'],[])
      self.assertTrue(data['goals'][0]['achieved'])
      self.assertEqual(data['goals'][0]['evidence'],text)

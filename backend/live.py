@@ -9,6 +9,7 @@ from backend.demo_answers import plain
 from backend.prompt_context import dialogue_history
 from backend.source_conflicts import rent_conflicts, rent_question
 from backend.source_grounding import unsupported_rental_claim, rental_price_question
+from backend.partner_copy import uncertain_reply
 from backend.family_boundary import FAMILY_BOUNDARY, requester_speaks_as_learner, family_role_contract, family_response_stage, FAMILY_PACING
 from typing import Literal
 from pydantic import BaseModel, Field, PrivateAttr, create_model
@@ -317,6 +318,7 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
   'Maintain conversational continuity: respond to what the learner just said and the question you actually asked. Interpret a short yes/no or hesitant answer using that immediate context. The mission is a learner checklist, not a script for you to advance through: do not volunteer an unrelated document answer merely because it matches the next mission goal. After an applicant expresses willingness to learn, acknowledge that and ask one concrete relevant question about learning or transferable experience; do not abruptly give working hours or salary. If the learner has already denied experience in a field, do not repeat the same experience question. Explore transferable skills without assuming their previous occupation is irrelevant or treating willingness as proof of qualifications. '
   'Use grammatical agreement consistent with the learner own self-description when referring to them, such as programadora in Spanish. Prefer natural gender-neutral phrasing when uncertain; do not default to a contradictory gender or infer personal traits beyond what the learner says. '
   'Use only retrieved passages for document facts. Cite their exact IDs in every factual answer. In citations and source_id fields use raw supplied ID strings, not brackets, page numbers or IDs from earlier turns. Missing or ambiguous policies, prices, dates or commitments must be acknowledged as unknown; do not invent them or agree to a discount. '
+  'Express uncertainty naturally as the conversation partner: I do not have a confirmed move-in date for this flat yet; No tengo confirmado si se permiten mascotas en este piso; Ob Haustiere erlaubt sind, kann ich noch nicht bestätigen. Do not explain missing information in terms of documents, retrieved passages or validation. Do not refer the learner to the other person when you are playing that person, or ask them to repeat the question they just asked. Do not promise to contact anyone or obtain information. A brief direct acknowledgement of uncertainty is enough; ask a follow-up only when it helps clarify a genuine ambiguity. '
   'Timestamped captions may split a sentence across passages: read neighboring passages in chronological order before interpreting a price, negation or inclusion. For example, los recibos del gas y del agua estan / incluidos en el alquiler means gas and water ARE included, not excluded. Cite every fragment needed for that fact. A pet question is not evidence of a pet policy: if no passage states the policy, say it is unspecified. Keep facts about different apartments separate; tenants leaving next week for another apartment does not establish availability for this one. If the property is unclear, ask which apartment the learner means. '
   'For an answer assessment, copy source_quote verbatim from ONE passage named by source_id; never join caption fragments into that field, paraphrase, or translate the quote. Include the other supporting passage IDs in citations. If there is no exact supporting quote for the current apartment, mark the answer unknown with empty source fields and acknowledge uncertainty in your reply. '
   'Interpret minor language slips from context without coaching during the scene. In a price question, Spanish cuando cuesta is usually a slip for cuanto cuesta; respond to the price question, not the move-in date. If the intended topic is genuinely unclear, ask a short clarification. '
@@ -337,6 +339,7 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
   'reply_supported is true only if the reply maintains the partner role without praise, grading or coaching and EVERY document-specific claim or commitment is supported by retrieved passages. Conversational questions, acknowledgements and reflections of learner-provided preferences need no citation; fabricated facts or agreements are unsupported. '
   'Learner-provided experience, skills and personal circumstances also need no document citation when acknowledged as self-reports. An interviewer reflecting the applicant\'s five years in QA or asking what testing they did is supported conversational dialogue, even if the job document never mentions that experience. This does not verify qualifications or permit invented employer facts, job terms or hiring commitments. Goals describing the learner\'s own experience are personal communication actions, not document questions. '
   'An accurate statement that the document does not specify a policy is a valid cautious reply, not an unsupported policy claim. Do not reject it merely because the policy itself is unknown. '
+  'Natural in-character uncertainty such as I do not have confirmation of whether pets are allowed, No tengo confirmado si se permiten mascotas, or Das kann ich noch nicht bestätigen is also valid. It does not assert permission, prohibition, a date, or a promise to obtain information and needs no factual citation. Do not require the partner to mention a document or refer the learner to another person to express uncertainty. '
   'Respect server_question_focus when present. A question containing cuesta asks about price even if the learner writes cuando instead of cuanto. A repeated price question does not ask about availability. Reject a reply that substitutes a move-in date for a price answer, and do not accept an availability goal based only on that price question. '
   'Read adjacent timestamped captions as continuous speech, preserving negation and inclusion. Reject gastos no incluidos when the source says gas and water estan incluidos. Reject an invented pet prohibition or move-in date even if it sounds plausible. Evidence for a different apartment does not support the current apartment: require a clear matching property or an explicit clarification. Check conversational continuity too: after an offer to explain bills and Si, por favor, a reply about a move-in date is unsupported as a response to that exchange. '
   'accepted_goal_ids must be a subset of goal_checks marked achieved=true, and require that the quoted latest learner text actually meets the goal semantically. Asking whether pets are allowed achieves an ask-about-pets goal even when the policy is unknown or the partner reply is rejected. Learner actions and answer verification are independent. NEVER accept a check marked false, or assess the partner reply as a learner action. Reject negation, keyword-only mentions and evidence from earlier turns. '
@@ -390,9 +393,9 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
    if goal['id'] in rent_goals and goal['achieved'] and goal['id'] not in updates:
     updates[goal['id']]={'evidence':goal['evidence'],'status':'unknown','quote':'','ids':[]}
   safe={
-   'English':'The document gives conflicting rent amounts, so I cannot confirm the rent. Please check which amount applies with the other person.',
-   'German':'Das Dokument nennt widersprüchliche Mietbeträge. Deshalb kann ich die Miete nicht bestätigen. Bitte klären Sie mit der anderen Person, welcher Betrag gilt.',
-   'Spanish':'El documento indica importes de alquiler contradictorios, así que no puedo confirmar el alquiler. Confirma con la otra persona qué importe corresponde.'
+   'English':"I have conflicting rent figures, so I can't confirm the amount yet.",
+   'German':'Mir liegen unterschiedliche Mietbeträge vor. Deshalb kann ich die Höhe der Miete noch nicht bestätigen.',
+   'Spanish':'Tengo información contradictoria sobre el alquiler, así que todavía no puedo confirmar el importe.'
   }[setup['language']]
   identifiers={sid for conflict in conflicts for sid in conflict['source_ids']}
   return safe,[d for d in docs if d.metadata['id'] in identifiers],updates,True
@@ -410,11 +413,7 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
    # rejected proposal is saved, and a failed correction still withholds it.
    return rehearse(session,text,docs,call,passage,voice=voice,_price_repair=True)
   # Withhold unsupported text instead of displaying it with plausible citations.
-  safe={
-   'English':'I cannot confirm that from the document. What would you like to clarify with the other person?',
-   'German':'Das kann ich anhand des Dokuments nicht bestätigen. Was möchten Sie mit der anderen Person klären?',
-   'Spanish':'No puedo confirmar ese dato con el documento. ¿Qué te gustaría aclarar con la otra persona?'
-  }[setup['language']]
+  safe=uncertain_reply(setup['language'],setup['scenario'],text)
   return safe,[],updates,True
  if context.get('server_family_response_stage') in ('gentle_followup','accept'):
   # Bounded practice pacing is server-owned, and adds no document facts.
