@@ -1,0 +1,11 @@
+﻿/* Keep optional controls quiet until requested. */
+.goal-outcome{display:block;line-height:1.5;color:var(--muted);margin:6px 0 0}
+.check-goal .goal-outcome,.result-goal .goal-outcome{font-size:11px}
+.goal-validation{font-size:12px;color:var(--ink);border-left:3px solid var(--accent);padding:10px 12px;background:var(--soft);margin:16px 0}
+.help-panel>summary,.voice-rehearsal>summary{cursor:pointer;min-height:32px;font-size:13px;font-weight:600;line-height:1.5}
+.help-controls{padding-top:14px}
+.voice-rehearsal:not([open]){padding:10px 16px;margin-bottom:10px}
+.voice-rehearsal>section{padding-top:8px}
+.help-panel summary:focus-visible,.voice-rehearsal summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
+@media(max-width:680px){.practice-grid>aside{grid-template-columns:1fr}.help-panel{margin:0}.voice-rehearsal{margin-left:12px;margin-right:12px}}
+.goal-outcome>span{display:inline}

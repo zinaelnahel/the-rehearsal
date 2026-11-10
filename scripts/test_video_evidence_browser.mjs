@@ -17,7 +17,7 @@ try{
  await page.route('**/api/**',route=>{
   const p=new URL(route.request().url()).pathname;
   const json=data=>route.fulfill({contentType:'application/json',body:JSON.stringify(data)});
-  if(p==='/api/config')return json({mode:'live',speech_enabled:false});
+  if(p==='/api/config')return json({mode:'live',speech_enabled:true});
   if(p==='/api/video/transcript')return json({segments:[{start:79.27,end:85.25,text:source.text}],source_url:url,source_method:'youtube_captions',notice:'Review the captions before use.'});
   if(p==='/api/sessions')return json({id:'video-test',source_url:url});
   if(p.endsWith('/mission'))return json({goals:[goal],safety:false});
@@ -35,6 +35,17 @@ try{
  await page.getByRole('button',{name:/Build my mission/}).click();
  await page.getByRole('button',{name:/Action - start Take/}).click();
  await page.getByRole('button',{name:'Load source video'}).waitFor();
+ assert.equal(await page.locator('.voice-rehearsal').getAttribute('open'),null);
+ assert.equal(await page.locator('.help-panel').getAttribute('open'),null);
+ assert.match(await page.locator('.goal-outcome').innerText(),/Not yet practised[\s\S]*Answer not checked/);
+ await page.locator('.voice-rehearsal>summary').click();
+ await page.getByRole('button',{name:'Start voice rehearsal'}).waitFor();
+ assert.equal(await page.getByRole('button',{name:'Start voice rehearsal'}).isDisabled(),true);
+ await page.locator('.voice-rehearsal>summary').click();
+ await page.locator('.help-panel>summary').click();
+ await page.getByRole('button',{name:/Help me/}).waitFor();
+ await page.locator('.help-panel>summary').click();
+
  assert.equal(await page.locator('.source-video iframe').count(),0);
  await page.getByText(/▤ View source evidence/).click();
  await page.getByRole('button',{name:'Watch this part · 1:19'}).click();
@@ -42,6 +53,7 @@ try{
  assert.match(await frame.getAttribute('src'),/start=79.*end=86/);
  assert.match(await page.locator('.source-video a').getAttribute('href'),/t=79s/);
  assert.match(await page.locator('.source-video').innerText(),/1:19–1:25/);
+ await page.screenshot({path:'.runtime/practice-ux-desktop.png',fullPage:true});
  await page.setViewportSize({width:390,height:844});
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
  for(const [locale,label] of [['de','Diese Stelle ansehen · 1:19'],['es','Ver este fragmento · 1:19']]){

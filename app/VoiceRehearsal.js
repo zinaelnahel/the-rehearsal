@@ -53,8 +53,8 @@ const VoiceRehearsal=forwardRef(function VoiceRehearsal({sessionId,language,resp
     };
   },[sessionId,language]);
 
-  return <section className="voice-rehearsal" aria-label={t('Voice rehearsal')}>
-    <div className="voice-heading"><strong>{t('Rehearse out loud')}</strong><span className={'voice-indicator '+(snapshot.active?'active':'')} aria-hidden="true"/></div>
+  return <details className="voice-rehearsal" onToggle={event=>{if(!event.currentTarget.open)engine.current?.stop();}}><summary>{t('Rehearse out loud')}</summary><section aria-label={t('Voice rehearsal')}>
+    <div className="voice-heading"><span className={'voice-indicator '+(snapshot.active?'active':'')} aria-hidden="true"/></div>
     <p className="subtle">{t('Speak, pause, and hear your partner reply. Replies are checked before they are spoken. Use headphones to reduce echo.')}</p>
     {!snapshot.active&&<>
       <label className="speech-consent"><input type="checkbox" checked={consent} disabled={disabled} onChange={event=>setConsent(event.target.checked)}/>{t('I agree to send microphone audio and partner replies to OpenAI. Voice transcripts are sent automatically as my messages; I can read them in the conversation.')}</label>
@@ -71,7 +71,7 @@ const VoiceRehearsal=forwardRef(function VoiceRehearsal({sessionId,language,resp
     </ol>{elapsed>=8&&<p>{t('Voice works in separate steps, so replies can take a while. You can stop voice mode and continue with text.')}</p>}</div></div>}
     {snapshot.active&&<small>{t('Your microphone pauses during replies. Interrupt to take your turn. Stopping voice mode does not undo a message already sent.')}</small>}
     {error&&<p role="alert">{errorText(error)}</p>}
-  </section>;
+  </section></details>;
 });
 
 export default VoiceRehearsal;

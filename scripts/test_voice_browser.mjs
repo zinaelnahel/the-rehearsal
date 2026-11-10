@@ -80,6 +80,7 @@ try {
   await page.goto(origin,{waitUntil:'networkidle'});
   await page.getByRole('button',{name:'Build my mission'}).click();
   await page.getByRole('button',{name:/Action - start Take/}).click();
+  await page.locator('.voice-rehearsal>summary').click();
   const voice=page.getByRole('region',{name:'Voice rehearsal',exact:true});
   const start=voice.getByRole('button',{name:'Start voice rehearsal'});
   assert.equal(await voice.getByRole('combobox').count(),0);

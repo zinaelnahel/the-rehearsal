@@ -2084,7 +2084,55 @@
     "es": "Usar el texto revisado y crear la misión"
   },
   "Source: uploaded PDF; OCR text reviewed by you.": {
-    "de": "Quelle: hochgeladene PDF; OCR-Text von dir gepr?ft.",
+    "de": "Quelle: hochgeladene PDF; OCR-Text von dir geprüft.",
     "es": "Fuente: PDF subido; texto OCR revisado por ti."
+  },
+  "Answer not checked": {
+    "de": "Antwort noch nicht geprüft",
+    "es": "Respuesta sin comprobar"
+  },
+  "Answer confirmed": {
+    "de": "Antwort bestätigt",
+    "es": "Respuesta confirmada"
+  },
+  "Needs follow-up": {
+    "de": "Nachfragen erforderlich",
+    "es": "Requiere seguimiento"
+  },
+  "Personal practice goal": {
+    "de": "Persönliches Übungsziel",
+    "es": "Objetivo de práctica personal"
+  },
+  "Answer not verified": {
+    "de": "Antwort nicht verifiziert",
+    "es": "Respuesta sin verificar"
+  },
+  "Practised": {
+    "de": "Geübt",
+    "es": "Practicado"
+  },
+  "Not yet practised": {
+    "de": "Noch nicht geübt",
+    "es": "Aún sin practicar"
+  },
+  "Preparing your goals…": {
+    "de": "Deine Ziele werden vorbereitet…",
+    "es": "Preparando tus objetivos…"
+  },
+  "Reading your document · OCR if needed…": {
+    "de": "Dein Dokument wird gelesen · bei Bedarf mit OCR…",
+    "es": "Leyendo tu documento · OCR si es necesario…"
+  },
+  "Reading your context…": {
+    "de": "Dein Kontext wird gelesen…",
+    "es": "Leyendo tu contexto…"
+  },
+  "Write a specific goal in each field before starting. Replace placeholders such as Mission goal 1.": {
+    "de": "Formuliere vor dem Start in jedem Feld ein konkretes Ziel. Ersetze Platzhalter wie Mission goal 1.",
+    "es": "Escribe un objetivo concreto en cada campo antes de empezar. Sustituye los marcadores como Mission goal 1."
+  },
+  "Need a little help?": {
+    "de": "Brauchst du etwas Hilfe?",
+    "es": "¿Necesitas un poco de ayuda?"
   }
 }

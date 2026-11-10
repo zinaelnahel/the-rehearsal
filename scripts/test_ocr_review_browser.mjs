@@ -56,6 +56,7 @@ try{
  const goalInput=page.locator('.edit-goal input').first();
  const start=page.getByRole('button',{name:/Action - start Take 01/});
  await goalInput.fill('Mission goal 1');assert.equal(await start.isDisabled(),true);
+ await page.getByText('Write a specific goal in each field before starting. Replace placeholders such as Mission goal 1.',{exact:true}).waitFor();
  await goalInput.fill('   mission goal 2   ');assert.equal(await start.isDisabled(),true);
  await goalInput.fill('');assert.equal(await start.isDisabled(),true);
  await goalInput.fill('Ask about rent');assert.equal(await start.isEnabled(),true);
