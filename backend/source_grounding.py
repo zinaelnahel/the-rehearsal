@@ -18,13 +18,43 @@ def rental_price_question(text):
     value=plain(text)
     if re.search(r'\b(?:deposit|fianza|kaution|utilities|bills|gastos|nebenkosten)\b',value):
         return False
-    return bool(re.search(r'\b(?:cuesta|cuestan|precio|price|kostet|mietpreis)\b|\bhow much\b|\bwie (?:viel|hoch)\b',value))
+    return bool(re.search(r'\b(?:cuesta|cuesto|cuestan|precio|price|kostet|mietpreis)\b|\bhow much\b|\bwie (?:viel|hoch)\b',value))
+
+
+LEASE_REF=r'\b(?:lease|tenancy|contract|duration|term|stay|contrato|duracion|estancia|plazo|minim\w*|vertrag\w*|mietdauer|laufzeit|mindest\w*)\b'
+PERIOD=re.compile(r'\b(\d+|one|two|three|six|twelve|a|un|uno|una|dos|tres|seis|doce|ein|eine|einen|einem|eins|zwei|drei|sechs|zwolf)[ -]+(months?|years?|mes(?:es)?|anos?|monate?n?|jahre?n?)\b')
+NUMBERS={'one':1,'a':1,'un':1,'uno':1,'una':1,'ein':1,'eine':1,'einen':1,'einem':1,'eins':1,'two':2,'dos':2,'zwei':2,'three':3,'tres':3,'drei':3,'six':6,'seis':6,'sechs':6,'twelve':12,'doce':12,'zwolf':12}
+
+
+def lease_periods(text):
+    periods=set()
+    for match in PERIOD.finditer(text):
+        count=int(match[1]) if match[1].isdigit() else NUMBERS[match[1]]
+        periods.add(count*12 if match[2].startswith(('year','ano','jahr')) else count)
+    return periods
+
+
+def unsupported_lease_claim(reply,cited):
+    supported=set()
+    split=r'[.!?;\n]+|\b(?:and|y|und|but|pero|aber)\b'
+    for clause in re.split(split,cited):
+        if re.search(LEASE_REF,clause) and not re.search(r'\b(?:deposit|fianza|kaution)\b',clause):
+            supported.update(lease_periods(clause))
+    for sentence in re.finditer(r'[^.!?\n]+[.!?]?',plain(reply)):
+        if sentence.group().endswith('?'):continue
+        for clause in re.split(split,sentence.group()):
+            if re.search(UNKNOWN,clause):continue
+            if re.search(LEASE_REF,clause) and not lease_periods(clause)<=supported:
+                return True
+    return False
 
 
 def unsupported_rental_claim(reply, cited_docs, context_docs):
     """True means withhold; false still requires independent evidence review."""
     cited=' '.join(plain(d.page_content) for d in cited_docs)
     source=' '.join(plain(d.page_content) for d in sorted(context_docs,key=lambda d:d.metadata.get('start',0)))
+    if unsupported_lease_claim(reply,'\n'.join(plain(d.page_content) for d in cited_docs)):
+        return True
     for match in re.finditer(r'[^.!?\n]+[.!?]?',plain(reply)):
         sentence=match.group().strip()
         if not sentence or sentence.endswith('?') or re.search(UNKNOWN,sentence):

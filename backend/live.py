@@ -10,6 +10,7 @@ from backend.prompt_context import dialogue_history
 from backend.source_conflicts import rent_conflicts, rent_question
 from backend.source_grounding import unsupported_rental_claim, rental_price_question
 from backend.partner_copy import uncertain_reply
+from backend.listing_context import query_fields
 from backend.family_boundary import FAMILY_BOUNDARY, requester_speaks_as_learner, family_role_contract, family_response_stage, FAMILY_PACING
 from typing import Literal
 from pydantic import BaseModel, Field, PrivateAttr, create_model
@@ -225,6 +226,15 @@ def answer_quote_sources(answer, docs, citations):
    # Every returned block must contribute to the quote, including source_id.
    if 0<=position<len(compact(window[0].page_content)) and position+len(quote)>len(joined)-len(compact(window[-1].page_content)):
     return ids
+ # A model can copy JSON's visible newline/tab escapes rather than the source
+ # whitespace. Repair only when that exact text then matches cited evidence.
+ normalized=re.sub(r'\\+[nrt]',' ',answer.source_quote)
+ if normalized!=answer.source_quote:
+  candidate=answer.model_copy(update={'source_quote':normalized})
+  identifiers=answer_quote_sources(candidate,docs,citations)
+  if identifiers:
+   answer.source_quote=normalized
+   return identifiers
  return []
 
 @traceable(name='validate_exact_evidence')
@@ -306,6 +316,9 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
  }
  if price_focus:
   context['server_question_focus']='The latest learner question asks the apartment PRICE. Answer that price question, not the availability or the next mission goal. Spanish cuando cuesta is a common slip for cuanto cuesta. Repeating a price question still asks for the price; do not switch topics because its goal was previously achieved.'
+ if session.get('listing_chunks'):
+  context['server_source_scope']='One property advert, retained in sections. Site navigation and footer material are excluded. Read field labels together with their values and limits; a price such as 2,400 EUR/month is rent evidence even when it does not repeat the word rent.'
+  context['server_listing_area_conflict']=session.get('listing_area_conflict')
  if _price_repair:
   context['server_correction']='The previous proposal failed answer validation. Re-read the current price passages and answer ONLY the latest price question with exact cited evidence. Do not answer a move-in-date question, reuse historical goal assessments, or invent a price. If price evidence is absent, acknowledge that it is unknown.'
  if session.get('family_boundary') and not session.get('breakup'):
@@ -318,6 +331,10 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
   'Maintain conversational continuity: respond to what the learner just said and the question you actually asked. Interpret a short yes/no or hesitant answer using that immediate context. The mission is a learner checklist, not a script for you to advance through: do not volunteer an unrelated document answer merely because it matches the next mission goal. After an applicant expresses willingness to learn, acknowledge that and ask one concrete relevant question about learning or transferable experience; do not abruptly give working hours or salary. If the learner has already denied experience in a field, do not repeat the same experience question. Explore transferable skills without assuming their previous occupation is irrelevant or treating willingness as proof of qualifications. '
   'Use grammatical agreement consistent with the learner own self-description when referring to them, such as programadora in Spanish. Prefer natural gender-neutral phrasing when uncertain; do not default to a contradictory gender or infer personal traits beyond what the learner says. '
   'Use only retrieved passages for document facts. Cite their exact IDs in every factual answer. In citations and source_id fields use raw supplied ID strings, not brackets, page numbers or IDs from earlier turns. Missing or ambiguous policies, prices, dates or commitments must be acknowledged as unknown; do not invent them or agree to a discount. '
+  'Never substitute generic rental practices for this property facts: normally, usually or standard does not justify an unstated one-year minimum lease. A deposit measured in months is not a lease duration. Short-term rental does not specify a minimum stay. Preserve partial information: available starting in December 2026 confirms that month and year, even when the exact move-in day remains unconfirmed. State the known month and qualify only the missing day. Preserve utility caps, exclusions and deposits separately from the monthly rent. '
+  'For a lease-duration question, if the advert explicitly says short-term rental, state that known rental type and explain that the exact duration options or minimum stay are not given. Do not discard that partial information by calling the entire rental type unknown. '
+  'If server_listing_area_conflict is present, the advert contains inconsistent floor areas. Do not choose one as confirmed, average them, or explain away the difference. Briefly flag both figures and say the applicable area needs confirmation. '
+  'After offering to explain conditions and receiving yes or si, explain the source-backed conditions directly. Do not keep asking the learner to choose another topic, offer unknown lease options as if they exist, or invent typical terms to fill a gap. '
   'Express uncertainty naturally as the conversation partner: I do not have a confirmed move-in date for this flat yet; No tengo confirmado si se permiten mascotas en este piso; Ob Haustiere erlaubt sind, kann ich noch nicht bestätigen. Do not explain missing information in terms of documents, retrieved passages or validation. Do not refer the learner to the other person when you are playing that person, or ask them to repeat the question they just asked. Do not promise to contact anyone or obtain information. A brief direct acknowledgement of uncertainty is enough; ask a follow-up only when it helps clarify a genuine ambiguity. '
   'Timestamped captions may split a sentence across passages: read neighboring passages in chronological order before interpreting a price, negation or inclusion. For example, los recibos del gas y del agua estan / incluidos en el alquiler means gas and water ARE included, not excluded. Cite every fragment needed for that fact. A pet question is not evidence of a pet policy: if no passage states the policy, say it is unspecified. Keep facts about different apartments separate; tenants leaving next week for another apartment does not establish availability for this one. If the property is unclear, ask which apartment the learner means. '
   'For an answer assessment, copy source_quote verbatim from ONE passage named by source_id; never join caption fragments into that field, paraphrase, or translate the quote. Include the other supporting passage IDs in citations. If there is no exact supporting quote for the current apartment, mark the answer unknown with empty source fields and acknowledge uncertainty in your reply. '
@@ -339,6 +356,7 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
   'reply_supported is true only if the reply maintains the partner role without praise, grading or coaching and EVERY document-specific claim or commitment is supported by retrieved passages. Conversational questions, acknowledgements and reflections of learner-provided preferences need no citation; fabricated facts or agreements are unsupported. '
   'Learner-provided experience, skills and personal circumstances also need no document citation when acknowledged as self-reports. An interviewer reflecting the applicant\'s five years in QA or asking what testing they did is supported conversational dialogue, even if the job document never mentions that experience. This does not verify qualifications or permit invented employer facts, job terms or hiring commitments. Goals describing the learner\'s own experience are personal communication actions, not document questions. '
   'An accurate statement that the document does not specify a policy is a valid cautious reply, not an unsupported policy claim. Do not reject it merely because the policy itself is unknown. '
+  'Reject invented generic rental terms even when hedged with normally or usually and a disclaimer that this property details are unknown. Require explicit source evidence for lease minimums; a two-month deposit is not a two-month lease. A known availability month/year can be stated while the exact day remains unknown. Enforce server_listing_area_conflict: do not verify a single floor area while conflicting figures remain unresolved. '
   'Natural in-character uncertainty such as I do not have confirmation of whether pets are allowed, No tengo confirmado si se permiten mascotas, or Das kann ich noch nicht bestätigen is also valid. It does not assert permission, prohibition, a date, or a promise to obtain information and needs no factual citation. Do not require the partner to mention a document or refer the learner to another person to express uncertainty. '
   'Respect server_question_focus when present. A question containing cuesta asks about price even if the learner writes cuando instead of cuanto. A repeated price question does not ask about availability. Reject a reply that substitutes a move-in date for a price answer, and do not accept an availability goal based only on that price question. '
   'Read adjacent timestamped captions as continuous speech, preserving negation and inclusion. Reject gastos no incluidos when the source says gas and water estan incluidos. Reject an invented pet prohibition or move-in date even if it sounds plausible. Evidence for a different apartment does not support the current apartment: require a clear matching property or an explicit clarification. Check conversational continuity too: after an offer to explain bills and Si, por favor, a reply about a move-in date is unsupported as a response to that exchange. '
@@ -363,6 +381,8 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
  conflict_source_ids={sid for conflict in conflicts for sid in conflict['source_ids']}
  rent_goals.update(a.goal_id for a in answers.values() if rent_question(a.source_quote))
  conflict_relevant=bool(conflicts) and (rent_question(text) or rent_question(reply.reply) or bool(accepted&rent_goals))
+ area_conflict=session.get('listing_area_conflict')
+ area_relevant=bool(area_conflict) and ('area' in query_fields(text) or re.search(r'\b\d+(?:[.,]\d+)?\s*(?:m[²2]|square (?:meters|metres)|metros cuadrados|quadratmeter)\b',plain(reply.reply)))
  updates={}
  for identifier in accepted:
   answer=answers.get(identifier)
@@ -383,6 +403,17 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
     quote=answer.source_quote
     source_ids=answer._validated_source_ids
   updates[identifier]={'evidence':checks[identifier].learner_quote,'status':status,'quote':quote,'ids':source_ids}
+ if area_relevant:
+  for update in updates.values():
+   if update['status']=='confirmed':update.update(status='unknown',quote='',ids=[])
+  values=' / '.join(area_conflict['values'])+' m²'
+  safe={
+   'English':f'The advert gives two different floor areas ({values}), so I cannot confirm which applies to this flat.',
+   'German':f'Für die Wohnung sind unterschiedliche Flächen angegeben ({values}). Welche Angabe zutrifft, kann ich noch nicht bestätigen.',
+   'Spanish':f'El anuncio indica superficies distintas ({values}), así que no puedo confirmar cuál corresponde a este piso.'
+  }[setup['language']]
+  sources=session.get('source_chunks',{})
+  return safe,[sources[identifier] for identifier in area_conflict['source_ids'] if identifier in sources],updates,True
  for goal in session['mission']:
   if goal['id'] not in updates and explicit_pet_question(text,goal['text']):
    updates[goal['id']]={'evidence':text,'status':'unverified','quote':'','ids':[]}

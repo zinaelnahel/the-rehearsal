@@ -19,6 +19,7 @@ from backend.content import LANGUAGES, LEVELS, CONTENT, COMMON, TRANSLATIONS, NO
 from backend.demo_answers import answer as demo_answer, COPY as ANSWER_COPY, detect_intents, EXTRA_STARTERS, asks_question
 from backend.live import RoleReply as ReplyOutput, EvidenceReview, Translation, Hint, DebriefNotes, strict_schema, rehearse, scene_review_schema, bind_review
 from backend.listings import listing_url, fetch_listing
+from backend.listing_context import listing_documents, looks_like_listing, retrieve_listing, area_conflict
 from backend.retrieval import build_store, purge_expired, delete_persisted
 from backend.observability import trace_scope
 from backend.agent import prepare as prepare_agent
@@ -125,23 +126,24 @@ def get(sid, phase=None):
  if hasattr(s['store'],'touch'): s['store'].touch()
  return s
 
-def create(raw, kind, name, source_url=None, transcript=None):
+def create(raw, kind, name, source_url=None, transcript=None, listing=False):
  global pending_sources
  with source_creation_lock:
   if len(sessions)+pending_sources>=100: raise HTTPException(503,'Demo is full. Try again later.')
   pending_sources+=1
  try:
-  return _create(raw,kind,name,source_url,transcript)
+  return _create(raw,kind,name,source_url,transcript,listing)
  finally:
   with source_creation_lock: pending_sources-=1
 
 
-def _create(raw, kind, name, source_url=None, transcript=None):
+def _create(raw, kind, name, source_url=None, transcript=None, listing=False):
  try:
+  listing=kind=='text' and (listing or looks_like_listing(raw.decode('utf-8')))
   docs = ([Document(page_content=s.text,metadata={'source':name,
            'location':f'{s.start:.2f}s–{s.end:.2f}s (reviewed transcript)',
            'start':s.start,'end':s.end}) for s in transcript]
-          if transcript else parse_document(raw,kind,name) if kind in ('pdf','docx') else MemoryLoader(raw,kind,name).load())
+          if transcript else listing_documents(raw.decode('utf-8'),name) if listing else parse_document(raw,kind,name) if kind in ('pdf','docx') else MemoryLoader(raw,kind,name).load())
   if sum(len(d.page_content) for d in docs)>100000: raise ValueError('Document text exceeds 100,000 characters.')
   for index,doc in enumerate(docs): doc.metadata['source_part']=index
   chunks = RecursiveCharacterTextSplitter(chunk_size=700,chunk_overlap=100).split_documents(docs)
@@ -157,7 +159,7 @@ def _create(raw, kind, name, source_url=None, transcript=None):
   store = build_store(sid,LocalEmbeddings(),chunks,TTL)
  except Exception:
   raise HTTPException(503,'Retrieval storage is unavailable. Check VECTOR_STORE, CHROMA_PATH and server write permissions.') from None
- sessions[sid] = dict(store=store, transcript_chunks=chunks if transcript else [], source_documents=docs, source_chunks={d.metadata['id']:d for d in chunks}, source_kind=kind, phase='setup', touched=time.monotonic(), name=name, turns=[], hints=[], mission=[], ratings={}, safety=False, lock=asyncio.Lock())
+ sessions[sid] = dict(store=store, transcript_chunks=chunks if transcript else [], listing_chunks=chunks if listing else [], listing_area_conflict=area_conflict(chunks) if listing else None, source_documents=docs, source_chunks={d.metadata['id']:d for d in chunks}, source_kind=kind, phase='setup', touched=time.monotonic(), name=name, turns=[], hints=[], mission=[], ratings={}, safety=False, lock=asyncio.Lock())
  return {'id':sid,'name':name,'passages':len(chunks),'mode':'live' if LIVE else 'demo','source_url':source_url}
 
 @app.get('/api/config')
@@ -177,7 +179,7 @@ def import_listing(body: ListingInput):
  else:
   url,title,text=fetch_listing(url)
   method='public_page'
- result=create(text.encode('utf-8'),'text',title,source_url=url)
+ result=create(text.encode('utf-8'),'text',title,source_url=url,listing=True)
  result['import_method']=method
  return result
 
@@ -448,7 +450,8 @@ def search(s, query):
  # original message remains unchanged for display and action evidence.
  if s.get('setup',{}).get('scenario')=='apartment':
   query=re.sub(r'\bcu[aá]ndo(?=\s+(?:cuesta|cuestan|vale|valen)\b)','cuánto',query,flags=re.IGNORECASE)
- return caption_context(s,s['store'].similarity_search(query,k=4))
+ found=s['store'].similarity_search(query,k=4)
+ return retrieve_listing(s,query,found) if s.get('listing_chunks') else caption_context(s,found)
 
 
 def caption_context(s, docs):

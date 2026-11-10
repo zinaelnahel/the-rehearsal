@@ -12,7 +12,15 @@ class LocalEmbeddings(Embeddings):
  def embed_query(self, text):
   vector = [0.0] * 512
   aliases = {'cuanto':'precio','cuesta':'precio','coste':'precio','rent':'alquiler','salary':'salario','sueldo':'salario','pets':'mascotas','perro':'mascotas','gato':'mascotas','horas':'horario','cuando':'disponible','availability':'disponible','miete':'alquiler','preis':'precio','cost':'precio','price':'precio','kosten':'precio','kostet':'precio','verfugbar':'disponible','gehalt':'salario','haustiere':'mascotas','arbeitszeiten':'horario','hours':'horario','schedule':'horario','stornierung':'cancelacion','cancellation':'cancelacion','utilities':'gastos','bills':'gastos','nebenkosten':'gastos','included':'incluidos','enthalten':'incluidos'}
+  aliases.update({
+   'cuesto':'precio','cuestan':'precio','vale':'precio','valen':'precio',
+   'monthly':'month','mes':'month','mensual':'month','monat':'month','monatlich':'month',
+   'apartment':'piso','apartamento':'piso','flat':'piso','wohnung':'piso',
+   'disponibilidad':'disponible','verfugbarkeit':'disponible','einzug':'disponible',
+   'lease':'contrato','contract':'contrato','duration':'contrato','duracion':'contrato','vertrag':'contrato','vertragsdauer':'contrato','laufzeit':'contrato',
+   'deposit':'fianza','kaution':'fianza','size':'superficie','tamano':'superficie','wohnflache':'superficie'})
   for word in re.findall(r'\w+', normalize(text)):
+   if word.startswith('mudar') or word.startswith('einzieh'):word='disponible'
    if word in ('available','when','wann','entrar','einziehen','move','mudarse'): word='disponible'
    if word=='pet': word='mascotas'
    word = aliases.get(word, word)

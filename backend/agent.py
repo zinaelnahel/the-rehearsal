@@ -97,4 +97,5 @@ def prepare(session, text, initial_docs, invoke, search, evidence):
         raise HTTPException(504, 'Agent preparation timed out. Retry this turn.')
     # Keep neighboring caption fragments together; do not trim their sentence
     # context back to the ordinary document passage limit.
-    return selections, list(documents.values())[:20 if session.get('transcript_chunks') else 8]
+    limit=20 if session.get('transcript_chunks') else 16 if session.get('listing_chunks') else 8
+    return selections, list(documents.values())[:limit]
