@@ -40,9 +40,9 @@ class Tesseract:
   self.lib.TessBaseAPISetVariable(self.handle,b'user_defined_dpi',b'180')
 
  def read(self,image):
-  image=image.convert('RGB');raw=image.tobytes()
+  raw=bytes(image.buffer)
   buffer=(c.c_ubyte*len(raw)).from_buffer_copy(raw)
-  self.lib.TessBaseAPISetImage(self.handle,buffer,image.width,image.height,3,image.width*3)
+  self.lib.TessBaseAPISetImage(self.handle,buffer,image.width,image.height,1,image.stride)
   pointer=self.lib.TessBaseAPIGetUTF8Text(self.handle)
   try:return c.string_at(pointer).decode('utf-8',errors='replace').strip() if pointer else ''
   finally:
@@ -66,10 +66,9 @@ def recognize_pdf(raw,indexes,engine):
     width,height=page.get_size();scale=2.5
     if width<=0 or height<=0 or width*height*scale*scale>MAX_PIXELS:
      raise ValueError('A PDF page is too large for OCR. Use a standard page size or paste the text.')
-    bitmap=page.render(scale=scale)
+    bitmap=page.render(scale=scale,grayscale=True)
     try:
-     image=bitmap.to_pil()
-     text=engine.read(image)
+     text=engine.read(bitmap)
     finally:bitmap.close()
    finally:page.close()
    total+=len(text)
@@ -83,7 +82,6 @@ def main():
  try:
   # Load all native/image libraries before reading the untrusted document.
   import pypdfium2
-  from PIL import Image
   from backend.parser_sandbox import confine
   if sys.platform=='linux':
    import resource

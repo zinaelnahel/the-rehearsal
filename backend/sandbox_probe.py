@@ -13,18 +13,23 @@ from backend.parser_sandbox import confine
 
 def make_scanned_pdf():
     """Synthetic image-only fixture: no real user documents enter CI."""
-    from PIL import Image,ImageDraw,ImageFont
+    import pypdfium2 as pdfium
     from pypdf import PdfWriter
     from pypdf.generic import DecodedStreamObject,DictionaryObject,NameObject,NumberObject
-    image=Image.new('RGB',(600,800),'white')
-    draw=ImageDraw.Draw(image);font=ImageFont.load_default(size=28)
-    draw.text((30,100),'Monthly rent: 2400 euros.',fill='black',font=font)
-    draw.text((30,170),'Available December 2026.',fill='black',font=font)
+    source=PdfWriter();page=source.add_blank_page(width=300,height=400)
+    font=DictionaryObject({NameObject('/Type'):NameObject('/Font'),NameObject('/Subtype'):NameObject('/Type1'),NameObject('/BaseFont'):NameObject('/Helvetica')})
+    page[NameObject('/Resources')]=DictionaryObject({NameObject('/Font'):DictionaryObject({NameObject('/F1'):source._add_object(font)})})
+    text=DecodedStreamObject();text.set_data(b'BT /F1 14 Tf 15 330 Td (Monthly rent: 2400 euros.) Tj 0 -35 Td (Available December 2026.) Tj ET')
+    page[NameObject('/Contents')]=source._add_object(text)
+    original=io.BytesIO();source.write(original)
+    with pdfium.PdfDocument(original.getvalue()) as pdf:
+        page=pdf[0];bitmap=page.render(scale=2,grayscale=True)
+        pixels=bytes(bitmap.buffer);bitmap.close();page.close()
     writer=PdfWriter();page=writer.add_blank_page(width=300,height=400)
-    stream=DecodedStreamObject();stream.set_data(image.tobytes());stream=stream.flate_encode()
+    stream=DecodedStreamObject();stream.set_data(pixels);stream=stream.flate_encode()
     stream.update({NameObject('/Type'):NameObject('/XObject'),NameObject('/Subtype'):NameObject('/Image'),
         NameObject('/Width'):NumberObject(600),NameObject('/Height'):NumberObject(800),
-        NameObject('/ColorSpace'):NameObject('/DeviceRGB'),NameObject('/BitsPerComponent'):NumberObject(8)})
+        NameObject('/ColorSpace'):NameObject('/DeviceGray'),NameObject('/BitsPerComponent'):NumberObject(8)})
     page[NameObject('/Resources')]=DictionaryObject({NameObject('/XObject'):DictionaryObject({NameObject('/Im0'):writer._add_object(stream)})})
     content=DecodedStreamObject();content.set_data(b'q 300 0 0 400 0 0 cm /Im0 Do Q')
     page[NameObject('/Contents')]=writer._add_object(content)
