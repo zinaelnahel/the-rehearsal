@@ -26,9 +26,19 @@ class CaptionProviderTests(unittest.TestCase):
    self.assertEqual(str(request.url).split('?')[0],'https://api.supadata.ai/v1/transcript')
    self.assertEqual(request.url.params['mode'],'native')
    self.assertEqual(request.url.params['text'],'false')
+   self.assertEqual(request.url.params['chunkSize'],'50')
    self.assertEqual(request.headers['x-api-key'],'fictional-test-key')
   result=self.invoke({'lang':'en','content':[{'text':'Fictional caption.','offset':1250,'duration':2000,'lang':'en'}]},inspect=inspect)
   self.assertEqual(result[0].start,1.25);self.assertEqual(result[0].duration,2)
+
+ def test_nearby_provider_captions_keep_individual_timestamps(self):
+  result=self.invoke({'lang':'en','content':[
+   {'text':'Opening sentence.','offset':200,'duration':2400},
+   {'text':'The price is 1420 euros.','offset':3500,'duration':2700},
+   {'text':'Closing sentence.','offset':7200,'duration':3000}]})
+  segments=video.caption_segments(result)
+  self.assertEqual([(s['start'],s['end']) for s in segments],[(0.2,2.6),(3.5,6.2),(7.2,10.2)])
+  self.assertEqual(segments[1]['text'],'The price is 1420 euros.')
 
  def test_provider_errors_and_unavailable_captions_are_sanitized(self):
   for status,expected in ((401,503),(403,503),(429,429),(206,422),(404,422),(202,424),(500,424),(302,424)):

@@ -34,7 +34,7 @@ def fetch_native(identifier, language_code, deadline):
             with client.stream('GET','https://api.supadata.ai/v1/transcript',
                 headers={'x-api-key':key,'Accept':'application/json'},params={
                     'url':'https://www.youtube.com/watch?v='+identifier,
-                    'lang':language_code,'mode':'native','text':'false','chunkSize':2000}) as response:
+                    'lang':language_code,'mode':'native','text':'false','chunkSize':50}) as response:
                 if response.status_code in (401,403):
                     raise HTTPException(503,'The caption service rejected its server credentials. Paste the transcript instead.')
                 if response.status_code==429:

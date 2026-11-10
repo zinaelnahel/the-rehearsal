@@ -11,6 +11,10 @@ gets one request to the fixed `https://api.supadata.ai/v1/transcript` endpoint:
 - `mode=native`: existing captions only; never `auto` or `generate`.
 - `text=false`: timestamped chunks. Milliseconds are converted to seconds and
   passed through the existing ordered-segment and transcript-size validators.
+- `chunkSize=50`: request small caption chunks for precise source citations.
+  Each returned caption retains its own start and end; nearby captions are not
+  merged. Timing precision depends on the source captions. Previously imported
+  transcripts need to be imported again to get the smaller blocks.
 - `lang`: the selected language. Different-language returns are rejected rather
   than silently substituting another language.
 

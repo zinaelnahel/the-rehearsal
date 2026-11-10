@@ -127,15 +127,15 @@ class VideoTests(unittest.TestCase):
             is_generated = True
             language_code = "en"
         captions = Captions([SimpleNamespace(start=0, duration=2, text='Rent is 1420 euros.'),
-                             SimpleNamespace(start=130, duration=5, text='Outside the excerpt.')])
+                             SimpleNamespace(start=7, duration=5, text='The deposit is 2000 euros.')])
         with patch('youtube_transcript_api.YouTubeTranscriptApi.fetch', return_value=captions):
             preview = self.client.post('/api/video/transcript', json={
                 'url': 'https://youtu.be/abcdefghijk', 'language': 'English', 'consent': True})
         self.assertEqual(preview.status_code, 200, preview.text)
         data = preview.json()
         self.assertEqual(len(data['segments']), 2)
-        self.assertEqual(data['segments'][1]['start'], 130)
-        self.assertIn('Outside the excerpt.', data['segments'][1]['text'])
+        self.assertEqual(data['segments'][1]['start'], 7)
+        self.assertIn('The deposit is 2000 euros.', data['segments'][1]['text'])
         self.assertFalse(api.sessions)
         self.assertEqual(self.client.post('/api/sessions', json={'transcript': data['segments'],
             'video_url': data['source_url']}).status_code, 409)
@@ -145,6 +145,9 @@ class VideoTests(unittest.TestCase):
         evidence = api.evidence(api.search(api.sessions[sid], 'rent')[0])
         self.assertEqual(evidence['url'], 'https://www.youtube.com/watch?v=abcdefghijk')
         self.assertEqual(evidence['start'], 0)
+        deposit = api.evidence(api.search(api.sessions[sid], 'deposit')[0])
+        self.assertEqual(deposit['start'], 7)
+        self.assertEqual(deposit['end'], 12)
         self.client.delete('/api/sessions/' + sid)
 
     def test_wrong_caption_language_is_rejected_before_source_creation(self):

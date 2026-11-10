@@ -40,12 +40,9 @@ def caption_segments(fetched):
         characters += len(text) + 1
         if characters > MAX_TRANSCRIPT_CHARS:
             raise HTTPException(413, 'The full transcript exceeds 100,000 characters. Use a shorter video or paste a selected excerpt.')
-        # Group short caption lines into reviewable timestamped paragraphs.
-        if segments and item.start - segments[-1]['start'] <= 30 and len(segments[-1]['text']) + len(text) + 1 <= 4000:
-            segments[-1]['text'] += ' ' + text
-            segments[-1]['end'] = max(segments[-1]['end'], item.end)
-        else:
-            segments.append(item.model_dump())
+        # Preserve provider timing: merging lines makes evidence point at earlier text.
+        # Never invent finer timestamps by splitting a caption proportionally.
+        segments.append(item.model_dump())
         if len(segments) > 1000:
             raise HTTPException(413, 'The transcript has too many timestamp blocks. Use a shorter video or selected excerpt.')
     return segments
