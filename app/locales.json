@@ -815,14 +815,6 @@
     "de": "https://example.com/video.mp4 oder ein YouTube-Link",
     "es": "https://example.com/video.mp4 o un enlace de YouTube"
   },
-  "YouTube: full available captions in": {
-    "de": "YouTube: verfügbare vollständige Untertitel auf",
-    "es": "YouTube: subtítulos completos disponibles en"
-  },
-  ", up to 100,000 characters. If configured on this server, blocked YouTube caption requests may be sent to Supadata to fetch existing captions only; no AI-generated transcript is requested. Direct MP4, WebM or MOV files: up to 4 MB; transcribe a short video or choose a clip of up to two minutes from a longer one. Audio is sent to OpenAI. Other video-hosting pages are not supported.": {
-    "de": ", bis zu 100.000 Zeichen. Falls eingerichtet, kann Supadata bei blockierten Anfragen vorhandene Untertitel abrufen; keine KI-Transkription. Direkte MP4-, WebM- oder MOV-Dateien: bis 4 MB. Wähle ein kurzes Video oder einen Ausschnitt bis zwei Minuten. Audio wird an OpenAI gesendet. Andere Videoportale werden nicht unterstützt.",
-    "es": ", hasta 100 000 caracteres. Si está configurado, Supadata puede recuperar subtítulos existentes cuando YouTube bloquea la solicitud; no se pide transcripción por IA. Archivos MP4, WebM o MOV directos: hasta 4 MB. Usa un vídeo corto o un fragmento de hasta dos minutos. El audio se envía a OpenAI. No se admiten otras páginas de vídeo."
-  },
   "Choose a clip from a longer direct video": {
     "de": "Ausschnitt aus einem längeren direkten Video wählen",
     "es": "Elegir un fragmento de un vídeo directo más largo"
@@ -2110,5 +2102,25 @@
   "This answer could not be verified. Please confirm it in the real conversation.": {
     "de": "Diese Antwort konnte nicht verifiziert werden. Bitte kläre sie im echten Gespräch.",
     "es": "No se pudo verificar esta respuesta. Confírmala en la conversación real."
+  },
+  "Import available captions in": {
+    "de": "Verfügbare Untertitel importieren auf",
+    "es": "Importar subtítulos disponibles en"
+  },
+  "Video files: MP4, WebM or MOV, up to 4 MB and a two-minute clip. Audio is sent to OpenAI for transcription.": {
+    "de": "Videodateien: MP4, WebM oder MOV, bis 4 MB und ein Ausschnitt von bis zu zwei Minuten. Audio wird zur Transkription an OpenAI gesendet.",
+    "es": "Archivos de vídeo: MP4, WebM o MOV, hasta 4 MB y un fragmento de hasta dos minutos. El audio se envía a OpenAI para transcribirlo."
+  },
+  "Import details and privacy": {
+    "de": "Importdetails und Datenschutz",
+    "es": "Detalles de importación y privacidad"
+  },
+  "YouTube imports existing captions only, up to 100,000 characters. If enabled, Supadata may handle blocked caption requests; no AI-generated transcript is requested. Other video-hosting pages are not supported.": {
+    "de": "YouTube importiert nur vorhandene Untertitel, bis 100.000 Zeichen. Falls aktiviert, kann Supadata blockierte Untertitelanfragen bearbeiten; es wird kein KI-generiertes Transkript angefordert. Andere Video-Hostingseiten werden nicht unterstützt.",
+    "es": "YouTube solo importa subtítulos existentes, hasta 100.000 caracteres. Si está habilitado, Supadata puede gestionar las solicitudes bloqueadas; no se solicita una transcripción generada por IA. No se admiten otras páginas de alojamiento de vídeos."
+  },
+  "YouTube caption requests may use Supadata if enabled.": {
+    "de": "Falls aktiviert, können YouTube-Untertitel über Supadata abgerufen werden.",
+    "es": "Las solicitudes de subtítulos de YouTube pueden usar Supadata si está habilitado."
   }
 }

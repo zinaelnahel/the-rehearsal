@@ -28,6 +28,11 @@ try{
  });
  await page.goto(base);
  await page.getByRole('tab',{name:'Audio / video',exact:true}).click();
+ assert.equal(await page.locator('.video-import-details').getAttribute('open'),null);
+ await page.locator('.video-import-details>summary').focus();await page.keyboard.press('Enter');
+ assert.equal(await page.locator('.video-import-details p').isVisible(),true);
+ await page.keyboard.press('Enter');
+ assert.equal(await page.locator('.video-import-details p').isVisible(),false);
  await page.locator('#video-url').fill(url);
  await page.getByLabel('I agree to fetch this public video or its captions and send direct-video audio to OpenAI.').check();
  await page.getByRole('button',{name:'Import video transcript',exact:true}).click();

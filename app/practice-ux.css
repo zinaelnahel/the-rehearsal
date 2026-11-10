@@ -10,3 +10,4 @@
 @media(max-width:680px){.practice-grid>aside{grid-template-columns:1fr}.help-panel{margin:0}.voice-rehearsal{margin-left:12px;margin-right:12px}}
 .goal-outcome>span{display:inline}
 .privacy>div{min-width:0}.privacy p{margin:0}.privacy-details{margin-top:8px}.privacy-details summary{cursor:pointer;min-height:28px;text-decoration:underline;text-underline-offset:3px}.privacy-details p{margin:10px 0 0;line-height:1.65}.privacy-details summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.video-import-summary p{margin:6px 0;font-size:12px;line-height:1.6}.video-import-details{margin:10px 0}.video-import-details summary{cursor:pointer;min-height:30px;text-decoration:underline;text-underline-offset:3px;font-size:12px}.video-import-details summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
