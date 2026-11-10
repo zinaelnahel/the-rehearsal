@@ -17,7 +17,9 @@ class MemoryLoader(BaseLoader):
    reader = PdfReader(io.BytesIO(self.raw))
    if reader.is_encrypted or len(reader.pages) > 100: raise ValueError('Use an unencrypted PDF with at most 100 pages.')
    for i, page in enumerate(reader.pages):
-    yield Document(page_content=page.extract_text() or '', metadata={'source':self.name,'location':f'Page {i+1}'})
+    text=page.extract_text() or ''
+    needs_ocr=(not text.strip() or (len(text.strip())<250 and bool(page.images))) and bool(page.get('/Contents') or page.get('/Annots'))
+    yield Document(page_content=text, metadata={'source':self.name,'location':f'Page {i+1}','needs_ocr':needs_ocr})
   elif self.kind == 'docx':
    with zipfile.ZipFile(io.BytesIO(self.raw)) as z:
     if sum(x.file_size for x in z.infolist()) > 20 * 1024 * 1024: raise ValueError('Expanded DOCX is too large.')
@@ -44,9 +46,9 @@ if __name__ == '__main__':
   for doc in MemoryLoader(sys.stdin.buffer.read(4*1024*1024+1),sys.argv[1],'document').lazy_load():
    size+=len(doc.page_content)
    if size>100000: raise ValueError('Document text exceeds 100,000 characters.')
-   docs.append({'text':doc.page_content,'location':doc.metadata['location']})
+   docs.append({'text':doc.page_content,'location':doc.metadata['location'],'needs_ocr':doc.metadata.get('needs_ocr',False)})
   print(json.dumps({'documents':docs}))
  except RuntimeError:
   print(json.dumps({'error':'Secure document parsing is unavailable on this host. Paste document text instead.'}))
  except Exception:
-  print(json.dumps({'error':'Could not read this document. Use an unencrypted text PDF (up to 100 pages) or valid DOCX. Scanned PDFs need OCR.'}))
+  print(json.dumps({'error':'Could not read this document. Use an unencrypted PDF (up to 100 pages) or valid DOCX.'}))

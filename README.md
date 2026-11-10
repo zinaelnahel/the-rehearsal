@@ -119,8 +119,7 @@ replies use OpenAI even in demo mode. See [behavior, limits and verification](do
 ## Situation sources, video links and dialogue maps
 
 The source screen has three tabs: **Try a sample**, **Your situation** and
-**Audio / video**. Under **Your situation**, choose text, a document upload or
-an optional listing link. Each choice keeps its own draft; only the selected
+**Audio / video**. Under **Your situation**, choose pasted text or a document upload. Each choice keeps its own draft; only the selected
 source type is used when building a mission.
 
 The **Audio / video** tab combines recording, uploads and video links. Its video-link option accepts public HTTPS MP4/WebM/MOV file links and YouTube
@@ -136,9 +135,7 @@ hosting-IP blocks can prevent imports. It does not bypass restrictions. Fetches
 reject private-network destinations, pin validated IPs for TLS, recheck redirects,
 and bound bytes, time and concurrency.
 
-Choose **Your situation**, then **Use a listing link (optional)** for a direct HTTPS Idealista advert from Spain, Portugal or Italy. If public reading is permitted, the server extracts visible text and stores the URL with paragraph evidence for this session. Redirects are restricted, private network destinations are rejected, payloads/timeouts are bounded, robot exclusions are checked, and blocked/login/challenge pages are not bypassed. The listing can change; the original link remains available in evidence cards.
-
-Many Idealista reads are blocked. The reliable fallback is to paste the advert’s price, description and features into the optional text field. The UI labels this **user-pasted text, not fetched from the site**. This is not an official Idealista API integration. [Official Search API access requires a separate application](https://developers.idealista.com/access-request); no API access or third-party scraping service is bundled.
+For property listings, paste the advert text or upload a PDF. Direct listing-link import is no longer shown because providers commonly block automated reads. Image-based PDFs use offline server OCR in English, German and Spanish (up to 8 image-based pages, 4 MB). Review and correct extracted text before building a mission. PDF images are not sent to an AI provider; reviewed text is used for live rehearsal grounding. Local OCR requires libtesseract with eng/deu/spa language data; the deployment image includes these dependencies.
 
 During mission review, **A plan for the unplanned** maps each goal to three possible conversational paths. Branch buttons explore clear answers, missing details and questions asked back. The map starts collapsed under **Explore possible responses** on the plan step. The rehearsal sidebar keeps only the mission and hints. These plans are hypothetical communication sketches, never predictions or new document facts. No map selections are saved beyond the current page session.
 
@@ -190,7 +187,7 @@ Tests exercise all 36 scenario/conversation-language/feedback-language combinati
 
 ## Known limitations
 
-English, German and Spanish only; interface language is selected independently from conversation and feedback language. Text chat plus optional Whisper transcription and AI voice playback (enable speech on the backend). The demo is intentionally scripted and its keyword rules can misclassify achievement. No OCR, legacy DOC files, authentication, synchronized history, distributed sessions or semantic embeddings. The optional on-device rehearsal library is separate from live sessions. Synthetic real-provider speech and browser checks passed; broad human speech accuracy remains unmeasured. Replay focuses only on the selected goal and replaces the previous scene’s turns/debrief. Model feedback and goal detection need human review. File reads, interrupted uploads or response-body reads, deletion verification failures, non-JSON gateway errors and cold-start timeouts produce actionable messages; transient network failures can still occur, and mutations are not automatically retried. Live evidence checks combine exact quotations and a model review; human evaluation is still needed. This unauthenticated prototype is not production-validated: verify transport security, edge controls, the required parser sandbox on your host, durable budget storage and provider billing limits before rollout. Current limits include 100 active sessions, 30 learner turns per scene, 30 hints per session and one-hour idle expiry.
+English, German and Spanish only; interface language is selected independently from conversation and feedback language. Text chat plus optional Whisper transcription and AI voice playback (enable speech on the backend). The demo is intentionally scripted and its keyword rules can misclassify achievement. No legacy DOC files, authentication, synchronized history, distributed sessions or semantic embeddings. The optional on-device rehearsal library is separate from live sessions. Synthetic real-provider speech and browser checks passed; broad human speech accuracy remains unmeasured. Replay focuses only on the selected goal and replaces the previous scene’s turns/debrief. Model feedback and goal detection need human review. File reads, interrupted uploads or response-body reads, deletion verification failures, non-JSON gateway errors and cold-start timeouts produce actionable messages; transient network failures can still occur, and mutations are not automatically retried. Live evidence checks combine exact quotations and a model review; human evaluation is still needed. This unauthenticated prototype is not production-validated: verify transport security, edge controls, the required parser sandbox on your host, durable budget storage and provider billing limits before rollout. Current limits include 100 active sessions, 30 learner turns per scene, 30 hints per session and one-hour idle expiry.
 
 ## Navigation and optional download
 

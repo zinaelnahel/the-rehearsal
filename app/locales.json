@@ -2042,5 +2042,45 @@
   "End here": {
     "de": "Hier enden",
     "es": "Terminar aquí"
+  },
+  "PDF or DOCX · up to 4 MB": {
+    "de": "PDF oder DOCX · bis zu 4 MB",
+    "es": "PDF o DOCX · hasta 4 MB"
+  },
+  "Image-based PDFs use OCR on this server. Review the recognised text before building a mission. Up to 8 image-based pages; no PDF images are sent to OpenAI.": {
+    "de": "Bildbasierte PDFs werden auf diesem Server per OCR gelesen. Prüfe den erkannten Text, bevor du eine Mission erstellst. Bis zu 8 bildbasierte Seiten; PDF-Bilder werden nicht an OpenAI gesendet.",
+    "es": "Los PDF basados en imágenes se leen con OCR en este servidor. Revisa el texto reconocido antes de crear una misión. Hasta 8 páginas basadas en imágenes; las imágenes del PDF no se envían a OpenAI."
+  },
+  "Review recognised PDF text": {
+    "de": "Erkannten PDF-Text prüfen",
+    "es": "Revisar el texto reconocido del PDF"
+  },
+  "Cancel document import": {
+    "de": "Dokumentimport abbrechen",
+    "es": "Cancelar importación del documento"
+  },
+  "OCR can misread prices, dates and names. Compare this text with your PDF and correct any mistakes. No mission has been created from this document yet.": {
+    "de": "OCR kann Preise, Daten und Namen falsch erkennen. Vergleiche diesen Text mit deinem PDF und korrigiere Fehler. Aus diesem Dokument wurde noch keine Mission erstellt.",
+    "es": "El OCR puede interpretar mal precios, fechas y nombres. Compara este texto con tu PDF y corrige los errores. Todavía no se ha creado una misión con este documento."
+  },
+  "PDF images stay on this server for OCR. In live mode, the reviewed text will be sent to OpenAI when you build the mission.": {
+    "de": "OCR wird auf diesem Server ausgeführt; PDF-Bilder werden nicht an OpenAI gesendet. Im Live-Modus wird der geprüfte Text beim Erstellen der Mission an OpenAI gesendet.",
+    "es": "El OCR se ejecuta en este servidor; las imágenes del PDF no se envían a OpenAI. En modo en vivo, el texto revisado se enviará a OpenAI al crear la misión."
+  },
+  "Previous PDF page": {
+    "de": "Vorherige PDF-Seite",
+    "es": "Página anterior del PDF"
+  },
+  "Next PDF page": {
+    "de": "Nächste PDF-Seite",
+    "es": "Página siguiente del PDF"
+  },
+  "I reviewed this OCR text and want to use it as my source.": {
+    "de": "Ich habe diesen OCR-Text geprüft und möchte ihn als Quelle verwenden.",
+    "es": "He revisado este texto OCR y quiero usarlo como fuente."
+  },
+  "Use reviewed text and build mission": {
+    "de": "Geprüften Text verwenden und Mission erstellen",
+    "es": "Usar el texto revisado y crear la misión"
   }
 }

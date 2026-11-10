@@ -1,6 +1,6 @@
 """Linux parser confinement, applied after trusted imports and before input reads.
 
-Landlock denies filesystem access except read-only Python runtime libraries.
+Landlock denies filesystem access except read-only runtime libraries, fonts and OCR language data.
 Seccomp denies networking, new processes and access to other processes.
 Unsupported hosts fail closed when PARSER_SANDBOX=required.
 """
@@ -42,7 +42,8 @@ def confine():
 
     try:
         # Never allow /app, /home, /tmp, /proc, or application configuration.
-        roots = {str(Path(sys.base_prefix) / 'lib'), '/usr/lib', '/lib', '/lib64'}
+        roots = {str(Path(sys.base_prefix) / 'lib'), '/usr/lib', '/lib', '/lib64',
+                 '/usr/share/fonts', '/usr/share/tesseract-ocr'}
         for root in roots:
             if not Path(root).is_dir():
                 continue

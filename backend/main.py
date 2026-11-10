@@ -19,7 +19,7 @@ from backend.content import LANGUAGES, LEVELS, CONTENT, COMMON, TRANSLATIONS, NO
 from backend.demo_answers import answer as demo_answer, COPY as ANSWER_COPY, detect_intents, EXTRA_STARTERS, asks_question
 from backend.live import RoleReply as ReplyOutput, EvidenceReview, Translation, Hint, DebriefNotes, strict_schema, rehearse, scene_review_schema, bind_review
 from backend.listings import listing_url, fetch_listing
-from backend.listing_context import listing_documents, looks_like_listing, retrieve_listing, area_conflict
+from backend.listing_context import listing_documents, looks_like_listing, retrieve_listing, area_conflict, trim_pdf_listing_pages
 from backend.retrieval import build_store, purge_expired, delete_persisted
 from backend.observability import trace_scope
 from backend.agent import prepare as prepare_agent
@@ -126,28 +126,31 @@ def get(sid, phase=None):
  if hasattr(s['store'],'touch'): s['store'].touch()
  return s
 
-def create(raw, kind, name, source_url=None, transcript=None, listing=False):
+def create(raw, kind, name, source_url=None, transcript=None, listing=False, document_pages=None):
  global pending_sources
  with source_creation_lock:
   if len(sessions)+pending_sources>=100: raise HTTPException(503,'Demo is full. Try again later.')
   pending_sources+=1
  try:
-  return _create(raw,kind,name,source_url,transcript,listing)
+  return _create(raw,kind,name,source_url,transcript,listing,document_pages)
  finally:
   with source_creation_lock: pending_sources-=1
 
 
-def _create(raw, kind, name, source_url=None, transcript=None, listing=False):
+def _create(raw, kind, name, source_url=None, transcript=None, listing=False, document_pages=None):
  try:
   listing=kind=='text' and (listing or looks_like_listing(raw.decode('utf-8')))
-  docs = ([Document(page_content=s.text,metadata={'source':name,
+  docs = (document_pages if document_pages is not None else [Document(page_content=s.text,metadata={'source':name,
            'location':f'{s.start:.2f}s–{s.end:.2f}s (reviewed transcript)',
            'start':s.start,'end':s.end}) for s in transcript]
           if transcript else listing_documents(raw.decode('utf-8'),name) if listing else parse_document(raw,kind,name) if kind in ('pdf','docx') else MemoryLoader(raw,kind,name).load())
+  if kind=='pdf' and looks_like_listing('\n'.join(d.page_content for d in docs)):listing=True
+  needs_review=any(d.metadata.get('ocr') and not d.metadata.get('ocr_reviewed') for d in docs)
   if sum(len(d.page_content) for d in docs)>100000: raise ValueError('Document text exceeds 100,000 characters.')
   for index,doc in enumerate(docs): doc.metadata['source_part']=index
-  chunks = RecursiveCharacterTextSplitter(chunk_size=700,chunk_overlap=100).split_documents(docs)
-  if not chunks: raise ValueError('No text found. Scanned PDFs need OCR and are not supported.')
+  retrieval_docs=trim_pdf_listing_pages(docs) if kind=='pdf' and listing else docs
+  chunks = RecursiveCharacterTextSplitter(chunk_size=700,chunk_overlap=100).split_documents(retrieval_docs)
+  if not chunks: raise ValueError('No readable text was found. Try a clearer PDF or paste the text.')
   for i,d in enumerate(chunks):
    d.metadata['id'] = str(i+1)
    if source_url: d.metadata['url']=source_url
@@ -159,8 +162,35 @@ def _create(raw, kind, name, source_url=None, transcript=None, listing=False):
   store = build_store(sid,LocalEmbeddings(),chunks,TTL)
  except Exception:
   raise HTTPException(503,'Retrieval storage is unavailable. Check VECTOR_STORE, CHROMA_PATH and server write permissions.') from None
- sessions[sid] = dict(store=store, transcript_chunks=chunks if transcript else [], listing_chunks=chunks if listing else [], listing_area_conflict=area_conflict(chunks) if listing else None, source_documents=docs, source_chunks={d.metadata['id']:d for d in chunks}, source_kind=kind, phase='setup', touched=time.monotonic(), name=name, turns=[], hints=[], mission=[], ratings={}, safety=False, lock=asyncio.Lock())
- return {'id':sid,'name':name,'passages':len(chunks),'mode':'live' if LIVE else 'demo','source_url':source_url}
+ sessions[sid] = dict(store=store, transcript_chunks=chunks if transcript else [], listing_chunks=chunks if listing else [], listing_area_conflict=area_conflict(chunks) if listing else None, source_documents=docs, source_chunks={d.metadata['id']:d for d in chunks}, source_kind=kind, needs_source_review=needs_review, phase='setup', touched=time.monotonic(), name=name, turns=[], hints=[], mission=[], ratings={}, safety=False, lock=asyncio.Lock())
+ result={'id':sid,'name':name,'passages':len(chunks),'mode':'live' if LIVE else 'demo','source_url':source_url}
+ if needs_review:
+  result.update(requires_confirmation=True,source_method='pdf_ocr',pages=[{'text':doc.page_content,'location':doc.metadata['location'],'ocr':doc.metadata.get('ocr',False)} for doc in docs])
+ return result
+
+
+class DocumentReview(BaseModel):
+ texts: list[str] = Field(min_length=1,max_length=100)
+ confirmed: bool = False
+
+
+@app.post('/api/sessions/{sid}/source-review')
+async def confirm_document_source(sid: str, body: DocumentReview):
+ s=get(sid,('setup',))
+ async with s['lock']:
+  if not s.get('needs_source_review'):raise HTTPException(409,'This document does not need OCR review.')
+  if not body.confirmed:raise HTTPException(409,'Review and confirm the OCR text before building a mission.')
+  if len(body.texts)!=len(s['source_documents']):raise HTTPException(400,'Keep the original PDF page count when reviewing OCR text.')
+  if sum(len(text) for text in body.texts)>100000:raise HTTPException(413,'Document text exceeds 100,000 characters.')
+  docs=[]
+  for text,original in zip(body.texts,s['source_documents']):
+   metadata={**original.metadata,'ocr_reviewed':True}
+   if metadata.get('ocr'):metadata['location']=original.metadata['location']+' (reviewed OCR text)'
+   docs.append(Document(page_content=text,metadata=metadata))
+  result=await asyncio.to_thread(create,b'',s['source_kind'],s['name'],document_pages=docs)
+  s['needs_source_review']=False
+  dispose_session(sid)
+  return {**result,'import_method':'reviewed_pdf_ocr'}
 
 @app.get('/api/config')
 def config(): return {'mode':'live' if LIVE else 'demo','speech_enabled':speech.enabled(), 'vector_store':os.getenv('VECTOR_STORE','chroma'), 'agent_enabled':agent_enabled(), 'feedback_enabled':feedback.enabled(), 'feedback_retention_days':feedback.retention_days(), 'demo_revision':'0.6','roleplay_revision':'0.7','listing_provider':'Idealista public links or pasted advert text','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
@@ -360,6 +390,7 @@ async def speak_reply(sid: str, body: Playback):
 @app.post('/api/sessions/{sid}/mission')
 def mission(sid: str, body: Setup):
  s = get(sid,('setup','mission'))
+ if s.get('needs_source_review'):raise HTTPException(409,'Review and confirm the OCR text before building a mission.')
  if LIVE and not body.external_model_consent:
   raise HTTPException(409,'Live AI is enabled. Refresh the app and review the external-model processing notice before starting.')
  if body.scenario not in SCENARIOS or body.language not in LANGUAGES or body.feedback_language not in LANGUAGES or body.level not in LEVELS: raise HTTPException(400,'Choose a supported situation, English/German/Spanish, and Everyday/B1/B2.')
@@ -486,7 +517,7 @@ def view_source(sid: str, passage_id: str):
  documents=s['source_documents']
  # PDF pages keep their actual page boundary; text and DOCX show nearby parts.
  indexes=range(index,index+1) if s['source_kind']=='pdf' else range(max(0,index-1),min(len(documents),index+2))
- page=re.fullmatch(r'Page (\d+)',chunk.metadata['location']) if s['source_kind']=='pdf' else None
+ page=re.fullmatch(r'Page (\d+)(?: \(reviewed OCR text\))?',chunk.metadata['location']) if s['source_kind']=='pdf' else None
  return {'kind':s['source_kind'],'focus':evidence(chunk),'page':int(page[1]) if page else None,
   'sections':[{'location':documents[i].metadata['location'],'text':documents[i].page_content,'selected':i==index} for i in indexes]}
 

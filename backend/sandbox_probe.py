@@ -11,6 +11,26 @@ import zipfile
 from backend.parser_sandbox import confine
 
 
+def make_scanned_pdf():
+    """Synthetic image-only fixture: no real user documents enter CI."""
+    from PIL import Image,ImageDraw,ImageFont
+    from pypdf import PdfWriter
+    from pypdf.generic import DecodedStreamObject,DictionaryObject,NameObject,NumberObject
+    image=Image.new('RGB',(600,800),'white')
+    draw=ImageDraw.Draw(image);font=ImageFont.load_default(size=28)
+    draw.text((30,100),'Monthly rent: 2400 euros.',fill='black',font=font)
+    draw.text((30,170),'Available December 2026.',fill='black',font=font)
+    writer=PdfWriter();page=writer.add_blank_page(width=300,height=400)
+    stream=DecodedStreamObject();stream.set_data(image.tobytes());stream=stream.flate_encode()
+    stream.update({NameObject('/Type'):NameObject('/XObject'),NameObject('/Subtype'):NameObject('/Image'),
+        NameObject('/Width'):NumberObject(600),NameObject('/Height'):NumberObject(800),
+        NameObject('/ColorSpace'):NameObject('/DeviceRGB'),NameObject('/BitsPerComponent'):NumberObject(8)})
+    page[NameObject('/Resources')]=DictionaryObject({NameObject('/XObject'):DictionaryObject({NameObject('/Im0'):writer._add_object(stream)})})
+    content=DecodedStreamObject();content.set_data(b'q 300 0 0 400 0 0 cm /Im0 Do Q')
+    page[NameObject('/Contents')]=writer._add_object(content)
+    output=io.BytesIO();writer.write(output);return output.getvalue()
+
+
 def main():
     # The sentinel is created before confinement, like application session data.
     with tempfile.TemporaryDirectory() as folder:
@@ -64,6 +84,10 @@ raise SystemExit(0 if all(checks.values()) else 1)
         if not docs or '1375' not in docs[0].page_content:
             raise SystemExit('Sandboxed '+kind+' import failed')
     print('Production sandbox: real PDF and DOCX imports passed.')
+    docs=parse_document(make_scanned_pdf(),'pdf','synthetic-scan.pdf')
+    if not docs or not docs[0].metadata.get('ocr') or '2400' not in docs[0].page_content or '2026' not in docs[0].page_content:
+        raise SystemExit('Sandboxed OCR import failed')
+    print('Production sandbox: image-only PDF OCR passed without network or child processes.')
 
 
 if __name__ == '__main__':

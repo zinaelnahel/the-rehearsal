@@ -46,6 +46,18 @@ def listing_documents(text,name):
  return documents
 
 
+def trim_pdf_listing_pages(documents):
+ """Keep original page metadata while excluding footer material from retrieval."""
+ trimmed=[];finished=False
+ for document in documents:
+  lines=[]
+  for line in document.page_content.splitlines():
+   if plain(line.strip()) in FOOTERS:finished=True
+   if not finished:lines.append(line)
+  trimmed.append(Document(page_content='\n'.join(lines),metadata=dict(document.metadata)))
+ return trimmed
+
+
 def query_fields(text):
  value=plain(text);fields=[]
  if rental_price_question(value) or re.search(r'\b(?:rent|miete|alquiler)\b',value):fields.append('price')
