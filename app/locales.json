@@ -1978,5 +1978,69 @@
   "Watch this part": {
     "de": "Diese Stelle ansehen",
     "es": "Ver este fragmento"
+  },
+  "View source": {
+    "de": "Quelle ansehen",
+    "es": "Ver fuente"
+  },
+  "Close source": {
+    "de": "Quelle schließen",
+    "es": "Cerrar fuente"
+  },
+  "Loading source…": {
+    "de": "Quelle wird geladen…",
+    "es": "Cargando fuente…"
+  },
+  "The highlighted passage is the evidence used for this reply.": {
+    "de": "Die markierte Passage ist der Beleg für diese Antwort.",
+    "es": "El pasaje resaltado es la evidencia utilizada para esta respuesta."
+  },
+  "Extracted page text. The original page layout may differ.": {
+    "de": "Extrahierter Seitentext. Das ursprüngliche Seitenlayout kann abweichen.",
+    "es": "Texto extraído de la página. El diseño original puede ser diferente."
+  },
+  "View original PDF": {
+    "de": "Original-PDF ansehen",
+    "es": "Ver PDF original"
+  },
+  "Original PDF page": {
+    "de": "Original-PDF-Seite",
+    "es": "Página del PDF original"
+  },
+  "The original file is unavailable. You can still read the extracted text below.": {
+    "de": "Die Originaldatei ist nicht verfügbar. Den extrahierten Text kannst du unten weiterhin lesen.",
+    "es": "El archivo original no está disponible. Puedes seguir leyendo el texto extraído a continuación."
+  },
+  "Selected section": {
+    "de": "Ausgewählter Abschnitt",
+    "es": "Sección seleccionada"
+  },
+  "Using the full transcript": {
+    "de": "Das gesamte Transkript wird verwendet",
+    "es": "Se utiliza la transcripción completa"
+  },
+  "Choose a single caption, or use Start here and End here to select a longer section across transcript pages.": {
+    "de": "Wähle einen einzelnen Untertitel oder nutze „Hier beginnen“ und „Hier enden“, um einen längeren Abschnitt über mehrere Transkriptseiten auszuwählen.",
+    "es": "Elige un solo subtítulo o usa «Empezar aquí» y «Terminar aquí» para seleccionar un fragmento más largo entre las páginas de la transcripción."
+  },
+  "Only the selected captions will be used for your mission. Their original timestamps are kept.": {
+    "de": "Für deine Mission werden nur die ausgewählten Untertitel verwendet. Die ursprünglichen Zeitangaben bleiben erhalten.",
+    "es": "Solo se utilizarán los subtítulos seleccionados para tu misión. Se conservan sus marcas de tiempo originales."
+  },
+  "Use full transcript": {
+    "de": "Gesamtes Transkript verwenden",
+    "es": "Usar transcripción completa"
+  },
+  "Use this section": {
+    "de": "Diesen Abschnitt verwenden",
+    "es": "Usar este fragmento"
+  },
+  "Start here": {
+    "de": "Hier beginnen",
+    "es": "Empezar aquí"
+  },
+  "End here": {
+    "de": "Hier enden",
+    "es": "Terminar aquí"
   }
 }

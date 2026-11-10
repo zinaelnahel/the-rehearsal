@@ -143,6 +143,7 @@ def _create(raw, kind, name, source_url=None, transcript=None):
            'start':s.start,'end':s.end}) for s in transcript]
           if transcript else parse_document(raw,kind,name) if kind in ('pdf','docx') else MemoryLoader(raw,kind,name).load())
   if sum(len(d.page_content) for d in docs)>100000: raise ValueError('Document text exceeds 100,000 characters.')
+  for index,doc in enumerate(docs): doc.metadata['source_part']=index
   chunks = RecursiveCharacterTextSplitter(chunk_size=700,chunk_overlap=100).split_documents(docs)
   if not chunks: raise ValueError('No text found. Scanned PDFs need OCR and are not supported.')
   for i,d in enumerate(chunks):
@@ -156,7 +157,7 @@ def _create(raw, kind, name, source_url=None, transcript=None):
   store = build_store(sid,LocalEmbeddings(),chunks,TTL)
  except Exception:
   raise HTTPException(503,'Retrieval storage is unavailable. Check VECTOR_STORE, CHROMA_PATH and server write permissions.') from None
- sessions[sid] = dict(store=store, transcript_chunks=chunks if transcript else [], phase='setup', touched=time.monotonic(), name=name, turns=[], hints=[], mission=[], ratings={}, safety=False, lock=asyncio.Lock())
+ sessions[sid] = dict(store=store, transcript_chunks=chunks if transcript else [], source_documents=docs, source_chunks={d.metadata['id']:d for d in chunks}, source_kind=kind, phase='setup', touched=time.monotonic(), name=name, turns=[], hints=[], mission=[], ratings={}, safety=False, lock=asyncio.Lock())
  return {'id':sid,'name':name,'passages':len(chunks),'mode':'live' if LIVE else 'demo','source_url':source_url}
 
 @app.get('/api/config')
@@ -471,6 +472,20 @@ def evidence(d):
  if d.metadata.get('url'): result['url']=d.metadata['url']
  if 'start' in d.metadata: result.update(start=d.metadata['start'],end=d.metadata['end'])
  return result
+
+
+@app.get('/api/sessions/{sid}/source/{passage_id}')
+def view_source(sid: str, passage_id: str):
+ s=get(sid)
+ chunk=s.get('source_chunks',{}).get(passage_id)
+ if chunk is None: raise HTTPException(404,'Source passage is no longer available.')
+ index=chunk.metadata['source_part']
+ documents=s['source_documents']
+ # PDF pages keep their actual page boundary; text and DOCX show nearby parts.
+ indexes=range(index,index+1) if s['source_kind']=='pdf' else range(max(0,index-1),min(len(documents),index+2))
+ page=re.fullmatch(r'Page (\d+)',chunk.metadata['location']) if s['source_kind']=='pdf' else None
+ return {'kind':s['source_kind'],'focus':evidence(chunk),'page':int(page[1]) if page else None,
+  'sections':[{'location':documents[i].metadata['location'],'text':documents[i].page_content,'selected':i==index} for i in indexes]}
 
 @app.post('/api/sessions/{sid}/turn')
 async def turn(sid: str, body: Turn):

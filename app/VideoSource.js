@@ -2,20 +2,22 @@
 import {useI18n} from './i18n';
 import {useEffect,useRef,useState} from 'react';
 import {api} from './api-client';
+import {videoTime} from './video-evidence.mjs';
 
 export default function VideoSource({language,disabled,onChange}){
  const {t,locale,errorText}=useI18n();
 
  const [url,setUrl]=useState(''),[consent,setConsent]=useState(false),[result,setResult]=useState(null),[confirmed,setConfirmed]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState('');
+ const [range,setRange]=useState(null);
  const mounted=useRef(true);
  const previousLanguage=useRef(language),requestVersion=useRef(0);
  const [languageNotice,setLanguageNotice]=useState(false);
- useEffect(()=>{if(previousLanguage.current!==language){previousLanguage.current=language;requestVersion.current++;setResult(null);setConfirmed(false);setPasteConfirmed(false);setBusy(false);setLanguageNotice(true);onChange(null);}},[language]);
+ useEffect(()=>{if(previousLanguage.current!==language){previousLanguage.current=language;requestVersion.current++;setResult(null);setConfirmed(false);setPasteConfirmed(false);setBusy(false);setLanguageNotice(true);setRange(null);setPage(0);onChange(null);}},[language]);
  const [pasted,setPasted]=useState(''),[pasteConfirmed,setPasteConfirmed]=useState(false);
  const [useClip,setUseClip]=useState(false),[clipStart,setClipStart]=useState('0'),[clipSeconds,setClipSeconds]=useState('120'),[page,setPage]=useState(0);
  let youtube=false;try{youtube=['youtube.com','www.youtube.com','m.youtube.com','youtu.be','www.youtu.be'].includes(new URL(url).hostname);}catch{}
  useEffect(()=>{mounted.current=true;onChange(null);return()=>{mounted.current=false;};},[]);
- function clear(){setResult(null);setConfirmed(false);setPasteConfirmed(false);setPage(0);onChange(null);}
+ function clear(){setRange(null);setResult(null);setConfirmed(false);setPasteConfirmed(false);setPage(0);onChange(null);}
  async function load(){
   if(busy||disabled||!consent||!url.trim())return;
   if(useClip&&!youtube&&(!clipStart.trim()||!clipSeconds.trim()||!Number.isFinite(Number(clipStart))||Number(clipStart)<0||Number(clipStart)>86400||!Number.isFinite(Number(clipSeconds))||Number(clipSeconds)<1||Number(clipSeconds)>120)){setError('Choose a clip start between 0 and 86,400 seconds and a duration between 1 and 120 seconds.');return;}
@@ -25,6 +27,8 @@ export default function VideoSource({language,disabled,onChange}){
   finally{if(mounted.current&&version===requestVersion.current)setBusy(false);}
  }
  function edit(index,text){setResult({...result,segments:result.segments.map((segment,i)=>i===index?{...segment,text}:segment)});setConfirmed(false);setPasteConfirmed(false);onChange(null);}
+ function choose(start,end){setRange(start===null?null:{start,end});setConfirmed(false);setPasteConfirmed(false);onChange(null);}
+ const selectedSegments=result?.segments.slice(range?.start??0,range?range.end+1:undefined)||[];
  return <div className="transcript-editor">
   {languageNotice&&<p role="status">{t("Conversation language changed to")} {t(language)}{t(". Your URL, pasted text and fetch consent were kept. Import captions in this language again, or review and confirm your pasted transcript. Caption availability depends on the video.")}</p>}
   <label htmlFor="video-url">{t("Public video URL (optional for pasted transcripts)")}</label><input id="video-url" type="url" maxLength={2048} placeholder={t("https://example.com/video.mp4 or a YouTube video link")} value={url} disabled={disabled||busy} onChange={e=>{setUrl(e.target.value);clear();setError('');}}/>
@@ -38,9 +42,10 @@ export default function VideoSource({language,disabled,onChange}){
   {result&&<><h3>{t("Review the video transcript")}</h3><p>{t(result.notice)} {result.source_method==='youtube_captions'&&(result.is_generated?t("These are automatically generated captions."):t("These are published captions."))}</p>
    <a href={result.source_url} target="_blank" rel="noreferrer">{t("View source video ↗")}</a>
    <p>{result.segments.length} {t("timestamp blocks.")} {result.segments.reduce((total,s)=>total+s.text.length,0).toLocaleString(locale)} {t("/ 100,000 characters.")}</p>
-   {result.segments.slice(page*20,page*20+20).map((segment,offset)=>{const index=page*20+offset;return <label key={index}>{segment.start.toFixed(2)}s–{segment.end.toFixed(2)}s<textarea value={segment.text} maxLength={4000} disabled={disabled||busy} onChange={e=>edit(index,e.target.value)}/></label>;})}
+   <div className="caption-scope"><strong>{range?t('Selected section'):t('Using the full transcript')}</strong>{range&&<> · {videoTime(selectedSegments[0].start)}–{videoTime(selectedSegments.at(-1).end)} · {selectedSegments.length} {t('timestamp blocks.')}</>}<p>{t('Choose a single caption, or use Start here and End here to select a longer section across transcript pages.')}</p>{range&&<><p>{t('Only the selected captions will be used for your mission. Their original timestamps are kept.')}</p><button type="button" className="secondary" disabled={disabled||busy} onClick={()=>choose(null,null)}>{t('Use full transcript')}</button></>}</div>
+   {result.segments.slice(page*20,page*20+20).map((segment,offset)=>{const index=page*20+offset;return <div key={index} className={range&&(index<range.start||index>range.end)?'caption-excluded':''}><label>{segment.start.toFixed(2)}s–{segment.end.toFixed(2)}s<textarea value={segment.text} maxLength={4000} disabled={disabled||busy} onChange={e=>edit(index,e.target.value)}/></label><div className="caption-section-controls"><button type="button" className="secondary" disabled={disabled||busy} onClick={()=>choose(index,index)}>{t('Use this section')}</button><button type="button" className="secondary" disabled={disabled||busy} onClick={()=>choose(index,Math.max(index,range?.end??index))}>{t('Start here')}</button><button type="button" className="secondary" disabled={disabled||busy} onClick={()=>choose(Math.min(index,range?.start??index),index)}>{t('End here')}</button></div></div>;})}
    {result.segments.length>20&&<div className="speech-actions"><button type="button" className="secondary" disabled={disabled||busy||page===0} onClick={()=>setPage(p=>p-1)}>{t("Previous transcript page")}</button><span role="status">{t("Page")} {page+1} {t("of")} {Math.ceil(result.segments.length/20)}</span><button type="button" className="secondary" disabled={disabled||busy||(page+1)*20>=result.segments.length} onClick={()=>setPage(p=>p+1)}>{t("Next transcript page")}</button></div>}
-   <label className="speech-consent"><input type="checkbox" checked={confirmed} disabled={disabled||busy||result.segments.some(s=>!s.text.trim())||result.segments.reduce((total,s)=>total+s.text.length,0)>100000} onChange={e=>{setConfirmed(e.target.checked);setPasteConfirmed(false);onChange(e.target.checked?result:null);}}/> {t("I reviewed this transcript and want to use it as my source.")}</label>
+   <label className="speech-consent"><input type="checkbox" checked={confirmed} disabled={disabled||busy||selectedSegments.some(s=>!s.text.trim())||selectedSegments.reduce((total,s)=>total+s.text.length,0)>100000} onChange={e=>{setConfirmed(e.target.checked);setPasteConfirmed(false);onChange(e.target.checked?{...result,segments:selectedSegments}:null);}}/> {t("I reviewed this transcript and want to use it as my source.")}</label>
   </>}
  </div>;
 }

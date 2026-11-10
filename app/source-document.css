@@ -1,0 +1,17 @@
+.source-document{width:min(850px,calc(100vw - 32px));max-height:85dvh;overflow:auto;border:1px solid #8b7957;border-radius:8px;background:#24271f;color:#eee6d6;padding:24px}
+.source-document::backdrop{background:#000a}
+.inline-citation{display:inline;border:0;background:none;color:#efd09a;font:inherit;text-decoration:underline;text-underline-offset:3px;padding:0 2px;cursor:pointer}
+.inline-citation:focus-visible{outline:2px solid #efd09a;outline-offset:3px}
+.source-document-heading{display:flex;align-items:center;justify-content:space-between;gap:16px;position:sticky;top:0;z-index:1;background:#24271f;padding:8px 0}
+.source-document-heading h2{font-size:25px;margin:0}
+.source-document>p{margin:14px 0;overflow-wrap:anywhere}
+.source-document-text p{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8}
+.source-document-text section{padding:16px 0;border-top:1px solid #62674d}
+.source-document-text h3{font:13px monospace;color:#d7bf8c;margin-bottom:10px}
+.source-document mark{background:#ecd49a;color:#25271d;padding:2px 0}
+.source-document iframe{display:block;width:100%;height:55dvh;border:0;margin:16px 0;background:white}
+.caption-section-controls{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 18px}
+.caption-section-controls button{font-size:12px;padding:6px 10px}
+.caption-excluded{opacity:.65}
+.caption-scope{border:1px solid #737b57;padding:14px;margin:16px 0;line-height:1.8}
+@media(max-width:500px){.source-document{padding:16px}.source-document-heading h2{font-size:21px}}
