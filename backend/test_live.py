@@ -87,6 +87,23 @@ class LiveTests(unittest.TestCase):
   self.assertNotIn('one or two short natural sentences',calls.call_args_list[0].args[1])
   self.assertEqual(response.json()['goals'][0]['answer_status'],'confirmed')
 
+ def test_short_followup_retrieves_the_previous_exchange(self):
+  from backend.main import search
+  sessions[self.sid]['turns'].extend([
+   {'role':'user','content':'What does the rent include?','sources':[]},
+   {'role':'assistant','content':'Would you like me to explain the utility bills?','sources':[]}])
+  proposal=self.proposal(goal_checks=[],answer_checks=[])
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,
+   accepted_goal_ids=[],verified_answer_goal_ids=[])
+  with patch('backend.main.search',wraps=search) as retrieve, \
+    patch('backend.main.model',side_effect=[proposal,review]):
+   response=self.client.post(self.p+'/turn',json={'text':'Yes, please.'})
+  self.assertEqual(response.status_code,200,response.text)
+  query=retrieve.call_args.args[1]
+  self.assertIn('What does the rent include?',query)
+  self.assertIn('explain the utility bills',query)
+  self.assertTrue(query.endswith('Yes, please.'))
+
  def test_custom_goal_requires_exact_quote_and_verified_answer(self):
   review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
   with patch('backend.main.model',side_effect=[self.proposal(),review]):

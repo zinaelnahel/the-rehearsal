@@ -1950,5 +1950,33 @@
   "Shared feedback includes your rating, optional category and quality answers, scenario, language, app/model version and numeric performance summaries. No conversation, source text, audio or contact details. It may remain for up to {days} days after session deletion. Untick or Clear before leaving this review to remove it.": {
     "de": "Geteiltes Feedback enthält deine Bewertung, optionale Kategorie und Qualitätsantworten, Situation, Sprache, App-/Modellversion und numerische Leistungsdaten. Keine Gesprächs- oder Quelltexte, Audiodaten oder Kontaktdaten. Es kann nach dem Löschen der Sitzung bis zu {days} Tage gespeichert bleiben. Entferne das Häkchen oder wähle Löschen, bevor du diese Rückschau verlässt, um es zu entfernen.",
     "es": "Los comentarios compartidos incluyen tu valoración, categoría y respuestas de calidad opcionales, situación, idioma, versión de la aplicación y del modelo y resúmenes numéricos de rendimiento. No incluyen la conversación, el texto fuente, audio ni datos de contacto. Pueden conservarse hasta {days} días después de eliminar la sesión. Desmarca la casilla o pulsa Borrar antes de salir de esta revisión para eliminarlos."
+  },
+  "Source video": {
+    "de": "Quellvideo",
+    "es": "Vídeo de origen"
+  },
+  "Choose “Watch this part” on a cited passage to view its timestamp in the video.": {
+    "de": "Wähle „Diese Stelle ansehen“ bei einer zitierten Passage, um die Stelle im Video anzusehen.",
+    "es": "Elige «Ver este fragmento» en un pasaje citado para verlo en el vídeo."
+  },
+  "Selected video section:": {
+    "de": "Ausgewählter Videoabschnitt:",
+    "es": "Fragmento seleccionado:"
+  },
+  "Load source video": {
+    "de": "Quellvideo laden",
+    "es": "Cargar vídeo de origen"
+  },
+  "Loading the player connects to YouTube. If playback is unavailable here, open the selected part on YouTube.": {
+    "de": "Beim Laden des Players wird eine Verbindung zu YouTube hergestellt. Falls die Wiedergabe hier nicht möglich ist, öffne die ausgewählte Stelle auf YouTube.",
+    "es": "Al cargar el reproductor se establece una conexión con YouTube. Si no puedes reproducirlo aquí, abre el fragmento seleccionado en YouTube."
+  },
+  "Open on YouTube ↗": {
+    "de": "Auf YouTube öffnen ↗",
+    "es": "Abrir en YouTube ↗"
+  },
+  "Watch this part": {
+    "de": "Diese Stelle ansehen",
+    "es": "Ver este fragmento"
   }
 }

@@ -156,7 +156,7 @@ def _create(raw, kind, name, source_url=None, transcript=None):
   store = build_store(sid,LocalEmbeddings(),chunks,TTL)
  except Exception:
   raise HTTPException(503,'Retrieval storage is unavailable. Check VECTOR_STORE, CHROMA_PATH and server write permissions.') from None
- sessions[sid] = dict(store=store, phase='setup', touched=time.monotonic(), name=name, turns=[], hints=[], mission=[], ratings={}, safety=False, lock=asyncio.Lock())
+ sessions[sid] = dict(store=store, transcript_chunks=chunks if transcript else [], phase='setup', touched=time.monotonic(), name=name, turns=[], hints=[], mission=[], ratings={}, safety=False, lock=asyncio.Lock())
  return {'id':sid,'name':name,'passages':len(chunks),'mode':'live' if LIVE else 'demo','source_url':source_url}
 
 @app.get('/api/config')
@@ -443,7 +443,24 @@ class Turn(BaseModel):
  interaction_mode: Literal['text','voice'] = 'text'
 
 def search(s, query):
- return s['store'].similarity_search(query,k=4)
+ return caption_context(s,s['store'].similarity_search(query,k=4))
+
+
+def caption_context(s, docs):
+ """Keep caption fragments understandable without changing citation timestamps."""
+ chunks=s.get('transcript_chunks',[])
+ if not chunks: return docs
+ positions={d.metadata['id']:i for i,d in enumerate(chunks)}
+ selected={}
+ # At most four anchor hits, with two captions on either side of each.
+ for doc in docs[:4]:
+  index=positions.get(doc.metadata['id'])
+  if index is None: continue
+  for nearby in chunks[max(0,index-2):index+3]:
+   selected[nearby.metadata['id']]=nearby
+ anchors=[d for d in docs[:4] if d.metadata['id'] in selected]
+ anchor_ids={d.metadata['id'] for d in anchors}
+ return anchors+[d for d in sorted(selected.values(),key=lambda d:positions[d.metadata['id']]) if d.metadata['id'] not in anchor_ids] or docs
 
 def evidence(d):
  result=dict(id=d.metadata['id'],location=d.metadata['location'],source=d.metadata['source'],text=d.page_content)
@@ -459,7 +476,12 @@ async def turn(sid: str, body: Turn):
   if s['phase']!='chat': raise HTTPException(409,'Conversation has ended.')
   if len(s['turns'])>=61: raise HTTPException(400,'Turn limit reached. Finish to see your debrief.')
   if not body.text.strip(): raise HTTPException(400,'Enter a message.')
-  docs = search(s,body.text)
+  # A short follow-up refers to the preceding exchange, not the next checklist item.
+  query=body.text
+  followup=' '.join(re.findall(r'\w+',normalize(body.text)))
+  if re.fullmatch(r'(?:yes|no|si|ja|nein|okay|ok|sure|claro|vale|please|por favor|bitte)(?: (?:yes|no|si|ja|nein|please|por favor|bitte|gracias|thanks|danke))*',followup) and s['turns']:
+   query=' '.join(t['content'] for t in s['turns'][-2:])[-1200:]+' '+body.text
+  docs = search(s,query)
   spec = SCENARIOS[s['setup']['scenario']]
   achieved=[]
   outcomes={}

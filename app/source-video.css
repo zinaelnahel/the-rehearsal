@@ -1,0 +1,8 @@
+.source-video{margin-top:24px;scroll-margin-top:24px}
+.source-video h2{font-size:24px;margin-bottom:10px}
+.source-video>p{line-height:1.7}
+.source-video iframe{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;border-radius:4px;margin:16px 0;background:#111}
+.source-video blockquote{border-left:2px solid #b69c6a;margin:12px 0;padding:6px 16px;color:#e4d8bd}
+.source-video a{color:#efd09a;text-decoration:underline;text-underline-offset:3px}
+.video-source-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:12px}
+.video-source-actions button{font-size:12px;white-space:normal}

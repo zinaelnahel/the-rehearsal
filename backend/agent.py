@@ -95,6 +95,6 @@ def prepare(session, text, initial_docs, invoke, search, evidence):
             messages.append(ToolMessage(content=json.dumps(result, ensure_ascii=False), tool_call_id=call['id']))
     if time.monotonic() - started > 15:
         raise HTTPException(504, 'Agent preparation timed out. Retry this turn.')
-    # Bound the generator context to the usual four passages, selected with the
-    # actual learner text; preparation cannot replace the mandatory evidence set.
-    return selections, list(documents.values())[:8]
+    # Keep neighboring caption fragments together; do not trim their sentence
+    # context back to the ordinary document passage limit.
+    return selections, list(documents.values())[:20 if session.get('transcript_chunks') else 8]

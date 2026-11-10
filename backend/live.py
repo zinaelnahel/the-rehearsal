@@ -8,6 +8,7 @@ from backend.context import CONTEXT_RULES
 from backend.demo_answers import plain
 from backend.prompt_context import dialogue_history
 from backend.source_conflicts import rent_conflicts, rent_question
+from backend.source_grounding import unsupported_rental_claim
 from backend.family_boundary import FAMILY_BOUNDARY, requester_speaks_as_learner, family_role_contract, family_response_stage, FAMILY_PACING
 from typing import Literal
 from pydantic import BaseModel, Field, create_model
@@ -233,6 +234,8 @@ def validate_proposal(result,goals,text,docs):
 @traceable(name='validated_roleplay')
 def rehearse(session,text,docs,call,passage,voice=False):
  setup=session['setup']
+ if session.get('transcript_chunks'):
+  docs=sorted(docs,key=lambda d:d.metadata.get('start',0))
  conflicts=rent_conflicts(docs)
  family_rules=''
  partner,learner={
@@ -270,6 +273,7 @@ def rehearse(session,text,docs,call,passage,voice=False):
   'Maintain conversational continuity: respond to what the learner just said and the question you actually asked. Interpret a short yes/no or hesitant answer using that immediate context. The mission is a learner checklist, not a script for you to advance through: do not volunteer an unrelated document answer merely because it matches the next mission goal. After an applicant expresses willingness to learn, acknowledge that and ask one concrete relevant question about learning or transferable experience; do not abruptly give working hours or salary. If the learner has already denied experience in a field, do not repeat the same experience question. Explore transferable skills without assuming their previous occupation is irrelevant or treating willingness as proof of qualifications. '
   'Use grammatical agreement consistent with the learner own self-description when referring to them, such as programadora in Spanish. Prefer natural gender-neutral phrasing when uncertain; do not default to a contradictory gender or infer personal traits beyond what the learner says. '
   'Use only retrieved passages for document facts. Cite their exact IDs in every factual answer. In citations and source_id fields use raw supplied ID strings, not brackets, page numbers or IDs from earlier turns. Missing or ambiguous policies, prices, dates or commitments must be acknowledged as unknown; do not invent them or agree to a discount. '
+  'Timestamped captions may split a sentence across passages: read neighboring passages in chronological order before interpreting a price, negation or inclusion. For example, los recibos del gas y del agua estan / incluidos en el alquiler means gas and water ARE included, not excluded. Cite every fragment needed for that fact. A pet question is not evidence of a pet policy: if no passage states the policy, say it is unspecified. Keep facts about different apartments separate; tenants leaving next week for another apartment does not establish availability for this one. If the property is unclear, ask which apartment the learner means. '
   'Learner self-reports about their own experience, skills, circumstances and preferences are conversation context, not document claims to verify. Acknowledge them without citations or a document disclaimer, and ask a relevant in-character follow-up. For example, an applicant saying I worked the past five years in QA can be asked What kinds of testing did you do? Do not invent qualifications, certify their truth, or infer a hiring decision. Describing personal experience is a not_document_question action, not an unknown document answer. '
   'When retrieved sources give conflicting values for the same field, the answer is unknown even if both values can be quoted. Acknowledge the conflict without choosing a value or making a commitment. The server detected_source_conflicts field is a bounded check, not proof that other facts are conflict-free. '
   'Fill every required goal_assessments slot for its matching mission assessment_slot. Never generate goal IDs or use goal text/source IDs as goal keys. Assess only observable actions in the latest learner turn. For a goal not performed NOW, use achieved=false, learner_quote="", answer_status=not_assessed, source_id="", source_quote=""; do not carry historical observations forward. An achieved goal requires an exact learner_quote from the latest turn. Do not match keywords alone; negation and off-topic text do not achieve a goal. '
@@ -286,9 +290,13 @@ def rehearse(session,text,docs,call,passage,voice=False):
   'reply_supported is true only if the reply maintains the partner role without praise, grading or coaching and EVERY document-specific claim or commitment is supported by retrieved passages. Conversational questions, acknowledgements and reflections of learner-provided preferences need no citation; fabricated facts or agreements are unsupported. '
   'Learner-provided experience, skills and personal circumstances also need no document citation when acknowledged as self-reports. An interviewer reflecting the applicant\'s five years in QA or asking what testing they did is supported conversational dialogue, even if the job document never mentions that experience. This does not verify qualifications or permit invented employer facts, job terms or hiring commitments. Goals describing the learner\'s own experience are personal communication actions, not document questions. '
   'An accurate statement that the document does not specify a policy is a valid cautious reply, not an unsupported policy claim. Do not reject it merely because the policy itself is unknown. '
+  'Read adjacent timestamped captions as continuous speech, preserving negation and inclusion. Reject gastos no incluidos when the source says gas and water estan incluidos. Reject an invented pet prohibition or move-in date even if it sounds plausible. Evidence for a different apartment does not support the current apartment: require a clear matching property or an explicit clarification. Check conversational continuity too: after an offer to explain bills and Si, por favor, a reply about a move-in date is unsupported as a response to that exchange. '
   'accepted_goal_ids must be a subset of goal_checks marked achieved=true, and require that the quoted latest learner text actually meets the goal semantically. Asking whether pets are allowed achieves an ask-about-pets goal even when the policy is unknown or the partner reply is rejected. Learner actions and answer verification are independent. NEVER accept a check marked false, or assess the partner reply as a learner action. Reject negation, keyword-only mentions and evidence from earlier turns. '
   'verified_answer_goal_ids must be a subset of answer_checks marked supported. A quote merely existing is not enough: the quote must actually answer that goal and entail what the partner said. Conflicting source values do not establish a confirmed value: do not verify such an answer, even when the reply mentions both amounts. Unknown details must stay unknown. Never verify an answer goal when its policy or detail is unspecified, unstated or unknown, even if the reply accurately describes that absence. A stated prohibition is a known answer.',
   {**context,'proposal':reply.model_dump()},session=session)
+ cited_docs=[d for d in docs if d.metadata['id'] in reply.citations]
+ if setup['scenario']=='apartment' and unsupported_rental_claim(reply.reply,cited_docs,docs):
+  review.reply_supported=False
  role_reversal=not review.partner_role_consistent or (
   session.get('family_boundary') and not session.get('breakup')
   and requester_speaks_as_learner(reply.reply,setup['language']))

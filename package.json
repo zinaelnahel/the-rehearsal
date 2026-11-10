@@ -8,7 +8,8 @@
     "check:locales": "node scripts/check_locales.cjs",
     "test:voice": "node --test scripts/test_voice_session.mjs",
     "test:library": "node --test scripts/test_library.mjs",
-    "test:media": "node --test scripts/test_media_upload.mjs"
+    "test:media": "node --test scripts/test_media_upload.mjs",
+    "test:video": "node --test scripts/test_video_evidence.mjs"
   },
   "dependencies": {
     "next": "^16.0.0",
