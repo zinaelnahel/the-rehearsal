@@ -228,14 +228,43 @@ class LiveTests(unittest.TestCase):
   self.assertTrue(missing_source_answer(answer('pet policy'),[doc]))
   self.assertFalse(missing_source_answer(answer('Rent is 850 euros.'),[doc]))
 
- def test_reject_fabricated_learner_and_source_quotes_without_saving(self):
-  bad=[self.proposal(goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote='This was never said')]),self.proposal(answer_checks=[AnswerCheck(goal_id='0',status='supported',source_id='1',source_quote='Pets are always allowed.')])]
+ def test_reject_fabricated_learner_quote_without_saving(self):
+  bad=[self.proposal(goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote='This was never said')])]
   for output in bad:
    with patch('backend.main.model',return_value=output):
     r=self.client.post(self.p+'/turn',json={'text':'Are utilities included?'})
    self.assertEqual(r.status_code,502,r.text)
    self.assertEqual(len(sessions[self.sid]['turns']),1)
    self.assertFalse(sessions[self.sid]['mission'][0]['achieved'])
+
+ def test_invalid_answer_quote_becomes_unknown_without_blocking_valid_question(self):
+  questions={'English':'When can I move into the apartment?',
+   'German':'Wann kann ich in die Wohnung einziehen?',
+   'Spanish':'¿Cuándo puedo mudarme al apartamento?'}
+  invalid=[('1','Pets are always allowed.',['1']),
+   ('1','Utilities are included.',[]),('missing','Move in next month.',['1']),
+   ('1','',['1'])]
+  for language,text in questions.items():
+   for source_id,quote,citations in invalid:
+    with self.subTest(language=language,quote=quote):
+     sessions[self.sid]['setup']['language']=language
+     sessions[self.sid]['mission'][0]['text']='Ask when the apartment is available'
+     proposal=self.proposal(reply='Move in next month.',citations=citations,
+      goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote=text)],
+      answer_checks=[AnswerCheck(goal_id='0',status='supported',source_id=source_id,source_quote=quote)])
+     review=EvidenceReview(partner_role_consistent=True,reply_supported=True,
+      accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+     with patch('backend.main.model',side_effect=[proposal,review]):
+      response=self.client.post(self.p+'/turn',json={'text':text})
+     self.assertEqual(response.status_code,200,response.text)
+     data=response.json()
+     self.assertTrue(data['turn']['answer_withheld'])
+     self.assertNotIn('Move in next month',data['turn']['content'])
+     self.assertEqual(data['turn']['sources'],[])
+     self.assertTrue(data['goals'][0]['achieved'])
+     self.assertEqual(data['goals'][0]['evidence'],text)
+     self.assertEqual(data['goals'][0]['answer_status'],'unknown')
+     self.assertEqual(data['goals'][0]['answer_sources'],[])
 
  def test_withhold_unsupported_reply_without_confirming_answer(self):
   review=EvidenceReview(partner_role_consistent=True,reply_supported=False,accepted_goal_ids=['0'],verified_answer_goal_ids=[])
@@ -325,15 +354,20 @@ class LiveTests(unittest.TestCase):
   self.assertEqual([g.goal_id for g in canonical.goal_checks],['2'])
   self.assertEqual([a.goal_id for a in canonical.answer_checks],['2'])
 
- def test_fixed_assessments_still_reject_fabricated_source_quotes_atomically(self):
+ def test_fixed_assessments_withhold_fabricated_answer_without_rejecting_question(self):
   payload=self.scene_payload()
   payload['goal_assessments']['goal_0']['source_quote']='Pets are always allowed.'
   generated=scene_reply_schema(1,('1',)).model_validate(payload)
-  with patch('backend.main.model',return_value=generated):
+  review=EvidenceReview(partner_role_consistent=True,reply_supported=True,
+   accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+  with patch('backend.main.model',side_effect=[generated,review]):
    response=self.client.post(self.p+'/turn',json={'text':'Are utilities included?'})
-  self.assertEqual(response.status_code,502,response.text)
-  self.assertEqual(len(sessions[self.sid]['turns']),1)
-  self.assertFalse(sessions[self.sid]['mission'][0]['achieved'])
+  self.assertEqual(response.status_code,200,response.text)
+  self.assertEqual(len(sessions[self.sid]['turns']),3)
+  self.assertTrue(response.json()['turn']['answer_withheld'])
+  self.assertTrue(response.json()['goals'][0]['achieved'])
+  self.assertEqual(response.json()['goals'][0]['answer_status'],'unknown')
+  self.assertEqual(response.json()['goals'][0]['answer_sources'],[])
 
  def test_review_questions_are_grouped_by_goal_not_wording(self):
   mission=[{'id':'0','text':'Ask about availability','achieved':False,'answer_status':'not_assessed'},
