@@ -3,7 +3,7 @@ import unittest
 from unittest.mock import Mock
 from langchain_core.documents import Document
 from backend.main import caption_context, evidence
-from backend.live import rehearse, RoleReply, EvidenceReview
+from backend.live import rehearse, RoleReply, EvidenceReview, AnswerCheck, GoalCheck, answer_quote_sources
 from backend.source_grounding import unsupported_rental_claim
 
 
@@ -55,3 +55,49 @@ class CaptionGroundingTests(unittest.TestCase):
 
     def test_non_transcript_search_context_is_unchanged(self):
         self.assertEqual(caption_context({},self.docs),self.docs)
+
+    def test_exact_cross_caption_quote_keeps_all_supporting_timestamps(self):
+        text='¿Cuándo cuesta el apartamento?'
+        quote='cuesta menos de mil euros y los recibos del gas y del agua estan incluidos en el alquiler'
+        proposal=RoleReply(reply='Cuesta menos de mil euros; el gas y el agua estan incluidos.',
+            citations=['20','21','22'],goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote=text)],
+            answer_checks=[AnswerCheck(goal_id='0',status='supported',source_id='20',source_quote=quote)])
+        review=EvidenceReview(reply_supported=True,partner_role_consistent=True,
+            accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+        goal={'id':'0','text':'Ask about rent and bills','achieved':False,'evidence':''}
+        session={'setup':{'scenario':'apartment','language':'Spanish','level':'B2'},
+            'mission':[goal],'turns':[],'transcript_chunks':self.docs}
+        reply,sources,updates,withheld=rehearse(session,text,self.docs,Mock(side_effect=[proposal,review]),evidence)
+        self.assertFalse(withheld)
+        self.assertEqual(updates['0']['status'],'confirmed')
+        self.assertEqual(updates['0']['ids'],['20','21','22'])
+        self.assertEqual([d.metadata['start'] for d in sources],[79.27,82,85.25])
+
+    def test_cross_caption_quote_requires_exact_contiguous_cited_evidence(self):
+        def check(quote,docs,citations,source_id='20'):
+            return answer_quote_sources(AnswerCheck(goal_id='0',status='supported',
+                source_id=source_id,source_quote=quote),docs,citations)
+        self.assertEqual(check('cuesta menos de mil euros incluidos en el alquiler',
+            [self.docs[1],self.docs[3]],['20','22']),[])
+        quote='cuesta menos de mil euros y los recibos del gas y del agua estan incluidos en el alquiler'
+        self.assertEqual(check(quote,self.docs,['20','22']),[])
+        self.assertEqual(check(quote.replace('mil','dos mil'),self.docs,['20','21','22']),[])
+        self.assertEqual(check('incluidos en el alquiler',self.docs,['20','21','22']),['22'])
+        self.assertEqual(check('incluidos en el alquiler',self.docs,['20','21']),[])
+        self.assertEqual(check(quote,self.docs,['19','20','21','22'],source_id='19'),[])
+        for fragments in [('Gas and water are','included in the rent.'),
+            ('Gas und Wasser sind','in der Miete enthalten.'),
+            ('El gas y el agua están','incluidos en el alquiler.')]:
+            docs=[caption(1,0,fragments[0]),caption(2,4,fragments[1])]
+            self.assertEqual(check(' '.join(fragments),docs,['1','2'],source_id='1'),['1','2'])
+
+    def test_price_typo_changes_retrieval_query_without_changing_learner_text(self):
+        from backend.main import search
+        store=Mock();store.similarity_search.return_value=[]
+        session={'store':store,'setup':{'scenario':'apartment'}}
+        original='¿Cuándo cuesta el apartamento?'
+        search(session,original)
+        self.assertEqual(store.similarity_search.call_args.args[0],'¿cuánto cuesta el apartamento?')
+        self.assertEqual(original,'¿Cuándo cuesta el apartamento?')
+        search(session,'¿Cuándo puedo mudarme al apartamento?')
+        self.assertEqual(store.similarity_search.call_args.args[0],'¿Cuándo puedo mudarme al apartamento?')

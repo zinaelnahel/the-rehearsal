@@ -443,6 +443,10 @@ class Turn(BaseModel):
  interaction_mode: Literal['text','voice'] = 'text'
 
 def search(s, query):
+ # Resolve this common price-question slip only in retrieval. The learner's
+ # original message remains unchanged for display and action evidence.
+ if s.get('setup',{}).get('scenario')=='apartment':
+  query=re.sub(r'\bcu[aá]ndo(?=\s+(?:cuesta|cuestan|vale|valen)\b)','cuánto',query,flags=re.IGNORECASE)
  return caption_context(s,s['store'].similarity_search(query,k=4))
 
 

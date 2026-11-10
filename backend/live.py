@@ -11,7 +11,7 @@ from backend.source_conflicts import rent_conflicts, rent_question
 from backend.source_grounding import unsupported_rental_claim
 from backend.family_boundary import FAMILY_BOUNDARY, requester_speaks_as_learner, family_role_contract, family_response_stage, FAMILY_PACING
 from typing import Literal
-from pydantic import BaseModel, Field, create_model
+from pydantic import BaseModel, Field, PrivateAttr, create_model
 from fastapi import HTTPException
 from langsmith import traceable
 
@@ -38,6 +38,7 @@ class GoalCheck(BaseModel):
  learner_quote: str = Field(description='Copy an exact contiguous substring from latest_learner_turn, never from your reply, history, translation or source. For an unachieved goal use an empty string.')
 
 class AnswerCheck(BaseModel):
+ _validated_source_ids: list[str] = PrivateAttr(default_factory=list)
  goal_id: str
  status: Literal['supported','unknown','not_document_question']
  source_id: str
@@ -193,6 +194,38 @@ def missing_source_answer(answer, docs):
  return any(compact(answer.source_quote) in compact(sentence) and explicitly_missing(sentence)
             for sentence in re.split(r'[.!?\n]+',source) if answer.source_quote.strip())
 
+
+def answer_quote_sources(answer, docs, citations):
+ """Validate exact text in one passage or consecutive, cited caption blocks."""
+ quote=compact(answer.source_quote)
+ if len(quote)<3 or answer.source_id not in citations: return []
+ source=next((d for d in docs if d.metadata['id']==answer.source_id),None)
+ if source is None: return []
+ if quote in compact(source.page_content): return [answer.source_id]
+ # Repair a mistaken passage label only when the exact quote uniquely occurs
+ # in another passage the model already cited. Never search unquoted history.
+ matches=[d.metadata['id'] for d in docs if d.metadata['id'] in citations and quote in compact(d.page_content)]
+ if len(matches)==1: return matches
+ captions=sorted((d for d in docs if 'start' in d.metadata and 'end' in d.metadata),key=lambda d:d.metadata['start'])
+ for start in range(len(captions)):
+  for count in range(2,5):
+   window=captions[start:start+count]
+   if len(window)!=count: continue
+   ids=[d.metadata['id'] for d in window]
+   if answer.source_id not in ids or not set(ids)<=set(citations): continue
+   # IDs are server-assigned document positions. Never join across missing
+   # captions, different sources, or a break in the source timeline.
+   try:
+    if any(int(b)!=int(a)+1 for a,b in zip(ids,ids[1:])): continue
+   except ValueError: continue
+   if any(a.metadata.get('source')!=b.metadata.get('source') or a.metadata.get('url')!=b.metadata.get('url') or b.metadata['start']>a.metadata['end']+2 for a,b in zip(window,window[1:])): continue
+   joined=compact(' '.join(d.page_content for d in window))
+   position=joined.find(quote)
+   # Every returned block must contribute to the quote, including source_id.
+   if 0<=position<len(compact(window[0].page_content)) and position+len(quote)>len(joined)-len(compact(window[-1].page_content)):
+    return ids
+ return []
+
 @traceable(name='validate_exact_evidence')
 def validate_proposal(result,goals,text,docs,invalid_answers=None):
  ids={g['id'] for g in goals}
@@ -223,8 +256,10 @@ def validate_proposal(result,goals,text,docs,invalid_answers=None):
   if answer.goal_id not in ids or answer.goal_id in answers:
    raise HTTPException(502,'The AI response referenced an invalid answer goal. Retry this turn.')
   if answer.status=='supported':
-   source=sources.get(answer.source_id)
-   if not source or answer.source_id not in result.citations or len(answer.source_quote.strip())<3 or compact(answer.source_quote) not in compact(source.page_content):
+   answer._validated_source_ids=answer_quote_sources(answer,docs,result.citations)
+   if answer._validated_source_ids and answer.source_id not in answer._validated_source_ids:
+    answer.source_id=answer._validated_source_ids[0]
+   if not answer._validated_source_ids:
     if invalid_answers is None:
      raise HTTPException(502,'The AI answer did not quote a retrieved passage. Retry this turn.')
     # Preserve valid learner actions without trusting a malformed answer quote.
@@ -279,6 +314,7 @@ def rehearse(session,text,docs,call,passage,voice=False):
   'Use only retrieved passages for document facts. Cite their exact IDs in every factual answer. In citations and source_id fields use raw supplied ID strings, not brackets, page numbers or IDs from earlier turns. Missing or ambiguous policies, prices, dates or commitments must be acknowledged as unknown; do not invent them or agree to a discount. '
   'Timestamped captions may split a sentence across passages: read neighboring passages in chronological order before interpreting a price, negation or inclusion. For example, los recibos del gas y del agua estan / incluidos en el alquiler means gas and water ARE included, not excluded. Cite every fragment needed for that fact. A pet question is not evidence of a pet policy: if no passage states the policy, say it is unspecified. Keep facts about different apartments separate; tenants leaving next week for another apartment does not establish availability for this one. If the property is unclear, ask which apartment the learner means. '
   'For an answer assessment, copy source_quote verbatim from ONE passage named by source_id; never join caption fragments into that field, paraphrase, or translate the quote. Include the other supporting passage IDs in citations. If there is no exact supporting quote for the current apartment, mark the answer unknown with empty source fields and acknowledge uncertainty in your reply. '
+  'Interpret minor language slips from context without coaching during the scene. In a price question, Spanish cuando cuesta is usually a slip for cuanto cuesta; respond to the price question, not the move-in date. If the intended topic is genuinely unclear, ask a short clarification. '
   'Learner self-reports about their own experience, skills, circumstances and preferences are conversation context, not document claims to verify. Acknowledge them without citations or a document disclaimer, and ask a relevant in-character follow-up. For example, an applicant saying I worked the past five years in QA can be asked What kinds of testing did you do? Do not invent qualifications, certify their truth, or infer a hiring decision. Describing personal experience is a not_document_question action, not an unknown document answer. '
   'When retrieved sources give conflicting values for the same field, the answer is unknown even if both values can be quoted. Acknowledge the conflict without choosing a value or making a commitment. The server detected_source_conflicts field is a bounded check, not proof that other facts are conflict-free. '
   'Fill every required goal_assessments slot for its matching mission assessment_slot. Never generate goal IDs or use goal text/source IDs as goal keys. Assess only observable actions in the latest learner turn. For a goal not performed NOW, use achieved=false, learner_quote="", answer_status=not_assessed, source_id="", source_quote=""; do not carry historical observations forward. An achieved goal requires an exact learner_quote from the latest turn. Do not match keywords alone; negation and off-topic text do not achieve a goal. '
@@ -330,11 +366,11 @@ def rehearse(session,text,docs,call,passage,voice=False):
    elif answer.status=='supported' and missing_source_answer(answer,docs):
     status='unknown'
     quote=answer.source_quote
-    source_ids=[answer.source_id]
+    source_ids=answer._validated_source_ids
    elif review.reply_supported and not role_reversal and identifier in verified:
     status='confirmed'
     quote=answer.source_quote
-    source_ids=[answer.source_id]
+    source_ids=answer._validated_source_ids
   updates[identifier]={'evidence':checks[identifier].learner_quote,'status':status,'quote':quote,'ids':source_ids}
  for goal in session['mission']:
   if goal['id'] not in updates and explicit_pet_question(text,goal['text']):
