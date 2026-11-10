@@ -101,3 +101,35 @@ class CaptionGroundingTests(unittest.TestCase):
         self.assertEqual(original,'¿Cuándo cuesta el apartamento?')
         search(session,'¿Cuándo puedo mudarme al apartamento?')
         self.assertEqual(store.similarity_search.call_args.args[0],'¿Cuándo puedo mudarme al apartamento?')
+
+    def test_repeated_price_question_cannot_advance_to_availability(self):
+        text='¿Cuánto cuesta el piso?'
+        goal={'id':'0','text':'Ask about rent','achieved':True,'evidence':'¿Cuándo cuesta el apartamento?'}
+        session={'setup':{'scenario':'apartment','language':'Spanish','level':'B2'},
+            'mission':[goal],'turns':[],'transcript_chunks':self.docs}
+        def proposal(reply):
+            return RoleReply(reply=reply,citations=['20'],
+                goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote=text)],
+                answer_checks=[AnswerCheck(goal_id='0',status='supported',source_id='20',source_quote='cuesta menos de mil euros')])
+        def review():
+            return EvidenceReview(reply_supported=True,partner_role_consistent=True,
+                accepted_goal_ids=['0'],verified_answer_goal_ids=['0'])
+        for corrected in (True,False):
+            with self.subTest(corrected=corrected):
+                bad=proposal('El piso esta disponible para entrar la semana que viene.')
+                second=proposal('Cuesta menos de mil euros.') if corrected else bad.model_copy(deep=True)
+                call=Mock(side_effect=[bad,review(),second,review()])
+                reply,sources,updates,withheld=rehearse(session,text,self.docs,call,evidence)
+                self.assertEqual(call.call_count,4,'At most one correction with a fresh independent review')
+                self.assertIn('server_question_focus',call.call_args_list[0].args[2])
+                self.assertIn('server_correction',call.call_args_list[2].args[2])
+                self.assertNotIn('semana que viene',reply)
+                self.assertEqual(withheld,not corrected)
+                if corrected:
+                    self.assertEqual(updates['0']['status'],'confirmed')
+                    self.assertEqual(updates['0']['evidence'],text)
+                    self.assertEqual([d.metadata['id'] for d in sources],['20'])
+                else:
+                    self.assertNotEqual(updates['0']['status'],'confirmed')
+                    self.assertEqual(sources,[])
+                self.assertEqual(goal['evidence'],'¿Cuándo cuesta el apartamento?','Rejected proposals cannot mutate session state')

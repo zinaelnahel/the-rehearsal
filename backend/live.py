@@ -8,7 +8,7 @@ from backend.context import CONTEXT_RULES
 from backend.demo_answers import plain
 from backend.prompt_context import dialogue_history
 from backend.source_conflicts import rent_conflicts, rent_question
-from backend.source_grounding import unsupported_rental_claim
+from backend.source_grounding import unsupported_rental_claim, rental_price_question
 from backend.family_boundary import FAMILY_BOUNDARY, requester_speaks_as_learner, family_role_contract, family_response_stage, FAMILY_PACING
 from typing import Literal
 from pydantic import BaseModel, Field, PrivateAttr, create_model
@@ -271,8 +271,9 @@ def validate_proposal(result,goals,text,docs,invalid_answers=None):
  return checks,answers
 
 @traceable(name='validated_roleplay')
-def rehearse(session,text,docs,call,passage,voice=False):
+def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
  setup=session['setup']
+ price_focus=setup['scenario']=='apartment' and rental_price_question(text)
  if session.get('transcript_chunks'):
   docs=sorted(docs,key=lambda d:d.metadata.get('start',0))
  conflicts=rent_conflicts(docs)
@@ -302,6 +303,10 @@ def rehearse(session,text,docs,call,passage,voice=False):
   'conversation_history':dialogue_history(session['turns'],16),
   'latest_learner_turn':text,'mission':[{**goal,'assessment_slot':f'goal_{i}'} for i,goal in enumerate(session['mission'])]
  }
+ if price_focus:
+  context['server_question_focus']='The latest learner question asks the apartment PRICE. Answer that price question, not the availability or the next mission goal. Spanish cuando cuesta is a common slip for cuanto cuesta. Repeating a price question still asks for the price; do not switch topics because its goal was previously achieved.'
+ if _price_repair:
+  context['server_correction']='The previous proposal failed answer validation. Re-read the current price passages and answer ONLY the latest price question with exact cited evidence. Do not answer a move-in-date question, reuse historical goal assessments, or invent a price. If price evidence is absent, acknowledge that it is unknown.'
  if session.get('family_boundary') and not session.get('breakup'):
   context['server_family_role_contract']=family_role_contract(setup['language'])
   context['server_family_response_stage']=family_response_stage(session,text)
@@ -332,12 +337,15 @@ def rehearse(session,text,docs,call,passage,voice=False):
   'reply_supported is true only if the reply maintains the partner role without praise, grading or coaching and EVERY document-specific claim or commitment is supported by retrieved passages. Conversational questions, acknowledgements and reflections of learner-provided preferences need no citation; fabricated facts or agreements are unsupported. '
   'Learner-provided experience, skills and personal circumstances also need no document citation when acknowledged as self-reports. An interviewer reflecting the applicant\'s five years in QA or asking what testing they did is supported conversational dialogue, even if the job document never mentions that experience. This does not verify qualifications or permit invented employer facts, job terms or hiring commitments. Goals describing the learner\'s own experience are personal communication actions, not document questions. '
   'An accurate statement that the document does not specify a policy is a valid cautious reply, not an unsupported policy claim. Do not reject it merely because the policy itself is unknown. '
+  'Respect server_question_focus when present. A question containing cuesta asks about price even if the learner writes cuando instead of cuanto. A repeated price question does not ask about availability. Reject a reply that substitutes a move-in date for a price answer, and do not accept an availability goal based only on that price question. '
   'Read adjacent timestamped captions as continuous speech, preserving negation and inclusion. Reject gastos no incluidos when the source says gas and water estan incluidos. Reject an invented pet prohibition or move-in date even if it sounds plausible. Evidence for a different apartment does not support the current apartment: require a clear matching property or an explicit clarification. Check conversational continuity too: after an offer to explain bills and Si, por favor, a reply about a move-in date is unsupported as a response to that exchange. '
   'accepted_goal_ids must be a subset of goal_checks marked achieved=true, and require that the quoted latest learner text actually meets the goal semantically. Asking whether pets are allowed achieves an ask-about-pets goal even when the policy is unknown or the partner reply is rejected. Learner actions and answer verification are independent. NEVER accept a check marked false, or assess the partner reply as a learner action. Reject negation, keyword-only mentions and evidence from earlier turns. '
   'verified_answer_goal_ids must be a subset of answer_checks marked supported. A quote merely existing is not enough: the quote must actually answer that goal and entail what the partner said. Conflicting source values do not establish a confirmed value: do not verify such an answer, even when the reply mentions both amounts. Unknown details must stay unknown. Never verify an answer goal when its policy or detail is unspecified, unstated or unknown, even if the reply accurately describes that absence. A stated prohibition is a known answer.',
   {**context,'proposal':reply.model_dump()},session=session)
  cited_docs=[d for d in docs if d.metadata['id'] in reply.citations]
  if invalid_answers or (setup['scenario']=='apartment' and unsupported_rental_claim(reply.reply,cited_docs,docs)):
+  review.reply_supported=False
+ if price_focus and re.search(r'\b(?:disponible|mudanza|entrar|available|move.in|einziehen|verfugbar)\b',plain(reply.reply)) and not re.search(r'\b(?:euros?|precio|cuesta|rent|miete|price|cost)\b',plain(reply.reply)):
   review.reply_supported=False
  role_reversal=not review.partner_role_consistent or (
   session.get('family_boundary') and not session.get('breakup')
@@ -397,6 +405,10 @@ def rehearse(session,text,docs,call,passage,voice=False):
         }[setup['language']])
   return safe,[],updates,True
  if not review.reply_supported:
+  if price_focus and not _price_repair:
+   # One bounded correction, independently reviewed again. No state from the
+   # rejected proposal is saved, and a failed correction still withholds it.
+   return rehearse(session,text,docs,call,passage,voice=voice,_price_repair=True)
   # Withhold unsupported text instead of displaying it with plausible citations.
   safe={
    'English':'I cannot confirm that from the document. What would you like to clarify with the other person?',

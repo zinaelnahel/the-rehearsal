@@ -14,6 +14,13 @@ NEGATIVE = r'\b(?:not|no|nicht|excluded|excluid[oa]s?)\b'
 UNKNOWN = r'\b(?:unknown|unspecified|not (?:specified|stated|confirmed|mentioned)|cannot confirm|can.t confirm|no puedo confirmar|no (?:se )?(?:especifica|indica|menciona)|nicht (?:angegeben|bekannt|bestatigt)|kann.{0,20}nicht bestatigen)\b'
 
 
+def rental_price_question(text):
+    value=plain(text)
+    if re.search(r'\b(?:deposit|fianza|kaution|utilities|bills|gastos|nebenkosten)\b',value):
+        return False
+    return bool(re.search(r'\b(?:cuesta|cuestan|precio|price|kostet|mietpreis)\b|\bhow much\b|\bwie (?:viel|hoch)\b',value))
+
+
 def unsupported_rental_claim(reply, cited_docs, context_docs):
     """True means withhold; false still requires independent evidence review."""
     cited=' '.join(plain(d.page_content) for d in cited_docs)
