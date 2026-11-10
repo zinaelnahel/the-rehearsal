@@ -229,7 +229,8 @@ class RehearsalTests(unittest.TestCase):
   self.assertEqual(self.client.post('/api/upload',files={'file':('scan.pdf',out.getvalue())}).status_code,400)
 
  def test_live_invalid_citation_and_model_error_are_atomic(self):
-  from backend.main import ReplyOutput, HTTPException
+  from backend.live import RoleReply as ReplyOutput
+  from fastapi import HTTPException
   sid=self.source()
   self.start(sid)
   before=len(sessions[sid]['turns'])
@@ -286,7 +287,8 @@ class RehearsalTests(unittest.TestCase):
       self.assertTrue(self.client.delete(path).json()['deleted'])
 
  def test_live_language_and_feedback_prompts(self):
-  from backend.main import ReplyOutput, EvidenceReview, Debrief, Feedback
+  from backend.live import RoleReply as ReplyOutput, EvidenceReview
+  from backend.main import Debrief, Feedback
   sid=self.source()
   path=f'/api/sessions/{sid}'
   mission=self.client.post(path+'/mission',json={'scenario':'apartment','language':'German','level':'B2','feedback_language':'Spanish'}).json()
