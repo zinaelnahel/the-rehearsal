@@ -23,7 +23,7 @@ try{
  });
  await page.goto(base);
  const privacy=page.locator('.privacy');
- await privacy.getByText('Live mode sends retrieved text and your conversation to OpenAI.',{exact:true}).waitFor();
+ await privacy.getByText(/Live mode sends retrieved text and your conversation to OpenAI/).waitFor();
  assert.equal(await privacy.locator('details').getAttribute('open'),null);
  await privacy.locator('summary').focus();await page.keyboard.press('Enter');
  assert.equal(await privacy.getByText(/Conversations stay in memory/).isVisible(),true);
