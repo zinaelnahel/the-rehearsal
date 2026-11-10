@@ -2134,5 +2134,9 @@
   "Need a little help?": {
     "de": "Brauchst du etwas Hilfe?",
     "es": "¿Necesitas un poco de ayuda?"
+  },
+  "Processing, storage and privacy details": {
+    "de": "Details zu Verarbeitung, Speicherung und Datenschutz",
+    "es": "Detalles de procesamiento, almacenamiento y privacidad"
   }
 }

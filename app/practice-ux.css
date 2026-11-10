@@ -9,3 +9,4 @@
 .help-panel summary:focus-visible,.voice-rehearsal summary:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media(max-width:680px){.practice-grid>aside{grid-template-columns:1fr}.help-panel{margin:0}.voice-rehearsal{margin-left:12px;margin-right:12px}}
 .goal-outcome>span{display:inline}
+.privacy>div{min-width:0}.privacy p{margin:0}.privacy-details{margin-top:8px}.privacy-details summary{cursor:pointer;min-height:28px;text-decoration:underline;text-underline-offset:3px}.privacy-details p{margin:10px 0 0;line-height:1.65}.privacy-details summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
