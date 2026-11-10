@@ -1483,10 +1483,6 @@
     "de": "Die Oberflächensprache ändert die Bedienelemente. Die Gesprächssprache gilt für die Übung und Videountertitel. Die Feedbacksprache gilt für die Rückmeldungen.",
     "es": "El idioma de la interfaz cambia los controles. El idioma de conversación se usa para el ensayo y los subtítulos. El idioma de los comentarios se usa para las recomendaciones."
   },
-  "An AI reply failed validation and was replaced.": {
-    "de": "Eine KI-Antwort hat die Prüfung nicht bestanden und wurde ersetzt.",
-    "es": "Una respuesta de IA no superó las comprobaciones y fue sustituida."
-  },
   "Voice rehearsal": {
     "de": "Sprachprobe",
     "es": "Ensayo por voz"
@@ -2110,5 +2106,9 @@
   "Processing, storage and privacy details": {
     "de": "Details zu Verarbeitung, Speicherung und Datenschutz",
     "es": "Detalles de procesamiento, almacenamiento y privacidad"
+  },
+  "This answer could not be verified. Please confirm it in the real conversation.": {
+    "de": "Diese Antwort konnte nicht verifiziert werden. Bitte kläre sie im echten Gespräch.",
+    "es": "No se pudo verificar esta respuesta. Confírmala en la conversación real."
   }
 }
