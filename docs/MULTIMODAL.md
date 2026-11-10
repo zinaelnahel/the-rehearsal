@@ -3,7 +3,7 @@
 The source now implements Whisper transcription, optional TTS, a bounded
 LangChain tool-calling agent, a LangSmith experiment runner and persistent Chroma
 retrieval. Current real-provider speech, agent, browser and hosted LangSmith
-results are linked in [SUBMISSION.md](../SUBMISSION.md). Release-specific hosting
+results are linked in [historical submission evidence](archive/submission-2026-11-04.md). Release-specific hosting
 checks are recorded on the GitHub v0.7.0 release. Free hosting uses memory
 retrieval; persistent Chroma is a local demonstration.
 

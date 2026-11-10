@@ -46,7 +46,7 @@ Live mode sends source text and conversation to OpenAI after consent. Voice send
 ## Technical details
 
 - [Architecture and project evidence](CAPSTONE.md)
-- [Evaluation methods and results](EVALUATION.md) · [Submission status](SUBMISSION.md)
+- [Evaluation methods and results](EVALUATION.md)
 - [Deployment](DEPLOYMENT.md) · [Security](SECURITY.md)
 - [Voice and media](docs/MULTIMODAL.md) · [Browser storage](docs/REHEARSAL_LIBRARY.md)
 

@@ -1,8 +1,10 @@
 # Submission verification — 4 November 2026
 
+**Archived evidence from 4 November 2026.** This document is retained for assessment history, not as the current setup or release guide. Some features, counts and pending steps below have since changed.
+
 This is the historical submission record. Current source status and limits are in
-[the engineering review](docs/BEST_PRACTICES.md); current deployment evidence is in
-[DEPLOYMENT.md](DEPLOYMENT.md). Counts and live results below apply to the dated
+[the engineering review](../../docs/BEST_PRACTICES.md); current deployment evidence is in
+[DEPLOYMENT.md](../../DEPLOYMENT.md). Counts and live results below apply to the dated
 submission, not every subsequent source revision.
 
 The four concerns supplied in the conversation have executable implementations
@@ -13,10 +15,10 @@ demonstrated locally. This is not a claim of hosted vector persistence.
 
 | Requirement | Verified evidence | Practical limit |
 | --- | --- | --- |
-| Text plus audio/speech | [Real EN/DE/ES TTS → Whisper checks](evaluation/submission-speech-2026-11-04.json), including MP4 audio extraction; [real browser speech flow](evaluation/submission-browser-speech-2026-11-04.json) | Three TTS-generated fixtures, not a human speech benchmark. Normalized word error rate was 0 for these fixtures only. Browser microphone input used a synthetic WAV through Chrome's fake device; provider calls were real. |
-| LangSmith testing/evaluation | [Hosted RAG experiment export](evaluation/submission-langsmith-rag-2026-11-04.json), [hosted tool experiment export](evaluation/submission-langsmith-tools-2026-11-04.json), [trace audit](evaluation/submission-langsmith-traces-2026-11-04.json) | Fictional fixtures only. The application runs on Vercel/Render; a LangSmith evaluation gate is implemented for releases, with workflow execution status recorded separately from these historical experiments. This is not a claim of LangSmith application hosting. |
-| Agent with several tools | [Real model selections](evaluation/submission-agent-tools-2026-11-04.json): retrieval, mission progress and guidance each selected the corresponding tool; exact-quote checking is a fourth available tool | Three bounded preparation probes. The separate nine-case real role-play benchmark exercised retrieval and mandatory answer validation. Tools cannot write session state. |
-| Persistent vector database | Chroma-backed [live RAG benchmark](evaluation/submission-live-rag-2026-11-04.json), cross-process read, expiry and restart-deletion tests in [backend/test_multimodal.py](backend/test_multimodal.py) | Verified on local disk. The existing public Render service is free and has no persistent volume; hosted durability is still pending. Embeddings remain the documented local hashed baseline. |
+| Text plus audio/speech | [Real EN/DE/ES TTS → Whisper checks](../../evaluation/submission-speech-2026-11-04.json), including MP4 audio extraction; [real browser speech flow](../../evaluation/submission-browser-speech-2026-11-04.json) | Three TTS-generated fixtures, not a human speech benchmark. Normalized word error rate was 0 for these fixtures only. Browser microphone input used a synthetic WAV through Chrome's fake device; provider calls were real. |
+| LangSmith testing/evaluation | [Hosted RAG experiment export](../../evaluation/submission-langsmith-rag-2026-11-04.json), [hosted tool experiment export](../../evaluation/submission-langsmith-tools-2026-11-04.json), [trace audit](../../evaluation/submission-langsmith-traces-2026-11-04.json) | Fictional fixtures only. The application runs on Vercel/Render; a LangSmith evaluation gate is implemented for releases, with workflow execution status recorded separately from these historical experiments. This is not a claim of LangSmith application hosting. |
+| Agent with several tools | [Real model selections](../../evaluation/submission-agent-tools-2026-11-04.json): retrieval, mission progress and guidance each selected the corresponding tool; exact-quote checking is a fourth available tool | Three bounded preparation probes. The separate nine-case real role-play benchmark exercised retrieval and mandatory answer validation. Tools cannot write session state. |
+| Persistent vector database | Chroma-backed [live RAG benchmark](../../evaluation/submission-live-rag-2026-11-04.json), cross-process read, expiry and restart-deletion tests in [backend/test_multimodal.py](../../backend/test_multimodal.py) | Verified on local disk. The existing public Render service is free and has no persistent volume; hosted durability is still pending. Embeddings remain the documented local hashed baseline. |
 
 The nine-case real RAG benchmark passed all deterministic checks and all four
 model judges (correctness, relevance, groundedness, retrieval relevance), using
@@ -87,7 +89,7 @@ No real learner audio, documents or conversations are used in these reports.
 3. Configure the GitHub `evaluation` environment and run its LangSmith workflow
    for the exact release commit. Keep keys in secret storage, never in source.
 4. Review/authorize paid Render compute and a 1 GB persistent disk using
-   [render-persistent.yaml](render-persistent.yaml), or keep the demonstration local.
+   [render-persistent.yaml](../../render-persistent.yaml), or keep the demonstration local.
    The free-host fallback is not hosted persistence evidence.
 5. Deploy the exact revision to Render and the existing Vercel frontend. Verify
    speech/agent/Chroma capabilities, real end-to-end behavior, proxy protection,

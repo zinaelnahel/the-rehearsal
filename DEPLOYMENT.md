@@ -158,7 +158,7 @@ durable volume or store. No paid hosting upgrade was applied.
 See [the implementation and activation guide](docs/MULTIMODAL.md). The source now
 includes speech, a tool-calling agent, LangSmith synthetic evaluation and Chroma.
 Revision 0.7 is deployed on the existing Vercel and Render services. See
-[SUBMISSION.md](SUBMISSION.md) for evidence and remaining validation limits. `render.yaml` preserves a free-host memory fallback; optional
+[historical submission evidence](docs/archive/submission-2026-11-04.md) for evidence and remaining validation limits. `render.yaml` preserves a free-host memory fallback; optional
 `render-persistent.yaml` prepares paid compute and a persistent volume without
 applying them. Durable hosted retrieval requires that volume and a verified
 `CHROMA_PATH`. Do not apply both Blueprints to the same service independently.
@@ -173,7 +173,7 @@ evaluation, `OPENAI_API_KEY`. The new manual LangSmith workflow uploads only the
 bundled fictional fixtures. Release now defaults to checking for a successful
 LangSmith evaluation workflow on the same commit as well as CI; this can be a
 demo experiment. Explicitly disabling that release input bypasses that gate.
-Two hosted synthetic LangSmith experiments are recorded in SUBMISSION.md;
+Two hosted synthetic LangSmith experiments are recorded in the historical submission evidence linked above;
 the updated GitHub evaluation workflow has not yet executed.
 
 ## GitHub Actions CI and release preparation

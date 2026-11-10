@@ -9,14 +9,14 @@ Repository: https://github.com/zinaelnahel/the-rehearsal
 
 Current engineering status: [best-practices review](docs/BEST_PRACTICES.md).
 Current deployment history: [DEPLOYMENT.md](DEPLOYMENT.md).
-Historical submission evidence: [submission verification](SUBMISSION.md). Public release evidence
+Historical submission evidence: [submission verification](docs/archive/submission-2026-11-04.md). Public release evidence
 is published with [version 0.7.0](https://github.com/zinaelnahel/the-rehearsal/releases/tag/v0.7.0).
 
 ![Updated architecture infographic](docs/architecture-infographic.png)
 
 | Criterion | Implemented evidence | Limits of the claim |
 | --- | --- | --- |
-| Evaluation | [Dataset](evaluation/rag-dataset.json), [runner](scripts/evaluate_rag.py), [offline report](evaluation/rag-demo-baseline.json), [evaluation plan](EVALUATION.md) | Nine demo cases are a regression baseline, not a live-model quality score. The current real-provider nine-case run and all four judges passed; see SUBMISSION.md. |
+| Evaluation | [Dataset](evaluation/rag-dataset.json), [runner](scripts/evaluate_rag.py), [offline report](evaluation/rag-demo-baseline.json), [evaluation plan](EVALUATION.md) | Nine demo cases are a regression baseline, not a live-model quality score. The current real-provider nine-case run and all four judges passed; see the historical submission evidence linked above. |
 | Automated tests | `backend/test_*.py`; see current verification in docs/MULTIMODAL.md | Stubbed live-model tests verify safeguards, not general real-model performance. |
 | Historical live evidence | [Rent-flow report](evaluation/rent-fixed-slots-2026-11-02.json), [multilingual report](evaluation/multilingual-fixed-slots-2026-11-02.json) | Small historical smoke runs; not results for every subsequent code revision or proof of broad reliability. |
 | Reproducibility | [README](README.md), [.env.example](.env.example), `package-lock.json`, `backend/requirements.lock` | Both stacks have lockfiles; Python transitive dependencies include hashes and are checked in CI. Dependency advisories and exceptions are documented in SECURITY.md. |
@@ -80,7 +80,7 @@ optional speech still makes external audio calls after consent.
 ## Multimodal implementation status
 
 The four additions are implemented and have real-provider and hosted LangSmith
-evidence in [SUBMISSION.md](SUBMISSION.md). Free hosting uses memory retrieval;
+evidence in [historical submission evidence](docs/archive/submission-2026-11-04.md). Free hosting uses memory retrieval;
 persistent Chroma is demonstrated locally. Release-specific deployment results
 are recorded on the version 0.7.0 release page. See
 [activation and verification](docs/MULTIMODAL.md) for configuration, API contracts,
