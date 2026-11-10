@@ -53,6 +53,12 @@ try{
  assert.equal(missions,1);
  assert.equal(await page.locator('.scene-card').getByText('Source: uploaded PDF; OCR text reviewed by you.',{exact:true}).count(),1);
  assert.equal(await page.locator('.scene-card').getByText(/public-page snapshot/).count(),0);
+ const goalInput=page.locator('.edit-goal input').first();
+ const start=page.getByRole('button',{name:/Action - start Take 01/});
+ await goalInput.fill('Mission goal 1');assert.equal(await start.isDisabled(),true);
+ await goalInput.fill('   mission goal 2   ');assert.equal(await start.isDisabled(),true);
+ await goalInput.fill('');assert.equal(await start.isDisabled(),true);
+ await goalInput.fill('Ask about rent');assert.equal(await start.isEnabled(),true);
  const goalText=await page.locator('.edit-goal input').first().inputValue();
  assert.equal(await page.getByRole('textbox',{name:goalText,exact:true}).count(),1);
  assert.deepEqual(reviewed,{texts:['Rent is 2,400 euros.','Available December 2026.'],confirmed:true});
