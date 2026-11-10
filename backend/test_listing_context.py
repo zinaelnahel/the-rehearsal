@@ -48,9 +48,8 @@ class ListingContextTests(unittest.TestCase):
    'API_REQUESTS_PER_MINUTE':'100000','API_CLIENT_REQUESTS_PER_MINUTE':'100000'}))
   self.enterContext(patch.object(api,'LIVE',False))
   api.sessions.clear();self.client=self.enterContext(TestClient(api.app))
-  with patch.object(api,'fetch_listing') as fetch:
-   response=self.client.post('/api/listings',json={'url':'https://www.idealista.com/en/inmueble/12345678/','text':LISTING})
-  self.assertEqual(response.status_code,200,response.text);fetch.assert_not_called()
+  response=self.client.post('/api/sessions',json={'text':LISTING})
+  self.assertEqual(response.status_code,200,response.text)
   self.sid=response.json()['id'];self.session=api.sessions[self.sid]
   self.session['setup']={'scenario':'apartment','language':'Spanish','level':'B2'}
 

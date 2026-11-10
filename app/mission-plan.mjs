@@ -1,9 +1,7 @@
 ﻿export function sourceNotice(method){
  return {
   reviewed_pdf_ocr:'Source: uploaded PDF; OCR text reviewed by you.',
-  pasted_transcript:'Source: user-pasted transcript; not fetched from the video.',
-  pasted_listing_text:'Source: your pasted advert text; not fetched from the site.',
-  public_page:'Source: public-page snapshot; check the original for updates.'
+  pasted_transcript:'Source: user-pasted transcript; not fetched from the video.'
  }[method]||null;
 }
 export function validGoalText(text){

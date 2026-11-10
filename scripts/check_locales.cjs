@@ -2,7 +2,7 @@ const fs=require('node:fs');
 const {parse}=require('next/dist/compiled/babel/parser');
 const catalog=JSON.parse(fs.readFileSync('app/locales.json','utf8'));
 const missing=new Set();
-const preserved=new Set(['https://www.idealista.com/inmueble/…/']);
+const preserved=new Set();
 for(const filename of fs.readdirSync('app').filter(f=>f.endsWith('.js')&&f!=='i18n.js')){
  const ast=parse(fs.readFileSync('app/'+filename,'utf8'),{sourceType:'module',plugins:['jsx']});
  function visit(node){

@@ -91,10 +91,6 @@
     "de": "Der Rückblick",
     "es": "La revisión"
   },
-  "Not yet checked": {
-    "de": "Noch nicht geprüft",
-    "es": "Aún sin comprobar"
-  },
   "Confirmed by source": {
     "de": "Durch die Quelle bestätigt",
     "es": "Confirmado por la fuente"
@@ -110,10 +106,6 @@
   "Not independently verified": {
     "de": "Nicht unabhängig geprüft",
     "es": "Sin verificación independiente"
-  },
-  "Asked / practised:": {
-    "de": "Gefragt / geübt:",
-    "es": "Preguntado / practicado:"
   },
   "Yes": {
     "de": "Ja",
@@ -482,14 +474,6 @@
   "Source: user-pasted transcript; not fetched from the video.": {
     "de": "Quelle: eingefügtes Transkript; nicht aus dem Video abgerufen.",
     "es": "Fuente: transcripción pegada; no obtenida del vídeo."
-  },
-  "Source: your pasted advert text; not fetched from the site.": {
-    "de": "Quelle: eingefügter Anzeigentext; nicht von der Website abgerufen.",
-    "es": "Fuente: anuncio pegado; no obtenido del sitio."
-  },
-  "Source: public-page snapshot; check the original for updates.": {
-    "de": "Quelle: Momentaufnahme der öffentlichen Seite; prüfe das Original auf Änderungen.",
-    "es": "Fuente: captura de la página pública; consulta el original para ver cambios."
   },
   "Take your time. You can ask for a hint whenever you need one.": {
     "de": "Lass dir Zeit. Du kannst jederzeit einen Hinweis anfordern.",
@@ -1027,10 +1011,6 @@
     "de": "Dokument hochladen",
     "es": "Subir un documento"
   },
-  "Use a listing link (optional)": {
-    "de": "Anzeigenlink nutzen (optional)",
-    "es": "Usar un enlace de anuncio (opcional)"
-  },
   "Situation notes or document text": {
     "de": "Situationsnotizen oder Dokumenttext",
     "es": "Notas de la situación o texto del documento"
@@ -1059,17 +1039,9 @@
     "de": "Gescannte PDFs werden nicht unterstützt.",
     "es": "No se admiten PDF escaneados."
   },
-  "Idealista listing URL": {
-    "de": "Idealista-Anzeigenlink",
-    "es": "URL del anuncio de Idealista"
-  },
   "Spain, Portugal or Italy. Use a direct advert link, not a search page.": {
     "de": "Spanien, Portugal oder Italien. Nutze einen direkten Anzeigenlink, keine Suchseite.",
     "es": "España, Portugal o Italia. Usa un enlace directo al anuncio, no a una búsqueda."
-  },
-  "Paste advert text (recommended: Idealista often blocks imports)": {
-    "de": "Anzeigentext einfügen (empfohlen: Idealista blockiert oft Importe)",
-    "es": "Pegar texto del anuncio (recomendado: Idealista suele bloquear importaciones)"
   },
   "If the site blocks reading, paste the advert’s price, description and features here.": {
     "de": "Wenn die Seite den Abruf blockiert, füge Preis, Beschreibung und Merkmale hier ein.",

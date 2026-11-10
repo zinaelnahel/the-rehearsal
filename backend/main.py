@@ -17,8 +17,7 @@ from backend.model_metrics import ModelMetrics
 from backend.context import CONTEXT_RULES, is_final_breakup, BREAKUP
 from backend.content import LANGUAGES, LEVELS, CONTENT, COMMON, TRANSLATIONS, NO_CORRECTION, pack, goal_index
 from backend.demo_answers import answer as demo_answer, COPY as ANSWER_COPY, detect_intents, EXTRA_STARTERS, asks_question
-from backend.live import RoleReply as ReplyOutput, EvidenceReview, Translation, Hint, DebriefNotes, strict_schema, rehearse, scene_review_schema, bind_review
-from backend.listings import listing_url, fetch_listing
+from backend.live import Translation, Hint, strict_schema, rehearse, scene_review_schema, bind_review
 from backend.listing_context import listing_documents, looks_like_listing, retrieve_listing, area_conflict, trim_pdf_listing_pages
 from backend.retrieval import build_store, purge_expired, delete_persisted
 from backend.observability import trace_scope
@@ -193,25 +192,7 @@ async def confirm_document_source(sid: str, body: DocumentReview):
   return {**result,'import_method':'reviewed_pdf_ocr'}
 
 @app.get('/api/config')
-def config(): return {'mode':'live' if LIVE else 'demo','speech_enabled':speech.enabled(), 'vector_store':os.getenv('VECTOR_STORE','chroma'), 'agent_enabled':agent_enabled(), 'feedback_enabled':feedback.enabled(), 'feedback_retention_days':feedback.retention_days(), 'demo_revision':'0.6','roleplay_revision':'0.7','listing_provider':'Idealista public links or pasted advert text','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
-
-class ListingInput(BaseModel):
- url: str = Field(max_length=2048)
- text: str = Field(default='',max_length=100000)
-
-@app.post('/api/listings')
-def import_listing(body: ListingInput):
- url=listing_url(body.url)
- if body.text.strip():
-  title='Idealista advert · user-pasted text (not fetched)'
-  text=body.text
-  method='pasted_listing_text'
- else:
-  url,title,text=fetch_listing(url)
-  method='public_page'
- result=create(text.encode('utf-8'),'text',title,source_url=url,listing=True)
- result['import_method']=method
- return result
+def config(): return {'mode':'live' if LIVE else 'demo','speech_enabled':speech.enabled(), 'vector_store':os.getenv('VECTOR_STORE','chroma'), 'agent_enabled':agent_enabled(), 'feedback_enabled':feedback.enabled(), 'feedback_retention_days':feedback.retention_days(), 'demo_revision':'0.6','roleplay_revision':'0.7','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
 
 class SourceInput(BaseModel):
  sample: str | None = None

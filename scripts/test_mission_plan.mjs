@@ -4,7 +4,7 @@ import {sourceNotice,validatedMissionGoals} from '../app/mission-plan.mjs';
 test('source labels preserve provenance and never assume a public-page import',()=>{
  assert.equal(sourceNotice('reviewed_pdf_ocr'),'Source: uploaded PDF; OCR text reviewed by you.');
  assert.match(sourceNotice('pasted_transcript'),/user-pasted transcript/);
- assert.match(sourceNotice('public_page'),/public-page snapshot/);
+ assert.equal(sourceNotice('public_page'),null);
  assert.equal(sourceNotice('unknown'),null);
 });
 test('plan accepts concrete goals and rejects missing or placeholder response data',()=>{

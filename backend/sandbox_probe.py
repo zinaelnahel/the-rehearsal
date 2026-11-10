@@ -1,14 +1,11 @@
 """Run inside the production Linux image; nonzero means deployment must stop."""
-import json
 import os
 from pathlib import Path
-import socket
 import subprocess
 import sys
 import tempfile
 import io
 import zipfile
-from backend.parser_sandbox import confine
 
 
 def make_scanned_pdf():
