@@ -38,7 +38,18 @@ jobs:
           cache: pip
           cache-dependency-path: backend/requirements.lock
       - run: python scripts/lock_dependencies.py --check
-      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libtesseract5 tesseract-ocr-eng tesseract-ocr-deu tesseract-ocr-spa
+      - name: Install OCR dependencies from official Ubuntu mirrors
+        run: |
+          # The runner's Azure mirror has failed DNS before tests can start.
+          # Keep Ubuntu's signed repositories and bound transient network waits.
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            printf '%s\n' 'https://archive.ubuntu.com/ubuntu' | sudo tee /etc/apt/apt-mirrors.txt > /dev/null
+          fi
+          if [ -f /etc/apt/apt-mirrors-security.txt ]; then
+            printf '%s\n' 'https://security.ubuntu.com/ubuntu' | sudo tee /etc/apt/apt-mirrors-security.txt > /dev/null
+          fi
+          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20 -o APT::Update::Error-Mode=any update
+          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20 install -y --no-install-recommends libtesseract5 tesseract-ocr-eng tesseract-ocr-deu tesseract-ocr-spa
       - run: python -m pip install --require-hashes -r backend/requirements.lock
       - run: python -m unittest discover -s backend -t . -p 'test_*.py' -v
       - run: python scripts/evaluate_rag.py
