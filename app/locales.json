@@ -2446,5 +2446,101 @@
   "Try it. Pause. Find your next line.": {
     "de": "Probier es. Mach Pause. Finde deine Worte.",
     "es": "Inténtalo. Haz una pausa. Encuentra tus palabras."
+  },
+  "About": {
+    "de": "Über das Projekt",
+    "es": "Acerca del proyecto"
+  },
+  "ABOUT THE REHEARSAL": {
+    "de": "ÜBER THE REHEARSAL",
+    "es": "ACERCA DE THE REHEARSAL"
+  },
+  "A rehearsal room for real conversations.": {
+    "de": "Ein Proberaum für echte Gespräche.",
+    "es": "Un espacio de ensayo para conversaciones reales."
+  },
+  "The flat viewing. The interview. The conversation you have been putting off. A little practice can help you find the words you want to use.": {
+    "de": "Die Wohnungsbesichtigung. Das Vorstellungsgespräch. Das Gespräch, das du vor dir herschiebst. Ein wenig Übung kann dir helfen, deine Worte zu finden.",
+    "es": "La visita del piso. La entrevista. La conversación que llevas tiempo posponiendo. Un poco de práctica puede ayudarte a encontrar las palabras que quieres usar."
+  },
+  "Nathan Fielder in The Rehearsal.": {
+    "de": "Nathan Fielder in The Rehearsal.",
+    "es": "Nathan Fielder en The Rehearsal."
+  },
+  "Image: HBO, via /Film": {
+    "de": "Bild: HBO, über /Film",
+    "es": "Imagen: HBO, vía /Film"
+  },
+  "The idea behind the name.": {
+    "de": "Die Idee hinter dem Namen.",
+    "es": "La idea detrás del nombre."
+  },
+  "In Nathan Fielder’s HBO series The Rehearsal, people prepare for important moments through carefully staged simulations. That idea inspired this project: what if you could try a conversation before having it for real?": {
+    "de": "In Nathan Fielders HBO-Serie The Rehearsal bereiten sich Menschen durch aufwendig inszenierte Simulationen auf wichtige Momente vor. Diese Idee hat unser Projekt inspiriert: Wie wäre es, ein Gespräch zu üben, bevor es wirklich stattfindet?",
+    "es": "En The Rehearsal, la serie de HBO de Nathan Fielder, las personas se preparan para momentos importantes mediante simulaciones cuidadosamente escenificadas. Esa idea inspiró este proyecto: ¿y si pudieras ensayar una conversación antes de tenerla de verdad?"
+  },
+  "About the original series": {
+    "de": "Über die Originalserie",
+    "es": "Sobre la serie original"
+  },
+  "An independent project inspired by the series. No affiliation with Nathan Fielder, HBO or Warner Bros. Discovery.": {
+    "de": "Ein unabhängiges Projekt, inspiriert von der Serie. Keine Verbindung zu Nathan Fielder, HBO oder Warner Bros. Discovery.",
+    "es": "Un proyecto independiente inspirado en la serie. Sin afiliación con Nathan Fielder, HBO ni Warner Bros. Discovery."
+  },
+  "How our app works.": {
+    "de": "So funktioniert unsere App.",
+    "es": "Cómo funciona nuestra app."
+  },
+  "Practise in English, German or Spanish, with a conversation style and feedback language you choose.": {
+    "de": "Übe auf Englisch, Deutsch oder Spanisch. Gesprächsstil und Sprache des Feedbacks wählst du selbst.",
+    "es": "Practica en inglés, alemán o español, con el estilo de conversación y el idioma de los comentarios que tú elijas."
+  },
+  "Bring something real.": {
+    "de": "Bring echten Kontext mit.",
+    "es": "Trae algo real."
+  },
+  "Choose a sample or add your own PDF, text, recording or supported video link. Review any transcript, then set your goal and conversation language.": {
+    "de": "Wähle ein Beispiel oder füge ein eigenes PDF, einen Text, eine Aufnahme oder einen unterstützten Videolink hinzu. Prüfe die Transkription und lege dann dein Ziel und die Gesprächssprache fest.",
+    "es": "Elige una muestra o añade tu propio PDF, texto, grabación o enlace de vídeo compatible. Revisa la transcripción y después define tu objetivo y el idioma de conversación."
+  },
+  "Try the conversation.": {
+    "de": "Probiere das Gespräch aus.",
+    "es": "Ensaya la conversación."
+  },
+  "An AI partner plays the other person. Type your replies or use the optional voice mode. Ask questions, practise a boundary, pause or try a different approach.": {
+    "de": "Ein KI-Gesprächspartner übernimmt die andere Rolle. Schreibe deine Antworten oder nutze den optionalen Sprachmodus. Stelle Fragen, übe eine Grenze, mach eine Pause oder probiere einen anderen Ansatz.",
+    "es": "Una IA interpreta a la otra persona. Escribe tus respuestas o usa el modo de voz opcional. Haz preguntas, practica cómo poner un límite, pausa o prueba otro enfoque."
+  },
+  "Keep what helps.": {
+    "de": "Nimm mit, was dir hilft.",
+    "es": "Quédate con lo que te ayude."
+  },
+  "Review feedback on your actual words, see which goals you practised and replay a moment you want another go at. You choose what to take into real life.": {
+    "de": "Lies Feedback zu deinen tatsächlichen Worten, sieh dir die geübten Ziele an und wiederhole einen Moment, den du noch einmal versuchen möchtest. Du entscheidest, was du ins echte Leben mitnimmst.",
+    "es": "Revisa los comentarios sobre tus propias palabras, comprueba qué objetivos practicaste y repite un momento que quieras volver a intentar. Tú decides qué llevarte a la vida real."
+  },
+  "Your context gives the conversation something to work with.": {
+    "de": "Dein Kontext gibt dem Gespräch eine Grundlage.",
+    "es": "Tu contexto da una base a la conversación."
+  },
+  "When a reply uses your source, its citation lets you check the relevant passage or recording timestamp. Missing details should stay unconfirmed. The partner is AI-generated, and real people can respond differently.": {
+    "de": "Wenn eine Antwort deine Quelle nutzt, kannst du über den Quellenverweis die Textstelle oder den Zeitpunkt in der Aufnahme prüfen. Fehlende Angaben sollten unbestätigt bleiben. Dein Gesprächspartner wird von einer KI erzeugt; echte Menschen können anders reagieren.",
+    "es": "Cuando una respuesta usa tu fuente, la cita permite comprobar el pasaje o el momento de la grabación. Los detalles que faltan deben quedar sin confirmar. La otra persona está generada por IA y las personas reales pueden reaccionar de otra manera."
+  },
+  "Show comic": {
+    "de": "Comic zeigen",
+    "es": "Ver el cómic"
+  },
+  "Hide comic": {
+    "de": "Comic verbergen",
+    "es": "Ocultar el cómic"
+  },
+  "Rehearsal comic panels": {
+    "de": "Comic-Szenen zum Üben",
+    "es": "Viñetas de ensayo"
+  },
+  "Swipe or scroll for more scenes.": {
+    "de": "Wische oder scrolle zu weiteren Szenen.",
+    "es": "Desliza o desplázate para ver más escenas."
   }
 }
