@@ -31,19 +31,27 @@ The tool writes `.runtime/accessibility-audit.json` and screenshots. Set
 The URL guard permits only localhost:3000 and that exact production origin.
 
 The November 11 release was checked with Chrome and axe-core against WCAG A/AA
-rules available in the tool, plus its best-practice rules. All 26 scans passed:
+rules available in the tool, plus its best-practice rules. All 28 scans passed:
 setup, library, audio sample, plan, chat with voice controls expanded, source
 dialog, review, video import, audio upload, OCR dialog, and mobile setup in
-English, German and Spanish, in both themes. Each view was also checked for
+English, German and Spanish, in both themes, plus the standalone About page in each theme. Each view was also checked for
 horizontal page overflow at 320 CSS pixels with increased text spacing.
 The audit checks theme persistence, live system-theme changes, keyboard access
 to the skip link, and Escape/focus restoration for the source dialog.
 Text backgrounds are solid so contrast can be measured. Any remaining automated
-review markers are limited to non-text symbols accompanied by text labels; the
-test fails on other incomplete checks as well as on reported violations.
+review markers are limited to non-text symbols accompanied by text labels and
+one native OCR-dialog paragraph whose stacking axe cannot determine. For that
+paragraph the browser test checks the rendered foreground/background contrast
+and hit-tests each text line to confirm it is unobscured. The test fails on
+other incomplete checks as well as on reported violations.
 
 These checks are evidence of tested behaviour, not a WCAG conformance claim.
 Screen-reader testing with NVDA/VoiceOver, additional browsers, actual device
 and microphone testing, and third-party YouTube/PDF player accessibility still
 need manual verification. Generated source text and AI responses also require
 review; automated scans cannot judge their readability or accuracy.
+
+The About link opens `/about` in the same tab. The root layout preserves an
+existing rehearsal while its workspace is hidden; returning restores setup,
+edited goals, chat drafts and review. Direct About visits do not connect to the
+practice API. Media and voice mode pause when leaving practice.

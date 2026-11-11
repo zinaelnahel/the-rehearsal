@@ -14,8 +14,22 @@ const source={id:'1',source:'Voice message',location:'0.00s–6.65s',text:'Hola.
 async function scan(page,name){
  await page.addScriptTag({path:process.env.AXE_SCRIPT_PATH||require.resolve('axe-core/axe.min.js',{paths:[process.cwd(),process.cwd()+'/.runtime/browser']})});
  const data=await page.evaluate(()=>axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa','best-practice']}}));
+ // axe cannot determine stacking for this native top-layer dialog paragraph.
+ // Check its actual rendered text hits and contrast instead of waiving it.
+ let dialogContrast=null;
+ if(name.endsWith('-ocr-dialog'))dialogContrast=await page.evaluate(()=>{
+  const node=document.querySelector('.document-review>p:nth-child(3)'),dialog=node?.closest('dialog');
+  if(!node||!dialog?.open)return null;
+  const style=getComputedStyle(node),background=getComputedStyle(dialog).backgroundColor;
+  const rgb=value=>(value.match(/[\d.]+/g)||[]).map(Number);
+  const luminance=color=>rgb(color).slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((sum,v,i)=>sum+v*[.2126,.7152,.0722][i],0);
+  const a=luminance(style.color),b=luminance(background),ratio=(Math.max(a,b)+.05)/(Math.min(a,b)+.05);
+  const range=document.createRange();range.selectNodeContents(node);
+  const unobscured=[...range.getClientRects()].filter(r=>r.width&&r.height).every(r=>{const hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return hit===node||node.contains(hit);});
+  return {ratio,foreground:style.color,background,unobscured,verified:ratio>=4.5&&unobscured&&style.opacity==='1'&&rgb(background).length===3};
+ });
  const violations=data.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html}))}));
- report.scans.push({name,violations,incomplete:data.incomplete.map(v=>({id:v.id,count:v.nodes.length,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html}))}))});
+ report.scans.push({name,violations,incomplete:data.incomplete.map(v=>({id:v.id,count:v.nodes.length,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html,renderedContrast:v.id==='color-contrast'&&n.target.join('')==='dialog > p:nth-child(3)'?dialogContrast:null}))}))});
  const viewport=page.viewportSize();
  await page.setViewportSize({width:320,height:900});
  const spacing=await page.addStyleTag({content:'p{margin-bottom:2em!important}*{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important}'});
@@ -94,6 +108,8 @@ try{
   await page.locator('#upload').setInputFiles({name:'scan.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-fixture')});
   await page.getByRole('button',{name:'Build my mission'}).click();
   await page.getByRole('dialog').waitFor();
+  await page.waitForFunction(()=>{const button=[...document.querySelectorAll('dialog button')].find(node=>node.textContent==='Cancel document import');return button&&!button.disabled;});
+  await page.screenshot({path:'.runtime/a11y-'+theme+'-ocr.png'});
   await scan(page,theme+'-ocr-dialog');
   await page.keyboard.press('Escape');
   await page.goto(base);await page.getByRole('button',{name:'Build my mission'}).waitFor();
@@ -108,10 +124,12 @@ try{
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
   }
   await page.screenshot({path:'.runtime/a11y-'+theme+'-mobile.png',fullPage:true});
+  await page.goto(base+'/about');await page.getByRole('heading',{name:'A rehearsal room for real conversations.'}).waitFor();
+  await scan(page,theme+'-about-page');
   await context.close();
  }
 }finally{await browser.close();writeFileSync('.runtime/accessibility-audit.json',JSON.stringify(report,null,2));}
 assert.deepEqual(report.errors,[]);
 assert.equal(report.scans.filter(s=>s.violations.length).length,0,'Accessibility violations remain; see .runtime/accessibility-audit.json');
-assert.ok(report.scans.every(s=>s.incomplete.every(rule=>rule.id==='color-contrast'&&rule.nodes.every(node=>node.summary.includes('only non-text characters')))),
+assert.ok(report.scans.every(s=>s.incomplete.every(rule=>rule.id==='color-contrast'&&rule.nodes.every(node=>node.summary.includes('only non-text characters')||node.renderedContrast?.verified))),
  'An accessibility rule requires further review; inspect the report before claiming the audit passed.');

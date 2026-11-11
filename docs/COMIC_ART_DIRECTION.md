@@ -18,7 +18,7 @@ On smaller screens the comic starts collapsed so the source picker is easier
 to reach. An explicit Show comic button opens larger, horizontally scrollable
 panels with readable captions. The same region supports keyboard scrolling;
 the desktop layout continues to show all three panels. Nathan's original photo
-and the show's inspiration are explained in the separate About section.
+and the show's inspiration are explained in the dedicated About page.
 
 ## Personalised character revision
 
