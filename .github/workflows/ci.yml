@@ -88,6 +88,7 @@ jobs:
       - run: npm run test:media
       - run: npm run test:video
       - run: node --test scripts/test_mission_plan.mjs
+      - run: node --test scripts/test_request_deadline.mjs
       - run: npm run build
 
   container:

@@ -2539,6 +2539,54 @@
     "de": "Comic-Szenen zum Üben",
     "es": "Viñetas de ensayo"
   },
+  "First time? Start with the flat-viewing sample: review the captions, then build your mission.": {
+    "de": "Zum ersten Mal hier? Starte mit der Wohnungsbesichtigung: Prüfe die Untertitel und erstelle dann deine Ziele.",
+    "es": "¿Es tu primera vez? Empieza con la visita al piso: revisa los subtítulos y crea tu misión."
+  },
+  "Waiting: {seconds} seconds. Requests time out after 65 seconds.": {
+    "de": "Wartezeit: {seconds} Sekunden. Anfragen werden nach 65 Sekunden abgebrochen.",
+    "es": "Espera: {seconds} segundos. Las solicitudes caducan después de 65 segundos."
+  },
+  "This is taking longer than usual. If it times out, your draft stays available and you can check the saved conversation.": {
+    "de": "Das dauert länger als üblich. Bei einer Zeitüberschreitung bleibt dein Entwurf erhalten und du kannst den gespeicherten Verlauf prüfen.",
+    "es": "Está tardando más de lo habitual. Si se agota el tiempo, conservarás tu borrador y podrás comprobar la conversación guardada."
+  },
+  "The practice server took too long to respond. Your draft is kept. Check the rehearsal before retrying.": {
+    "de": "Der Server hat zu lange gebraucht. Dein Entwurf bleibt erhalten. Prüfe die Probe, bevor du es erneut versuchst.",
+    "es": "El servidor ha tardado demasiado. Tu borrador se conserva. Comprueba el ensayo antes de reintentar."
+  },
+  "This reply took too long. No new message was saved. Retry this message or review the conversation.": {
+    "de": "Diese Antwort hat zu lange gebraucht. Es wurde keine neue Nachricht gespeichert. Versuche diese Nachricht erneut oder öffne den Rückblick.",
+    "es": "Esta respuesta ha tardado demasiado. No se ha guardado ningún mensaje nuevo. Reintenta este mensaje o revisa la conversación."
+  },
+  "Message recovery": {
+    "de": "Nachricht wiederherstellen",
+    "es": "Recuperar el mensaje"
+  },
+  "Your draft is kept. Check the saved conversation before retrying or sending a different message.": {
+    "de": "Dein Entwurf bleibt erhalten. Prüfe den gespeicherten Verlauf, bevor du es erneut versuchst oder etwas anderes sendest.",
+    "es": "Tu borrador se conserva. Comprueba la conversación guardada antes de reintentar o enviar otro mensaje."
+  },
+  "Check rehearsal": {
+    "de": "Probe prüfen",
+    "es": "Comprobar el ensayo"
+  },
+  "Retry same message": {
+    "de": "Dieselbe Nachricht erneut senden",
+    "es": "Reintentar el mismo mensaje"
+  },
+  "Check the saved conversation before sending a different message.": {
+    "de": "Prüfe den gespeicherten Verlauf, bevor du eine andere Nachricht sendest.",
+    "es": "Comprueba la conversación guardada antes de enviar otro mensaje."
+  },
+  "The previous message is still being checked. Wait a moment, then check again.": {
+    "de": "Die vorherige Nachricht wird noch geprüft. Warte kurz und prüfe dann erneut.",
+    "es": "El mensaje anterior aún se está comprobando. Espera un momento y vuelve a comprobarlo."
+  },
+  "No saved reply was found for this message. You can retry the same message safely.": {
+    "de": "Für diese Nachricht wurde keine gespeicherte Antwort gefunden. Du kannst dieselbe Nachricht erneut senden.",
+    "es": "No se encontró una respuesta guardada para este mensaje. Puedes reintentar el mismo mensaje sin duplicarlo."
+  },
   "Back to rehearsal": {
     "de": "Zurück zur Probe",
     "es": "Volver al ensayo"

@@ -1,0 +1,83 @@
+{
+  "provider_backed": true,
+  "mocked": false,
+  "base": "http://127.0.0.1:3000",
+  "steps": [
+    {
+      "step": "mission",
+      "seconds": 5.6
+    },
+    {
+      "step": "turn",
+      "seconds": 5.288,
+      "status": 200
+    },
+    {
+      "step": "review",
+      "seconds": 1.894
+    }
+  ],
+  "passed": true,
+  "ui_build": "unknown",
+  "api_build": null,
+  "reply": {
+    "id": "B9V0DG-7Jsf5Fr5R",
+    "version": "roleplay-0.6.1",
+    "role": "assistant",
+    "content": "El alquiler cuesta menos de mil euros al mes, y los recibos del gas y del agua están incluidos en el alquiler. Esto no es normal en un piso de alquiler. [25] [26] [27] [28]",
+    "sources": [
+      {
+        "id": "25",
+        "location": "79.27s–85.25s (reviewed transcript)",
+        "source": "Madrid flat viewing · Habla con Eñe · reviewed captions",
+        "text": "cuesta menos de mil euros",
+        "url": "https://www.youtube.com/watch?v=8YsZZpFW_QU",
+        "start": 79.27,
+        "end": 85.25
+      },
+      {
+        "id": "26",
+        "location": "82.04s–88.46s (reviewed transcript)",
+        "source": "Madrid flat viewing · Habla con Eñe · reviewed captions",
+        "text": "y los recibos del gas y del agua están",
+        "url": "https://www.youtube.com/watch?v=8YsZZpFW_QU",
+        "start": 82.04,
+        "end": 88.46000000000001
+      },
+      {
+        "id": "27",
+        "location": "85.25s–91.94s (reviewed transcript)",
+        "source": "Madrid flat viewing · Habla con Eñe · reviewed captions",
+        "text": "incluidos en el alquiler esto no es",
+        "url": "https://www.youtube.com/watch?v=8YsZZpFW_QU",
+        "start": 85.25,
+        "end": 91.94
+      },
+      {
+        "id": "28",
+        "location": "88.46s–95.12s (reviewed transcript)",
+        "source": "Madrid flat viewing · Habla con Eñe · reviewed captions",
+        "text": "normal en un piso de alquiler bueno mire",
+        "url": "https://www.youtube.com/watch?v=8YsZZpFW_QU",
+        "start": 88.46,
+        "end": 95.119
+      }
+    ],
+    "answer_withheld": false,
+    "safety": false
+  },
+  "session_deleted": true,
+  "checked_at_utc": "2026-11-11T19:09:55.125114+00:00",
+  "environment": "local UI and local updated backend, real AI provider",
+  "model": "gpt-4.1-mini",
+  "limitations": [
+    "One synthetic Spanish apartment session, not general quality evidence.",
+    "Separate mocked recovery tests do not establish provider quality."
+  ],
+  "tested_source_sha256": {
+    "backend/main.py": "0014089ce9adbb16af85e37644306d9b96e7fa5e09d03e889be3350b8b6170d7",
+    "backend/request_deadline.py": "bdf4e32b1871b713a7f0c24103ef93ab124a019dc233e7ca9a3422ff4c9bd356",
+    "backend/live.py": "754c24898c1b110783917665d8a9153a0ef17ca71af31f47287ebfac6e33fc84",
+    "app/api-client.js": "0248a103082d1fca301ae0cdbde8f938179233e2bd926a459d85b2b0a9b82d1a"
+  }
+}

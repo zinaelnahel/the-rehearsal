@@ -1,5 +1,6 @@
 """Bounded rehearsal with persistent retrieval, optional speech and synthetic traces."""
 from backend import audio_provenance
+from backend import request_deadline
 import asyncio
 import copy
 import json
@@ -366,7 +367,7 @@ def model(schema, system, data, session=None):
  from langchain_openai import ChatOpenAI
  try:
   with ModelMetrics(session) as metrics:
-   raw=ChatOpenAI(model=os.getenv('OPENAI_MODEL','gpt-4.1-mini'),temperature=0,timeout=20,max_retries=0,max_tokens=1400,store=False).with_structured_output(strict_schema(schema),method='json_schema',strict=True).invoke([('system',system),('human',json.dumps(data,ensure_ascii=False))],config={'callbacks':[metrics]})
+   raw=ChatOpenAI(model=os.getenv('OPENAI_MODEL','gpt-4.1-mini'),temperature=0,timeout=request_deadline.provider_timeout(20),max_retries=0,max_tokens=1400,store=False).with_structured_output(strict_schema(schema),method='json_schema',strict=True).invoke([('system',system),('human',json.dumps(data,ensure_ascii=False))],config={'callbacks':[metrics]})
    return schema.model_validate(raw)
  except HTTPException: raise
  except Exception as exc:
@@ -386,7 +387,8 @@ def agent_model(messages, tools, session):
  try:
   with ModelMetrics(session) as metrics:
    return ChatOpenAI(model=os.getenv('OPENAI_MODEL','gpt-4.1-mini'),temperature=0,
-    timeout=6,max_retries=0,max_tokens=600,store=False).bind_tools(tools).invoke(messages,config={'callbacks':[metrics]})
+    timeout=request_deadline.provider_timeout(6),max_retries=0,max_tokens=600,store=False).bind_tools(tools).invoke(messages,config={'callbacks':[metrics]})
+ except HTTPException:raise
  except Exception:
   raise HTTPException(502,'Agent preparation could not be completed. Retry this turn; it has not been saved.') from None
 
@@ -495,6 +497,7 @@ async def start(sid: str, body: MissionEdit):
   s['ratings']={}
   s.pop('debrief',None)
   s.pop('extra_questions',None)
+  s.pop('turn_results',None)
   return {'turns':s['turns'],'goals':s['mission'],'safety':s['safety']}
 
 @app.post('/api/sessions/{sid}/resume')
@@ -548,6 +551,7 @@ async def response_feedback(sid: str, response_id: str, body: ResponseRating):
 class Turn(BaseModel):
  text: str = Field(min_length=1,max_length=2000)
  interaction_mode: Literal['text','voice'] = 'text'
+ request_id: str = Field(default='',max_length=64,pattern=r'^[A-Za-z0-9_-]*$')
 
 def search(s, query):
  # Resolve this common price-question slip only in retrieval. The learner's
@@ -607,9 +611,23 @@ def view_source(sid: str, passage_id: str):
 
 @app.post('/api/sessions/{sid}/turn')
 async def turn(sid: str, body: Turn):
+ token=request_deadline.deadline.set(time.monotonic()+request_deadline.TURN_SECONDS)
+ try:
+  async with asyncio.timeout(request_deadline.TURN_SECONDS):
+   return await process_turn(sid,body)
+ except TimeoutError:
+  raise HTTPException(504,'This reply took too long. No new message was saved. Retry this message or review the conversation.') from None
+ finally:request_deadline.deadline.reset(token)
+
+async def process_turn(sid: str, body: Turn):
  s = get(sid,('chat',))
  async with s['lock']:
   started=time.monotonic()
+  cached=s.get('turn_results',{}).get(body.request_id) if body.request_id else None
+  if cached:
+   if cached['text']!=body.text or cached['mode']!=body.interaction_mode:
+    raise HTTPException(409,'This message identifier was already used for different text.')
+   return copy.deepcopy(cached['result'])
   if s['phase']!='chat': raise HTTPException(409,'Conversation has ended.')
   if len(s['turns'])>=61: raise HTTPException(400,'Turn limit reached. Finish to see your debrief.')
   if not body.text.strip(): raise HTTPException(400,'Enter a message.')
@@ -628,7 +646,12 @@ async def turn(sid: str, body: Turn):
    # Voice already has a local retrieval query. Avoid optional planning rounds
    # in the sequential speech path; mandatory grounding/role review still runs.
    if agent_enabled() and body.interaction_mode!='voice':
-    tool_calls,docs=await asyncio.to_thread(prepare_agent,s,body.text,docs,agent_model,search,evidence)
+    try:tool_calls,docs=await asyncio.to_thread(prepare_agent,s,body.text,docs,agent_model,search,evidence)
+    except HTTPException as error:
+     if error.status_code not in (502,504):raise
+     # Planning is optional; the initial retrieval and mandatory evidence and
+     # partner-role checks still run. Never turn a planner failure into a hang.
+     tool_calls=[]
    else: tool_calls=[]
    reply,docs,live_updates,withheld=await asyncio.to_thread(rehearse,s,body.text,docs,model,evidence,voice=body.interaction_mode=='voice')
    achieved=list(live_updates)
@@ -662,8 +685,11 @@ async def turn(sid: str, body: Turn):
   if sessions.get(sid) is not s: raise HTTPException(404,'Session was deleted while the request was running.')
   s['turns'] += [{'role':'user','content':body.text,'sources':[]},partner_turn(reply, [evidence(d) for d in docs], withheld, s['safety'])]
   s.setdefault('turn_timings',[]).append(round((time.monotonic()-started)*1000))
-  return {'turn':s['turns'][-1],'goals':s['mission'],'safety':s['safety'],
+  result={'turn':s['turns'][-1],'goals':s['mission'],'safety':s['safety'],
           'agent_tools':tool_calls if LIVE else []}
+  if body.request_id:
+   s.setdefault('turn_results',{})[body.request_id]={'text':body.text,'mode':body.interaction_mode,'result':copy.deepcopy(result)}
+  return result
 
 class HintInput(BaseModel):
  kind: str
@@ -750,6 +776,7 @@ def retry(sid: str, body: RetryInput):
  reset=Goal(id=target['id'],text=target['text']).model_dump()
  s.update(phase='chat',mission=[reset],turns=[partner_turn(pack(s)['opening'] if s.get('breakup') else COMMON[s['setup']['language']]['retry'],safety=s['safety'])],ratings={},turn_timings=[])
  s.pop('debrief',None)
+ s.pop('turn_results',None)
  return {'turns':s['turns'],'goals':s['mission'],'safety':s['safety']}
 
 @app.delete('/api/sessions/{sid}')
@@ -761,3 +788,11 @@ def delete(sid: str):
 def session_status(sid: str):
  s=get(sid)
  return {'active':True,'phase':s['phase']}
+
+@app.get('/api/sessions/{sid}/state')
+async def session_state(sid: str):
+ s=get(sid,('chat','debrief'))
+ if s['lock'].locked():return {'phase':s['phase'],'pending':True}
+ return {'phase':s['phase'],'pending':False,'turns':s['turns'],
+  'goals':s['mission'],'safety':s['safety'],'completed_request_ids':list(s.get('turn_results',{})),
+  'debrief':s.get('debrief') if s['phase']=='debrief' else None}

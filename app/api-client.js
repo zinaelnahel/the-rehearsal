@@ -1,12 +1,23 @@
 // No automatic POST retries: a lost response must not duplicate sessions or turns.
 export async function api(path,body,method='POST',signal) {
+ const controller=new AbortController();
+ let timer;
+ const timedOut=new Promise((_,reject)=>{timer=setTimeout(()=>{
+  const error=new Error('The practice server took too long to respond. Your draft is kept. Check the rehearsal before retrying.');
+  error.name='TimeoutError';controller.abort();reject(error);
+ },65000);});
+ try{return await Promise.race([requestJson(path,body,method,signal?AbortSignal.any([signal,controller.signal]):controller.signal),timedOut]);}
+ finally{clearTimeout(timer);}
+}
+
+async function requestJson(path,body,method,signal){
   let response;
   try {
     response=await fetch('/api'+path,{
       method,cache:'no-store',
       headers:body instanceof FormData?{}:{'Content-Type':'application/json'},
       body:body===undefined?undefined:body instanceof FormData?body:JSON.stringify(body),
-      signal:signal?AbortSignal.any([signal,AbortSignal.timeout(65000)]):AbortSignal.timeout(65000)
+      signal
     });
   } catch (error) {
     if(signal?.aborted)throw error;
