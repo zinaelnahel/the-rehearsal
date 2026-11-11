@@ -12,7 +12,7 @@ const errors=[],checks=[];
 try{
  for(const locale of ['en','de','es']){
   const page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base);await page.locator('.interface-language select').selectOption(locale);
+  await page.goto(base);await page.locator('[role=tab]').nth(1).click();await page.locator('#document').fill('Monthly rent is 1375 euros. Utilities are included.');await page.locator('.interface-language select').selectOption(locale);
   await page.waitForFunction(code=>document.documentElement.lang===code,locale);
   const lang={en:'English',de:'German',es:'Spanish'}[locale];
   await page.locator('#language').selectOption(lang);await page.locator('#feedback').selectOption(lang);
@@ -21,7 +21,7 @@ try{
   await page.locator('#message').fill({en:'How much is the monthly rent?',de:'Wie viel kostet die Miete?',es:'¿Cuánto cuesta el alquiler?'}[locale]);
   await page.locator('.composer button[type=submit],button[aria-label="Send message"],button[aria-label="Nachricht senden"],button[aria-label="Enviar mensaje"]').click();
   await page.waitForFunction(()=>document.querySelector('#message')?.value==='');
-  assert.match(await page.locator('.message.assistant').last().innerText(),/2[,. ]?400/);
+  assert.match(await page.locator('.message.assistant').last().innerText(),/1375/);
   await page.locator('.chat-heading button').click();await page.locator('.download-panel').waitFor();
   assert.equal(await page.locator('.response-feedback small[role=status]').innerText(),'');
   assert.ok(await page.locator('.download-panel button').isVisible());

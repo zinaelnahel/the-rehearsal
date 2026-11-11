@@ -51,7 +51,7 @@ def case(client, language):
     identifiers = []
     row = {'language': language, 'input_kind': 'video' if language == 'German' else 'audio', 'passed': False}
     try:
-        sid = require(client.post('/api/sessions', json={'sample': 'apartment', 'language': language}))['id']
+        sid = require(client.post('/api/sessions', json={'text': 'Monthly rent is 850 euros.'}))['id']
         identifiers.append(sid)
         path = '/api/sessions/' + sid
         require(client.post(path + '/mission', json={'scenario': 'apartment', 'language': language,

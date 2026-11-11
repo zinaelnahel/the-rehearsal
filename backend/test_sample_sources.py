@@ -22,12 +22,12 @@ class RealSampleTests(unittest.TestCase):
   self.client=self.enterContext(TestClient(main.app))
   main.sessions.clear()
 
- def source(self,sample='apartment',language='English'):
+ def source(self,sample='interview',language='English'):
   response=self.client.post('/api/sessions',json={'sample':sample,'language':language})
   self.assertEqual(response.status_code,200,response.text)
   return response.json()
 
- def start(self,sid,scenario='apartment'):
+ def start(self,sid,scenario='interview'):
   path='/api/sessions/'+sid
   response=self.client.post(path+'/mission',json={'scenario':scenario,'language':'English','feedback_language':'English'})
   self.assertEqual(response.status_code,200,response.text)
@@ -36,7 +36,7 @@ class RealSampleTests(unittest.TestCase):
   return path
 
  def test_prepared_video_requires_review_and_edits_drop_timestamps(self):
-  data=json.loads((SAMPLES/'interview-transcript.es.json').read_text(encoding='utf-8'))
+  data=json.loads((SAMPLES/CATALOG['video']['transcript']).read_text(encoding='utf-8'))
   text='\n\n'.join(part['text'] for part in data['segments'])
   request={'sample_video_text':text}
   self.assertEqual(self.client.post('/api/sessions',json=request).status_code,409)
@@ -50,7 +50,7 @@ class RealSampleTests(unittest.TestCase):
    self.assertEqual(next(iter(session['source_chunks'].values())).metadata['url'],data['source_url'])
 
  def test_real_pdfs_preserve_provenance_and_original_bytes(self):
-  for sample in ('apartment',):
+  for sample in ('interview',):
    with self.subTest(sample=sample):
     result=self.source(sample)
     item=CATALOG[sample]
@@ -71,33 +71,56 @@ class RealSampleTests(unittest.TestCase):
    texts.append([d.page_content for d in main.sessions[result['id']]['source_documents']])
   self.assertEqual(texts[0],texts[1])
   self.assertEqual(texts[0],texts[2])
-  self.assertIn('2,400',texts[0][0])
+  self.assertIn('Celonis',texts[0][0])
 
- def test_listing_known_and_unknown_fields_and_original_page(self):
+ def test_job_pdf_excludes_unrelated_vacancy_salaries(self):
   result=self.source()
-  path=self.start(result['id'])
-  for question,known in [('How much is the monthly rent?','2,400'),('Are utilities included in the rent?','80')]:
-   answer=self.client.post(path+'/turn',json={'text':question}).json()['turn']
-   self.assertIn(known,answer['content'])
-   self.assertTrue(answer['sources'])
-   source=answer['sources'][0]
-   inspected=self.client.get(path+'/source/'+source['id']).json()
-   self.assertEqual(inspected['original_pdf_url'],result['original_pdf_url'])
-   self.assertIn(source['text'],inspected['sections'][0]['text'])
-  for question in ('Are pets allowed?','How much is the deposit?'):
-   answer=self.client.post(path+'/turn',json={'text':question}).json()['turn']
-   self.assertIn('cannot confirm',answer['content'])
-  self.assertEqual(main.sessions[result['id']]['listing_area_conflict']['values'],['31','80'])
+  session=main.sessions[result['id']]
+  text='\n'.join(d.page_content for d in session['source_documents'])
+  for value in ('Python','RAG','12 meses','Madrid','DACH','alemán e inglés'):
+   self.assertIn(value,text)
+  self.assertNotIn('42 mil',text)
+  self.assertNotIn('58 mil',text)
+  self.assertEqual(session['source_documents'][5].page_content,'')
+  self.assertFalse(session['sample_video'])
+  doc=next(d for d in session['source_chunks'].values() if 'Python' in d.page_content)
+  inspected=self.client.get('/api/sessions/'+result['id']+'/source/'+doc.metadata['id']).json()
+  self.assertEqual(inspected['original_pdf_url'],'/api/samples/interview/document')
+  self.assertIsNone(inspected['original_audio_url'])
 
- def test_manual_page_transcription_is_bound_to_original_pdf(self):
-  data=json.loads((SAMPLES/'documents'/'listingSpanish.pages.json').read_text(encoding='utf-8'))
-  raw,docs=sample_documents('apartment')
+ def test_manual_job_transcription_is_bound_to_original_pdf(self):
+  data=json.loads((SAMPLES/'documents'/'jobadSpanish.pages.json').read_text(encoding='utf-8'))
+  raw,docs=sample_documents('interview')
   self.assertEqual(data['pdf_sha256'],hashlib.sha256(raw).hexdigest())
-  self.assertEqual(len(docs),3)
+  self.assertEqual(len(docs),8)
   with patch('backend.sample_sources.hashlib.sha256') as digest:
    digest.return_value.hexdigest.return_value='changed'
    with self.assertRaisesRegex(ValueError,'does not match'):
-    sample_documents('apartment')
+    sample_documents('interview')
+
+ def test_job_language_questions_retrieve_the_explicit_requirement(self):
+  source=self.source()
+  state=main.sessions[source['id']]
+  state['setup']={'scenario':'interview'}
+  for question in ('¿Qué idiomas necesito para este puesto?','Which languages are required?','Welche Sprachkenntnisse sind erforderlich?'):
+   documents=main.search(state,question)
+   self.assertLessEqual(len(documents),6)
+   self.assertIn('fluidez profesional en alemán e inglés (imprescindible)',' '.join(d.page_content for d in documents))
+
+ def test_apartment_sample_cannot_silently_use_a_retired_listing(self):
+  self.assertEqual(self.client.post('/api/sessions',json={'sample':'apartment'}).status_code,409)
+  self.assertEqual(self.client.get('/api/samples/apartment/document').status_code,404)
+  data=json.loads((SAMPLES/CATALOG['video']['transcript']).read_text(encoding='utf-8'))
+  source=self.client.post('/api/sessions',json={'sample_video_text':'\n'.join(p['text'] for p in data['segments']),'transcript_confirmed':True}).json()
+  state=main.sessions[source['id']]
+  self.assertEqual(state['source_kind'],'transcript')
+  self.assertTrue(state['sample_video'])
+  self.assertNotIn('sample_provenance',state)
+  self.assertEqual(source['source_url'],'https://www.youtube.com/watch?v=8YsZZpFW_QU')
+  chunks=list(state['source_chunks'].values())
+  self.assertTrue(any('vallecas' in d.page_content.lower() for d in chunks))
+  self.assertTrue(any('latina' in d.page_content.lower() for d in chunks))
+  self.assertTrue(all('start' in d.metadata for d in chunks))
 
  def test_personal_sample_keeps_fictional_notes(self):
   result=self.source('difficult')

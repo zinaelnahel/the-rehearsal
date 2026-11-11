@@ -4,7 +4,7 @@ import catalog from '../samples/catalog.json';
 
 export default function SampleDetails({scenario}){
  const {t}=useI18n();
- const sample=scenario==='apartment'?catalog.apartment:null;
+ const sample=catalog[scenario]?.filename?catalog[scenario]:null;
  return <div className="sample-details">
   {sample&&<><p><strong>{sample.publisher}</strong><br/>{t('Original source language:')} {sample.source_language}</p>
    <p className="subtle">{t(sample.note)}</p>

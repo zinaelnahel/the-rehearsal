@@ -2354,5 +2354,41 @@
   "Spanish B2 mock job interview by Habla con Eñe. A prepared transcript is included for review. The candidate's answers are examples, not your biography.": {
     "de": "Spanisches B2-Vorstellungsgespräch von Habla con Eñe. Eine vorbereitete Transkription ist zur Prüfung enthalten. Die Antworten sind Beispiele, nicht deine Biografie.",
     "es": "Entrevista de trabajo de nivel B2 de Habla con Eñe. Incluye una transcripción preparada para revisar. Las respuestas del candidato son ejemplos, no tu biografía."
+  },
+  "Watch the flat viewing": {
+    "de": "Wohnungsbesichtigung ansehen",
+    "es": "Ver la visita del piso"
+  },
+  "Check captions with video timestamps": {
+    "de": "Untertitel mit Videozeitmarken prüfen",
+    "es": "Revisar subtítulos con tiempos del vídeo"
+  },
+  "Prepared Spanish captions from the video. Automatic captions may contain errors; watch the video and review before using them. No caption import is needed.": {
+    "de": "Vorbereitete spanische Untertitel aus dem Video. Automatische Untertitel können Fehler enthalten; sieh dir das Video an und prüfe sie vor der Verwendung. Kein Untertitelimport nötig.",
+    "es": "Subtítulos en español preparados a partir del vídeo. Pueden contener errores automáticos; mira el vídeo y revísalos antes de usarlos. No hace falta importar subtítulos."
+  },
+  "A flat-viewing video, a real job advert PDF, or a scripted boundary-setting audio.": {
+    "de": "Ein Video zur Wohnungsbesichtigung, eine echte Stellenanzeige als PDF oder eine geskriptete Audionachricht zum Grenzensetzen.",
+    "es": "Un vídeo de visita de piso, una oferta de empleo real en PDF o un audio guionizado para poner límites."
+  },
+  "Madrid flat viewing · Habla con Eñe": {
+    "de": "Wohnungsbesichtigung in Madrid · Habla con Eñe",
+    "es": "Visita de piso en Madrid · Habla con Eñe"
+  },
+  "Celonis · Applied AI Value Engineer": {
+    "de": "Celonis · Applied AI Value Engineer",
+    "es": "Celonis · Ingeniero de Valor Aplicado (IA)"
+  },
+  "Open the source video to watch it or copy its transcript into the field below.": {
+    "de": "Öffne das Originalvideo zum Ansehen oder kopiere seine Transkription in das Feld unten.",
+    "es": "Abre el vídeo original para verlo o copia su transcripción en el campo de abajo."
+  },
+  "User-supplied saved job advert for the Celonis Orbit programme in Madrid. Selected job sections were transcribed from the page images. No salary is stated for this role; salaries in unrelated suggested vacancies are excluded. The original URL and capture date are unavailable. Confirm current vacancy details with the employer.": {
+    "de": "Vom Nutzer gespeicherte Stellenanzeige für das Celonis-Orbit-Programm in Madrid. Relevante Abschnitte wurden aus den Seitenbildern übertragen. Für diese Stelle ist kein Gehalt angegeben; Gehälter anderer vorgeschlagener Stellen sind ausgeschlossen. Original-URL und Erfassungsdatum sind unbekannt. Aktuelle Angaben beim Arbeitgeber bestätigen.",
+    "es": "Oferta guardada por el usuario para el programa Orbit de Celonis en Madrid. Se transcribieron secciones relevantes de las imágenes. No se indica un salario para este puesto; se excluyen los salarios de otras ofertas sugeridas. No se dispone de la URL original ni de la fecha de captura. Confirma los datos actuales con la empresa."
+  },
+  "Spanish B2 flat-viewing dialogue by Habla con Eñe. A prepared caption transcript is included for review. Three different flats are discussed; keep their details separate. This training video does not establish current availability.": {
+    "de": "Spanischer B2-Dialog zur Wohnungsbesichtigung von Habla con Eñe. Eine vorbereitete Untertitel-Transkription ist zur Prüfung enthalten. Es geht um drei verschiedene Wohnungen; halte ihre Angaben auseinander. Dieses Lernvideo bestätigt keine aktuelle Verfügbarkeit.",
+    "es": "Diálogo de visita de piso de nivel B2 de Habla con Eñe. Incluye una transcripción de subtítulos para revisar. Se habla de tres pisos distintos; mantén sus datos separados. Este vídeo didáctico no confirma disponibilidad actual."
   }
 }

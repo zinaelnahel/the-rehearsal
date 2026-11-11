@@ -15,7 +15,7 @@ def main():
                 audio=json.loads((ROOT/'samples/audio/family-boundary.es.json').read_text(encoding='utf-8'))
                 samples[scenario][language]=audio['title']+'\nFictional Spanish voice message; one AI-generated voice.\n'+'\n'.join(turn['speaker']+': '+turn['text'] for turn in audio['turns'])
                 continue
-            if scenario=='interview':
+            if scenario==catalog['video']['scenario']:
                 item=catalog['video']
                 samples[scenario][language]=f"{item['title']}\n{item['publisher']} \u00b7 {item['source_language']}\n{item['note']}\n"
                 continue

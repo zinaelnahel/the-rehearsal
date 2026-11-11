@@ -1,56 +1,46 @@
 # Rehearsal sources
 
-The three-entry sample picker offers the Madrid listing PDF, the Spanish
-interview video and a fictional Spanish family-boundary audio conversation. The pinned originals in `documents/` and their provenance
-in `catalog.json`. Conversation and feedback language do not replace or translate
-the underlying source. The older apartment/interview/course text files remain
-development fixtures; the application no longer serves them as samples.
+The picker has exactly three samples. Source material stays in its published
+language; conversation and feedback languages are separate preferences.
 
-- **Apartment:** `listingSpanish.pdf`, supplied by the user on 11 November 2026.
-  Image-based Idealista / Darya Living listing. The original URL and capture date
-  are unavailable. `listingSpanish.pages.json` contains a manual transcription
-  checked against all three page images, bound to the PDF's SHA-256. Page order,
-  the €2,400 monthly rent, €80 utilities limit and contradictory 31/80 m² figures
-  are preserved. Navigation and promotional controls are omitted. The PDF is
-  available for direct inspection; this is not a reconstructed PDF.
-- **Video:** Habla con Eñe, *Cómo hacer una entrevista de trabajo en
-  español*, level B2, selected explicitly by the user. The video URL is
-  `https://www.youtube.com/watch?v=43tNZcBkcOE`. The interview sample defaults
-  to Spanish and B2. YouTube captions are disabled. `interview-transcript.es.json` contains a
-  prepared Whisper transcription of the actual 189-second video audio, obtained
-  on 11 November 2026. The audio hash records the source used; downloaded audio
-  is not shipped. AI transcription and segment timing are approximate and require
-  learner review. Unchanged text retains source video timestamps; edited text
-  uses text sections. The bundled sample makes no caption-import requests. The candidate's biography is not the
-  learner's.
-- **Boundary-setting voice message:** `audio/family-boundary.es.wav`, a short
-  fictional Spanish voice message from a family member who has already counted
-  on the learner for a Saturday move, ten until one, without asking first. It
-  mentions moving boxes to the car and having already told others. The authored
-  script is in `audio/family-boundary.es.json`; one AI-generated voice (cedar)
-  reads the three segments. There is no prewritten learner response or outcome.
-  Each segment's start/end is measured from its actual generated PCM bytes,
-  including the inserted pauses. The metadata is bound to the WAV by SHA-256
-  and validated against its duration. An unchanged reviewed transcript uses
-  these timestamps; edited words fall back to text-section citations. The source
-  viewer plays the selected excerpt and stops at its end. Specific recorded facts
-  may be cited; acknowledgements, refusals and learner-provided availability
-  do not receive decorative citations. Playback uses the bundled WAV without
-  provider calls. To explicitly regenerate it (paid TTS), run
-  `python scripts/generate_boundary_audio.py` with a configured provider key.
+- **Flat viewing:** Habla con Eñe, Como buscar piso en Madrid, B2,
+  https://www.youtube.com/watch?v=8YsZZpFW_QU, selected by the user.
+  `apartment-transcript.es.json` contains 46 public Spanish caption blocks
+  retrieved on 11 November 2026. These automatic captions require review.
+  Timestamp links appear beside the original captions. Unchanged reviewed text
+  keeps timings; edited text uses text sections. Three different flats are
+  discussed: never merge their prices, sizes, facilities or availability.
+  The training video does not establish current availability.
+- **Job interview:** `documents/jobadSpanish.pdf`, an eight-page image-based
+  capture supplied by the user on 11 November 2026, showing a SpainJobs.io advert
+  for the Celonis Applied AI Value Engineer (DACH), Orbit programme in Madrid.
+  Its original URL and capture date are unavailable. The advert is in Spanish
+  and states it was originally written in English. `jobadSpanish.pages.json`
+  contains selected sections transcribed manually against the page images,
+  bound to the PDF SHA-256 and preserving page boundaries. The original PDF
+  remains available. Some company boilerplate, navigation and suggested
+  vacancies are omitted; pages 6-8 contribute no evidence for this role.
+  The salary on an unrelated vacancy card is excluded: this Celonis advert gives
+  no numeric salary or exact daily hours. Requirements describe the employer
+  criteria, not the learner biography. Confirm current details with the employer.
+- **Boundary-setting voice message:** `audio/family-boundary.es.wav`, a fictional
+  Spanish message from a family member who counted on help for a Saturday move
+  from ten until one. One AI-generated voice reads three authored segments in
+  `audio/family-boundary.es.json`. There is no scripted learner response or
+  promised outcome. Timings measured from actual PCM bytes are bound to the WAV
+  by SHA-256. Unchanged reviewed text supports playable excerpts; edited text
+  uses sections and full-message playback. Explicit paid regeneration:
+  `python scripts/generate_boundary_audio.py`.
 
+The retired listing PDF and interview-video transcript have been removed.
+Older small text files remain offline test fixtures, not picker entries.
+Documents and recordings are evidence, never application instructions.
 
-Saved source dates, prices and availability belong to the original material.
-They do not imply a current vacancy, available apartment or open enrolment.
-Publisher attribution and original links stay visible in the picker; citations
-open the original document's page text and provide a link to the saved PDF.
+Uploaded recordings use the same source viewer. Original files stay in browser
+memory for playback; server temporary processing files are removed. A two-hour
+signed receipt binds unchanged transcription words and timestamps. Edited text
+or expired receipts use text evidence without excerpt times. Backend restarts
+invalidate pending receipts; re-import those recordings before confirming.
 
-Refresh connection-state previews with `python scripts/generate_sample_previews.py`.
-Run source regressions with `python -m unittest backend.test_sample_sources`.
-
-Uploaded recordings use the same source viewer. The original file remains in
-browser memory for playback; the server removes temporary processing files.
-A two-hour signed transcription receipt binds unchanged words and timestamps.
-Edited transcripts (or expired receipts) use text evidence and full playback,
-without excerpt timestamps. Restarting the server invalidates receipts, so
-re-import before confirming a pending recording after a restart.
+Refresh previews with `python scripts/generate_sample_previews.py`.
+Run source checks with `python -m unittest backend.test_sample_sources`.

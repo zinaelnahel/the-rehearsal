@@ -9,7 +9,7 @@ Practise real-life conversations in **English, German or Spanish**: apartment vi
 - Builds editable goals from your situation, pasted text, PDF/DOCX or reviewed media transcript.
 - Offers AI role-play, optional voice, feedback and replay of a missed goal.
 - Links source-backed answers to document passages or video timestamps; missing facts stay unconfirmed.
-- Includes three samples: a Madrid listing PDF, a Spanish interview video with a prepared transcript, and a fictional boundary-setting voice message. Review transcripts before practising; edited text does not retain excerpt timestamps. See [sample provenance](samples/README.md).
+- Includes three samples: a Spanish flat-viewing video with a prepared caption transcript, a Celonis job-ad PDF, and a fictional boundary-setting voice message. Review transcripts before practising; edited text does not retain excerpt timestamps. See [sample provenance](samples/README.md).
 - Reads image-based PDFs with server-side OCR and asks you to review the text first.
 - Saves rehearsals in your browser when you explicitly choose to save them.
 

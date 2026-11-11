@@ -227,10 +227,10 @@ def source(body: SourceInput):
    raise HTTPException(400,'Choose one source type.')
   if not body.transcript_confirmed:raise HTTPException(409,'Review and confirm the video transcript first.')
   if not body.sample_video_text.strip():raise HTTPException(400,'The video transcript cannot be empty.')
-  data=json.loads((SAMPLES/'interview-transcript.es.json').read_text(encoding='utf-8'))
+  data=json.loads((SAMPLES/SAMPLE_CATALOG['video']['transcript']).read_text(encoding='utf-8'))
   original=' '.join(part['text'] for part in data['segments'])
   timed=re.sub(r'\s+',' ',body.sample_video_text).strip()==re.sub(r'\s+',' ',original).strip()
-  name='Spanish interview · Habla con Eñe · AI-transcribed'
+  name=SAMPLE_CATALOG['video']['title']+' · reviewed captions'
   if timed:
    result=create(b'','transcript',name,source_url=data['source_url'],transcript=[SourceSegment(**part) for part in data['segments']])
   else:
@@ -282,6 +282,8 @@ def source(body: SourceInput):
  if body.sample:
   if body.sample not in SCENARIOS: raise HTTPException(400,'Unknown sample')
   if body.language not in LANGUAGES: raise HTTPException(400,'Choose English, German or Spanish.')
+  if body.sample==SAMPLE_CATALOG['video']['scenario']:
+   raise HTTPException(409,'Review and confirm the video transcript first.')
   if body.sample in SAMPLE_CATALOG:
    item=SAMPLE_CATALOG[body.sample]
    raw,documents=sample_documents(body.sample)
@@ -552,6 +554,13 @@ def search(s, query):
  if s.get('setup',{}).get('scenario')=='apartment':
   query=re.sub(r'\bcu[aá]ndo(?=\s+(?:cuesta|cuestan|vale|valen)\b)','cuánto',query,flags=re.IGNORECASE)
  found=s['store'].similarity_search(query,k=4)
+ # Short language-requirement questions otherwise match repeated generic words
+ # such as "puesto" instead of the explicit fluency requirement in a long ad.
+ if s.get('setup',{}).get('scenario')=='interview' and re.search(r'\b(?:idiomas?|lenguas?|languages?|sprachen?|sprachkenntnisse)\b',normalize(query)):
+  anchors=[d for d in s.get('source_chunks',{}).values() if re.search(r'\b(?:idiomas?|languages?|sprachen?|sprachkenntnisse|fluidez|fluent|fliessend)\b',normalize(d.page_content))]
+  anchors.sort(key=lambda d:0 if re.search(r'fluidez|fluent|fliessend',normalize(d.page_content)) else 1)
+  selected={d.metadata['id']:d for d in anchors[:2]+found}
+  return list(selected.values())[:6]
  return retrieve_listing(s,query,found) if s.get('listing_chunks') else caption_context(s,found)
 
 

@@ -33,17 +33,18 @@ try{
  const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
  await page.goto(base);
  await page.getByRole('button',{name:'Build my mission'}).waitFor();
- assert.equal(await page.locator('.sample-list .sample-info strong').first().innerText(),'Madrid apartment · Property listing');
- assert.match(await page.locator('.sample-list > .sample').first().innerText(),/3 pages.*Real PDF/s);
+ await page.getByRole('button',{name:/Celonis/}).click();
+ assert.match(await page.locator('.sample-list > .sample').filter({hasText:'Celonis'}).innerText(),/8 pages.*Real PDF/s);
+
  assert.equal(await page.locator('.sample-list > .sample').filter({hasText:'Habla con E'}).count(),1);
  await page.getByRole('link',{name:/^View original PDF/}).waitFor();
- assert.equal(await page.getByRole('link',{name:/^View original PDF/}).getAttribute('href'),'/api/samples/apartment/document');
+ assert.equal(await page.getByRole('link',{name:/^View original PDF/}).getAttribute('href'),'/api/samples/interview/document');
  assert.equal(await page.locator('.sample-list > .sample').count(),3);
  assert.equal(await page.getByRole('button',{name:/University of Kent|Instituto Cervantes/}).count(),0);
  await page.getByRole('button',{name:'Build my mission'}).click();
  await page.getByRole('heading',{name:'Your conversation checklist'}).waitFor();
- assert.equal(requests.find(r=>r.url==='/api/sessions').body.sample,'apartment');
- assert.equal(requests.find(r=>r.url.endsWith('/mission')).body.scenario,'apartment');
+ assert.equal(requests.find(r=>r.url==='/api/sessions').body.sample,'interview');
+ assert.equal(requests.find(r=>r.url.endsWith('/mission')).body.scenario,'interview');
 
  await page.goto(base);requests.length=0;
  await page.getByRole('button',{name:/Saying no to family/}).click();
@@ -94,10 +95,12 @@ try{
  assert.equal(await page.locator('#language').inputValue(),'Spanish');
  assert.equal(await page.locator('#level').inputValue(),'B2');
  assert.equal(await page.getByRole('button',{name:'Import video transcript',exact:true}).count(),0);
- await page.getByRole('link',{name:/^Watch the interview/}).waitFor();
+ await page.getByRole('link',{name:/^Watch the flat viewing/}).waitFor();
  assert.equal(requests.some(r=>r.url.includes('/video/')),false);
+ await page.getByText('Check captions with video timestamps',{exact:true}).click();
+ assert.ok(await page.locator('.transcript-editor details a[href*="&t="]').count()>20);
  const videoText=await page.locator('#sample-video-transcript').inputValue();
- assert.match(videoText,/curr.culum/);
+ assert.match(videoText,/alquiler/);
  const confirmation=page.getByRole('checkbox',{name:'I reviewed this transcript and want to use it as my source.'});
  await confirmation.check();
  await page.locator('#sample-video-transcript').fill(videoText+'\n');
@@ -109,7 +112,7 @@ try{
  assert.equal(video.video_url,'');
  assert.equal(video.transcript_confirmed,true);
  assert.equal(video.sample,undefined);
- assert.equal(requests.find(r=>r.url.endsWith('/mission')).body.scenario,'interview');
+ assert.equal(requests.find(r=>r.url.endsWith('/mission')).body.scenario,'apartment');
  assert.equal(video.sample_video_text,videoText+'\n');
  assert.deepEqual(errors,[]);
  console.log('Real PDF picker, custom routing and video review flow passed.');

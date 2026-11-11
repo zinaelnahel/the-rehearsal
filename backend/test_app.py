@@ -22,7 +22,7 @@ class RehearsalTests(unittest.TestCase):
   self.client = self.enterContext(TestClient(app))
 
  def source(self, sample='apartment'):
-  result=self.client.post('/api/sessions',json={'sample':sample})
+  result=self.client.post('/api/sessions',json=({'text':'El alquiler mensual es de 850 euros. Los gastos son 80 euros.'} if sample=='apartment' else {'sample':sample}))
   self.assertEqual(result.status_code,200,result.text)
   return result.json()['id']
 
@@ -42,11 +42,11 @@ class RehearsalTests(unittest.TestCase):
   self.assertEqual(reply.status_code,200,reply.text)
   data=reply.json()
   self.assertTrue(data['goals'][0]['achieved'])
-  self.assertTrue(any('2,400' in s['text'] for s in data['turn']['sources']))
-  self.assertTrue(all(s['location'].startswith('Page') for s in data['turn']['sources']))
-  self.assertIn('2,400',data['turn']['content'])
+  self.assertTrue(any('850' in s['text'] for s in data['turn']['sources']))
+  self.assertTrue(all(s['location'].startswith('Section') for s in data['turn']['sources']))
+  self.assertIn('850',data['turn']['content'])
   self.assertEqual(data['goals'][0]['answer_status'],'confirmed')
-  self.assertIn('2,400',data['goals'][0]['answer_evidence'])
+  self.assertIn('850',data['goals'][0]['answer_evidence'])
   for kind in ['vocabulary','starter','translation']:
    self.assertEqual(self.client.post(f'/api/sessions/{sid}/hint',json={'kind':kind,'text':'hello'}).status_code,200)
   result=self.client.post(f'/api/sessions/{sid}/finish').json()
@@ -127,7 +127,7 @@ class RehearsalTests(unittest.TestCase):
   queries={'Spanish':'¿Están incluidos los gastos en el alquiler?','English':'Are utilities included in the rent?','German':'Sind die Nebenkosten in der Miete enthalten?'}
   for language,query in queries.items():
    with self.subTest(language=language):
-    sid=self.client.post('/api/sessions',json={'sample':'apartment','language':language}).json()['id']
+    sid=self.client.post('/api/sessions',json={'text':'Monthly rent is 850 euros.\nUtilities are included up to 80 euros.'}).json()['id']
     p=f'/api/sessions/{sid}'
     m=self.client.post(p+'/mission',json={'scenario':'apartment','language':language}).json()
     self.client.post(p+'/start',json={'goals':[g['text'] for g in m['goals']]})
@@ -252,7 +252,7 @@ class RehearsalTests(unittest.TestCase):
    for language in LANGUAGES:
     for feedback_language in LANGUAGES:
      with self.subTest(scenario=scenario,language=language,feedback_language=feedback_language):
-      response=self.client.post('/api/sessions',json={'sample':scenario,'language':language})
+      response=self.client.post('/api/sessions',json=({'text':'Monthly rent is 850 euros.\nUtilities are included up to 80 euros.'} if scenario=='apartment' else {'sample':scenario,'language':language}))
       self.assertEqual(response.status_code,200,response.text)
       sid=response.json()['id']
       path=f'/api/sessions/{sid}'
@@ -266,7 +266,7 @@ class RehearsalTests(unittest.TestCase):
       self.assertEqual(turn.status_code,200,turn.text)
       self.assertTrue(turn.json()['goals'][0]['achieved'])
       if scenario=='apartment':
-       self.assertIn('2,400',turn.json()['turn']['content'])
+       self.assertIn('850',turn.json()['turn']['content'])
        self.assertEqual(turn.json()['goals'][0]['answer_status'],'confirmed')
       for kind in ['starter','vocabulary','translation']:
        hint=self.client.post(path+'/hint',json={'kind':kind,'text':'I would like to know'})

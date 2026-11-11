@@ -159,7 +159,7 @@ class SpeechTests(unittest.TestCase):
     def test_playback_uses_only_session_owned_assistant_text(self):
         ids = []
         for _ in range(2):
-            sid = self.client.post('/api/sessions', json={'sample': 'apartment'}).json()['id']
+            sid = self.client.post('/api/sessions', json={'text': 'Monthly rent is 850 euros.'}).json()['id']
             ids.append(sid)
             self.client.post(f'/api/sessions/{sid}/mission', json={'scenario': 'apartment'})
             self.client.post(f'/api/sessions/{sid}/start', json={'goals': ['Ask the rent']})

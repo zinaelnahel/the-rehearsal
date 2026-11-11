@@ -33,7 +33,7 @@ class LiveTests(unittest.TestCase):
   for conversation in ('Spanish','German'):
    with self.subTest(conversation=conversation):
     with patch('backend.main.LIVE',False):
-     sid=self.client.post('/api/sessions',json={'sample':'apartment'}).json()['id']
+     sid=self.client.post('/api/sessions',json={'text':'Monthly rent is 850 euros.'}).json()['id']
     expected=CONTENT['apartment']['English']['goals']
     with patch('backend.main.model',return_value=MissionOutput(goals=expected)) as generate:
      response=self.client.post('/api/sessions/'+sid+'/mission',json={
