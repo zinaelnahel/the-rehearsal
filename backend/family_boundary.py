@@ -177,22 +177,24 @@ def family_action_observations(session,text):
  """
  if not session.get('family_boundary') or session.get('breakup'):return {}
  query=plain(text).strip()
- if not query or query[0] in ("'",'"','‘','“','«') or '?' in query or re.match(r'^(?:if |si |wenn )',query) or re.search(
+ # Preserve the accent here: Spanish affirmative "Sí" is not conditional "si".
+ conditional=bool(re.match(r'^(?:if |wenn )',query) or re.match(r'^si\s',text.strip(),re.I))
+ if not query or query[0] in ("'",'"','‘','“','«') or '?' in query or conditional or re.search(
   r"how (?:do i|to) say|translate|example|he said|she said|you said|"
   r'wie sage|uberset|beispiel|er sagte|sie sagte|'
   r'como (?:digo|se dice)|traduce|ejemplo|(?:el|ella) dijo|no puedo decir que no|cannot say no|can.t say no|nicht nein sagen|do not say|don.t say|no digas',query):return {}
  language=session['setup']['language']
  rules={
   'English':{
-   'refusal':r"\bi (?:can['’]?t|cannot|won['’]?t) (?:help|make it)\b|\bi(?: am|['’]m) not available\b|^no(?:[, ]+i can['’]?t)?[.!\s]*$",
+   'refusal':r"\bi (?:can['’]?t|cannot|won['’]?t) (?:help|make it|this weekend)\b|\bi(?: am|['’]m) not available\b|\bmy answer (?:is (?:still )?|remains (?:still )?)no\b|^no(?:[, ]+i can['’]?t)?[.!\s]*$",
    'boundary':r"(?:^|[.!]\s*)(?:please[, ]+)?(?:ask|check with) me\b[^.!?]{0,120}\b(?:first|before|my time)\b",
    'stop':r"(?:^|[.!]\s*)(?:ok(?:ay)?[, ]+)?(?:and )?(?:please[, ]+)?(?:(?:do not|don['’]t|never) ask me (?:again|anymore)|stop asking me)\b"},
   'German':{
-   'refusal':r'\bich kann\b[^.!?]{0,60}\bnicht helfen\b|\bleider kann ich\b[^.!?]{0,60}\bnicht\b|\bkann ich nicht\b|\bich habe keine zeit\b|^nein(?: danke)?[.!\s]*$',
+   'refusal':r'\bich kann\b[^.!?]{0,60}\bnicht helfen\b|\bich kann dieses wochenende nicht\b|\bleider kann ich\b[^.!?]{0,60}\bnicht\b|\bkann ich nicht\b|\bich habe keine zeit\b|\bmeine antwort (?:ist|bleibt) (?:weiterhin )?nein\b|^nein(?: danke)?[.!\s]*$',
    'boundary':r'(?:^|[.!]\s*)(?:bitte[, ]+)?frag(?:e)? mich\b[^.!?]{0,100}\b(?:vorher|zuerst|bevor|meine zeit)\b',
    'stop':r'(?:^|[.!]\s*)(?:bitte[, ]+)?(?:frag(?:e)? mich (?:nie wieder|nicht mehr|nicht wieder)|hor auf[, ]+mich zu fragen)\b'},
   'Spanish':{
-   'refusal':r'\bno (?:te )?puedo (?:ayudar(?:te)?|hacerlo)\b|\bno tengo tiempo\b|\bno estoy disponible\b|^no(?:[, ]+gracias)?[.!\s]*$',
+   'refusal':r'\bno (?:te )?puedo (?:ayudar(?:te)?|hacerlo|este fin de semana)\b|\bno tengo tiempo\b|\bno estoy disponible\b|\bmi respuesta (?:es|sigue siendo) no\b|^no(?:[, ]+gracias)?[.!\s]*$',
    'boundary':r'(?:^|[.!]\s*)(?:por favor[, ]+)?(?:preguntame|consulta conmigo|avisame)\b[^.!?]{0,120}\b(?:antes|primero|mi tiempo)\b',
    'stop':r'(?:^|[.!]\s*)(?:por favor[, ]+)?no (?:me (?:lo )?)?(?:vuelvas a (?:pedir|preguntar)|preguntes (?:mas|otra vez)|pidas (?:mas|otra vez))\b'}
  }[language]
