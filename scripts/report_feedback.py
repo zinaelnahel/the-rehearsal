@@ -1,4 +1,4 @@
-"""Owner-only aggregate feedback report. No HTTP endpoint or raw-row export."""
+"""Owner-only aggregate CLI feedback report. No raw-row export."""
 import argparse
 from html import escape
 import json

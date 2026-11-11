@@ -55,6 +55,12 @@ deletion; host backups and exported reports have their own lifetimes.
 
 ## Owner report
 
+A password-protected browser report is implemented at `/owner/feedback`; see
+[setup, storage limits and deployment precautions](OWNER_FEEDBACK.md). It offers
+aggregate JSON/HTML downloads without paid Shell access. It does not make free
+Render storage durable.
+
+
 Run from the project root, with the same `FEEDBACK_DB_PATH` used by the backend:
 
 ```powershell

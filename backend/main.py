@@ -80,6 +80,8 @@ async def lifespan(app):
  sessions.clear()
 
 app = FastAPI(title='The Rehearsal', lifespan=lifespan)
+from backend.owner_feedback import router as owner_feedback_router
+app.include_router(owner_feedback_router)
 
 @app.middleware('http')
 async def privacy_headers(request: Request, call_next):
