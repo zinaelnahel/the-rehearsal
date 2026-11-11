@@ -21,7 +21,7 @@ try{
   await page.locator('#message').fill({en:'How much is the monthly rent?',de:'Wie viel kostet die Miete?',es:'¿Cuánto cuesta el alquiler?'}[locale]);
   await page.locator('.composer button[type=submit],button[aria-label="Send message"],button[aria-label="Nachricht senden"],button[aria-label="Enviar mensaje"]').click();
   await page.waitForFunction(()=>document.querySelector('#message')?.value==='');
-  assert.match(await page.locator('.message.assistant').last().innerText(),/850/);
+  assert.match(await page.locator('.message.assistant').last().innerText(),/2[,. ]?400/);
   await page.locator('.chat-heading button').click();await page.locator('.download-panel').waitFor();
   assert.equal(await page.locator('.response-feedback small[role=status]').innerText(),'');
   assert.ok(await page.locator('.download-panel button').isVisible());

@@ -4,7 +4,7 @@ import {useState} from 'react';
 import {MediaSource} from './Speech';
 import VideoSource from './VideoSource';
 
-export default function MediaSources({language,disabled,speechEnabled,onChange}){
+export default function MediaSources({language,disabled,speechEnabled,onChange,initialUrl=''}){
  const {t,locale,errorText}=useI18n();
 
  const [kind,setKind]=useState('link');
@@ -13,6 +13,6 @@ export default function MediaSources({language,disabled,speechEnabled,onChange})
   <option value="link">{t("Use a video link")}</option>
   {speechEnabled&&<option value="upload">{t("Record or upload audio / video")}</option>}
  </select>
- {kind==='upload'&&speechEnabled?<MediaSource language={language} disabled={disabled} onChange={onChange}/>:<VideoSource language={language} disabled={disabled} onChange={onChange}/>}
+ {kind==='upload'&&speechEnabled?<MediaSource language={language} disabled={disabled} onChange={onChange}/>:<VideoSource language={language} disabled={disabled} onChange={onChange} initialUrl={initialUrl}/>}
  </div>;
 }

@@ -51,6 +51,23 @@ class SpeechTests(unittest.TestCase):
                 self.assertEqual(request['input'], text)
                 self.assertIn(accent, request['instructions'])
 
+    def test_spoken_reply_omits_citations_but_preserves_job_numbers(self):
+        text = 'El salario es de 30.000 euros en 13 pagas. [13] [14]'
+        with patch('backend.speech.speech_client') as client:
+            client.return_value.audio.speech.create.return_value.content = b'mp3'
+            speech.synthesize(text, Mock(), 'Spanish')
+            spoken = client.return_value.audio.speech.create.call_args.kwargs['input']
+            self.assertEqual(spoken, 'El salario es de 30.000 euros en 13 pagas.')
+            self.assertTrue(text.endswith('[13] [14]'))
+
+    def test_citation_only_reply_does_not_request_speech(self):
+        with patch('backend.speech.speech_client') as client:
+            reserve = Mock()
+            with self.assertRaises(HTTPException):
+                speech.synthesize('[13] [14]', reserve, 'Spanish')
+            reserve.assert_not_called()
+            client.assert_not_called()
+
     def test_unknown_playback_language_never_calls_provider(self):
         with patch('backend.speech.speech_client') as client:
             reserve = Mock()
@@ -83,6 +100,23 @@ class SpeechTests(unittest.TestCase):
         docs = api.search(api.sessions[sid], 'Miete')
         self.assertEqual(docs[0].metadata['start'], 1.2)
         self.assertIn('1.20s', docs[0].metadata['location'])
+        receipt = result.json()['audio_receipt']
+        request = {'transcript': segments, 'transcript_confirmed': True, 'audio_receipt': receipt}
+        audio = self.client.post('/api/sessions', json=request).json()
+        state = api.sessions[audio['id']]
+        self.assertTrue(state['uploaded_audio'])
+        self.assertTrue(state['audio_timed'])
+        passage = next(iter(state['source_chunks'].values()))
+        view = self.client.get('/api/sessions/' + audio['id'] + '/source/' + passage.metadata['id']).json()
+        self.assertTrue(view['browser_audio'])
+        self.assertTrue(view['audio_timed'])
+        for change in ({'text': 'Corrected words'}, {'start': 2.0}, {'end': 99.0}):
+            edited = [{**segments[0], **change}]
+            response = self.client.post('/api/sessions', json={**request, 'transcript': edited})
+            self.assertEqual(response.status_code, 200, response.text)
+            edited_state = api.sessions[response.json()['id']]
+            self.assertFalse(edited_state['audio_timed'])
+            self.assertTrue(all('start' not in d.metadata for d in edited_state['source_documents']))
         self.client.delete('/api/sessions/' + sid)
 
     def test_silence_and_provider_failure_do_not_create_sessions(self):

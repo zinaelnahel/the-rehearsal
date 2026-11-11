@@ -20,7 +20,7 @@ export function SpeechInput({language,disabled=false,onTranscript,onBegin}) {
   if(file.size>4*1024*1024){setError('Maximum media size is 4 MB. Choose a shorter recording.');return;}
   onBegin?.();pending.current=true;setBusy(true);setError('');
   const abort=new AbortController();upload.current=abort;
-  try{const result=await uploadMedia(file,language,abort.signal);if(mounted.current&&!cancelled.current)onTranscript(result);}
+  try{const result=await uploadMedia(file,language,abort.signal);if(mounted.current&&!cancelled.current)onTranscript({...result,sourceFile:file});}
   catch(e){if(mounted.current&&!abort.signal.aborted)setError(e.message);}
   finally{pending.current=false;if(mounted.current)setBusy(false);}
  }

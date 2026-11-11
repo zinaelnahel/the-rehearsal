@@ -2,6 +2,7 @@
 import io
 import math
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -144,6 +145,12 @@ def synthesize(text, reserve, language):
         raise HTTPException(400, 'Choose English, German or Spanish.')
     if not text.strip() or len(text) > 4000:
         raise HTTPException(400, 'This reply is too long for speech playback.')
+    # Evidence markers belong in the chat, not in spoken dialogue. Preserve
+    # ordinary numbers such as salaries, hours and dates.
+    text = re.sub(r'\s+', ' ', re.sub(r'\[\d+\]', '', text)).strip()
+    text = re.sub(r'\s+([,.;:!?])', r'\1', text)
+    if not text:
+        raise HTTPException(400, 'This reply has no spoken text.')
     reserve()
     try:
         result = speech_client().audio.speech.create(model=TTS_MODEL, voice=TTS_VOICE,

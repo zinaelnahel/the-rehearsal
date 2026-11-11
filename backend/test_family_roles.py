@@ -42,7 +42,7 @@ class FamilyRoleMatrixTests(unittest.TestCase):
                             turn=result.json()['turn']
                             self.assertEqual(turn['answer_withheld'],invalid)
                             if invalid:
-                                self.assertEqual(turn['content'],FAMILY_BOUNDARY[language]['clarify'])
+                                self.assertEqual(turn['content'],FAMILY_PACING[language]['accept'])
                                 self.assertEqual(turn['sources'],[])
                                 counts['reversals_withheld']+=1
                             else:

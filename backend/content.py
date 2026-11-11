@@ -1,4 +1,4 @@
-"""Curated multilingual demo content. All sample situations are fictional."""
+"""Multilingual demo dialogue packs, separate from real or fictional source material."""
 LANGUAGES = {'English': 'en', 'German': 'de', 'Spanish': 'es'}
 NO_CORRECTION = {
  'English':'The scripted demo identified no specific correction for this turn. This is not a live language assessment.',
@@ -132,6 +132,11 @@ def pack(session, feedback=False):
  from backend.context import BREAKUP
  from backend.family_boundary import FAMILY_BOUNDARY
  language=setup['feedback_language'] if feedback else setup['language']
+ if session.get('family_boundary') and session.get('sample_audio') and not session.get('breakup'):
+  opening={'English':'Have you had a chance to listen to my message about the move on Saturday?',
+   'German':'Hast du meine Nachricht zum Umzug am Samstag schon gehört?',
+   'Spanish':'¿Has podido escuchar mi mensaje sobre la mudanza del sábado?'}[language]
+  return {**FAMILY_BOUNDARY[language],'opening':opening}
  return BREAKUP[language] if session.get('breakup') else FAMILY_BOUNDARY[language] if session.get('family_boundary') else CONTENT[setup['scenario']][language]
 
 def goal_index(session, text):

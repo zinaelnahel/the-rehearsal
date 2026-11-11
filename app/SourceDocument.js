@@ -3,6 +3,7 @@ import {useEffect,useRef,useState} from 'react';
 import {api} from './api-client';
 import {useI18n} from './i18n';
 import {videoEvidence} from './video-evidence.mjs';
+import SourceAudio from './SourceAudio';
 
 function Highlight({text,quote,selected}){
  const index=selected?text.indexOf(quote):-1;
@@ -12,6 +13,8 @@ function Highlight({text,quote,selected}){
 export default function SourceDocument({sessionId,selection,file,onClose}){
  const {t,errorText}=useI18n();
  const dialog=useRef(null),returnFocus=useRef(null),pdfObject=useRef(null),currentSelection=useRef(selection);
+ const [audioUrl,setAudioUrl]=useState('');
+ useEffect(()=>{if(!file)return;const url=URL.createObjectURL(file);setAudioUrl(url);return()=>{URL.revokeObjectURL(url);setAudioUrl('');};},[file]);
  const [data,setData]=useState(null),[error,setError]=useState(''),[pdf,setPdf]=useState(null),[pdfError,setPdfError]=useState('');
  useEffect(()=>{
   const source=selection?.source;
@@ -46,8 +49,10 @@ export default function SourceDocument({sessionId,selection,file,onClose}){
   {error?<p role="alert">{errorText(error)}</p>:!data?<p role="status">{t('Loading source…')}</p>:<>
    <p><strong>{data.focus.source}</strong> · {data.focus.location}</p>
    <p className="subtle">{t('The highlighted passage is the evidence used for this reply.')}</p>
+   {(data.original_audio_url||data.browser_audio&&audioUrl)&&<SourceAudio url={data.original_audio_url||audioUrl} key={data.focus.id} start={data.focus.start} end={data.focus.end} timed={data.audio_timed&&Number.isFinite(data.focus.start)&&Number.isFinite(data.focus.end)}/>}
    {data.kind==='pdf'&&<>
     <p className="subtle">{t('Extracted page text. The original page layout may differ.')}</p>
+    {data.original_pdf_url&&<p><a href={data.original_pdf_url+'#page='+data.page} target="_blank" rel="noreferrer">{t('View original PDF')} ↗</a></p>}
     {file?.name===data.focus.source&&/\.pdf$/i.test(file.name)&&!pdf&&<button type="button" className="secondary" onClick={openPdf}>{t('View original PDF')}</button>}
     {pdf&&<iframe title={t('Original PDF page')} src={pdf+'#page='+data.page}/>}
     {pdfError&&<p role="status">{pdfError}</p>}

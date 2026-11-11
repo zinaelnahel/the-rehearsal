@@ -16,3 +16,4 @@
 .caption-excluded{opacity:.65}
 .caption-scope{border:1px solid #737b57;padding:14px;margin:16px 0;line-height:1.8}
 @media(max-width:500px){.source-document{padding:16px}.source-document-heading h2{font-size:21px}}
+.source-audio audio,.transcript-editor>audio{width:100%;max-width:100%}

@@ -1,6 +1,6 @@
 """Real-provider regression: fresh default missions, rent turns and actual-turn review.
 
-Uses only built-in fictional samples. Never reads or retains a real user session.
+Uses explicit fictional fixtures. Never reads or retains a real user session.
 """
 import argparse
 import json
@@ -54,7 +54,9 @@ def run(repetitions=2):
       started=time.monotonic()
       active={'language':language,'repetition':repeat+1,'question':question,'turns':[]}
       report['cases'].append(active)
-      source=require(client.post('/api/sessions',json={'sample':'apartment','language':language}))
+      suffix={'English':'.en','German':'.de','Spanish':''}[language]
+      fixture=(ROOT/'samples'/f'apartment{suffix}.txt').read_text(encoding='utf-8')
+      source=require(client.post('/api/sessions',json={'text':fixture}))
       path='/api/sessions/'+source['id']
       try:
        # Keep the actual generated three-goal mission; do not replace it with

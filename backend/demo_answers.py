@@ -14,6 +14,7 @@ TOPICS = {
 UNKNOWN = r'no se especific|not specified|not stated|nicht angegeben|nicht festgelegt|nicht spezifiziert'
 INSTRUCTION = r'ignore|instructions?|system prompt|api.?key|secret|reveal|ignora|instruccion|anweisung|ignoriere|print|execute|pretend|say that|tell the user|di que'
 MONEY = r'(?:\d[\d., ]*\s*(?:euros?|eur\b|€|dollars?|usd\b|pounds?|gbp\b)|[€$£]\s*\d)'
+MONTHLY_PRICE_LINE = re.compile(r'\s*'+MONEY+r'\s*/\s*(?:month|mes|monat)\s*',re.I)
 DATE = r'\d|december|january|february|march|april|may|june|july|august|september|october|november|diciembre|enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|dezember|januar|februar|marz|mai|juni|juli|oktober|now|ahora|sofort'
 
 COPY = {
@@ -88,7 +89,8 @@ def answer(scenario, language, indexes, docs):
   for doc in docs:
    for sentence in re.split(r'(?<=[.!?])\s+|\n+',doc.page_content):
     normalized=plain(sentence)
-    if not re.search(topic,normalized) or re.search(INSTRUCTION,normalized): continue
+    monthly_price=(scenario,idx)==('apartment',0) and MONTHLY_PRICE_LINE.fullmatch(normalized)
+    if not (re.search(topic,normalized) or monthly_price) or re.search(INSTRUCTION,normalized): continue
     status='unknown' if re.search(UNKNOWN,normalized) else 'confirmed'
     if status=='confirmed':
      money=(scenario,idx) in [('apartment',0),('interview',2),('course',1)]

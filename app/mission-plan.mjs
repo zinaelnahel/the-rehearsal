@@ -1,5 +1,6 @@
 ﻿export function sourceNotice(method){
  return {
+  reviewed_sample_audio:'Source: fictional audio sample; script transcript reviewed by you.',
   reviewed_pdf_ocr:'Source: uploaded PDF; OCR text reviewed by you.',
   pasted_transcript:'Source: user-pasted transcript; not fetched from the video.'
  }[method]||null;

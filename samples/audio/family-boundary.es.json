@@ -1,0 +1,30 @@
+{
+  "language": "Spanish",
+  "title": "Setting boundaries with family · Voice message",
+  "context": "Fictional voice message from the requesting family member. They have already counted on the learner for a Saturday move without asking first. The learner may refuse, set a boundary, or volunteer an alternative. The AI plays the sender; no specific relative or family history is implied.",
+  "turns": [
+    {
+      "speaker": "Familiar",
+      "voice": "cedar",
+      "text": "Hola. He organizado la mudanza para este sábado, de diez a una, y he contado contigo para ayudarme.",
+      "start": 0,
+      "end": 6.65
+    },
+    {
+      "speaker": "Familiar",
+      "voice": "cedar",
+      "text": "Ya les he dicho a los demás que vas a venir. Necesitamos bajar unas cajas y llevarlas al coche.",
+      "start": 7.05,
+      "end": 13.25
+    },
+    {
+      "speaker": "Familiar",
+      "voice": "cedar",
+      "text": "Perdona, tendría que habértelo preguntado antes. ¿Puedes confirmarme si estás disponible? Si no puedes, dímelo y busco otra ayuda.",
+      "start": 13.65,
+      "end": 22.25
+    }
+  ],
+  "audio_sha256": "370df8d50b3fba58cb625595618e50439451e3e6df88f663539dae66ad0a8ed9",
+  "duration": 22.65
+}

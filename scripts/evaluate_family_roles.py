@@ -78,7 +78,8 @@ def main():
             assert require(client.delete(path))['deleted']
             assert client.get(path+'/status').status_code==404
         # The new mandatory role field must also work for a normal factual scene.
-        source=require(client.post('/api/sessions',json={'sample':'apartment','language':'English'}))
+        fixture=(ROOT/'samples/apartment.en.txt').read_text(encoding='utf-8')
+        source=require(client.post('/api/sessions',json={'text':fixture}))
         path='/api/sessions/'+source['id']
         try:
           mission=require(client.post(path+'/mission',json={'scenario':'apartment','language':'English',

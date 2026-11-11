@@ -25,6 +25,7 @@ FAMILY_ROLE_EXAMPLES = {
    'Dann plane ich dieses Wochenende ohne dich.']},
  'Spanish': {
   'invalid_partner_lines':[
+   'Te agradecería que me avisaras antes de hacer planes que dependan de tu tiempo.',
    'No puedo ayudar este fin de semana.',
    'No cuentes conmigo para los recados este fin de semana.',
    'Por favor, pregúntame antes de hacer planes con mi tiempo.'],
@@ -45,9 +46,57 @@ def family_role_contract(language):
  }
 
 
+def spanish_short_refusal(text):
+ """Recognize an elliptical reply to the sample's request, not a mention of no."""
+ query=plain(text).strip()
+ return bool(re.search(
+  r'^no puedo[.!\s]*$|^no puedo(?:\s*[,.;!:]\s*|\s+)(?:tengo trabajo|tengo que trabajar|estoy trabajando|porque (?:tengo trabajo|tengo que trabajar))\b'
+  r'|^no(?:\s*[,.;!]\s*|\s+)(?:(?:perdon|lo siento|disculpa|disculpame)\s*[,.;!]?\s+)?(?:tengo trabajo|tengo que trabajar|estoy trabajando)\b',query)) and '?' not in query
+
+
+def family_alternative_offer(text,language):
+ """A volunteered next-week offer is not another refusal of this weekend."""
+ query=plain(text)
+ patterns={
+  'Spanish':(r'\b(?:la )?(?:proxima semana|semana proxima|semana que viene)\b',r'\b(?:tengo tiempo|puedo ayudar(?:te)?|estoy disponible)\b',r'\bno (?:tengo tiempo|puedo|estoy disponible)\b'),
+  'English':(r'\bnext week\b',r'\b(?:i have time|i can help|i am available|i.m available)\b',r'\b(?:not available|no time|cannot|can.t)\b'),
+  'German':(r'\bnachste\w* woche\b',r'\b(?:habe ich zeit|ich habe zeit|kann ich helfen|ich kann helfen)\b',r'\b(?:keine zeit|nicht helfen)\b')}
+ when,available,negative=patterns[language]
+ return bool(re.search(when,query) and re.search(available,query) and not re.search(negative,query))
+
+
+def family_audio_detail(text):
+ """Specific recorded logistics, not acknowledgements or learner self-reports."""
+ return bool(re.search(r'\b(?:sabado|mudanza|cajas|coche|demas|diez|saturday|boxes|car|moving|move|ten|samstag|umzug|kisten|kartons|auto|zehn)\b|\b(?:de 10 a 1|de diez a una|contado contigo|he dicho a los|told the others|told everyone)\b',plain(text)))
+
+
+def recorded_time_reply(session,text):
+ """Answer a time follow-up from the actual recording, independent of goals.
+
+ Only an unchanged, timestamped sample can use this narrow extractive path.
+ A proposed alternative date must not inherit the original Saturday's hours.
+ """
+ if not session.get('sample_audio_timed') or not session.get('family_boundary'):return None
+ query=plain(text).strip()
+ if not re.search(r'^(?:¿\s*)?(?:a que hora|que hora|cual es el horario|what time|at what time|wann|um wie viel uhr|um wieviel uhr)\b',query):return None
+ if re.search(r'proxima semana|semana proxima|semana que viene|next week|nachste\w* woche|\b(?:domingo|lunes|martes|miercoles|jueves|viernes|sunday|monday|tuesday|wednesday|thursday|friday|sonntag|montag|dienstag|mittwoch|donnerstag|freitag)\b',query):return None
+ if len(re.findall(r'\w+',query))>4 and not re.search(r'sabado|saturday|samstag|mudanza|move|umzug',query):return None
+ recent=' '.join(t['content'] for t in session.get('turns',[])[-2:])
+ if re.search(r'proxima semana|semana proxima|semana que viene|next week|nachste\w* woche',plain(recent)) and not re.search(r'sabado|saturday|samstag|mudanza|move|umzug',query):return None
+ matches=[]
+ for doc in session.get('transcript_chunks',[]):
+  for match in re.finditer(r'\bde (?:las )?(?:\d{1,2}(?::\d{2})?|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce) a (?:las )?(?:\d{1,2}(?::\d{2})?|una|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|once|doce)\b',doc.page_content,re.I):
+   matches.append((match.group(),doc))
+ if len({plain(value) for value,_ in matches})!=1:return None
+ value,doc=matches[0]
+ prefix={'Spanish':'En mi mensaje indiqué','English':'In my message I said','German':'In meiner Nachricht sagte ich'}[session['setup']['language']]
+ return f'{prefix}: «{value}». [{doc.metadata["id"]}]',[doc],{},False
+
+
 def family_response_stage(session,text):
  """Bounded sample pacing: one gentle follow-up, then accept the refusal."""
  language=session['setup']['language']
+ if family_alternative_offer(text,language):return 'alternative_offer'
  history=[turn['content'] for turn in session['turns'] if turn['role']=='user']
  boundaries={
   'English':r"never ask|(?:do not|don['’]t) ask me again|stop asking|leave me alone|ask me (?:first|before)|my answer (?:is|remains) (?:still )?no",
@@ -57,6 +106,7 @@ def family_response_stage(session,text):
  def refuses(value):
   query=plain(value).strip()
   if re.search(r"can['’]t say no|cannot say no|nicht nein sagen|no puedo decir que no|no problem|kein problem|sin problema",query):return False
+  if language=='Spanish' and spanish_short_refusal(query):return True
   patterns={
    'English':r"\bno\b|\bi (?:can['’]?t|cannot|am not available|have no time|don['’]t have time)\b",
    'German':r'\bnein\b|keine zeit|nicht helfen|(?:leider )?kann ich nicht|ich kann (?:\w+\s+){0,4}nicht',
@@ -73,6 +123,11 @@ FAMILY_PACING = {
  'English':{'gentle_followup':"I was hoping you could help. Are you sure you can't make time this weekend?",'accept':"Understood. I respect your decision and won't press you further."},
  'German':{'gentle_followup':'Ich hatte auf deine Hilfe gehofft. Könntest du dir dieses Wochenende doch etwas Zeit nehmen?','accept':'Verstanden. Ich respektiere deine Entscheidung und frage nicht weiter nach.'},
  'Spanish':{'gentle_followup':'Esperaba contar con tu ayuda. ¿Seguro que no puedes este fin de semana?','accept':'Entendido. Respeto tu decisión y no insistiré más.'}
+}
+FAMILY_ALTERNATIVE = {
+ 'Spanish':'¿Quieres decir que podrías ayudarme la próxima semana? ¿Qué día te vendría bien?',
+ 'English':'Do you mean you could help next week? Which day would suit you?',
+ 'German':'Meinst du, dass du nächste Woche helfen könntest? Welcher Tag würde dir passen?'
 }
 
 
@@ -99,7 +154,7 @@ def requester_speaks_as_learner(text, language):
    r'|\bmi respuesta (?:es|sigue siendo) no\b'
    r'|\bno me (?:lo )?(?:pidas|preguntes) (?:otra vez|de nuevo)\b'
    r'|\b(?:preguntame|pregunteme|me preguntes|consultame|consulteme|consulta conmigo)\b[^.!?]{0,90}\b(?:mi tiempo|antes|primero)\b'
-   r'|\b(?:avisame|me avises)\b[^.!?]{0,50}\b(?:anticipacion|antelacion|antes|de antemano)\b'
+   r'|\b(?:avisame|me avis(?:es|aras|ases))\b[^.!?]{0,50}\b(?:anticipacion|antelacion|antes|de antemano)\b'
    r'|\bno (?:cuentes|cuente|conteis|cuenten) conmigo\b'
    r'|\bno (?:planifiques|planifique|organices|organice|hagas planes|haga planes)\b[^.!?]{0,90}\b(?:conmigo|mi tiempo)\b'
    r'|\bno (?:dispongas|disponga) de mi tiempo\b')
@@ -110,6 +165,7 @@ def family_intents(text, language):
  query=plain(text).strip().strip('.!')
  if query in ('no','no thanks','no thank you','nein','nein danke','no gracias'):
   return [0]
+ if language=='Spanish' and spanish_short_refusal(text):return [0]
  return [i for i,pattern in enumerate(FAMILY_BOUNDARY[language]['patterns']) if re.search(pattern,query)]
 
 
@@ -140,7 +196,7 @@ def family_action_observations(session,text):
    'boundary':r'(?:^|[.!]\s*)(?:por favor[, ]+)?(?:preguntame|consulta conmigo|avisame)\b[^.!?]{0,120}\b(?:antes|primero|mi tiempo)\b',
    'stop':r'(?:^|[.!]\s*)(?:por favor[, ]+)?no (?:me (?:lo )?)?(?:vuelvas a (?:pedir|preguntar)|preguntes (?:mas|otra vez)|pidas (?:mas|otra vez))\b'}
  }[language]
- refusal=bool(re.search(rules['refusal'],query))
+ refusal=bool(re.search(rules['refusal'],query)) or language=='Spanish' and spanish_short_refusal(query)
  stop=bool(re.search(rules['stop'],query))
  boundary=stop or bool(re.search(rules['boundary'],query))
  challenged=bool(session['turns'] and session['turns'][-1]['role']=='assistant'

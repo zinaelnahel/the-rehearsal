@@ -42,11 +42,11 @@ class RehearsalTests(unittest.TestCase):
   self.assertEqual(reply.status_code,200,reply.text)
   data=reply.json()
   self.assertTrue(data['goals'][0]['achieved'])
-  self.assertTrue(any('850' in s['text'] for s in data['turn']['sources']))
-  self.assertTrue(all(s['location'].startswith('Section') for s in data['turn']['sources']))
-  self.assertIn('850',data['turn']['content'])
+  self.assertTrue(any('2,400' in s['text'] for s in data['turn']['sources']))
+  self.assertTrue(all(s['location'].startswith('Page') for s in data['turn']['sources']))
+  self.assertIn('2,400',data['turn']['content'])
   self.assertEqual(data['goals'][0]['answer_status'],'confirmed')
-  self.assertIn('850',data['goals'][0]['answer_evidence'])
+  self.assertIn('2,400',data['goals'][0]['answer_evidence'])
   for kind in ['vocabulary','starter','translation']:
    self.assertEqual(self.client.post(f'/api/sessions/{sid}/hint',json={'kind':kind,'text':'hello'}).status_code,200)
   result=self.client.post(f'/api/sessions/{sid}/finish').json()
@@ -136,7 +136,8 @@ class RehearsalTests(unittest.TestCase):
     self.assertNotIn('850',reply['turn']['content'])
     self.assertTrue(reply['turn']['sources'])
     result=self.client.post(p+'/finish').json()
-    self.assertIn('Are utilities included in the rent?',result['unanswered'])
+    self.assertNotIn('Are utilities included in the rent?',result['unanswered'])
+    self.assertIn('80',reply['turn']['content'])
     self.assertEqual(result['feedback'][0]['suggestion'],'')
 
  def test_review_feedback_follows_quoted_turn_after_all_goals(self):
@@ -265,12 +266,16 @@ class RehearsalTests(unittest.TestCase):
       self.assertEqual(turn.status_code,200,turn.text)
       self.assertTrue(turn.json()['goals'][0]['achieved'])
       if scenario=='apartment':
-       self.assertIn('850',turn.json()['turn']['content'])
+       self.assertIn('2,400',turn.json()['turn']['content'])
        self.assertEqual(turn.json()['goals'][0]['answer_status'],'confirmed')
       for kind in ['starter','vocabulary','translation']:
        hint=self.client.post(path+'/hint',json={'kind':kind,'text':'I would like to know'})
        self.assertEqual(hint.status_code,200,hint.text)
-       if kind=='starter': self.assertEqual(hint.json()['text'],expected[language]['starters'][1])
+       if kind=='starter':
+        # The real brochure is a table. The extractive demo may need a
+        # follow-up rather than pretending it can interpret every schedule.
+        pending=0 if turn.json()['goals'][0]['answer_status']=='unknown' else 1
+        self.assertEqual(hint.json()['text'],expected[language]['starters'][pending])
       result=self.client.post(path+'/finish')
       self.assertEqual(result.status_code,200,result.text)
       result=result.json()

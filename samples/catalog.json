@@ -1,0 +1,23 @@
+{
+  "apartment": {
+    "title": "Madrid apartment · Property listing",
+    "filename": "listingSpanish.pdf",
+    "pages": 3,
+    "source_language": "Spanish / English",
+    "publisher": "Idealista / Darya Living",
+    "source_url": null,
+    "added_on": "2026-11-11",
+    "transcription": "listingSpanish.pages.json",
+    "note": "User-supplied saved listing. Original listing URL and capture date are not available. Availability must be confirmed. The stated floor areas conflict."
+  },
+  "video": {
+    "title": "Job interview in Spanish · Habla con Eñe",
+    "original_title": "Cómo hacer una entrevista de trabajo en español. Nivel B2",
+    "source_language": "Spanish",
+    "publisher": "Habla con Eñe",
+    "level": "B2",
+    "source_url": "https://www.youtube.com/watch?v=43tNZcBkcOE",
+    "transcript_url": "https://www.youtube.com/watch?v=43tNZcBkcOE",
+    "note": "Spanish B2 mock job interview by Habla con Eñe. A prepared transcript is included for review. The candidate's answers are examples, not your biography."
+  }
+}

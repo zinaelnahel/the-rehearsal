@@ -18,6 +18,20 @@ class ContextFeedbackTests(unittest.TestCase):
   start=self.client.post(f'/api/sessions/{sid}/start',json={'goals':[g['text'] for g in mission['goals']]}).json()
   return sid,mission,start
 
+ def test_breakup_source_overrides_stale_apartment_category(self):
+  sid,mission,start=self.scene(text='I want to break up with my partner. My decision is final.')
+  self.assertEqual(mission['scenario'],'difficult')
+  self.assertTrue(sessions[sid]['breakup'])
+  self.assertNotIn('rent',start['turns'][0]['content'].lower())
+  self.assertIn('ending the relationship',mission['goals'][0]['text'])
+
+ def test_automatic_category_uses_custom_source(self):
+  for text,expected in [('A breakup with my partner.','difficult'),('I have a job interview.','interview'),('I want to enrol in a course.','course'),('An apartment viewing with the landlord.','apartment'),('I need to talk to my friend.','difficult')]:
+   with self.subTest(text=text):
+    sid,mission,_=self.scene(goal='',text=text,scenario='auto')
+    self.assertEqual(mission['scenario'],expected)
+    self.assertEqual(sessions[sid]['setup']['scenario'],expected)
+
  def test_feedback_can_change_clear_and_reject_text(self):
   sid,_,start=self.scene()
   response=start['turns'][0]
@@ -162,7 +176,7 @@ class ContextFeedbackTests(unittest.TestCase):
 
  def test_family_role_reversal_is_withheld_even_when_reviewer_approves_it(self):
   from backend.live import RoleReply, EvidenceReview
-  from backend.family_boundary import FAMILY_BOUNDARY
+  from backend.family_boundary import FAMILY_BOUNDARY,FAMILY_PACING,family_response_stage
   cases=[
    ('English','I am sorry but i have some work to do ',
     'I understand, but I cannot help this weekend. I need to keep my time free for my work and rest. Please do not ask me again for this weekend. [4] [2]'),
@@ -182,11 +196,12 @@ class ContextFeedbackTests(unittest.TestCase):
     self.client.post(path+'/start',json={'goals':[g['text'] for g in mission['goals']]})
     proposal=RoleReply(reply=bad,citations=[],goal_checks=[],answer_checks=[])
     review=EvidenceReview(partner_role_consistent=True,reply_supported=True,accepted_goal_ids=[],verified_answer_goal_ids=[])
+    stage=family_response_stage(sessions[sid],learner)
     with patch('backend.main.LIVE',True),patch('backend.main.model',side_effect=[proposal,review]):
      result=self.client.post(path+'/turn',json={'text':learner})
     self.assertEqual(result.status_code,200,result.text)
     turn=result.json()['turn']
-    self.assertEqual(turn['content'],FAMILY_BOUNDARY[language]['clarify'])
+    self.assertEqual(turn['content'],FAMILY_PACING[language].get(stage,FAMILY_BOUNDARY[language]['clarify']))
     self.assertTrue(turn['answer_withheld'])
     self.assertEqual(turn['sources'],[])
     for goal in result.json()['goals']:

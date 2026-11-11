@@ -1,0 +1,139 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=43tNZcBkcOE",
+  "source_method": "sample_video_whisper",
+  "language": "Spanish",
+  "duration": 188.52000427246094,
+  "audio_sha256": "86447a755144e5ba2b1fbdb056f60d710f670bea7b41c844552712d7c93cb24f",
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 16.440000534057617,
+      "text": "¡Buenos días! Pase, pase. Siéntese, por favor."
+    },
+    {
+      "start": 16.440000534057617,
+      "end": 21.440000534057617,
+      "text": "Iván Cuadrado, ¿verdad? Sí, soy yo. Buenos días y encantado."
+    },
+    {
+      "start": 21.440000534057617,
+      "end": 31.799999237060547,
+      "text": "Encantada. Según el currículum, veo que ha realizado"
+    },
+    {
+      "start": 31.799999237060547,
+      "end": 39.959999084472656,
+      "text": "trabajos muy distintos. ¿Cómo se definiría? Bueno, antes que nada soy ingeniero informático,"
+    },
+    {
+      "start": 39.959999084472656,
+      "end": 45.720001220703125,
+      "text": "pero también he hecho varios cursos de diseño, por lo que me considero diseñador también,"
+    },
+    {
+      "start": 45.720001220703125,
+      "end": 52.599998474121094,
+      "text": "y he dado clases en la universidad. A ver, ¿me puede decir por qué le interesa"
+    },
+    {
+      "start": 52.599998474121094,
+      "end": 57.31999969482422,
+      "text": "este puesto? Bueno, como están buscando diseñadores con"
+    },
+    {
+      "start": 57.31999969482422,
+      "end": 62.52000045776367,
+      "text": "conocimiento en informática, creo que este puesto es idóneo para mí. Además, sería"
+    },
+    {
+      "start": 62.52000045776367,
+      "end": 66.80000305175781,
+      "text": "una oportunidad para desarrollar mi parte artística."
+    },
+    {
+      "start": 66.80000305175781,
+      "end": 72.83999633789062,
+      "text": "Veo que tiene bastante experiencia en este campo. Ha trabajado ocho años en una revista"
+    },
+    {
+      "start": 72.83999633789062,
+      "end": 79.95999908447266,
+      "text": "importante. ¿Por qué se fue? Sentía que necesitaba seguir formándome,"
+    },
+    {
+      "start": 79.95999908447266,
+      "end": 82.80000305175781,
+      "text": "y como freelancer podría tener más tiempo libre."
+    },
+    {
+      "start": 82.80000305175781,
+      "end": 88.91999816894531,
+      "text": "¿Le gustaría trabajar en equipo o prefiere hacerlo solo?"
+    },
+    {
+      "start": 88.91999816894531,
+      "end": 95.83999633789062,
+      "text": "Uy, me encantaría. El trabajo en equipo aporta mucho. Nuevas ideas, la posibilidad de intercambiar"
+    },
+    {
+      "start": 95.83999633789062,
+      "end": 101.4000015258789,
+      "text": "opiniones... ¿Cómo trabajaría bajo presión? Ya sabe,"
+    },
+    {
+      "start": 101.55999755859375,
+      "end": 107.76000213623047,
+      "text": "aquí los plazos de entrega son muy estrictos, y los horarios hay que cumplirlos a rajatabla."
+    },
+    {
+      "start": 107.76000213623047,
+      "end": 114.80000305175781,
+      "text": "Hombre, el estrés nunca es un buen compañero, pero creo que no me importaría, sobre todo"
+    },
+    {
+      "start": 114.80000305175781,
+      "end": 121.4000015258789,
+      "text": "si hay un buen clima laboral. ¿Ya sabe cuáles son nuestras condiciones?"
+    },
+    {
+      "start": 121.4000015258789,
+      "end": 128.1199951171875,
+      "text": "En el anuncio se hablaba de 30.000 euros anuales. ¿Brutos o netos?"
+    },
+    {
+      "start": 128.16000366210938,
+      "end": 138.16000366210938,
+      "text": "Son 30.000 euros brutos. Descontando los impuestos, salen 24.000 euros netos anuales."
+    },
+    {
+      "start": 138.16000366210938,
+      "end": 144.72000122070312,
+      "text": "Están distribuidos en 13 pagas. ¿La paga extra es en Navidad?"
+    },
+    {
+      "start": 144.72000122070312,
+      "end": 149.72000122070312,
+      "text": "Efectivamente. ¿Cuándo tendría que incorporarme?"
+    },
+    {
+      "start": 149.72000122070312,
+      "end": 155.9600067138672,
+      "text": "La incorporación sería inmediata, a partir de la semana que viene. ¿Le gustaría preguntar"
+    },
+    {
+      "start": 156.0,
+      "end": 163.0,
+      "text": "algo más? No, me ha quedado todo claro. ¿Entonces?"
+    },
+    {
+      "start": 163.0,
+      "end": 169.44000244140625,
+      "text": "Bueno, le llamaremos esta semana para darle una respuesta definitiva."
+    },
+    {
+      "start": 169.44000244140625,
+      "end": 176.44000244140625,
+      "text": "Muchas gracias. Gracias a usted. Muy bien, buen día."
+    }
+  ]
+}

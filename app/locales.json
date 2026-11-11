@@ -2122,5 +2122,237 @@
   "YouTube caption requests may use Supadata if enabled.": {
     "de": "Falls aktiviert, können YouTube-Untertitel über Supadata abgerufen werden.",
     "es": "Las solicitudes de subtítulos de YouTube pueden usar Supadata si está habilitado."
+  },
+  "Match my context automatically": {
+    "de": "Automatisch an meinen Kontext anpassen",
+    "es": "Adaptar a mi contexto automáticamente"
+  },
+  "What do you want to say or find out?": {
+    "de": "Was möchtest du sagen oder herausfinden?",
+    "es": "¿Qué quieres decir o averiguar?"
+  },
+  "The free server may be waking after inactivity. You can read a sample while you wait.": {
+    "de": "Der kostenlose Server startet eventuell nach einer Pause. Du kannst inzwischen ein Beispiel lesen.",
+    "es": "El servidor gratuito puede estar iniciándose. Puedes leer un ejemplo mientras esperas."
+  },
+  "Sample preview only. This does not start a rehearsal or send your data.": {
+    "de": "Nur eine Beispielvorschau. Es wird keine Probe gestartet und es werden keine Daten gesendet.",
+    "es": "Solo es una vista previa. No inicia un ensayo ni envía tus datos."
+  },
+  "Real documents for practical conversations. Fictional notes for personal conversations.": {
+    "de": "Echte Dokumente für praktische Gespräche. Fiktive Notizen für persönliche Gespräche.",
+    "es": "Documentos reales para conversaciones prácticas. Notas ficticias para conversaciones personales."
+  },
+  "Original source language:": {
+    "de": "Originalsprache:",
+    "es": "Idioma original:"
+  },
+  "Publisher source": {
+    "de": "Quelle des Herausgebers",
+    "es": "Fuente del editor"
+  },
+  "Original documents stay in their published language. Choose any supported conversation and feedback language.": {
+    "de": "Originaldokumente bleiben in ihrer veröffentlichten Sprache. Gesprächs- und Feedbacksprache sind frei wählbar.",
+    "es": "Los documentos conservan su idioma original. Puedes elegir cualquier idioma compatible para la conversación y los comentarios."
+  },
+  "Real video · English · Review transcript": {
+    "de": "Echtes Video · Englisch · Transkript prüfen",
+    "es": "Vídeo real · Inglés · Revisar transcripción"
+  },
+  "Published video and transcript": {
+    "de": "Veröffentlichtes Video und Transkript",
+    "es": "Vídeo y transcripción publicados"
+  },
+  "If captions cannot be imported, open the published transcript, copy it below and review it before continuing.": {
+    "de": "Falls Untertitel nicht importiert werden können, öffne das veröffentlichte Transkript, füge es unten ein und prüfe es vor dem Fortfahren.",
+    "es": "Si no se pueden importar los subtítulos, abre la transcripción publicada, cópiala abajo y revísala antes de continuar."
+  },
+  "Real PDF": {
+    "de": "Echtes PDF",
+    "es": "PDF real"
+  },
+  "Madrid apartment · Property listing": {
+    "de": "Wohnung in Madrid · Immobilienanzeige",
+    "es": "Piso en Madrid · Anuncio inmobiliario"
+  },
+  "University of Kent · Customer Services Assistant": {
+    "de": "University of Kent · Kundenservice-Stelle",
+    "es": "University of Kent · Asistente de atención al cliente"
+  },
+  "Instituto Cervantes Sofía · Autumn 2026": {
+    "de": "Instituto Cervantes Sofia · Herbst 2026",
+    "es": "Instituto Cervantes Sofía · Otoño 2026"
+  },
+  "British Council · You're Hired, Episode 5": {
+    "de": "British Council · You're Hired, Folge 5",
+    "es": "British Council · You're Hired, episodio 5"
+  },
+  "User-supplied saved listing. Original listing URL and capture date are not available. Availability must be confirmed. The stated floor areas conflict.": {
+    "de": "Vom Nutzer bereitgestellte gespeicherte Anzeige. Original-URL und Aufnahmedatum sind nicht bekannt. Verfügbarkeit muss bestätigt werden. Die Flächenangaben widersprechen sich.",
+    "es": "Anuncio guardado aportado por el usuario. No se conocen el enlace original ni la fecha de captura. Hay que confirmar la disponibilidad. Las superficies indicadas no coinciden."
+  },
+  "Saved job description for interview practice. This does not establish that the vacancy is still open.": {
+    "de": "Gespeicherte Stellenbeschreibung zur Interviewübung. Daraus geht nicht hervor, ob die Stelle noch offen ist.",
+    "es": "Descripción de puesto guardada para practicar entrevistas. No confirma que la vacante siga abierta."
+  },
+  "Saved autumn 2026 course brochure. Dates and prices belong to that programme; current enrolment must be confirmed.": {
+    "de": "Gespeichertes Kursprogramm für Herbst 2026. Termine und Preise gelten für dieses Programm; die aktuelle Anmeldung muss bestätigt werden.",
+    "es": "Folleto guardado de otoño de 2026. Las fechas y precios corresponden a ese programa; hay que confirmar la matrícula actual."
+  },
+  "Published interview training video with actors. Review imported captions before rehearsing. The candidate's experience is an example, not your biography.": {
+    "de": "Veröffentlichtes Bewerbungstrainingsvideo mit Schauspielern. Importierte Untertitel vor der Probe prüfen. Die Erfahrung der Bewerberin ist ein Beispiel, nicht dein Lebenslauf.",
+    "es": "Vídeo publicado de formación para entrevistas con actores. Revisa los subtítulos importados antes de ensayar. La experiencia de la candidata es un ejemplo, no tu biografía."
+  },
+  "A real listing PDF, an interview video, or fictional boundary-setting notes.": {
+    "de": "Ein echtes Immobilien-PDF, ein Bewerbungsvideo oder fiktive Notizen zum Setzen von Grenzen.",
+    "es": "Un anuncio inmobiliario real en PDF, un vídeo de entrevista o notas ficticias para establecer límites."
+  },
+  "pages": {
+    "de": "Seiten",
+    "es": "páginas"
+  },
+  "Job interview in Spanish · Contenidos ELE UAM": {
+    "de": "Bewerbungsgespräch auf Spanisch · Contenidos ELE UAM",
+    "es": "Entrevista de trabajo en español · Contenidos ELE UAM"
+  },
+  "Real video · Spanish · Review transcript": {
+    "de": "Echtes Video · Spanisch · Transkript prüfen",
+    "es": "Vídeo real · Español · Revisar transcripción"
+  },
+  "Short Spanish mock job interview with published captions. Review the captions before rehearsing. The candidate’s answers are examples, not your biography.": {
+    "de": "Kurzes simuliertes Bewerbungsgespräch auf Spanisch mit veröffentlichten Untertiteln. Prüfe die Untertitel vor der Probe. Die Antworten der Bewerberin sind Beispiele, nicht dein Lebenslauf.",
+    "es": "Breve simulación de entrevista de trabajo en español con subtítulos publicados. Revísalos antes de ensayar. Las respuestas de la candidata son ejemplos, no tu biografía."
+  },
+  "Open the video to watch the interview or copy its transcript into the field below.": {
+    "de": "Öffne das Video, um das Gespräch anzusehen oder das Transkript in das Feld unten zu kopieren.",
+    "es": "Abre el vídeo para ver la entrevista o copiar la transcripción en el campo de abajo."
+  },
+  "Open video and captions": {
+    "de": "Video und Untertitel öffnen",
+    "es": "Abrir vídeo y subtítulos"
+  },
+  "Job interview in Spanish · Habla con Eñe": {
+    "de": "Bewerbungsgespräch auf Spanisch · Habla con Eñe",
+    "es": "Entrevista de trabajo en español · Habla con Eñe"
+  },
+  "Spanish B2 mock job interview by Habla con Eñe. The candidate’s answers are examples, not your biography. If caption import is unavailable, paste and review a transcript before building your mission.": {
+    "de": "Simuliertes Bewerbungsgespräch auf Spanisch auf B2-Niveau von Habla con Eñe. Die Antworten des Bewerbers sind Beispiele, nicht dein Lebenslauf. Falls der Untertitelimport nicht verfügbar ist, füge vor dem Erstellen der Mission ein Transkript ein und prüfe es.",
+    "es": "Simulación de entrevista laboral en español B2 de Habla con Eñe. Las respuestas del candidato son ejemplos, no tu biografía. Si no se pueden importar los subtítulos, pega y revisa una transcripción antes de crear tu misión."
+  },
+  "Setting boundaries with family · Audio conversation": {
+    "de": "Grenzen in der Familie setzen · Audiogespräch",
+    "es": "Poner límites a la familia · Conversación de audio"
+  },
+  "Fictional conversation with two AI-generated voices. The recording is in Spanish; it is not a real family recording.": {
+    "de": "Fiktives Gespräch mit zwei KI-generierten Stimmen. Die Aufnahme ist auf Spanisch und keine echte Familienaufnahme.",
+    "es": "Conversación ficticia con dos voces generadas por IA. La grabación está en español; no es una grabación familiar real."
+  },
+  "Boundary-setting audio sample": {
+    "de": "Audiobeispiel zum Setzen von Grenzen",
+    "es": "Ejemplo de audio para poner límites"
+  },
+  "Audio could not be played. You can still review the script below and practise the conversation.": {
+    "de": "Das Audio konnte nicht abgespielt werden. Du kannst den Text unten trotzdem prüfen und das Gespräch üben.",
+    "es": "No se pudo reproducir el audio. Puedes revisar el guion de abajo y practicar la conversación."
+  },
+  "You play the person saying no. The AI plays the family member asking for help with weekend errands.": {
+    "de": "Du spielst die Person, die Nein sagt. Die KI spielt das Familienmitglied, das um Hilfe bei Besorgungen am Wochenende bittet.",
+    "es": "Tú interpretas a quien dice que no. La IA interpreta al familiar que pide ayuda con unos recados el fin de semana."
+  },
+  "Review the audio transcript": {
+    "de": "Audiotranskript prüfen",
+    "es": "Revisar la transcripción del audio"
+  },
+  "This transcript comes from the fictional audio script. You can edit it before confirming. Citations refer to text sections, not audio timestamps.": {
+    "de": "Dieses Transkript stammt aus dem fiktiven Audioskript. Du kannst es vor der Bestätigung bearbeiten. Quellenangaben verweisen auf Textabschnitte, nicht auf Audiozeitstempel.",
+    "es": "Esta transcripción procede del guion ficticio del audio. Puedes editarla antes de confirmar. Las citas remiten a secciones de texto, no a marcas de tiempo."
+  },
+  "I reviewed this audio transcript and want to use it for my rehearsal.": {
+    "de": "Ich habe das Audiotranskript geprüft und möchte es für meine Probe verwenden.",
+    "es": "He revisado esta transcripción y quiero usarla para mi ensayo."
+  },
+  "Review and confirm the audio sample transcript first.": {
+    "de": "Prüfe und bestätige zuerst das Transkript des Audiobeispiels.",
+    "es": "Revisa y confirma primero la transcripción del ejemplo de audio."
+  },
+  "Scripted audio · Spanish · Review transcript": {
+    "de": "Audio mit Skript · Spanisch · Transkript prüfen",
+    "es": "Audio con guion · Español · Revisar transcripción"
+  },
+  "A real listing PDF, an interview video, or a scripted boundary-setting audio.": {
+    "de": "Ein echtes Immobilien-PDF, ein Bewerbungsvideo oder ein Audio mit Skript zum Setzen von Grenzen.",
+    "es": "Un anuncio inmobiliario real en PDF, un vídeo de entrevista o un audio con guion para poner límites."
+  },
+  "Source: fictional audio sample; script transcript reviewed by you.": {
+    "de": "Quelle: fiktives Audiobeispiel; Skripttranskript von dir geprüft.",
+    "es": "Fuente: ejemplo de audio ficticio; transcripción del guion revisada por ti."
+  },
+  "Saying no to family · Audio conversation": {
+    "de": "Der Familie Nein sagen · Audiogespräch",
+    "es": "Decir que no a la familia · Conversación de audio"
+  },
+  "Setting boundaries with family · Voice message": {
+    "de": "Grenzen in der Familie setzen · Sprachnachricht",
+    "es": "Poner límites a la familia · Mensaje de voz"
+  },
+  "Saying no to family · Voice message": {
+    "de": "Der Familie Nein sagen · Sprachnachricht",
+    "es": "Decir que no a la familia · Mensaje de voz"
+  },
+  "Fictional Spanish voice message with an AI-generated voice. A family member has already counted on your help without asking first.": {
+    "de": "Fiktive spanische Sprachnachricht mit KI-generierter Stimme. Ein Familienmitglied hat deine Hilfe bereits eingeplant, ohne vorher zu fragen.",
+    "es": "Mensaje de voz ficticio en español con una voz generada por IA. Un familiar ya ha contado con tu ayuda sin preguntarte antes."
+  },
+  "You reply to the message and set your own boundary. The AI plays the sender. You can refuse, ask about the plans, or offer another time.": {
+    "de": "Du antwortest auf die Nachricht und setzt deine eigene Grenze. Die KI spielt den Absender. Du kannst ablehnen, nach den Plänen fragen oder einen anderen Zeitpunkt anbieten.",
+    "es": "Responde al mensaje y marca tu propio límite. La IA interpreta al remitente. Puedes negarte, preguntar por los planes u ofrecer otro momento."
+  },
+  "Keep the transcript unchanged for playable timestamped citations. If you edit the words, citations refer to text sections instead.": {
+    "de": "Lass das Transkript unverändert, um zitierte Audioabschnitte abzuspielen. Wenn du Wörter bearbeitest, verweisen die Quellenangaben stattdessen auf Textabschnitte.",
+    "es": "Mantén la transcripción sin cambios para reproducir citas con marcas de tiempo. Si editas las palabras, las citas remiten a secciones de texto."
+  },
+  "Audio excerpt:": {
+    "de": "Audioausschnitt:",
+    "es": "Fragmento de audio:"
+  },
+  "This transcript was edited. Play the full voice message; its text has no verified audio timestamps.": {
+    "de": "Dieses Transkript wurde bearbeitet. Du kannst die ganze Sprachnachricht abspielen; für den Text gibt es keine geprüften Audiozeitstempel.",
+    "es": "Esta transcripción se ha editado. Puedes reproducir el mensaje completo; el texto no tiene marcas de tiempo verificadas."
+  },
+  "Original voice message": {
+    "de": "Ursprüngliche Sprachnachricht",
+    "es": "Mensaje de voz original"
+  },
+  "Play this excerpt": {
+    "de": "Diesen Ausschnitt abspielen",
+    "es": "Reproducir este fragmento"
+  },
+  "Play full voice message": {
+    "de": "Ganze Sprachnachricht abspielen",
+    "es": "Reproducir el mensaje completo"
+  },
+  "Play audio excerpt": {
+    "de": "Audioausschnitt abspielen",
+    "es": "Reproducir fragmento de audio"
+  },
+  "Audio could not be played. You can still read the source text.": {
+    "de": "Das Audio konnte nicht abgespielt werden. Du kannst den Quelltext trotzdem lesen.",
+    "es": "No se pudo reproducir el audio. Puedes leer el texto de la fuente."
+  },
+  "Watch the interview": {
+    "de": "Interview ansehen",
+    "es": "Ver la entrevista"
+  },
+  "Prepared Spanish transcript from the video audio. AI transcription may contain errors; watch the video and review before using it. No caption import is needed.": {
+    "de": "Vorbereitete spanische Transkription der Videotonspur. Die KI-Transkription kann Fehler enthalten; sieh dir das Video an und prüfe den Text. Kein Untertitelimport nötig.",
+    "es": "Transcripción en español preparada a partir del audio del vídeo. Puede contener errores de IA; mira el vídeo y revisa el texto antes de usarlo. No hace falta importar subtítulos."
+  },
+  "Unchanged text links evidence to approximate video timestamps. Edited text uses text sections instead. The video stays in Spanish in every conversation language.": {
+    "de": "Unveränderter Text verknüpft Belege mit ungefähren Videozeitmarken. Bearbeiteter Text verwendet Textabschnitte. Das Video bleibt bei jeder Gesprächssprache auf Spanisch.",
+    "es": "El texto sin cambios enlaza las pruebas con tiempos aproximados del vídeo. El texto editado usa secciones de texto. El vídeo sigue en español en cualquier idioma de conversación."
+  },
+  "Spanish B2 mock job interview by Habla con Eñe. A prepared transcript is included for review. The candidate's answers are examples, not your biography.": {
+    "de": "Spanisches B2-Vorstellungsgespräch von Habla con Eñe. Eine vorbereitete Transkription ist zur Prüfung enthalten. Die Antworten sind Beispiele, nicht deine Biografie.",
+    "es": "Entrevista de trabajo de nivel B2 de Habla con Eñe. Incluye una transcripción preparada para revisar. Las respuestas del candidato son ejemplos, no tu biografía."
   }
 }
