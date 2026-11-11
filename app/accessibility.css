@@ -1,6 +1,9 @@
 /* Shared interaction and contrast rules; keep the illustrated studio in both themes. */
 :root{--focus:#e1c9ff;--link:#dfcaff}
 :root[data-theme=dark]{color-scheme:dark}
+body{background-image:none}
+.source-panel,.settings-panel{background:#25293e}
+.dialogue-map{background:#2d3049}
 :root[data-theme=light]{color-scheme:light;--paper:#faf9fd;--ink:#29253e;--muted:#5c566b;--green:#59417b;--line:#aaa0b9;--soft:#eee9f6;--accent:#624488;--focus:#583580;--link:#56357d}
 .theme-control,.interface-language{margin:0;min-width:96px;display:flex;flex-direction:column;gap:3px;font-size:11px}
 .theme-control select{min-height:36px;padding:5px 9px;font-size:12px;width:auto}
@@ -36,7 +39,8 @@ dialog::backdrop{background:#090b16b8}
 .answer-evidence{color:#d9d0e8!important}
 .replay-option>.secondary{color:#e3cef7;border-color:#a68cb7}
 .rehearsal-comic figcaption s{color:#665973}
-:root[data-theme=light] body{background-image:radial-gradient(ellipse at 90% 2%,#c4bdf433,transparent 45%)}
+.comic-scene-label{background:#faf8ff}
+:root[data-theme=light] body{background-image:none}
 :root[data-theme=light] :is(p,label,.mode,.step,.studio-credit,.intro>div>p,.section-heading p,.sample-info small,.privacy p,.button-caption,.composer-note,.partner-header small,.message-label,.check-goal p,.question-list,.about-heading>p,.about-inspiration>p,.about-languages,.about-independence,.about-steps p,.about-source-note p,.about-limit,.build-info,footer){color:var(--muted)}
 :root[data-theme=light] :is(h1,h2,h3,h4,strong,.sample-info strong,.footer-brand,.production-intent,.about-steps h4,.about-source-note h4){color:var(--ink)}
 :root[data-theme=light] :is(.panel,.source-panel,.settings-panel,.chat-panel,.scene-card,.source-document,.library-panel,.library-save){background:#fff;border-color:#b2a7c1;box-shadow:0 4px 18px #44315c0b;color:var(--ink)}
@@ -71,6 +75,8 @@ dialog::backdrop{background:#090b16b8}
 :root[data-theme=light] .about-independence{border-color:#967eae}
 :root[data-theme=light] :is(.edit-goal>span,.soft-note,.inline-citation){color:#624488}
 :root[data-theme=light] .source-document-heading{background:#fff}
+:root[data-theme=light] :is(.beta,.studio-credit cite,.language-chip,.language-chip span,.footer-about){color:#624488}
+:root[data-theme=light] .check-goal.achieved>span{color:#35664b;border-color:#507962}
 @media(max-width:1000px){.topbar{align-items:flex-start;flex-wrap:wrap}.header-right{margin-left:auto;justify-content:flex-end}}
 @media(max-width:680px){.topbar{padding:16px 20px;gap:14px}.header-right{width:100%;margin:0;justify-content:flex-start;gap:12px}.header-right .mode{margin-left:auto}.theme-control,.interface-language{font-size:11px}.theme-control select{min-height:44px}.about-link{min-height:44px}.beta{display:none}button,summary,select{scroll-margin-block:18px}.fields{min-width:0}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}

@@ -15,7 +15,7 @@ async function scan(page,name){
  await page.addScriptTag({path:process.env.AXE_SCRIPT_PATH||require.resolve('axe-core/axe.min.js',{paths:[process.cwd(),process.cwd()+'/.runtime/browser']})});
  const data=await page.evaluate(()=>axe.run(document,{runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21aa','wcag22aa','best-practice']}}));
  const violations=data.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html}))}));
- report.scans.push({name,violations,incomplete:data.incomplete.map(v=>({id:v.id,count:v.nodes.length}))});
+ report.scans.push({name,violations,incomplete:data.incomplete.map(v=>({id:v.id,count:v.nodes.length,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html}))}))});
  const viewport=page.viewportSize();
  await page.setViewportSize({width:320,height:900});
  const spacing=await page.addStyleTag({content:'p{margin-bottom:2em!important}*{line-height:1.5!important;letter-spacing:.12em!important;word-spacing:.16em!important}'});
@@ -113,3 +113,5 @@ try{
 }finally{await browser.close();writeFileSync('.runtime/accessibility-audit.json',JSON.stringify(report,null,2));}
 assert.deepEqual(report.errors,[]);
 assert.equal(report.scans.filter(s=>s.violations.length).length,0,'Accessibility violations remain; see .runtime/accessibility-audit.json');
+assert.ok(report.scans.every(s=>s.incomplete.every(rule=>rule.id==='color-contrast'&&rule.nodes.every(node=>node.summary.includes('only non-text characters')))),
+ 'An accessibility rule requires further review; inspect the report before claiming the audit passed.');

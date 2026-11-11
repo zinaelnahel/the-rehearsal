@@ -9,7 +9,7 @@ function Commit({value,label,unknown}){
 
 export default function BuildInfo({backend}){
  const {t}=useI18n();
- return <span className="build-info" aria-label={t('Deployed builds')}>
+ return <span className="build-info" role="group" aria-label={t('Deployed builds')}>
   <span>{t('UI build')} <Commit value={process.env.NEXT_PUBLIC_BUILD_SHA} label={t('UI build')} unknown={t('Not identified')}/></span>
   <span>{t('API build')} <Commit value={backend} label={t('API build')} unknown={t('Not identified')}/></span>
  </span>;

@@ -38,6 +38,9 @@ English, German and Spanish, in both themes. Each view was also checked for
 horizontal page overflow at 320 CSS pixels with increased text spacing.
 The audit checks theme persistence, live system-theme changes, keyboard access
 to the skip link, and Escape/focus restoration for the source dialog.
+Text backgrounds are solid so contrast can be measured. Any remaining automated
+review markers are limited to non-text symbols accompanied by text labels; the
+test fails on other incomplete checks as well as on reported violations.
 
 These checks are evidence of tested behaviour, not a WCAG conformance claim.
 Screen-reader testing with NVDA/VoiceOver, additional browsers, actual device
