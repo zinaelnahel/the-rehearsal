@@ -11,5 +11,7 @@ import './source-document.css';
 import './practice-ux.css';
 import './studio.css';
 import './about.css';
+import './accessibility.css';
+const themeScript=`try{var t=localStorage.getItem('rehearsal-theme');if(!['light','dark','system'].includes(t))t='system';document.documentElement.dataset.theme=t==='system'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):t;}catch(e){document.documentElement.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}`;
 export const metadata = {title: 'The Rehearsal — Real life, rehearsed.', description: 'Rehearse real-life situations in English, German or Spanish, with your document as a guide.'};
-export default function Layout({children}) {return <html lang="en"><body><LanguageProvider>{children}</LanguageProvider></body></html>}
+export default function Layout({children}) {return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{__html:themeScript}}/></head><body><LanguageProvider>{children}</LanguageProvider></body></html>}

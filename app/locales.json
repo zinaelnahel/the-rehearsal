@@ -2539,6 +2539,26 @@
     "de": "Comic-Szenen zum Üben",
     "es": "Viñetas de ensayo"
   },
+  "Appearance": {
+    "de": "Darstellung",
+    "es": "Apariencia"
+  },
+  "System": {
+    "de": "System",
+    "es": "Sistema"
+  },
+  "Light": {
+    "de": "Hell",
+    "es": "Claro"
+  },
+  "Dark": {
+    "de": "Dunkel",
+    "es": "Oscuro"
+  },
+  "Skip to main content": {
+    "de": "Zum Hauptinhalt springen",
+    "es": "Saltar al contenido principal"
+  },
   "This is what I need.": {
     "de": "Das brauche ich.",
     "es": "Esto es lo que necesito."
