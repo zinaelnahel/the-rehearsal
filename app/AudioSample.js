@@ -20,6 +20,7 @@ export default function AudioSample({disabled,onChange}){
   <audio ref={player} controls preload="none" src="/api/samples/difficult/audio" aria-label={t('Boundary-setting audio sample')} onError={()=>setAudioError(true)}/>
   {audioError&&<p role="status">{t('Audio could not be played. You can still review the script below and practise the conversation.')}</p>}
   <p>{t('You reply to the message and set your own boundary. The AI plays the sender. You can refuse, ask about the plans, or offer another time.')}</p>
+  <p className="subtle">{t('This is one boundary-setting example. For a breakup, a conversation with a friend, or another difficult situation, choose Your situation and describe your own context.')}</p>
   <label htmlFor="sample-audio-transcript">{t('Review the audio transcript')}</label>
   <textarea id="sample-audio-transcript" rows={10} value={text} maxLength={100000} disabled={disabled} onChange={event=>{setText(event.target.value);setConfirmed(false);onChange(null);}}/>
   <p className="subtle">{t('Keep the transcript unchanged for playable timestamped citations. If you edit the words, citations refer to text sections instead.')}</p>

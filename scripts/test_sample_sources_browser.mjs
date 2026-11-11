@@ -47,7 +47,7 @@ try{
  assert.equal(requests.find(r=>r.url.endsWith('/mission')).body.scenario,'interview');
 
  await page.goto(base);requests.length=0;
- await page.getByRole('button',{name:/Saying no to family/}).click();
+ await page.getByRole('button',{name:/A difficult conversation/}).click();
  assert.equal(await page.getByRole('link',{name:/^View original PDF/}).count(),0);
  assert.equal(await page.locator('#language').inputValue(),'Spanish');
  assert.equal(await page.locator('audio').getAttribute('src'),'/api/samples/difficult/audio');

@@ -155,7 +155,7 @@ class LiveTests(unittest.TestCase):
     self.assertTrue(goal['achieved'])
     self.assertEqual(goal['answer_status'],'unknown')
     notes=scene_review_schema(len([t for t in sessions[self.sid]['turns'] if t['role']=='user'])).model_validate(
-     {'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'Clear question.'}],
+     {'review_assessments':{},'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'Clear question.'}],
       'unanswered':[],'phrases':['Are pets allowed?'],'note':'Review.'})
     with patch('backend.main.search',return_value=[doc]),patch('backend.main.model',return_value=notes):
      debrief=self.client.post(self.p+'/finish').json()
@@ -380,7 +380,7 @@ class LiveTests(unittest.TestCase):
    ('Wann ist die Wohnung verfügbar?','Nach der Verfügbarkeit fragen'),
    ('¿Cuándo está disponible el piso?','Preguntar por la disponibilidad')]:
    with self.subTest(question=first):
-    generated=schema.model_validate({'feedback':[],'unanswered':[
+    generated=schema.model_validate({'review_assessments':{f'goal_{i}':{'action':'not_performed','learner_turn_id':'','learner_quote':''} for i in range(3)},'feedback':[],'unanswered':[
      {'goal_id':'0','question':first},{'goal_id':'0','question':second},
      {'goal_id':'2','question':'How much is the rent?'},
      {'goal_id':'other','question':'Is parking available?'},
@@ -392,7 +392,7 @@ class LiveTests(unittest.TestCase):
 
  def test_finish_preserves_one_open_question_for_an_unknown_goal(self):
   sessions[self.sid]['mission'][0].update(text='Ask about availability',achieved=True,answer_status='unknown')
-  generated=scene_review_schema(0,('0',)).model_validate({'feedback':[],
+  generated=scene_review_schema(0,('0',)).model_validate({'review_assessments':{'goal_0':{'action':'not_performed','learner_turn_id':'','learner_quote':''}},'feedback':[],
    'unanswered':[{'goal_id':'0','question':'When is the apartment available?'},
     {'goal_id':'0','question':'Ask about availability'}],'phrases':[],'note':'Review.'})
   with patch('backend.main.model',return_value=generated):
@@ -403,7 +403,7 @@ class LiveTests(unittest.TestCase):
 
  def test_review_requires_real_turn_selection_when_learner_has_spoken(self):
   schema=scene_review_schema(1)
-  payload={'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'The question clearly asks about the cost.'}],'unanswered':[],'phrases':[],'note':'Communication notes.'}
+  payload={'review_assessments':{},'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'The question clearly asks about the cost.'}],'unanswered':[],'phrases':[],'note':'Communication notes.'}
   bound=bind_review(schema.model_validate(payload),['How much is the rent?'])
   self.assertEqual(bound.feedback[0].quote,'How much is the rent?')
   self.assertEqual(bound.feedback[0].suggestion,'')
@@ -412,14 +412,14 @@ class LiveTests(unittest.TestCase):
 
  def test_review_cannot_invent_feedback_when_learner_has_not_spoken(self):
   schema=scene_review_schema(0)
-  empty={'feedback':[],'unanswered':[],'phrases':[],'note':'No learner turns yet.'}
+  empty={'review_assessments':{},'feedback':[],'unanswered':[],'phrases':[],'note':'No learner turns yet.'}
   self.assertEqual(bind_review(schema.model_validate(empty),[]).feedback,[])
   with self.assertRaises(ValidationError): schema.model_validate({**empty,'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'Invented user turn'}]})
 
  def test_selected_turn_feedback_is_bound_in_real_finish_endpoint(self):
   # This is a synthetic committed turn, not a provider-generated quotation.
   sessions[self.sid]['turns'].append({'role':'user','content':'No','sources':[]})
-  generated=scene_review_schema(1).model_validate({'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'A direct refusal.'}],'unanswered':[],'phrases':[],'note':'Review.'})
+  generated=scene_review_schema(1).model_validate({'review_assessments':{},'feedback':[{'learner_turn_id':'turn_0','suggestion':'','explanation':'A direct refusal.'}],'unanswered':[],'phrases':[],'note':'Review.'})
   with patch('backend.main.model',return_value=generated): response=self.client.post(self.p+'/finish')
   self.assertEqual(response.status_code,200,response.text)
   self.assertEqual(response.json()['feedback'][0]['quote'],'No')

@@ -131,12 +131,36 @@ def scene_review_schema(learner_count, goal_ids=()):
   question_type=create_model('OpenGoalQuestion',__config__={'extra':'forbid'},
    goal_id=(Literal.__getitem__((*goal_ids,'other')),...),
    question=(str,Field(min_length=1,description='One concise open question in the feedback language. Use the mission goal ID for any question about that goal; other only for a distinct topic outside the mission. Never repeat a goal under other.')))
+ assessment=create_model('ReviewActionEvidence',__config__={'extra':'forbid'},
+  action=(Literal['not_performed','personal_action','document_question'],Field(description='Assess the actual learner communication, independently of the dialogue tracker. personal_action includes refusals, boundaries, reaffirmations, alternatives and self-reports; document_question means the learner asked for source-specific facts, not that an answer was confirmed.')),
+  learner_turn_id=(Literal.__getitem__(('',)+turn_ids),Field(description='Select the learner turn that performs this goal; empty for not_performed.')),
+  learner_quote=(str,Field(description='Exact contiguous text copied from the selected learner turn, empty for not_performed. Never quote the partner or source.')))
+ assessments=create_model('ReviewActionAssessments',__config__={'extra':'forbid'},**{
+  f'goal_{i}':(assessment,...) for i in range(len(goal_ids))})
  return create_model('SelectedDebriefNotes',__config__={'extra':'forbid'},
+  review_assessments=(assessments,...),
   feedback=(list[selected_note],Field(min_length=1 if learner_count else 0,max_length=min(3,learner_count))),
   unanswered=(list[question_type],...),phrases=(list[str],...),note=(str,...))
 
 def bind_review(result, learner_turns, mission=None):
  data=result.model_dump()
+ # The final review can recover actions missed by the dialogue proposer. Bind
+ # evidence to real learner turns before computing unanswered goals or totals.
+ # This never upgrades a document answer to confirmed or removes prior credit.
+ assessments=data.pop('review_assessments',{})
+ if mission is not None:
+  mapping={f'turn_{i}':text for i,text in enumerate(learner_turns)}
+  for i,goal in enumerate(mission):
+   item=assessments.get(f'goal_{i}',{})
+   if goal['achieved'] or item.get('action') not in ('personal_action','document_question'):continue
+   text=mapping.get(item.get('learner_turn_id'))
+   quote=item.get('learner_quote','')
+   short_no=quote.casefold()=='no' and text is not None and compact(text).casefold().strip('.!')=='no'
+   if text is None or not quote.strip() or quote not in text or (len(quote.strip())<3 and not short_no):
+    raise HTTPException(502,'The review could not validate learner evidence. Retry this review.')
+   goal.update(achieved=True,evidence=quote,
+    answer_status='not_applicable' if item['action']=='personal_action' else 'unverified',
+    answer_evidence='',answer_sources=[])
  if data['feedback'] and 'learner_turn_id' in data['feedback'][0]:
   mapping={f'turn_{i}':text for i,text in enumerate(learner_turns)}
   data['feedback']=[{'quote':mapping[note['learner_turn_id']],'suggestion':note['suggestion'],'explanation':note['explanation']} for note in data['feedback']]
