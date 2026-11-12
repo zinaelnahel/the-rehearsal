@@ -1,5 +1,14 @@
 # Vercel deployment
 
+## Job-ad blocker fix preparation - 12 November 2026
+
+The [targeted retest](EVALUATION.md#job-ad-blocker-retest---12-november-2026)
+records the follow-up to a user-reported job-ad blocker. Complete source fields
+can now survive a rejected compound answer, and interview phrase sheets use
+authored questions enforced by schema and server binding. The source must pass
+CI and security checks before publication to the existing services. The prior
+final-audit record remains historical; it does not certify these later changes.
+
 ## Final submission release preparation - 12 November 2026
 
 The [final audit](EVALUATION.md#final-project-audit-12-november-2026) and

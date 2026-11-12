@@ -10,6 +10,7 @@ from backend.prompt_context import dialogue_history
 from backend.source_conflicts import rent_conflicts, rent_question
 from backend.source_grounding import unsupported_rental_claim, rental_price_question
 from backend.partner_copy import uncertain_reply
+from backend.job_context import mixed_job_answer, work_arrangement_question
 from backend.listing_context import query_fields
 from backend.family_boundary import FAMILY_BOUNDARY, requester_speaks_as_learner, family_role_contract, family_response_stage, FAMILY_PACING, FAMILY_ALTERNATIVE, family_audio_detail, recorded_time_reply
 from typing import Literal
@@ -144,7 +145,7 @@ class DebriefNotes(BaseModel):
  note: str
 
 @lru_cache(maxsize=32)
-def scene_review_schema(learner_count, goal_ids=()):
+def scene_review_schema(learner_count, goal_ids=(), phrase_choices=()):
  """Select real learner turns; do not ask the model to manufacture quotations."""
  turn_ids=tuple(f'turn_{i}' for i in range(learner_count))
  turn_type=Literal.__getitem__(turn_ids) if turn_ids else str
@@ -163,10 +164,11 @@ def scene_review_schema(learner_count, goal_ids=()):
   learner_quote=(str,Field(description='Exact contiguous text copied from the selected learner turn, empty for not_performed. Never quote the partner or source.')))
  assessments=create_model('ReviewActionAssessments',__config__={'extra':'forbid'},**{
   f'goal_{i}':(assessment,...) for i in range(len(goal_ids))})
+ phrase_type=Literal.__getitem__(phrase_choices) if phrase_choices else str
  return create_model('SelectedDebriefNotes',__config__={'extra':'forbid'},
   review_assessments=(assessments,...),
   feedback=(list[selected_note],Field(min_length=1 if learner_count else 0,max_length=min(3,learner_count))),
-  unanswered=(list[question_type],...),phrases=(list[str],...),note=(str,...))
+  unanswered=(list[question_type],...),phrases=(list[phrase_type],...),note=(str,...))
 
 def bind_review(result, learner_turns, mission=None):
  data=result.model_dump()
@@ -515,9 +517,17 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
    # One bounded correction, independently reviewed again. No state from the
    # rejected proposal is saved, and a failed correction still withholds it.
    return rehearse(session,text,docs,call,passage,voice=voice,_price_repair=True)
+  # A rejected compound reply must not erase an independently extractable field.
+  partial=mixed_job_answer(session,text,docs) if setup['scenario']=='interview' else None
+  if partial:
+   return partial[0],partial[1],updates,True
   # Withhold unsupported text instead of displaying it with plausible citations.
   safe=uncertain_reply(setup['language'],setup['scenario'],text)
   return safe,[],updates,True
+ if setup['scenario']=='interview' and (not reply.citations or not work_arrangement_question(reply.reply)):
+  partial=mixed_job_answer(session,text,docs)
+  if partial:
+   return partial[0],partial[1],updates,True
  if session.get('family_boundary') and not session.get('breakup'):
   if not (session.get('sample_audio') and family_audio_detail(reply.reply) and reply.citations):
    return re.sub(r'\s*\[\d+\]','',reply.reply).strip(),[],updates,False

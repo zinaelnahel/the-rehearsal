@@ -31,19 +31,19 @@ CONTENT = {
   'English': {
    'opening': 'Hello, thank you for coming. Could you tell me about your relevant experience?',
    'goals': ['Describe your relevant experience', 'Ask about working hours', 'Ask about the salary'],
-   'starters': ['I have experience in customer service.', 'What are the working hours?', 'What is the salary?'],
+   'starters': ['May I tell you about my background?', 'What are the working hours?', 'What is the salary?'],
    'patterns': [r'experience|worked|customer|years', r'hours|schedule|shift', r'salary|pay|wage'],
    'vocabulary': 'Experience · responsibilities · working hours · salary'},
   'German': {
    'opening': 'Guten Tag, danke, dass Sie gekommen sind. Erzählen Sie mir bitte von Ihrer Berufserfahrung.',
    'goals': ['Die relevante Berufserfahrung beschreiben', 'Nach den Arbeitszeiten fragen', 'Nach dem Gehalt fragen'],
-   'starters': ['Ich habe Erfahrung im Kundenservice.', 'Wie sind die Arbeitszeiten?', 'Wie hoch ist das Gehalt?'],
+   'starters': ['Darf ich Ihnen meinen Hintergrund vorstellen?', 'Wie sind die Arbeitszeiten?', 'Wie hoch ist das Gehalt?'],
    'patterns': [r'erfahrung|gearbeitet|kunden|jahre', r'arbeitszeit|stunden|schicht', r'gehalt|lohn|bezahlt'],
    'vocabulary': 'Berufserfahrung · Aufgaben · Arbeitszeiten · Gehalt'},
   'Spanish': {
    'opening': 'Hola, gracias por venir. ¿Puedes contarme un poco sobre tu experiencia?',
    'goals': ['Describir tu experiencia relevante', 'Preguntar por el horario de trabajo', 'Preguntar por el salario'],
-   'starters': ['Tengo experiencia en atención al cliente.', '¿Cuál es el horario de trabajo?', '¿Cuál es el salario?'],
+   'starters': ['¿Puedo hablarle de mi trayectoria?', '¿Cuál es el horario de trabajo?', '¿Cuál es el salario?'],
    'patterns': [r'experiencia|trabajado|trabaje|anos|cliente', r'horario|horas|jornada', r'salario|sueldo|pagan'],
    'vocabulary': 'Experiencia · responsabilidades · horario · sueldo'}},
  'course': {

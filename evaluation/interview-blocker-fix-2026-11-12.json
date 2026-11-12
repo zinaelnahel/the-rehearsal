@@ -1,0 +1,164 @@
+{
+  "checked_at_utc": "2026-11-12T10:13:25.824703+00:00",
+  "problem": "A generic withheld answer erased supported remote-work information; an interview starter invented customer-service experience.",
+  "changes": [
+    "Extract complete, unambiguous work-arrangement and salary fields from session-owned passages when a combined reply is rejected or omits remote information.",
+    "Preserve exact source wording, restrictions and citations; retain unknown salary separately; do not award goal confirmation from extraction.",
+    "Constrain interview phrase output to authored questions with strict schema enums and server-side allowlist binding.",
+    "Replace generic customer-service statements in English, German and Spanish hints with fact-free introductions."
+  ],
+  "validation": {
+    "backend_tests": 245,
+    "optional_skipped": 1,
+    "passed": true,
+    "regression_module": "backend.test_interview_grounding",
+    "regressions": [
+      "Rejected and reviewer-approved generic replies in three languages",
+      "Known salary and negative remote policy preserved verbatim",
+      "Foreign, clipped, conflicting and unlabelled source evidence rejected",
+      "Fabricated qualifications rejected by phrase schema",
+      "Internal adapter cannot bypass phrase allowlist; cached review stays safe"
+    ],
+    "live": {
+      "checked_at_utc": "2026-11-12T10:11:54.318872+00:00",
+      "agent_enabled": true,
+      "scope": "Three targeted local live sample runs, not an independent benchmark.",
+      "cases": [
+        {
+          "language": "English",
+          "question": "Can I work remotely and what is the salary?",
+          "goals": [
+            "Ask if the position allows remote work and clarify any related conditions.",
+            "Inquire about the salary range offered for this role.",
+            "Request detailed information about the benefits package included with the job."
+          ],
+          "reply": "Yes, the position offers a hybrid work concept which includes working from home, in the office, on the move, and even on workations. Regarding salary, the job advertisement does not specify the salary range. As for benefits, the role includes a wide range of benefits such as a pension scheme, health management, and staff discounts. Also, well-behaved dogs are welcome at all locations. [7]",
+          "sources": [
+            {
+              "id": "7",
+              "location": "Page 2"
+            }
+          ],
+          "fallback": false,
+          "phrases": [
+            "Is remote work possible for this role?",
+            "What is the salary range?",
+            "May I tell you about my background?"
+          ],
+          "deleted": true,
+          "deletion_verified": true
+        },
+        {
+          "language": "German",
+          "question": "Ist Remote-Arbeit möglich und wie hoch ist das Gehalt?",
+          "goals": [
+            "Ask about the possibility and conditions of remote work.",
+            "Inquire about the salary range for the position.",
+            "Request detailed information about the benefits offered by the company."
+          ],
+          "reply": "Ja, Remote-Arbeit ist möglich. Wir bieten ein hybrides Arbeitskonzept an, das Arbeiten im Büro, von zu Hause, unterwegs und sogar auf Workations umfasst. Zum Gehalt habe ich in der Anzeige keine genauen Angaben, aber wir können das gerne im weiteren Gespräch klären. Möchten Sie auch mehr über die angebotenen Zusatzleistungen erfahren? [1] [7]",
+          "sources": [
+            {
+              "id": "1",
+              "location": "Page 1"
+            },
+            {
+              "id": "7",
+              "location": "Page 2"
+            }
+          ],
+          "fallback": false,
+          "phrases": [
+            "Darf ich Ihnen meinen Hintergrund vorstellen?",
+            "Ist bei dieser Stelle Remote-Arbeit möglich?",
+            "In welchem Bereich liegt das Gehalt?"
+          ],
+          "deleted": true,
+          "deletion_verified": true
+        },
+        {
+          "language": "Spanish",
+          "question": "¿Se puede trabajar en remoto y cuál es el salario?",
+          "goals": [
+            "Ask about the possibility and conditions of remote work for this position.",
+            "Inquire about the salary range offered for the QA Automation Engineer role.",
+            "Request detailed information about the benefits package included with the job."
+          ],
+          "reply": "Sí, el puesto ofrece un concepto de trabajo híbrido que incluye trabajar en la oficina, desde casa, en movimiento y en workations, lo que implica que el trabajo remoto es posible. En cuanto al salario, el anuncio no especifica una cifra concreta. Sobre los beneficios, se menciona una amplia gama que incluye un plan de pensiones, gestión de la salud y descuentos para el personal, además de un ambiente colaborativo y oportunidades para desarrollar tus habilidades. [1] [7] [6]",
+          "sources": [
+            {
+              "id": "1",
+              "location": "Page 1"
+            },
+            {
+              "id": "7",
+              "location": "Page 2"
+            },
+            {
+              "id": "6",
+              "location": "Page 2"
+            }
+          ],
+          "fallback": false,
+          "phrases": [
+            "¿Puedo hablarle de mi trayectoria?",
+            "¿Es posible trabajar en remoto en este puesto?",
+            "¿Cuál es el rango salarial?"
+          ],
+          "deleted": true,
+          "deletion_verified": true
+        }
+      ],
+      "passed": true
+    }
+  },
+  "limits": [
+    "The extractive fallback recognizes bounded labelled fields; it is not a general semantic policy parser.",
+    "Fallback evidence does not itself confirm mission answers.",
+    "Interview phrase sheets intentionally use reusable authored questions; they do not infer or invent a personal biography.",
+    "Three targeted live runs do not replace the independent human-reviewed benchmark."
+  ],
+  "source_sha256": {
+    "backend/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/abuse.py": "a137092301d6dbaa2c3cf0a014176f4c45864a04bba26c6227d64c197497c3d2",
+    "backend/agent.py": "fe55414479514df7aea4dd43fb86bf0572149c562aaf659a3a4c17a0bb47940e",
+    "backend/audio_provenance.py": "6f7337dcef69af12aa6a71136a3eb45279863fd35ef94b5dcc250ab197fc5d0b",
+    "backend/budget.py": "1aae557eff7d884583b2e0fca983dffa722cfe9f291d24ba04ee4c3cb95b7e42",
+    "backend/caption_provider.py": "b05d3cad31d291d2e2718f4b58e66a4c408bbd5ae38defd9b08e0b7c675483e0",
+    "backend/content.py": "dbeb344c4964eeca347d3ecd7759d585393e82ff3f0a98753b9e311ce0901396",
+    "backend/context.py": "151b7cefc175eb56be2e2d706e24188e8a4c27d5ecf827a0572fa1bf59c27841",
+    "backend/demo_answers.py": "69d69e05b104ff8b7827e37d98d0119dc14ea33159bdb7bcee3bf49cfba48708",
+    "backend/document_parser.py": "14f1a76a22c3fe757e36969a28918d50bc3223f1fb9d2af68f73b0c276ae3c7f",
+    "backend/embeddings.py": "2de8224da909ea939252c291a82df03534934b58de3c55568bb6aa56117653cb",
+    "backend/family_boundary.py": "fed3bcaa0c83d59b813d357e1807208cf500591e61fbc64beb5c5122224a7ffd",
+    "backend/feedback.py": "d4cafe1f91ebedfa31fbf181aa9594ba9002eebe1c7ae6152d4ce6c5f2b6a107",
+    "backend/job_context.py": "1d134f62e67ca047f81aa1c9b2ee0e45dc04ab6bbd74d2714209d453f057af69",
+    "backend/listing_context.py": "c589d5b574377106fbe847b9b1d50d8e56df56e54b863f0bf46da865e5c75d19",
+    "backend/live.py": "3cd720adcd9e8356e7843d31fe52f6df0a54f0525d7d92a2fc2374cde4760ff7",
+    "backend/main.py": "9c5193acb23e1a1a00bbecf5b2f650ad4e48e430888ece64b2038d2f6a5ea755",
+    "backend/model_metrics.py": "6b83824563f6d465cf34656116570a0e321e07b2ad1e5a87b12bc37a4668bf3c",
+    "backend/observability.py": "346b85ca3901c19b799c089cfffe8c964d8dead9512006d2e853de955cda5226",
+    "backend/ocr_parser.py": "d4ac80b2e3ed73e55f2e3b9761ab5736d59d8f0a43e4c8c92073f46ef9357553",
+    "backend/owner_feedback.py": "c07e948fc743b946153220e2f26b20e9c345e0a3627522fefc97e2bb923d6409",
+    "backend/parser_process.py": "73d9d10a80269dd94a70320cc08234353b627b21411f3e9678979586b5399c03",
+    "backend/parser_sandbox.py": "464374fd9c740e18f98bc4eb5e4669d9f781cac1c242f01ba4c604f3d7829638",
+    "backend/partner_copy.py": "aa0f436542750d5e52fbd9046e8a4857ef34e90d4140063d6bf307b290cfd120",
+    "backend/phrase_sheet.py": "6860fcda47e2b62ba7b43685080b7aeb0c880cb0c7c36d99ede9891ddd87f5d2",
+    "backend/prompt_context.py": "41bf2475440532943698812dd51fea8a47dc5ae11fee662603ed0d7622bf5cd9",
+    "backend/request_deadline.py": "bdf4e32b1871b713a7f0c24103ef93ab124a019dc233e7ca9a3422ff4c9bd356",
+    "backend/requirements.lock": "ed5b5eaeb51e5f63589e036a5753eaf25a75967074fa8550dcd8075ca9baf3e3",
+    "backend/requirements.txt": "ef644ddae79fce4d375e473ea479c0efbfaa0ffda50a3140d9aa5e36f5c1d908",
+    "backend/retrieval.py": "aae85376c5c41ed20df0c81fd9229c017ed37409739d14522663b86130f9d127",
+    "backend/sample_sources.py": "2b0eba9de8a32e79b22be850e6ff5a72d1aff3be1627bc1f6cde39bb026e20be",
+    "backend/sandbox_probe.py": "03c93d22a56e7efd0e3fba4906a2486161c979be4edbfde679103ed7480a3a4f",
+    "backend/semantic_embeddings.py": "f67bce1a207c08645c37f537a3497c2acd7adf4ead752001cdc5e923b5e6e97a",
+    "backend/source_conflicts.py": "b9af262096b0b2ece9a36858dec932016a1b060aef651534954d69443c656d61",
+    "backend/source_grounding.py": "b3487ddd12e683546a5aa1d8e776b05ee6d0d4252112c5e8b89d0a84502e20d9",
+    "backend/speech.py": "f0c7feb2752dadd3f5591b687c8ebab4af128cab3ffe3623ba106e6fdecf38be",
+    "backend/text.py": "60e77b9cc0b0ff208a4a482e4170e943fb2cae522c041cd82b1ec750bb5ac9fb",
+    "backend/video.py": "617138728246110ce37e1c33941bd7fbe489fc83d7259960e4274943bccd49c4",
+    "scripts/check_review_provenance.py": "3f8b91f5fa8c7b3fe705a53a9745f6b1868b7afb96bddbd1c466a0b5e31026aa",
+    "scripts/evaluate_quality.py": "2bc6208e58160d323dc50e304521cb40257ae7295ddc2fafdef0faee16f6f07c",
+    "scripts/release_sources.py": "d1084bf3f778178cd7d8f82a6203fafca4b9ff410495a13aaab79e890296f666"
+  }
+}

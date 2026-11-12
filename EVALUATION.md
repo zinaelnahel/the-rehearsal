@@ -1,5 +1,27 @@
 # Evaluation plan
 
+## Job-ad blocker retest - 12 November 2026
+
+A subsequent user retest still found a generic unknown answer to a combined
+remote-work/salary question and an invented customer-service phrase. The earlier
+prompt-only changes did not eliminate those failures. The new implementation
+adds bounded extractive recovery of complete labelled fields and restricts
+interview phrase sheets to authored questions through both a strict schema enum
+and server-side binding. Generic interview hints no longer assert experience in
+customer service. Extractive recovery retains source wording and citations,
+does not invent salary, and does not itself confirm mission answers.
+
+All 245 backend tests passed with one optional local-model test skipped. Tests
+force rejected and reviewer-approved generic answers, unknown and known salary,
+negative policies, clipped/conflicting/foreign passages, fabricated phrases and
+cached safe reviews. Three additional local live runs with the agent enabled
+(English, German and Spanish) returned cited remote-work information, unknown
+salary and only allowed phrases; all sessions were deleted and deletion checked.
+The new defensive fallback was exercised deterministically; the three live runs
+produced usable model answers directly. This is a targeted regression check,
+not broad or independent human-reviewed quality evidence. See the
+[report and source hashes](evaluation/interview-blocker-fix-2026-11-12.json).
+
 ## Multi-turn conversation quality
 
 [Dialogue evaluation instructions](docs/DIALOGUE_EVALS.md) cover fixed-history

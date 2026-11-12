@@ -262,6 +262,12 @@ class RehearsalTests(unittest.TestCase):
       started=self.client.post(path+'/start',json={'goals':[g['text'] for g in mission.json()['goals']]}).json()
       self.assertEqual(started['turns'][0]['content'],expected[language]['opening'])
       first=expected[language]['starters'][0]
+      if scenario=='interview':
+       # An invitation to introduce yourself is not yet a description of
+       # experience. The synthetic learner supplies their own actual example.
+       first={'English':'I have experience in QA automation.',
+              'German':'Ich habe Erfahrung in der Testautomatisierung.',
+              'Spanish':'Tengo experiencia en automatización de pruebas.'}[language]
       turn=self.client.post(path+'/turn',json={'text':first})
       self.assertEqual(turn.status_code,200,turn.text)
       self.assertTrue(turn.json()['goals'][0]['achieved'])
