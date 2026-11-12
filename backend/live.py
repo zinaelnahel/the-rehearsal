@@ -41,6 +41,26 @@ SOURCE_REPLY_RULES = (
  'For an absent availability date, say the transcript gives no confirmed date and the learner '
  'can ask the landlord directly. Do not turn uncertainty into a future promise. '
 )
+
+def interview_example_followup(session, text):
+ """Recover a short experience affirmation with a question, never a fact claim."""
+ if session['setup']['scenario'] != 'interview':
+  return None
+ affirmation=plain(text).strip(' .!')
+ if affirmation not in {'yes', 'yes i did', 'yes i did that', 'yes i have',
+                        'si', 'si lo hice', 'ja', 'ja das habe ich'}:
+  return None
+ previous=next((turn['content'] for turn in reversed(session['turns'])
+                if turn['role']=='assistant'), '')
+ if '?' not in previous or not re.search(
+     r'\b(?:experience|used|test data|test coverage|experiencia|utilizado|usado|erfahrung|verwendet|eingesetzt)\b',
+     plain(previous)):
+  return None
+ return {
+  'English':'Could you give one concrete example of what you did and what the result was?',
+  'German':'Kannst du ein konkretes Beispiel nennen: Was hast du gemacht und was war das Ergebnis?',
+  'Spanish':'¿Puedes dar un ejemplo concreto de lo que hiciste y cuál fue el resultado?'
+ }[session['setup']['language']]
 from fastapi import HTTPException
 from langsmith import traceable
 
@@ -419,6 +439,7 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
   'When server_family_role_contract is present, enforce its speaker ownership and localized examples. Reject the ENTIRE reply if any clause adopts the learner boundary, even when its opening correctly acknowledges the learner and its citations exist. A requester accepting responsibility to ask the learner first is allowed; asking the learner to seek the requester permission is a reversal. Practice notes do not license the requester to state the learner boundary. '
   'reply_supported is true only if the reply maintains the partner role without praise, grading or coaching and EVERY document-specific claim or commitment is supported by retrieved passages. Conversational questions, acknowledgements and reflections of learner-provided preferences need no citation; fabricated facts or agreements are unsupported. '
   'Learner-provided experience, skills and personal circumstances also need no document citation when acknowledged as self-reports. An interviewer reflecting the applicant\'s five years in QA or asking what testing they did is supported conversational dialogue, even if the job document never mentions that experience. This does not verify qualifications or permit invented employer facts, job terms or hiring commitments. Goals describing the learner\'s own experience are personal communication actions, not document questions. '
+  'Interpret a short affirmation such as yes I did that against the preceding interviewer question. Asking for a concrete example is valid without a source citation. Insufficient detail to complete an experience goal does not make an ordinary follow-up unsupported; assess goal completion separately. '
   'An accurate statement that the document does not specify a policy is a valid cautious reply, not an unsupported policy claim. Do not reject it merely because the policy itself is unknown. '
   'Reject invented generic rental terms even when hedged with normally or usually and a disclaimer that this property details are unknown. Require explicit source evidence for lease minimums; a two-month deposit is not a two-month lease. A known availability month/year can be stated while the exact day remains unknown. Enforce server_listing_area_conflict: do not verify a single floor area while conflicting figures remain unresolved. '
   'Natural in-character uncertainty such as I do not have confirmation of whether pets are allowed, No tengo confirmado si se permiten mascotas, or Das kann ich noch nicht bestätigen is also valid. It does not assert permission, prohibition, a date, or a promise to obtain information and needs no factual citation. Do not require the partner to mention a document or refer the learner to another person to express uncertainty. '
@@ -521,6 +542,9 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
   partial=mixed_job_answer(session,text,docs) if setup['scenario']=='interview' else None
   if partial:
    return partial[0],partial[1],updates,True
+  followup=interview_example_followup(session,text)
+  if followup:
+   return followup,[],updates,False
   # Withhold unsupported text instead of displaying it with plausible citations.
   safe=uncertain_reply(setup['language'],setup['scenario'],text)
   return safe,[],updates,True

@@ -12,6 +12,7 @@ from backend.content import CONTENT
 from backend.job_context import mixed_job_answer
 from backend.live import RoleReply, EvidenceReview, DebriefNotes, scene_review_schema
 from backend.phrase_sheet import INTERVIEW_PHRASES, bind_phrases
+from backend.live import interview_example_followup
 
 
 class InterviewGroundingTests(unittest.TestCase):
@@ -73,6 +74,38 @@ class InterviewGroundingTests(unittest.TestCase):
         self.assertIn('EUR 60,000 per year.', content)
         self.assertNotIn("don't have", content)
         self.assertEqual(cited, [doc])
+
+    def test_short_experience_confirmation_recovers_with_example_question(self):
+        for language, question, confirmation in (
+            ('English', 'Have you used AI to generate or manage test data?', 'yes I did that'),
+            ('German', 'Hast du Erfahrung mit KI im Testdatenmanagement?', 'Ja'),
+            ('Spanish', '¿Has usado IA para generar datos de prueba?', 'Sí'),
+        ):
+            with self.subTest(language=language):
+                path, session = self.interview(language)
+                session['turns'].append({'role': 'assistant', 'content': question, 'sources': []})
+                expected = interview_example_followup(session, confirmation)
+                self.assertIsNotNone(expected)
+                proposal = RoleReply(reply='Your salary will be EUR 90,000.', citations=[],
+                                     goal_checks=[], answer_checks=[])
+                review = EvidenceReview(partner_role_consistent=True, reply_supported=False,
+                                        accepted_goal_ids=[], verified_answer_goal_ids=[])
+                with patch.object(main, 'LIVE', True), patch.object(main, 'model', side_effect=[proposal, review]):
+                    response = self.client.post(path+'/turn', json={'text': confirmation})
+                self.assertEqual(response.status_code, 200, response.text)
+                turn = response.json()['turn']
+                self.assertEqual(turn['content'], expected)
+                self.assertFalse(turn['answer_withheld'])
+                self.assertEqual(turn['sources'], [])
+                self.assertNotIn('90,000', turn['content'])
+                self.assertTrue(all(not g['achieved'] for g in response.json()['goals']))
+
+    def test_example_recovery_does_not_intercept_employer_questions(self):
+        _, session = self.interview()
+        session['turns'].append({'role': 'assistant', 'content': 'Would you like to discuss salary?', 'sources': []})
+        self.assertIsNone(interview_example_followup(session, 'yes'))
+        session['turns'][-1]['content'] = 'Have you used AI in testing?'
+        self.assertIsNone(interview_example_followup(session, 'What is the salary?'))
 
     def test_mixed_recovery_does_not_infer_policy_or_trust_foreign_passages(self):
         query = 'Can I work remotely and what is the salary?'
