@@ -12,7 +12,7 @@ Current deployment history: [DEPLOYMENT.md](DEPLOYMENT.md).
 Historical submission evidence: [submission verification](docs/archive/submission-2026-11-04.md). Public release evidence
 is published with [version 0.7.0](https://github.com/zinaelnahel/the-rehearsal/releases/tag/v0.7.0).
 
-![Updated architecture infographic](docs/architecture-infographic.png)
+![Architecture overview](docs/architecture-infographic.png)
 
 | Criterion | Implemented evidence | Limits of the claim |
 | --- | --- | --- |
@@ -30,30 +30,42 @@ is published with [version 0.7.0](https://github.com/zinaelnahel/the-rehearsal/r
 ```mermaid
 flowchart LR
     U[Browser / Next.js] --> P[Server-side API proxy]
-    D[PDF / DOCX / pasted text] --> C[Chunking and source metadata]
-    M[Microphone, upload or direct video URL] --> W[Bounded decoding / Whisper STT]
-    Y[YouTube URL / available captions] --> T
+    P --> F[FastAPI / session state / consent / request budgets]
+    F --> I[Source preparation: samples, text, PDF and DOCX]
+    I --> O[Offline parsing / PDF OCR / review when required]
+    F --> W[Microphone, upload or public direct video / Whisper STT]
+    F --> Y[YouTube / available captions]
     W --> T[Review and confirm transcript]
-    T --> C
-    T --> P
-    C --> V[Session-scoped Chroma collections]
-    P --> A[FastAPI / LangChain tool-calling agent]
-    A --> R[Retrieve / quote check / goal inspection / guidance]
-    R --> V
-    A --> G[Structured role-play proposal]
+    Y --> T
+    T --> C[700-character chunks / 100 overlap / source metadata]
+    O --> C
+    C --> V[Session retrieval: hosted memory / optional embedded Chroma]
+    F --> R[Retrieve passages / job fields / listing and caption context]
+    V --> R
+    R --> A[Text: optional bounded read-only LangChain agent]
+    R -->|Voice: direct context| G[Structured role-play proposal]
+    A --> G
     G --> Q[Mandatory exact-quote and semantic evidence checks]
-    Q --> F[Validated reply or explicit unknown]
-    F --> U
-    F --> S[Optional AI TTS playback]
+    Q --> B[Checked reply / cited job-field fallback / explicit unknown]
+    B --> U
+    B --> S[Optional AI TTS playback]
     S --> U
-    E[Synthetic evaluation runner] --> A
-    A -. evaluation traces only .-> L[LangSmith experiments]
-    Q -. evaluation traces only .-> L
+    F --> D[Debrief / open questions / targeted replay]
+    D --> U
+    D --> H[Interview phrase sheets: enforced authored questions]
+    H --> U
+    U --> K[Optional browser library / screenplay PDF]
+    E[Synthetic evaluation runner] --> F
+    F -. evaluation traces only .-> L[LangSmith experiments]
 ```
 
-This is the local implementation; speech must be enabled, and the existing free
-hosting configuration uses the memory retrieval fallback. Tool preparation may be
-explicitly disabled; it is enabled by default for live turns.
+The overview has no release-specific date or build stamp. Speech must be enabled
+for audio processing and AI playback. Hosted retrieval uses memory; embedded
+Chroma persistence is optional. Agent preparation is optional for live text
+turns; continuous voice uses direct retrieval while retaining mandatory checks.
+The bounded job-field fallback preserves exact source wording and citations
+without independently confirming mission answers. Interview phrase sheets use
+authored questions enforced by the output schema and server-side binding.
 
 
 Live mode uses the configured pretrained model, default `gpt-4.1-mini`, through
