@@ -1947,6 +1947,10 @@
     "de": "Quelle wird geladen…",
     "es": "Cargando fuente…"
   },
+  "Source context is shown below. No exact supporting excerpt is available for this reply.": {
+    "de": "Unten wird der Quellenkontext angezeigt. Für diese Antwort ist kein genauer Belegauszug verfügbar.",
+    "es": "El contexto de la fuente se muestra abajo. No hay un fragmento exacto de respaldo disponible para esta respuesta."
+  },
   "The highlighted passage is the evidence used for this reply.": {
     "de": "Die markierte Passage ist der Beleg für diese Antwort.",
     "es": "El pasaje resaltado es la evidencia utilizada para esta respuesta."

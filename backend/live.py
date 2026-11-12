@@ -7,6 +7,7 @@ from functools import lru_cache
 from backend.context import CONTEXT_RULES
 from backend.demo_answers import plain
 from backend.prompt_context import dialogue_history
+from backend.citation_focus import focused_documents
 from backend.source_conflicts import rent_conflicts, rent_question
 from backend.source_grounding import unsupported_rental_claim, rental_price_question
 from backend.partner_copy import uncertain_reply
@@ -93,11 +94,16 @@ class AnswerCheck(BaseModel):
  source_id: str
  source_quote: str = Field(description='Exact contiguous text copied from the one passage identified by source_id. Never paraphrase, translate, or concatenate caption blocks. Empty for unknown answers.')
 
+class CitationExcerpt(BaseModel):
+ source_id: str
+ quote: str = Field(min_length=1, max_length=700, description='Copy only the exact supporting sentence or bullet from this source passage, without paraphrasing. Exclude unrelated neighbouring text.')
+
 class RoleReply(BaseModel):
  reply: str
  citations: list[str]
  goal_checks: list[GoalCheck]
  answer_checks: list[AnswerCheck]
+ citation_excerpts: list[CitationExcerpt] = Field(default_factory=list)
 
 class GoalAssessment(BaseModel):
  model_config={'extra':'forbid'}
@@ -118,6 +124,8 @@ def scene_reply_schema(goal_count, source_ids):
  citation_type=Literal.__getitem__(source_ids) if source_ids else str
  assessment=create_model('SceneGoalAssessment',__base__=GoalAssessment,
   source_id=(source_type,Field(description='An exact retrieved passage ID for supported answers; otherwise empty.')))
+ excerpt=create_model('SceneCitationExcerpt',__base__=CitationExcerpt,
+  source_id=(citation_type,Field(description='The cited passage supporting this exact excerpt.')))
  slots=create_model('SceneGoalAssessments',__config__={'extra':'forbid'},**{
   f'goal_{i}':(assessment,...)
   for i in range(goal_count)
@@ -125,6 +133,7 @@ def scene_reply_schema(goal_count, source_ids):
  return create_model('SceneRoleReply',__config__={'extra':'forbid'},
   reply=(str,Field(description='Only the in-character partner dialogue. No coaching or assessment.')),
   citations=(list[citation_type],Field(description='Exact IDs of retrieved passages supporting the reply; empty for non-factual dialogue.')),
+  citation_excerpts=(list[excerpt],Field(default_factory=list, description='For each citation copy the shortest complete source sentence or bullet supporting the reply. Include multiple excerpts when different claims need them. Never select a whole passage merely for context.')),
   goal_assessments=(slots,...))
 
 def bind_assessments(result, goals):
@@ -138,7 +147,7 @@ def bind_assessments(result, goals):
   checks.append(GoalCheck(goal_id=goal['id'],achieved=item['achieved'],learner_quote=item['learner_quote']))
   if item['answer_status']!='not_assessed':
    answers.append(AnswerCheck(goal_id=goal['id'],status=item['answer_status'],source_id=item['source_id'],source_quote=item['source_quote']))
- return RoleReply(reply=result.reply,citations=result.citations,goal_checks=checks,answer_checks=answers)
+ return RoleReply(reply=result.reply,citations=result.citations,goal_checks=checks,answer_checks=answers,citation_excerpts=result.citation_excerpts)
 
 class EvidenceReview(BaseModel):
  reply_supported: bool
@@ -556,6 +565,10 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
   if not (session.get('sample_audio') and family_audio_detail(reply.reply) and reply.citations):
    return re.sub(r'\s*\[\d+\]','',reply.reply).strip(),[],updates,False
  cited=[d for d in docs if d.metadata['id'] in reply.citations]
+ excerpts=[item.model_dump() for item in reply.citation_excerpts]
+ excerpts += [{'source_id':answer.source_id,'quote':answer.source_quote} for answer in answers.values()
+              if answer.status=='supported' and answer.goal_id in verified]
+ cited=focused_documents(cited,excerpts,reply.reply)
  content=reply.reply
  if cited and not re.search(r'\[\d+\]',content): content+=' '+' '.join('['+d.metadata['id']+']' for d in cited)
  return content,cited,updates,False

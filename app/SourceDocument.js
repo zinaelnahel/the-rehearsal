@@ -4,10 +4,13 @@ import {api} from './api-client';
 import {useI18n} from './i18n';
 import {videoEvidence} from './video-evidence.mjs';
 import SourceAudio from './SourceAudio';
+import {highlightRanges} from './source-highlights.mjs';
 
-function Highlight({text,quote,selected}){
- const index=selected?text.indexOf(quote):-1;
- return index<0?text:<>{text.slice(0,index)}<mark>{text.slice(index,index+quote.length)}</mark>{text.slice(index+quote.length)}</>;
+function Highlight({text,passage,excerpts,selected}){
+ const ranges=selected?highlightRanges(text,passage,excerpts):[];
+ const parts=[];let cursor=0;
+ for(const [start,end] of ranges){parts.push(text.slice(cursor,start));parts.push(<mark key={start}>{text.slice(start,end)}</mark>);cursor=end;}
+ parts.push(text.slice(cursor));return <>{parts}</>;
 }
 
 export default function SourceDocument({sessionId,selection,file,onClose}){
@@ -48,7 +51,7 @@ export default function SourceDocument({sessionId,selection,file,onClose}){
   <div className="source-document-heading"><h2 id="source-document-title">{t('View source')}</h2><button type="button" className="secondary" onClick={()=>dialog.current?.close()}>{t('Close source')}</button></div>
   {error?<p role="alert">{errorText(error)}</p>:!data?<p role="status">{t('Loading source…')}</p>:<>
    <p><strong>{data.focus.source}</strong> · {data.focus.location}</p>
-   <p className="subtle">{t('The highlighted passage is the evidence used for this reply.')}</p>
+   <p className="subtle">{t(selection?.source?.highlights?.length?'The highlighted passage is the evidence used for this reply.':'Source context is shown below. No exact supporting excerpt is available for this reply.')}</p>
    {(data.original_audio_url||data.browser_audio&&audioUrl)&&<SourceAudio url={data.original_audio_url||audioUrl} key={data.focus.id} start={data.focus.start} end={data.focus.end} timed={data.audio_timed&&Number.isFinite(data.focus.start)&&Number.isFinite(data.focus.end)}/>}
    {data.kind==='pdf'&&<>
     <p className="subtle">{t('Extracted page text. The original page layout may differ.')}</p>
@@ -57,7 +60,7 @@ export default function SourceDocument({sessionId,selection,file,onClose}){
     {pdf&&<iframe title={t('Original PDF page')} src={pdf+'#page='+data.page}/>}
     {pdfError&&<p role="status">{pdfError}</p>}
    </>}
-   <div className="source-document-text">{data.sections.map((section,index)=><section key={index} className={section.selected?'selected-source-section':''}><h3>{section.location}</h3><p><Highlight text={section.text} quote={data.focus.text} selected={section.selected}/></p></section>)}</div>
+   <div className="source-document-text">{data.sections.map((section,index)=><section key={index} className={section.selected?'selected-source-section':''}><h3>{section.location}</h3><p><Highlight text={section.text} passage={data.focus.text} excerpts={selection?.source?.highlights||[]} selected={section.selected}/></p></section>)}</div>
   </>}
  </dialog>;
 }

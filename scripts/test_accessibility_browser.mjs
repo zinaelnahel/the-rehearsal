@@ -89,7 +89,7 @@ try{
   await scan(page,theme+'-chat');
   await page.locator('.messages details').first().evaluate(n=>n.open=true);
   await page.getByRole('button',{name:/Play audio excerpt/}).click();
-  await page.getByRole('dialog').waitFor();await page.getByText('The highlighted passage is the evidence used for this reply.').waitFor();
+  await page.getByRole('dialog').waitFor();await page.getByText('Source context is shown below. No exact supporting excerpt is available for this reply.').waitFor();
   await scan(page,theme+'-source-dialog');
   await page.keyboard.press('Escape');assert.equal(await page.getByRole('dialog').count(),0);
   assert.match(await page.evaluate(()=>document.activeElement.textContent),/Play audio excerpt/);

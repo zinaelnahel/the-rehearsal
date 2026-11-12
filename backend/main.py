@@ -593,6 +593,7 @@ def caption_context(s, docs):
 
 def evidence(d):
  result=dict(id=d.metadata['id'],location=d.metadata['location'],source=d.metadata['source'],text=d.page_content)
+ if d.metadata.get('highlights'): result['highlights']=d.metadata['highlights']
  if d.metadata.get('url'): result['url']=d.metadata['url']
  if 'start' in d.metadata: result.update(start=d.metadata['start'],end=d.metadata['end'])
  return result

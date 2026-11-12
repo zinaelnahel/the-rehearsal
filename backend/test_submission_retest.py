@@ -25,7 +25,9 @@ class SubmissionRetest(unittest.TestCase):
         self.assertIn('Pension scheme and health management', text)
         self.assertIn('Staff discounts', text)
         self.assertNotIn('Apply now', text)
-        self.assertEqual(cited, [doc])
+        self.assertEqual([d.page_content for d in cited], [doc.page_content])
+        self.assertIn('- Staff discounts', cited[0].metadata['highlights'])
+        self.assertNotIn('Apply now', cited[0].metadata['highlights'])
 
     def test_unavailable_benefit_evidence_stays_unknown(self):
         doc = Document(page_content='Remote, DE | München', metadata={'id': '1'})

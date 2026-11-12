@@ -2,6 +2,7 @@
 import re
 from backend.embeddings import normalize
 from backend.demo_answers import asks_question
+from backend.citation_focus import focused_documents
 
 WORK_ARRANGEMENT = re.compile(
  r'\b(?:remote(?:ly)?|hybrid\w*|homeoffice|home office|telework\w*|'
@@ -105,7 +106,7 @@ def mixed_job_answer(session, query, docs):
                     cited.append(doc)
         else:
             text += ' ' + unknown
-    return text, cited
+    return text, focused_documents(cited, reply=text)
 
 
 def work_arrangement_question(query):

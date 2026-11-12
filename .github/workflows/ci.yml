@@ -89,6 +89,7 @@ jobs:
       - run: npm run test:video
       - run: node --test scripts/test_mission_plan.mjs
       - run: node --test scripts/test_request_deadline.mjs
+      - run: node --test scripts/test_source_highlights.mjs
       - run: node --test scripts/test_owner_feedback.mjs
       - run: npm run build
 

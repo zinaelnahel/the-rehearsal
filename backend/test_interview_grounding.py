@@ -73,7 +73,10 @@ class InterviewGroundingTests(unittest.TestCase):
         self.assertIn('not allowed; office attendance required.', content)
         self.assertIn('EUR 60,000 per year.', content)
         self.assertNotIn("don't have", content)
-        self.assertEqual(cited, [doc])
+        self.assertEqual([d.page_content for d in cited], [doc.page_content])
+        self.assertEqual(cited[0].metadata['highlights'], [
+            'Remote work: not allowed; office attendance required.', 'Salary: EUR 60,000 per year.'])
+        self.assertNotIn('highlights', doc.metadata)
 
     def test_reviewer_approved_remote_reply_cannot_drop_requested_benefits(self):
         path, session = self.interview()

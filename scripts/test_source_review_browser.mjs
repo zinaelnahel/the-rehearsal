@@ -13,7 +13,7 @@ const videoUrl='https://www.youtube.com/watch?v=Q4asZ6JDy-w';
 const segments=Array.from({length:45},(_,index)=>({start:600+index*5,end:604+index*5,text:index===0?'Lesson introduction.':'Caption '+index}));
 let kind='video',created=[],sourceReads=0,serial=0;
 const goal={id:'0',text:'Ask about rent',achieved:false,answer_status:'not_asked'};
-const focus=()=>kind==='video'?{id:'1',text:'Selected dialogue',source:'Reviewed video transcript',location:'695s–699s',url:videoUrl,start:695,end:699}:{id:'2',text:'The rent is 1200 dollars.',source:kind==='pdf'?'flat.pdf':'Pasted document',location:kind==='pdf'?'Page 2':'Section 2'};
+const focus=()=>kind==='video'?{id:'1',text:'Selected dialogue',source:'Reviewed video transcript',location:'695s–699s',url:videoUrl,start:695,end:699}:{id:'2',text:'Nearby information. The rent is 1200 dollars. Other details.',highlights:['The rent is 1200 dollars.'],source:kind==='pdf'?'flat.pdf':'Pasted document',location:kind==='pdf'?'Page 2':'Section 2'};
 async function build(){await page.getByRole('button',{name:/Build my mission/}).click();await page.locator('.edit-goal').first().waitFor();}
 async function start(){await page.getByRole('button',{name:/Action - start Take/}).click();await page.locator('.message.assistant').waitFor();}
 async function end(){await page.getByRole('button',{name:'End & delete session ↗',exact:true}).click();await page.locator('.deletion-notice').waitFor();}
@@ -77,7 +77,7 @@ try{
  await page.getByRole('button',{name:'View source',exact:true}).click();
  const dialog=page.getByRole('dialog');
  await dialog.locator('mark').waitFor();
- assert.equal(await dialog.locator('mark').innerText(),focus().text);
+ assert.equal(await dialog.locator('mark').innerText(),focus().highlights[0]);
  assert.match(await dialog.innerText(),/Context before.*Context after/s);
  assert.equal(await page.evaluate(()=>window.sourceInjected),undefined);
  assert.equal(await dialog.locator('img').count(),0,'Source markup is displayed as text');
@@ -93,7 +93,7 @@ try{
  await page.getByRole('button',{name:/Cut - finish & reflect/}).click();
  await page.getByRole('button',{name:'View source [2]',exact:true}).click();
  await dialog.locator('mark').waitFor();
- assert.equal(await dialog.locator('mark').innerText(),focus().text);
+ assert.equal(await dialog.locator('mark').innerText(),focus().highlights[0]);
  await page.getByRole('button',{name:'Close source',exact:true}).click();
  await end();
 
