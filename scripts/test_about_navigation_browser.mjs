@@ -43,7 +43,7 @@ try{
  await page.locator('main .about-back').click();await page.waitForURL(base+'/');
  assert.equal(await page.locator('#goal').inputValue(),'Keep my exact setup goal.');
  assert.equal(await page.locator('html').getAttribute('data-theme'),'dark');
- await page.getByRole('button',{name:/Celonis/}).click();
+ await page.getByRole('button',{name:/zvoove/}).click();
  await page.getByRole('button',{name:'Build my mission'}).click();
  await page.locator('#goal0').fill('Describe your QA experience clearly');
  await page.locator('header .about-link').click();await page.waitForURL(base+'/about');

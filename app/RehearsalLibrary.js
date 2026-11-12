@@ -20,7 +20,7 @@ function SavedTake({record,onDelete}) {
     <h4>{t('Your conversation checklist')}</h4><ul>{record.debrief.goals.map((goal,index)=><li key={index}>{goal.text} · {goal.achieved?t('Yes'):t('Not yet')}</li>)}</ul>
     <h4>{t('A few words to bring along')}</h4>{record.debrief.phrases.map((phrase,index)=><p className="phrase" lang={codes[record.language]} key={index}>{phrase}</p>)}
     {!!record.debrief.unanswered.length&&<><h4>{t('Keep these questions open')}</h4><ul>{record.debrief.unanswered.map((question,index)=><li key={index}>{question}</li>)}</ul></>}
-    <div className="library-actions"><button className="secondary" type="button" onClick={()=>downloadRehearsal({...record,scenario:t(labels[record.scenario])})}>{t('Download conversation (.txt)')}</button><button className="text-button" type="button" onClick={()=>onDelete(record)}>{t('Delete saved rehearsal')}</button></div>
+    <div className="library-actions"><button className="secondary" type="button" onClick={()=>downloadRehearsal({...record,scenario:t(labels[record.scenario])})}>{t('Download screenplay (.pdf)')}</button><button className="text-button" type="button" onClick={()=>onDelete(record)}>{t('Delete saved rehearsal')}</button></div>
   </article>;
 }
 

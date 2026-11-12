@@ -203,9 +203,9 @@
     "de": "bleibt erhalten. Änderungen gelten erst, wenn du einen neuen Plan erstellst.",
     "es": "sigue aquí. Los cambios se aplican solo al crear un plan nuevo."
   },
-  "Download visible conversation (.txt)": {
-    "de": "Sichtbares Gespräch herunterladen (.txt)",
-    "es": "Descargar conversación visible (.txt)"
+  "Download visible screenplay (.pdf)": {
+    "de": "Sichtbares Drehbuch herunterladen (.pdf)",
+    "es": "Descargar guion visible (.pdf)"
   },
   "Start a new rehearsal": {
     "de": "Neue Probe starten",
@@ -751,13 +751,13 @@
     "de": "Eine Kopie behalten",
     "es": "Guardar una copia"
   },
-  "Download this take and its review as a text file. Only clicking Download creates a copy on your device. It stays there after you delete the app session.": {
-    "de": "Lade diese Probe und den Rückblick als Textdatei herunter. Erst ein Klick erstellt eine Kopie auf deinem Gerät. Diese bleibt auch nach dem Löschen der Sitzung erhalten.",
-    "es": "Descarga este ensayo y su revisión como texto. Solo al pulsar Descargar se crea una copia en tu dispositivo. Seguirá allí tras eliminar la sesión."
+  "Download this take as a screenplay-style PDF, with your review included. Only clicking Download creates a copy on your device. It stays there after you delete the app session.": {
+    "de": "Lade diese Probe als PDF im Drehbuchstil mit deinem R?ckblick herunter. Erst ein Klick erstellt eine Kopie auf deinem Ger?t. Diese bleibt auch nach dem L?schen der Sitzung erhalten.",
+    "es": "Descarga este ensayo como PDF con formato de guion y tu revisi?n incluida. Solo al pulsar Descargar se crea una copia en tu dispositivo. Seguir? all? tras eliminar la sesi?n."
   },
-  "Download conversation (.txt)": {
-    "de": "Gespräch herunterladen (.txt)",
-    "es": "Descargar conversación (.txt)"
+  "Download screenplay (.pdf)": {
+    "de": "Drehbuch herunterladen (.pdf)",
+    "es": "Descargar guion (.pdf)"
   },
   "Your practice stays in this session. Ready to let it go?": {
     "de": "Deine Übung bleibt in dieser Sitzung. Bereit zum Löschen?",
@@ -2375,17 +2375,9 @@
     "de": "Wohnungsbesichtigung in Madrid · Habla con Eñe",
     "es": "Visita de piso en Madrid · Habla con Eñe"
   },
-  "Celonis · Applied AI Value Engineer": {
-    "de": "Celonis · Applied AI Value Engineer",
-    "es": "Celonis · Ingeniero de Valor Aplicado (IA)"
-  },
   "Open the source video to watch it or copy its transcript into the field below.": {
     "de": "Öffne das Originalvideo zum Ansehen oder kopiere seine Transkription in das Feld unten.",
     "es": "Abre el vídeo original para verlo o copia su transcripción en el campo de abajo."
-  },
-  "User-supplied saved job advert for the Celonis Orbit programme in Madrid. Selected job sections were transcribed from the page images. No salary is stated for this role; salaries in unrelated suggested vacancies are excluded. The original URL and capture date are unavailable. Confirm current vacancy details with the employer.": {
-    "de": "Vom Nutzer gespeicherte Stellenanzeige für das Celonis-Orbit-Programm in Madrid. Relevante Abschnitte wurden aus den Seitenbildern übertragen. Für diese Stelle ist kein Gehalt angegeben; Gehälter anderer vorgeschlagener Stellen sind ausgeschlossen. Original-URL und Erfassungsdatum sind unbekannt. Aktuelle Angaben beim Arbeitgeber bestätigen.",
-    "es": "Oferta guardada por el usuario para el programa Orbit de Celonis en Madrid. Se transcribieron secciones relevantes de las imágenes. No se indica un salario para este puesto; se excluyen los salarios de otras ofertas sugeridas. No se dispone de la URL original ni de la fecha de captura. Confirma los datos actuales con la empresa."
   },
   "Spanish B2 flat-viewing dialogue by Habla con Eñe. A prepared caption transcript is included for review. Three different flats are discussed; keep their details separate. This training video does not establish current availability.": {
     "de": "Spanischer B2-Dialog zur Wohnungsbesichtigung von Habla con Eñe. Eine vorbereitete Untertitel-Transkription ist zur Prüfung enthalten. Es geht um drei verschiedene Wohnungen; halte ihre Angaben auseinander. Dieses Lernvideo bestätigt keine aktuelle Verfügbarkeit.",
@@ -2638,5 +2630,21 @@
   "Swipe or scroll for more scenes.": {
     "de": "Wische oder scrolle zu weiteren Szenen.",
     "es": "Desliza o desplázate para ver más escenas."
+  },
+  "zvoove ? Job description": {
+    "de": "zvoove ? Stellenbeschreibung",
+    "es": "zvoove ? Oferta de empleo"
+  },
+  "zvoove ? QA Automation Engineer": {
+    "de": "zvoove ? QA Automation Engineer",
+    "es": "zvoove ? Ingeniero de automatizaci?n de QA"
+  },
+  "English and German": {
+    "de": "Englisch und Deutsch",
+    "es": "Ingl?s y alem?n"
+  },
+  "User-supplied saved advert for QA Automation Engineer (m/f/d) - AI-First Quality Engineering at zvoove. Remote, DE | M?nchen; full-time permanent employment. Job details are in English, with German company information. Page-by-page transcription is bound to the original image-based PDF. No salary, exact daily hours or explicit language proficiency requirement is stated. The original URL and capture date are unavailable. Confirm current vacancy details with the employer.": {
+    "de": "Vom Nutzer gespeicherte Stellenanzeige f?r QA Automation Engineer (m/f/d) - AI-First Quality Engineering bei zvoove. Remote, DE | M?nchen; unbefristete Vollzeitstelle. Stellenangaben auf Englisch, Unternehmensinformationen auf Deutsch. Die seitenweise ?bertragung ist an die bildbasierte Original-PDF gebunden. Kein Gehalt, keine genauen t?glichen Arbeitszeiten und keine ausdr?cklichen Sprachanforderungen angegeben. Original-URL und Erfassungsdatum sind unbekannt. Aktuelle Angaben beim Arbeitgeber best?tigen.",
+    "es": "Oferta guardada por el usuario para QA Automation Engineer (m/f/d) - AI-First Quality Engineering en zvoove. Remote, DE | M?nchen; empleo permanente a tiempo completo. Detalles del puesto en ingl?s e informaci?n de la empresa en alem?n. La transcripci?n por p?ginas est? vinculada al PDF original de im?genes. No se indican salario, horario diario exacto ni requisitos expl?citos de dominio de idiomas. Se desconocen la URL original y la fecha de captura. Confirma los datos actuales con la empresa."
   }
 }

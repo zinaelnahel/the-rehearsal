@@ -33,8 +33,8 @@ try{
  const page=await context.newPage();page.on('pageerror',error=>errors.push(error.message));
  await page.goto(base);
  await page.getByRole('button',{name:'Build my mission'}).waitFor();
- await page.getByRole('button',{name:/Celonis/}).click();
- assert.match(await page.locator('.sample-list > .sample').filter({hasText:'Celonis'}).innerText(),/8 pages.*Real PDF/s);
+ await page.getByRole('button',{name:/zvoove/}).click();
+ assert.match(await page.locator('.sample-list > .sample').filter({hasText:'zvoove'}).innerText(),/3 pages.*Real PDF/s);
 
  assert.equal(await page.locator('.sample-list > .sample').filter({hasText:'Habla con E'}).count(),1);
  await page.getByRole('link',{name:/^View original PDF/}).waitFor();

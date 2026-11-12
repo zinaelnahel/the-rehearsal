@@ -1,0 +1,12 @@
+﻿import assert from 'node:assert/strict';
+import {writeFileSync} from 'node:fs';
+import {createRehearsalPdf} from '../app/download-rehearsal.js';
+const rehearsal={scenario:'Apartment viewing',language:'Spanish',mode:'demo',take:2,turns:[{role:'user',content:'¿Cuánto cuesta? Me gustaría ver el salón. (Información en español.)'},{role:'assistant',content:'Sí, está disponible. Die Küche ist schön. '+ 'A long reply that continues onto another page. '.repeat(240)},{role:'assistant',safety:true,content:'A support note.'}],debrief:{note:'Your rehearsal review.',goals:[{text:'Ask about rent',achieved:true,answer_status:'unverified'}],feedback:[{quote:'¿Cuánto cuesta?',suggestion:'¿Cuánto cuesta al mes?',explanation:'Be specific.'}],unanswered:['Are utilities included?'],phrases:['Me gustaría verlo.']}};
+const pdf=createRehearsalPdf(rehearsal);
+assert.ok(pdf.getNumberOfPages()>3,'Long dialogue paginates');
+const bytes=pdf.output('arraybuffer');
+assert.equal(Buffer.from(bytes).subarray(0,5).toString(),'%PDF-');
+writeFileSync('.runtime/screenplay-preview.pdf',Buffer.from(bytes));
+const minimal=createRehearsalPdf({...rehearsal,turns:[],debrief:null});
+assert.equal(minimal.getNumberOfPages(),2,'Recovery export works without a review');
+console.log('PDF generation passed: long dialogue, review, accented text fixture, and recovery export.');

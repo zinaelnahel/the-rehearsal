@@ -71,41 +71,39 @@ class RealSampleTests(unittest.TestCase):
    texts.append([d.page_content for d in main.sessions[result['id']]['source_documents']])
   self.assertEqual(texts[0],texts[1])
   self.assertEqual(texts[0],texts[2])
-  self.assertIn('Celonis',texts[0][0])
+  self.assertIn('zvoove',texts[0][0])
 
- def test_job_pdf_excludes_unrelated_vacancy_salaries(self):
+ def test_job_pdf_preserves_new_role_and_page_evidence(self):
   result=self.source()
   session=main.sessions[result['id']]
   text='\n'.join(d.page_content for d in session['source_documents'])
-  for value in ('Python','RAG','12 meses','Madrid','DACH','alemán e inglés'):
+  for value in ('QA Automation Engineer','Payroll','CI/CD','M?nchen','Mandatory: AI-first test data management','Payroll knowledge is not required'):
    self.assertIn(value,text)
-  self.assertNotIn('42 mil',text)
-  self.assertNotIn('58 mil',text)
-  self.assertEqual(session['source_documents'][5].page_content,'')
+  for retired in ('Celonis','DACH','12 meses','RAG'):
+   self.assertNotIn(retired,text)
   self.assertFalse(session['sample_video'])
-  doc=next(d for d in session['source_chunks'].values() if 'Python' in d.page_content)
+  doc=next(d for d in session['source_chunks'].values() if 'Mandatory: AI-first test data management' in d.page_content)
   inspected=self.client.get('/api/sessions/'+result['id']+'/source/'+doc.metadata['id']).json()
   self.assertEqual(inspected['original_pdf_url'],'/api/samples/interview/document')
   self.assertIsNone(inspected['original_audio_url'])
 
  def test_manual_job_transcription_is_bound_to_original_pdf(self):
-  data=json.loads((SAMPLES/'documents'/'jobadSpanish.pages.json').read_text(encoding='utf-8'))
+  data=json.loads((SAMPLES/'documents'/CATALOG['interview']['transcription']).read_text(encoding='utf-8'))
   raw,docs=sample_documents('interview')
   self.assertEqual(data['pdf_sha256'],hashlib.sha256(raw).hexdigest())
-  self.assertEqual(len(docs),8)
+  self.assertEqual(len(docs),3)
   with patch('backend.sample_sources.hashlib.sha256') as digest:
    digest.return_value.hexdigest.return_value='changed'
    with self.assertRaisesRegex(ValueError,'does not match'):
     sample_documents('interview')
 
- def test_job_language_questions_retrieve_the_explicit_requirement(self):
+ def test_job_requirement_questions_retrieve_explicit_test_data_requirement(self):
   source=self.source()
   state=main.sessions[source['id']]
   state['setup']={'scenario':'interview'}
-  for question in ('¿Qué idiomas necesito para este puesto?','Which languages are required?','Welche Sprachkenntnisse sind erforderlich?'):
-   documents=main.search(state,question)
-   self.assertLessEqual(len(documents),6)
-   self.assertIn('fluidez profesional en alemán e inglés (imprescindible)',' '.join(d.page_content for d in documents))
+  documents=main.search(state,'What is mandatory for AI-first test data management?')
+  self.assertLessEqual(len(documents),6)
+  self.assertIn('Mandatory: AI-first test data management',' '.join(d.page_content for d in documents))
 
  def test_apartment_sample_cannot_silently_use_a_retired_listing(self):
   self.assertEqual(self.client.post('/api/sessions',json={'sample':'apartment'}).status_code,409)

@@ -11,18 +11,17 @@ language; conversation and feedback languages are separate preferences.
   keeps timings; edited text uses text sections. Three different flats are
   discussed: never merge their prices, sizes, facilities or availability.
   The training video does not establish current availability.
-- **Job interview:** `documents/jobadSpanish.pdf`, an eight-page image-based
-  capture supplied by the user on 11 November 2026, showing a SpainJobs.io advert
-  for the Celonis Applied AI Value Engineer (DACH), Orbit programme in Madrid.
-  Its original URL and capture date are unavailable. The advert is in Spanish
-  and states it was originally written in English. `jobadSpanish.pages.json`
-  contains selected sections transcribed manually against the page images,
-  bound to the PDF SHA-256 and preserving page boundaries. The original PDF
-  remains available. Some company boilerplate, navigation and suggested
-  vacancies are omitted; pages 6-8 contribute no evidence for this role.
-  The salary on an unrelated vacancy card is excluded: this Celonis advert gives
-  no numeric salary or exact daily hours. Requirements describe the employer
-  criteria, not the learner biography. Confirm current details with the employer.
+- **Job interview:** `documents/jobad.pdf`, a three-page image-based capture
+  supplied by the user on 12 November 2026, showing zvoove's QA Automation
+  Engineer (m/f/d) - AI-First Quality Engineering advert, hosted by Personio.
+  The role is listed as Remote, DE | M?nchen, full-time permanent employment.
+  Job details are in English and company information is in German.
+  `jobad.pages.json` contains a page-by-page manual transcription checked against
+  the original images and bound to the PDF SHA-256. Navigation and application
+  buttons are omitted. The original PDF remains available. No salary, exact
+  daily hours or explicit language proficiency requirement is stated.
+  The original URL and capture date are unavailable. Employer requirements are
+  not the learner biography. Confirm current vacancy details with the employer.
 - **Boundary-setting voice message:** `audio/family-boundary.es.wav`, a fictional
   Spanish message from a family member who counted on help for a Saturday move
   from ten until one. One AI-generated voice reads three authored segments in
