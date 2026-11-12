@@ -228,6 +228,33 @@ class LiveTests(unittest.TestCase):
   self.assertTrue(missing_source_answer(answer('pet policy'),[doc]))
   self.assertFalse(missing_source_answer(answer('Rent is 850 euros.'),[doc]))
 
+ def test_specialised_experience_reviewer_can_reject_related_qa_tools(self):
+  state=sessions[self.sid]
+  state['setup']['scenario']='interview'
+  state['mission'][0]['text']='Clearly describe your experience with AI-first test data management and quality engineering.'
+  examples=[
+   ('I have five years in QA experience and I worked before with Playwright and Cypress.',False),
+   ('I used AI to generate controlled test data and edge cases for our API regression suite.',True)]
+  for text,complete in examples:
+   with self.subTest(complete=complete):
+    state['mission'][0].update(achieved=False,evidence='',answer_status='not_assessed')
+    proposal=self.proposal(reply='Could you describe a relevant example?',citations=[],
+     goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote=text)],
+     answer_checks=[AnswerCheck(goal_id='0',status='not_document_question',source_id='',source_quote='')])
+    review=EvidenceReview(partner_role_consistent=True,reply_supported=True,
+     accepted_goal_ids=['0'] if complete else [],verified_answer_goal_ids=[])
+    calls=[]
+    def assess(schema,instructions,payload,**kwargs):
+     from backend.live import GOAL_COMPLETENESS_RULES
+     self.assertIn(GOAL_COMPLETENESS_RULES,instructions)
+     calls.append(payload)
+     return proposal if len(calls)==1 else review
+    with patch('backend.main.model',side_effect=assess):
+     response=self.client.post(self.p+'/turn',json={'text':text})
+    self.assertEqual(response.status_code,200,response.text)
+    self.assertEqual(response.json()['goals'][0]['achieved'],complete)
+    self.assertFalse(response.json()['turn']['answer_withheld'])
+
  def test_reject_fabricated_learner_quote_without_saving(self):
   bad=[self.proposal(goal_checks=[GoalCheck(goal_id='0',achieved=True,learner_quote='This was never said')])]
   for output in bad:

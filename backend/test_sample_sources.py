@@ -105,6 +105,21 @@ class RealSampleTests(unittest.TestCase):
   self.assertLessEqual(len(documents),6)
   self.assertIn('Mandatory: AI-first test data management',' '.join(d.page_content for d in documents))
 
+ def test_remote_questions_retrieve_both_location_and_hybrid_policy(self):
+  source=self.source()
+  state=main.sessions[source['id']]
+  state['setup']={'scenario':'interview'}
+  for question in ('Yes, can I work remotely for this position?',
+   'Is this role hybrid?', 'Kann ich im Homeoffice arbeiten?',
+   'Kann ich von zu Hause arbeiten?', 'Puedo trabajar en remoto?',
+   'Puedo teletrabajar?'):
+   with self.subTest(question=question):
+    documents=main.search(state,question)
+    self.assertLessEqual(len(documents),6)
+    text=' '.join(d.page_content for d in documents)
+    self.assertIn('Remote, DE',text)
+    self.assertIn('hybrid work concept',text)
+
  def test_apartment_sample_cannot_silently_use_a_retired_listing(self):
   self.assertEqual(self.client.post('/api/sessions',json={'sample':'apartment'}).status_code,409)
   self.assertEqual(self.client.get('/api/samples/apartment/document').status_code,404)
