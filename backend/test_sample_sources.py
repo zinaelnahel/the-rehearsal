@@ -77,7 +77,7 @@ class RealSampleTests(unittest.TestCase):
   result=self.source()
   session=main.sessions[result['id']]
   text='\n'.join(d.page_content for d in session['source_documents'])
-  for value in ('QA Automation Engineer','Payroll','CI/CD','M?nchen','Mandatory: AI-first test data management','Payroll knowledge is not required'):
+  for value in ('QA Automation Engineer','Payroll','CI/CD','München','Mandatory: AI-first test data management','Payroll knowledge is not required'):
    self.assertIn(value,text)
   for retired in ('Celonis','DACH','12 meses','RAG'):
    self.assertNotIn(retired,text)

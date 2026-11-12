@@ -14,7 +14,7 @@ language; conversation and feedback languages are separate preferences.
 - **Job interview:** `documents/jobad.pdf`, a three-page image-based capture
   supplied by the user on 12 November 2026, showing zvoove's QA Automation
   Engineer (m/f/d) - AI-First Quality Engineering advert, hosted by Personio.
-  The role is listed as Remote, DE | M?nchen, full-time permanent employment.
+  The role is listed as Remote, DE | München, full-time permanent employment.
   Job details are in English and company information is in German.
   `jobad.pages.json` contains a page-by-page manual transcription checked against
   the original images and bound to the PDF SHA-256. Navigation and application
