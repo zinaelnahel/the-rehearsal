@@ -73,8 +73,10 @@ try{
   setupRequest=route;
  });
  await page.reload();
+ await page.getByRole('tab',{name:'Your situation',exact:true}).click();
+ await page.locator('#document').fill('Monthly rent is 850 euros.');
  await page.getByRole('button',{name:/Build my mission/}).click();
- await page.locator('.rehearsal-loading').getByText('Preparing your rehearsal…',{exact:true}).waitFor();
+ await page.locator('.rehearsal-loading').getByText('Reading your context…',{exact:true}).waitFor();
  assert.equal(await page.locator('.rehearsal-loading .loading-clapper').count(),1);
  await setupRequest.fulfill({status:400,contentType:'application/json',body:'{"detail":"Test source rejected."}'});
  await page.locator('.rehearsal-loading').waitFor({state:'hidden'});

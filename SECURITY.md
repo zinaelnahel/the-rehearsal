@@ -1,6 +1,6 @@
 # Dependency and application security
 
-Audited on 9 November 2026. See [engineering status](docs/BEST_PRACTICES.md).
+Re-audited on 12 November 2026: npm reported zero vulnerabilities; the locked Python audit reported zero unexcepted findings and the four Chroma exceptions below. The upstream recheck confirmed 1.5.9 remains current and did not extend the exception expiry. See the [final audit](EVALUATION.md#final-project-audit-12-november-2026) and [engineering status](docs/BEST_PRACTICES.md).
 
 Python runtime dependencies, including transitive dependencies, are pinned with
 distribution hashes in `backend/requirements.lock`. CI and Docker install that

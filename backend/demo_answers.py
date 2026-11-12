@@ -1,9 +1,6 @@
 """Conservative extractive demo answers. Never generate or translate document facts."""
 import re
-import unicodedata
-
-def plain(text):
- return ''.join(c for c in unicodedata.normalize('NFD',text.lower()) if unicodedata.category(c)!='Mn')
+from backend.text import normalize as plain
 
 # Intent patterns use the document's language, independently of conversation language.
 TOPICS = {

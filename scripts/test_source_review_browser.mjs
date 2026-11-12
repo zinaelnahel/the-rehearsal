@@ -27,7 +27,7 @@ try{
   if(p==='/api/video/transcript')return json({source_url:videoUrl,source_method:'youtube_captions',notice:'Review before use.',segments});
   if(p==='/api/sessions'){created.push(request.postDataJSON());return json({id:'source-'+(++serial),source_url:kind==='video'?videoUrl:null});}
   if(p==='/api/upload')return json({id:'source-'+(++serial),name:'flat.pdf'});
-  if(p.endsWith('/mission'))return json({goals:[goal],safety:false});
+  if(p.endsWith('/mission'))return json({scenario:'apartment',goals:[goal],safety:false});
   if(p.endsWith('/start'))return json({goals:[goal],safety:false,turns:[{id:'reply',role:'assistant',content:'A source-backed reply. ['+focus().id+']',sources:[focus()]}]});
   if(p.endsWith('/finish'))return json({goals:[{...goal,achieved:true,answer_status:'confirmed',evidence:'What is the rent?',answer_evidence:focus().text,answer_sources:[focus().id]}],feedback:[],unanswered:[],phrases:[],note:'Test review.'});
   if(p.includes('/source/')){sourceReads++;return json({kind:kind==='pdf'?'pdf':'text',focus:focus(),page:kind==='pdf'?2:null,sections:[{location:focus().location,text:'Context before. '+focus().text+' Context after. <img src=x onerror="window.sourceInjected=true">',selected:true}]});}

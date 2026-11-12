@@ -20,7 +20,7 @@ try{
   if(p==='/api/config')return json({mode:'live',speech_enabled:true});
   if(p==='/api/video/transcript')return json({segments:[{start:79.27,end:85.25,text:source.text}],source_url:url,source_method:'youtube_captions',notice:'Review the captions before use.'});
   if(p==='/api/sessions')return json({id:'video-test',source_url:url});
-  if(p.endsWith('/mission'))return json({goals:[goal],safety:false});
+  if(p.endsWith('/mission'))return json({scenario:'apartment',goals:[goal],safety:false});
   if(p.endsWith('/start'))return json({goals:[goal],safety:false,turns:[{id:'reply',role:'assistant',content:'El alquiler cuesta menos de mil euros. [20]',sources:[source]}]});
   if(route.request().method()==='DELETE')return json({deleted:true});
   if(p.endsWith('/status'))return route.fulfill({status:404,body:'{}'});

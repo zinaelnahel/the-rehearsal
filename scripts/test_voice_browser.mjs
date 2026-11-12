@@ -52,7 +52,7 @@ await page.route('**/api/**',async route=>{
   requests.push({pathname,body:request.postData()});
   if(pathname==='/api/config')return json({mode:'live',speech_enabled:true,vector_store:'memory'});
   if(pathname==='/api/sessions')return json({id:'voice-browser-session',name:'Fictional listing',mode:'live'});
-  if(pathname.endsWith('/mission'))return json({goals:[goal],safety:false});
+  if(pathname.endsWith('/mission'))return json({scenario:'apartment',goals:[goal],safety:false});
   if(pathname.endsWith('/start'))return json({turns:[{id:'opening',role:'assistant',content:'What would you like to ask?',sources:[]}],goals:[goal],safety:false});
   if(pathname==='/api/speech/transcribe'){
     assert.match(request.headers()['content-type'],/multipart\/form-data/);
@@ -78,6 +78,8 @@ await page.route('**/api/**',async route=>{
 });
 try {
   await page.goto(origin,{waitUntil:'networkidle'});
+  await page.getByRole('tab',{name:'Your situation',exact:true}).click();
+  await page.locator('#document').fill('Monthly rent: 850 euros.');
   await page.getByRole('button',{name:'Build my mission'}).click();
   await page.getByRole('button',{name:/Action - start Take/}).click();
   await page.locator('.voice-rehearsal>summary').click();
@@ -91,7 +93,8 @@ try {
   assert.equal(await page.locator('#message').isDisabled(),true);
   await voice.getByText('Checking the reply against your sources…',{exact:true}).waitFor();
   assert.equal(turns.length,1);
-  assert.deepEqual(turns[0],{text:'How much is the rent?',interaction_mode:'voice'});
+  assert.match(turns[0].request_id,/^[a-f0-9-]{36}$/i);
+  assert.deepEqual({...turns[0],request_id:undefined},{request_id:undefined,text:'How much is the rent?',interaction_mode:'voice'});
   assert.equal(await voice.locator('[aria-current=step]').innerText(),'Check the reply');
   await page.waitForFunction(()=>document.querySelector('.voice-wait p')?.textContent.includes('1 seconds'));
   assert.equal(await voice.locator('.loading-clapper').count(),1);
@@ -103,7 +106,7 @@ try {
   assert.equal(await page.locator('.message').count(),3);
   assert.match(await page.locator('.message.assistant').last().innerText(),/850/);
   await page.getByText(/View source evidence/).click();
-  assert.equal(await page.getByText('Monthly rent: 850 euros.',{exact:true}).isVisible(),true);
+  assert.equal(await page.getByRole('region',{name:'Conversation',exact:true}).getByText('Monthly rent: 850 euros.',{exact:true}).isVisible(),true);
   assert.equal(await page.evaluate(()=>window.voiceTestTracks.every(track=>!track.enabled)),true);
   await page.screenshot({path:process.env.VOICE_TEST_SCREENSHOT||path.join(folder,'voice-rehearsal.png'),fullPage:true});
   await voice.getByRole('button',{name:'Interrupt & speak'}).click();

@@ -12,3 +12,8 @@ export function validatedMissionGoals(goals){
  if(!Array.isArray(goals)||goals.length<1||goals.length>5||goals.some(g=>!g||typeof g.id!=='string'||!validGoalText(g.text))||new Set(goals.map(g=>g.id)).size!==goals.length)throw Error('The mission goals could not be loaded. Please build the mission again.');
  return goals.map(g=>({...g,text:g.text.trim()}));
 }
+
+export function validatedMissionScenario(scenario){
+ if(!['apartment','interview','course','difficult'].includes(scenario))throw Error('The mission goals could not be loaded. Please build the mission again.');
+ return scenario;
+}

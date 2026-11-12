@@ -1,9 +1,6 @@
 """Conversation context and role instructions shared by demo and live workflows."""
 import re
-import unicodedata
-
-def plain(text):
- return ''.join(c for c in unicodedata.normalize('NFD', text.lower()) if unicodedata.category(c) != 'Mn')
+from backend.text import normalize as plain
 
 CONTEXT_RULES = ('Respect the stated relationship, scenario and intended outcome. A final breakup is final, not a trial separation: never suggest a break, reconciliation or negotiation of that decision. Do not assume compromise, continued contact or agreement is desired. For boundary-setting goals, a clear no can be sufficient: do not require an apology, detailed justification or an alternative offer, or invent a family relationship or history. Do not supply a reason for refusal that the user has not given. Keep sensitive scenes sincere. Never diagnose or claim to treat anxiety. Stay respectful and adapt to the stated situation. Do not diagnose or claim to provide therapy or emergency support. ')
 

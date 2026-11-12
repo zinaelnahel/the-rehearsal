@@ -1,5 +1,7 @@
 # Engineering review — 9 November 2026
 
+The [12 November final audit](../EVALUATION.md#final-project-audit-12-november-2026) records the latest checks, cleanup and remaining live-model limitations. The historical results below remain dated to their original runs.
+
 This review compares the current source with the relevant lessons in
 [ai_eng_lesson_templates](https://github.com/zinaelnahel/ai_eng_lesson_templates/tree/main/K_LLM_APIs)
 and checks reproducibility, security and release evidence. Teaching examples

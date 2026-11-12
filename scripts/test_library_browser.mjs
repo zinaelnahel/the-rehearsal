@@ -19,7 +19,7 @@ await page.route('**/api/**',async route=>{
  const json=data=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(data)});
  if(path==='/api/config')return backendDown?route.fulfill({status:503,body:'{}'}):json({mode:'live',speech_enabled:false,feedback_enabled:false,vector_store:'memory'});
  if(path==='/api/sessions')return json({id:'SERVER_SESSION_'+(++serial),name:'ORIGINAL_DOCUMENT_NAME'});
- if(path.endsWith('/mission'))return json({goals:[goal],safety:false});
+ if(path.endsWith('/mission'))return json({scenario:'apartment',goals:[goal],safety:false});
  if(path.endsWith('/start'))return json({turns:[{id:'SERVER_RESPONSE',role:'assistant',content:'What would you like to ask?',sources:[]}],goals:[goal],safety:false});
  if(path.endsWith('/turn'))return json({turn:{id:'SERVER_RESPONSE',role:'assistant',content:'The rent is 850 euros. [1]',sources:[{id:'1',text:'PRIVATE_SOURCE_MARKER',source:'ORIGINAL_DOCUMENT_NAME',location:'Section 1'}]},goals:[goal],safety:false});
  if(path.endsWith('/finish'))return json({feedback_id:'SERVER_REVIEW_'+serial,goals:[goal],feedback:[{quote:'How much is the rent?',suggestion:'What is the monthly rent?',explanation:'A clear question.'}],unanswered:['Ask about utilities.'],phrases:['What is the monthly rent?'],note:'You asked a clear question.'});
@@ -28,6 +28,8 @@ await page.route('**/api/**',async route=>{
  throw Error('Unexpected API request '+path);
 });
 async function saveTake(language,title){
+ await page.getByRole('tab',{name:'Your situation',exact:true}).click();
+ await page.locator('#document').fill('Monthly rent: 850 euros.');
  await page.locator('#language').selectOption(language);
  await page.getByRole('button',{name:'Build my mission'}).click();
  await page.getByRole('button',{name:/Action - start Take/}).click();
@@ -102,7 +104,7 @@ try{
  await blocked.route('**/api/**',route=>route.fulfill({status:503,body:'{}'}));
  await blocked.goto(origin,{waitUntil:'networkidle'});
  await blocked.getByText('Browser storage is unavailable. You can download the rehearsal instead.',{exact:true}).waitFor();
- assert.ok(await blocked.locator('.sample').count()>=4);
+ assert.equal(await blocked.locator('.sample-list > .sample').count(),3);
  await blocked.close();
  assert.deepEqual(errors,[]);
  console.log('PASS: explicit save, real IndexedDB, no sensitive source/ID copies, duplicate update, persistence after session deletion/reload, backend-unavailable reading, two-take comparison, translations, mobile layout, cancel/delete/clear. No provider calls.');

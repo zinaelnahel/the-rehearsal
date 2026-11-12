@@ -29,7 +29,7 @@ try{
     segments:[{start:0,end:2,text:'The rent is 850 euros.'},{start:2,end:4,text:'Council tax is extra.'}]});
   }
   if(p==='/api/sessions'){created.push(request.postDataJSON());return json({id:'test-'+(++serial),name:'Reviewed media'});}
-  if(p.endsWith('/mission'))return json({goals:[goal],safety:false});
+  if(p.endsWith('/mission'))return json({scenario:'apartment',goals:[goal],safety:false});
   if(request.method()==='DELETE')return json({deleted:true});
   if(p.endsWith('/status'))return route.fulfill({status:404,body:'{}'});
   throw Error('Unexpected test request '+p);

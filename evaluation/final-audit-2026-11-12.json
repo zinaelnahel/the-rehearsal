@@ -1,0 +1,110 @@
+{
+  "checked_at_utc": "2026-11-12T09:49:19.570093+00:00",
+  "scope": "Final capstone source audit; not production certification or independent human-reviewed model-quality evidence.",
+  "checks": {
+    "backend": {
+      "tests": 239,
+      "skipped": 1,
+      "passed": true,
+      "skip": "Optional downloaded semantic-model integration"
+    },
+    "frontend": {
+      "unit_tests": 34,
+      "passed": true,
+      "translations": 661,
+      "next_version": "16.4.6",
+      "production_build": "passed"
+    },
+    "offline": {
+      "rag_passed": 9,
+      "role_boundaries_passed": 153,
+      "quality_completed": 126,
+      "dialogue_completed": 9,
+      "independent_human_gate_passed": false
+    },
+    "security": {
+      "npm_vulnerabilities": 0,
+      "python_unexcepted_findings": 0,
+      "chroma_unique_exceptions": 4,
+      "chroma_version": "1.5.9",
+      "exception_expires": "2026-12-09",
+      "new_patched_chroma_release_found": false
+    },
+    "browser": {
+      "source_review": "passed",
+      "ocr_confirmation": "passed",
+      "real_ffmpeg_provider_stub": "passed",
+      "voice_synthetic_capture_provider_mock": "passed",
+      "library_indexeddb": "passed",
+      "sample_picker": "passed",
+      "source_video": "passed",
+      "about_navigation": "passed",
+      "lost_response_recovery": "passed",
+      "connection_recovery": "passed",
+      "pdf_export": "passed",
+      "axe_screens": 28,
+      "axe_violations": 0
+    }
+  },
+  "live_checks": {
+    "passes_of_three_samples": 2,
+    "agent_preparation_enabled": false,
+    "availability_without_promise": true,
+    "remote_and_salary_distinguished": true,
+    "conditional_reaffirmation_not_prematurely_credited": true,
+    "broader_quality_proven": false,
+    "remaining_observations": [
+      "Video debrief overcredited an unrelated goal.",
+      "Some suggested rewrites changed topic or added mission content.",
+      "A personal boundary was classified as a confirmed document answer."
+    ],
+    "mitigation": "Strengthened topic/action/timeframe instructions and rewrite schema description; not proven eliminated."
+  },
+  "limits": [
+    "No independent fluent-human benchmark for this source revision.",
+    "No physical microphone or screen-reader user test.",
+    "No claim that all duplication or defects have been eliminated."
+  ],
+  "source_sha256": {
+    "backend/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/abuse.py": "a137092301d6dbaa2c3cf0a014176f4c45864a04bba26c6227d64c197497c3d2",
+    "backend/agent.py": "fe55414479514df7aea4dd43fb86bf0572149c562aaf659a3a4c17a0bb47940e",
+    "backend/audio_provenance.py": "6f7337dcef69af12aa6a71136a3eb45279863fd35ef94b5dcc250ab197fc5d0b",
+    "backend/budget.py": "1aae557eff7d884583b2e0fca983dffa722cfe9f291d24ba04ee4c3cb95b7e42",
+    "backend/caption_provider.py": "b05d3cad31d291d2e2718f4b58e66a4c408bbd5ae38defd9b08e0b7c675483e0",
+    "backend/content.py": "d044a4f56dfca09396a24ac2336b8865142b147cc8b163f3467d074796cbceab",
+    "backend/context.py": "151b7cefc175eb56be2e2d706e24188e8a4c27d5ecf827a0572fa1bf59c27841",
+    "backend/demo_answers.py": "69d69e05b104ff8b7827e37d98d0119dc14ea33159bdb7bcee3bf49cfba48708",
+    "backend/document_parser.py": "14f1a76a22c3fe757e36969a28918d50bc3223f1fb9d2af68f73b0c276ae3c7f",
+    "backend/embeddings.py": "2de8224da909ea939252c291a82df03534934b58de3c55568bb6aa56117653cb",
+    "backend/family_boundary.py": "fed3bcaa0c83d59b813d357e1807208cf500591e61fbc64beb5c5122224a7ffd",
+    "backend/feedback.py": "d4cafe1f91ebedfa31fbf181aa9594ba9002eebe1c7ae6152d4ce6c5f2b6a107",
+    "backend/job_context.py": "a43aea98aae317d7901a1829efb7e05553a74263726d3167ca9509be96afaa3d",
+    "backend/listing_context.py": "c589d5b574377106fbe847b9b1d50d8e56df56e54b863f0bf46da865e5c75d19",
+    "backend/live.py": "adcc68fa7472274efda53cccee280e8baed463e98dd4acb4f823a6d6395c6df0",
+    "backend/main.py": "7930e0a69c93d2393fb782d6643cfee87cef6fc288325657217a474c86c0dbe6",
+    "backend/model_metrics.py": "6b83824563f6d465cf34656116570a0e321e07b2ad1e5a87b12bc37a4668bf3c",
+    "backend/observability.py": "346b85ca3901c19b799c089cfffe8c964d8dead9512006d2e853de955cda5226",
+    "backend/ocr_parser.py": "d4ac80b2e3ed73e55f2e3b9761ab5736d59d8f0a43e4c8c92073f46ef9357553",
+    "backend/owner_feedback.py": "c07e948fc743b946153220e2f26b20e9c345e0a3627522fefc97e2bb923d6409",
+    "backend/parser_process.py": "73d9d10a80269dd94a70320cc08234353b627b21411f3e9678979586b5399c03",
+    "backend/parser_sandbox.py": "464374fd9c740e18f98bc4eb5e4669d9f781cac1c242f01ba4c604f3d7829638",
+    "backend/partner_copy.py": "aa0f436542750d5e52fbd9046e8a4857ef34e90d4140063d6bf307b290cfd120",
+    "backend/prompt_context.py": "41bf2475440532943698812dd51fea8a47dc5ae11fee662603ed0d7622bf5cd9",
+    "backend/request_deadline.py": "bdf4e32b1871b713a7f0c24103ef93ab124a019dc233e7ca9a3422ff4c9bd356",
+    "backend/requirements.lock": "ed5b5eaeb51e5f63589e036a5753eaf25a75967074fa8550dcd8075ca9baf3e3",
+    "backend/requirements.txt": "ef644ddae79fce4d375e473ea479c0efbfaa0ffda50a3140d9aa5e36f5c1d908",
+    "backend/retrieval.py": "aae85376c5c41ed20df0c81fd9229c017ed37409739d14522663b86130f9d127",
+    "backend/sample_sources.py": "2b0eba9de8a32e79b22be850e6ff5a72d1aff3be1627bc1f6cde39bb026e20be",
+    "backend/sandbox_probe.py": "03c93d22a56e7efd0e3fba4906a2486161c979be4edbfde679103ed7480a3a4f",
+    "backend/semantic_embeddings.py": "f67bce1a207c08645c37f537a3497c2acd7adf4ead752001cdc5e923b5e6e97a",
+    "backend/source_conflicts.py": "b9af262096b0b2ece9a36858dec932016a1b060aef651534954d69443c656d61",
+    "backend/source_grounding.py": "b3487ddd12e683546a5aa1d8e776b05ee6d0d4252112c5e8b89d0a84502e20d9",
+    "backend/speech.py": "f0c7feb2752dadd3f5591b687c8ebab4af128cab3ffe3623ba106e6fdecf38be",
+    "backend/text.py": "60e77b9cc0b0ff208a4a482e4170e943fb2cae522c041cd82b1ec750bb5ac9fb",
+    "backend/video.py": "617138728246110ce37e1c33941bd7fbe489fc83d7259960e4274943bccd49c4",
+    "scripts/check_review_provenance.py": "3f8b91f5fa8c7b3fe705a53a9745f6b1868b7afb96bddbd1c466a0b5e31026aa",
+    "scripts/evaluate_quality.py": "2bc6208e58160d323dc50e304521cb40257ae7295ddc2fafdef0faee16f6f07c",
+    "scripts/release_sources.py": "d1084bf3f778178cd7d8f82a6203fafca4b9ff410495a13aaab79e890296f666"
+  }
+}

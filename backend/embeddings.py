@@ -1,11 +1,8 @@
 """Deterministic lexical alias retrieval baseline."""
 import hashlib
 import re
-import unicodedata
 from langchain_core.embeddings import Embeddings
-
-def normalize(text):
- return ''.join(c for c in unicodedata.normalize('NFD', text.lower()) if unicodedata.category(c) != 'Mn')
+from backend.text import normalize
 
 class LocalEmbeddings(Embeddings):
  """Deterministic hashed word embeddings; local lexical retrieval, not semantic AI."""

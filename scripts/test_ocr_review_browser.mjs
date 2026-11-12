@@ -16,7 +16,7 @@ try{
   if(p==='/api/config')return json({mode:'live',speech_enabled:false});
   if(p==='/api/upload')return json({id:'ocr-'+(++uploads),name:'scan.pdf',requires_confirmation:true,source_method:'pdf_ocr',pages:[{location:'Page 1',text:'Rent is 2,40O euros.',ocr:true},{location:'Page 2',text:'Available December 2026.',ocr:true}]});
   if(p.endsWith('/source-review')){reviewed=request.postDataJSON();return json({id:'reviewed',name:'scan.pdf',import_method:'reviewed_pdf_ocr'});}
-  if(p.endsWith('/mission')){missions++;return json({goals:[{id:'0',text:'Ask about rent',achieved:false,answer_status:'not_asked'}],safety:false});}
+  if(p.endsWith('/mission')){missions++;return json({scenario:'apartment',goals:[{id:'0',text:'Ask about rent',achieved:false,answer_status:'not_asked'}],safety:false});}
   if(request.method()==='DELETE'){deleted.push(p);return json({deleted:true});}
   if(p.endsWith('/status'))return route.fulfill({status:404,body:'{}'});
   throw Error('Unexpected API '+p);

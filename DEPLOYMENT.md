@@ -1,5 +1,21 @@
 # Vercel deployment
 
+## Final submission release preparation - 12 November 2026
+
+The [final audit](EVALUATION.md#final-project-audit-12-november-2026) and
+[machine-readable record](evaluation/final-audit-2026-11-12.json) describe the
+source checks, Next.js 16.4.6 patch, shared normalization, mission-response
+validation and role-play/debrief instruction changes prepared for this release.
+The intended targets remain the existing Vercel frontend and Render backend.
+After publication, verify both SHA fields in the public `/api/config` response
+against the exact source commit and check its CI and dependency-security runs.
+Builds and accepted deploy requests alone do not prove a successful deployment.
+
+This remains a capstone demonstration with documented live-model scoring limits.
+The independent human-reviewed live benchmark gate remains unsatisfied; the
+manual release requested by the user does not establish that gate as passed.
+The release workflow and advisory-exception expiry have not been relaxed.
+
 ## Voice response path and progress - 9 November 2026
 
 Commit `e1889f07e9585d81435a5165c7c4151afe6a3cb3` is live on both services.

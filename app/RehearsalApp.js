@@ -21,7 +21,7 @@ import SituationSource from './SituationSource';
 import SampleDetails from './SampleDetails';
 import sampleCatalog from '../samples/catalog.json';
 import DocumentReview from './DocumentReview';
-import {sourceNotice,validatedMissionGoals,validGoalText} from './mission-plan.mjs';
+import {sourceNotice,validatedMissionGoals,validatedMissionScenario,validGoalText} from './mission-plan.mjs';
 import {downloadRehearsal} from './download-rehearsal';
 import ConnectionStatus,{usePracticeConnection} from './ConnectionStatus';
 import ReviewNextStep from './ReviewNextStep';
@@ -110,8 +110,9 @@ export default function RehearsalApp({active=true}){
    setLoadingStage('Preparing your goals…');
    const m=await api('/sessions/'+next.id+'/mission',preferences);
    const missionGoals=validatedMissionGoals(m.goals);
+   const missionScenario=validatedMissionScenario(m.scenario||preferences.scenario);
    if(session)await deleteSession(session.id);
-   setExpired(false);setSession(next);sessionRef.current=next;setActiveScene({scenario:m.scenario||preferences.scenario,language:preferences.language,level:preferences.level,feedbackLanguage:preferences.feedback_language,sourceFile});
+   setExpired(false);setSession(next);sessionRef.current=next;setActiveScene({scenario:missionScenario,language:preferences.language,level:preferences.level,feedbackLanguage:preferences.feedback_language,sourceFile});
    setRatingDrafts({});setGoals(missionGoals);setPlanGoals(missionGoals);setSafety(m.safety);setTake(1);setPhase('mission');setTurns([]);setDebrief(null);setDraft('');setHint('');setExportNotice('');setStep(1);
   }catch(error){await deleteSession(next.id).catch(()=>{});throw error;}
  }
