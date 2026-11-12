@@ -200,7 +200,7 @@ async def confirm_document_source(sid: str, body: DocumentReview):
   return {**result,'import_method':'reviewed_pdf_ocr'}
 
 @app.get('/api/config')
-def config(): return {'mode':'live' if LIVE else 'demo','speech_enabled':speech.enabled(), 'vector_store':os.getenv('VECTOR_STORE','chroma'), 'agent_enabled':agent_enabled(), 'feedback_enabled':feedback.enabled(), 'feedback_retention_days':feedback.retention_days(), 'demo_revision':'0.6','roleplay_revision':'0.7','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
+def config(): return {'backend_build_sha':os.getenv('RENDER_GIT_COMMIT'), 'mode':'live' if LIVE else 'demo','speech_enabled':speech.enabled(), 'vector_store':os.getenv('VECTOR_STORE','chroma'), 'agent_enabled':agent_enabled(), 'feedback_enabled':feedback.enabled(), 'feedback_retention_days':feedback.retention_days(), 'demo_revision':'0.6','roleplay_revision':'0.7','scenarios':{k:v['title'] for k,v in SCENARIOS.items()},'languages':list(LANGUAGES),'levels':list(LEVELS)}
 
 class SourceInput(BaseModel):
  sample: str | None = None

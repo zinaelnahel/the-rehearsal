@@ -10,6 +10,29 @@ WORK_ARRANGEMENT = re.compile(
  r'im buro|in (?:the )?office)\b')
 
 SALARY = re.compile(r'\b(?:salary|pay|wages?|compensation|salario|sueldo|remuneracion|gehalt|vergutung|lohn)\b')
+BENEFITS = re.compile(r'\b(?:benefits?|perks?|beneficios|prestaciones|vorteile|zusatzleistungen)\b')
+
+
+def benefit_excerpts(session):
+    """Return complete bullets under an explicit benefits heading with chunk evidence."""
+    chunks = session.get('source_chunks', {})
+    results = []
+    for source in session.get('source_documents', chunks.values()):
+        active = False
+        for line in source.page_content.splitlines():
+            line = line.strip()
+            if normalize(line) in {'your benefits', 'benefits', 'beneficios', 'tus beneficios', 'ihre vorteile', 'deine vorteile'}:
+                active = True
+                continue
+            if not active or not line:
+                continue
+            if not line.startswith(('-', '•')):
+                active = False
+                continue
+            match = next((doc for doc in chunks.values() if line in doc.page_content), None)
+            if match and all(existing[0] != line for existing in results):
+                results.append((line, match))
+    return results
 
 # Extract whole, explicitly labelled fields only. Never infer a remote policy
 # from a question, an arbitrary mention, or a clipped part of a source sentence.
@@ -67,6 +90,21 @@ def mixed_job_answer(session, query, docs):
             cited.append(salary[1])
     else:
         text += ' ' + labels[2]
+    if BENEFITS.search(normalize(query)):
+        benefits = benefit_excerpts(session)
+        label, unknown = {
+            'English': ('Listed benefits include', 'I do not have confirmed benefits details.'),
+            'German': ('Zu den aufgeführten Vorteilen gehören', 'Bestätigte Angaben zu Zusatzleistungen liegen mir nicht vor.'),
+            'Spanish': ('Los beneficios indicados incluyen', 'No tengo detalles confirmados sobre los beneficios.')
+        }[language]
+        if benefits:
+            text += ' ' + label + ': ' + ' '.join(
+                f'«{line}» [{doc.metadata["id"]}].' for line, doc in benefits)
+            for _, doc in benefits:
+                if doc not in cited:
+                    cited.append(doc)
+        else:
+            text += ' ' + unknown
     return text, cited
 
 

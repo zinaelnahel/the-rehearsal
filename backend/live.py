@@ -10,7 +10,7 @@ from backend.prompt_context import dialogue_history
 from backend.source_conflicts import rent_conflicts, rent_question
 from backend.source_grounding import unsupported_rental_claim, rental_price_question
 from backend.partner_copy import uncertain_reply
-from backend.job_context import mixed_job_answer, work_arrangement_question
+from backend.job_context import mixed_job_answer, work_arrangement_question, BENEFITS
 from backend.listing_context import query_fields
 from backend.family_boundary import FAMILY_BOUNDARY, requester_speaks_as_learner, family_role_contract, family_response_stage, FAMILY_PACING, FAMILY_ALTERNATIVE, family_audio_detail, recorded_time_reply
 from typing import Literal
@@ -548,7 +548,7 @@ def rehearse(session,text,docs,call,passage,voice=False,_price_repair=False):
   # Withhold unsupported text instead of displaying it with plausible citations.
   safe=uncertain_reply(setup['language'],setup['scenario'],text)
   return safe,[],updates,True
- if setup['scenario']=='interview' and (not reply.citations or not work_arrangement_question(reply.reply)):
+ if setup['scenario']=='interview' and (not reply.citations or not work_arrangement_question(reply.reply) or BENEFITS.search(plain(text))):
   partial=mixed_job_answer(session,text,docs)
   if partial:
    return partial[0],partial[1],updates,True

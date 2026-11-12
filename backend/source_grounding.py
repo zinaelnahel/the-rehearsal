@@ -53,6 +53,15 @@ def unsupported_rental_claim(reply, cited_docs, context_docs):
     """True means withhold; false still requires independent evidence review."""
     cited=' '.join(plain(d.page_content) for d in cited_docs)
     source=' '.join(plain(d.page_content) for d in sorted(context_docs,key=lambda d:d.metadata.get('start',0)))
+    # A rehearsal partner cannot perform future follow-up. Catch offers as well
+    # as promises, even when the semantic reviewer accepts cautious wording.
+    if re.search(
+        r'\b(?:i (?:will|can|could)|i.ll|would you like me to|shall i|let me)\b.{0,65}'
+        r'\b(?:inform|notify|let you know|contact|check back|find out|update you)\b|'
+        r'\b(?:te (?:avisare|informare)|puedo (?:avisarte|informarte)|quieres que te (?:avise|informe))\b|'
+        r'\b(?:ich (?:werde|kann)|soll ich|mochtest du,? dass ich)\b.{0,65}'
+        r'\b(?:informieren|benachrichtigen|bescheid|nachfragen)\b', plain(reply)):
+        return True
     if unsupported_lease_claim(reply,'\n'.join(plain(d.page_content) for d in cited_docs)):
         return True
     for match in re.finditer(r'[^.!?\n]+[.!?]?',plain(reply)):

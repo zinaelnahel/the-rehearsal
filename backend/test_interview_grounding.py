@@ -75,6 +75,21 @@ class InterviewGroundingTests(unittest.TestCase):
         self.assertNotIn("don't have", content)
         self.assertEqual(cited, [doc])
 
+    def test_reviewer_approved_remote_reply_cannot_drop_requested_benefits(self):
+        path, session = self.interview()
+        proposal = RoleReply(reply='The position is remote.', citations=['1'],
+                             goal_checks=[], answer_checks=[])
+        review = EvidenceReview(partner_role_consistent=True, reply_supported=True,
+                                accepted_goal_ids=[], verified_answer_goal_ids=[])
+        with patch.object(main, 'LIVE', True), patch.object(main, 'model', side_effect=[proposal, review]):
+            response = self.client.post(path+'/turn', json={'text': 'Can I work remotely, and what are the salary and benefits?'})
+        self.assertEqual(response.status_code, 200, response.text)
+        turn = response.json()['turn']
+        self.assertIn('pension scheme', turn['content'])
+        self.assertIn('staff discounts', turn['content'])
+        self.assertIn('confirmed salary', turn['content'])
+        self.assertTrue(turn['sources'])
+
     def test_short_experience_confirmation_recovers_with_example_question(self):
         for language, question, confirmation in (
             ('English', 'Have you used AI to generate or manage test data?', 'yes I did that'),
